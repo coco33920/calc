@@ -3,9 +3,9 @@ use std::process::exit;
 use ansi_term::Color;
 use linefeed::{Interface, ReadResult};
 
-use crate::lex::lexer::lex;
+use crate::lexing::lexer::lex;
 
-mod lex;
+mod lexing;
 mod parsing;
 
 fn main() {

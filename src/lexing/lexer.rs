@@ -1,7 +1,7 @@
 use std::str::FromStr;
 
-use crate::lex::token::Operator::*;
-use crate::lex::token::Token;
+use crate::lexing::token::Operator::*;
+use crate::lexing::token::Token;
 
 pub fn is_an_allowed_char(character: char) -> bool {
     character.is_alphanumeric()
@@ -166,9 +166,9 @@ pub fn lex(input: String) -> Vec<Token> {
 
 #[cfg(test)]
 mod tests {
-    use crate::lex::lexer::lex;
-    use crate::lex::token::Operator::*;
-    use crate::lex::token::Token::*;
+    use crate::lexing::lexer::lex;
+    use crate::lexing::token::Operator::*;
+    use crate::lexing::token::Token::*;
 
     #[test]
     fn lex_plus() {

@@ -16,6 +16,8 @@ fn main() {
     let interface = Interface::new("calc").unwrap();
     let style = Color::Cyan;
     let text = "> ";
+    let mut verbose = true;
+
 
     interface.set_prompt(&format!("\x01{prefix}\x02{text}\x01{suffix}\x02",
                                   prefix = style.prefix(),
@@ -35,14 +37,28 @@ fn main() {
                 );
                 println!("{}", message)
             }
+            "version" => {
+                let message = Color::Purple.paint(" Calc v0.3.0\n");
+                println!("{}", message)
+            }
+            "verbose" => {
+                verbose = !verbose;
+                let message = Color::Purple.paint("You toggled the verbose : ");
+                let message2 = Color::Red.paint(
+                    if verbose {"on"} else {"off"}
+                );
+                println!("{}{}",message,message2)
+            }
             str => {
                 let a = lex(str.to_string());
                 let p = parse(&a);
-                println!("Lexing of line: {str}");
-                println!("{:?}", &a);
-                println!("Parsing of line: {str}");
-                println!("{:?}", p);
-                println!()
+                if verbose {
+                    println!("Lexing of line: {str}");
+                    println!("{:?}", &a);
+                    println!("Parsing of line: {str}");
+                    println!("{:?}", p);
+                    println!()
+                }
             }
         }
         interface.add_history_unique(line);

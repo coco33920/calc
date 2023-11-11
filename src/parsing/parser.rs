@@ -67,6 +67,10 @@ pub fn parse(lst: &Vec<Token>) -> Ast {
                 acc = push_operator(acc,Token::OPE(p.clone()));
                 aux(q,acc,&Token::OPE(p.clone()))
             }
+            [Token::EQUAL,q @..] => {
+                acc = push_operator(acc,Token::EQUAL);
+                aux(q,acc,&Token::EQUAL)
+            }
             [h, q @ ..] => aux(q, acc, h)
         }
     }

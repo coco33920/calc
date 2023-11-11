@@ -1,6 +1,6 @@
 use crate::lexing::token::{Operator, Token};
 use crate::parsing::ast::Ast::{Nil, Node};
-use crate::parsing::ast::Parameters::{DivideOperation, Float, Identifier, Int, MinusOperation, MultiplicationOperation, Null, PlusOperation};
+use crate::parsing::ast::Parameters::*;
 
 #[derive(Debug)]
 pub enum Parameters {
@@ -11,6 +11,7 @@ pub enum Parameters {
     MinusOperation,
     MultiplicationOperation,
     DivideOperation,
+    Assign,
     Null,
 }
 
@@ -34,6 +35,7 @@ impl Clone for Parameters {
             MinusOperation => MinusOperation,
             MultiplicationOperation => MultiplicationOperation,
             DivideOperation => DivideOperation,
+            Assign => Assign,
             Null => Null
         }
     }
@@ -94,6 +96,7 @@ impl PartialEq for Parameters {
             (MinusOperation, MinusOperation) => true,
             (MultiplicationOperation, MultiplicationOperation) => true,
             (DivideOperation, DivideOperation) => true,
+            (Assign,Assign) => true,
             _ => false
         }
     }
@@ -133,14 +136,15 @@ impl PartialEq for Ast {
 
 pub fn token_to_parameter(token: Token) -> Parameters {
     match token {
-        Token::INT(i) => Parameters::Int(i),
-        Token::FLOAT(f) => Parameters::Float(f),
-        Token::IDENTIFIER(s) => Parameters::Identifier(s),
-        Token::OPE(Operator::PLUS) => Parameters::PlusOperation,
-        Token::OPE(Operator::MINUS) => Parameters::MinusOperation,
-        Token::OPE(Operator::MULTIPLICATION) => Parameters::MultiplicationOperation,
-        Token::OPE(Operator::DIVIDE) => Parameters::DivideOperation,
-        _ => Parameters::Null
+        Token::INT(i) => Int(i),
+        Token::FLOAT(f) => Float(f),
+        Token::IDENTIFIER(s) => Identifier(s),
+        Token::OPE(Operator::PLUS) => PlusOperation,
+        Token::OPE(Operator::MINUS) => MinusOperation,
+        Token::OPE(Operator::MULTIPLICATION) => MultiplicationOperation,
+        Token::OPE(Operator::DIVIDE) => DivideOperation,
+        Token::EQUAL => Assign,
+        _ => Null
     }
 }
 

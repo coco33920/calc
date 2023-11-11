@@ -1,4 +1,5 @@
 use crate::lexing::token::Token;
+use crate::lexing::token::Token::{LPAR, RPAR};
 use crate::parsing::ast::{Ast, Parameters, token_to_parameter};
 use crate::parsing::ast::Ast::{Nil, Node};
 
@@ -99,16 +100,61 @@ pub fn parse(lst: &Vec<Token>) -> Ast {
 
 
 pub fn add_parenthesis(lst: &Vec<Token>) -> Vec<Token> {
-    fn aux(lst: &[Token], mut acc: Vec<Token>) -> Vec<Token> {
+    fn aux(lst: &[Token], mut acc: Vec<Token>, mut last_operation: Token, mut position_before_operation: usize, mut position: usize, mut add: bool, mut add2: bool, mut par: i32) -> (Vec<Token>, i32) {
         match lst {
-            [] => acc,
-            [h,q @ ..] => {
-                acc.push(h.clone());
-                aux(q,acc)
+            [] => (acc, par),
+            [h, q @ ..] => {
+                match h {
+                    Token::OPE(p) => {
+                        let precedence = last_operation.priority(&Token::OPE(p.clone()));
+                        if last_operation == Token::OPE(p.clone()) {
+                            acc.insert(position_before_operation, LPAR);
+                            acc.push(Token::OPE(p.clone()));
+                            acc.push(LPAR);
+                            par += 2;
+                            add2 = true;
+                        } else {
+                            if !precedence {
+                                acc.push(Token::OPE(p.clone()));
+                                last_operation = Token::OPE(p.clone());
+                                position_before_operation = position;
+                            } else {
+                                println!("{:?} {:?}", acc, last_operation);
+                                acc.insert(position_before_operation + 1, LPAR);
+                                acc.push(Token::OPE(p.clone()));
+                                last_operation = Token::OPE(p.clone());
+                                par += 1;
+                                position_before_operation = position;
+                                add = true;
+                            }
+                        }
+                    }
+                    q => {
+                        acc.push(q.clone());
+                        if add {
+                            acc.push(Token::RPAR);
+                            add = false;
+                            par -= 1;
+                        }
+                        if add2 {
+                            acc.push(Token::RPAR);
+                            add2 = false;
+                            par -= 1;
+                        }
+                    }
+                }
+
+                position += 1;
+                aux(q, acc, last_operation.clone(), position_before_operation, position, add, add2, par)
             }
         }
     }
-    aux(lst.as_slice(),Vec::new())
+    let (a, b) = aux(lst.as_slice(), Vec::new(), Token::Null, 0, 0, false, false, 0);
+    let mut vec = a.clone();
+    for _ in 0..b {
+        vec.push(RPAR);
+    }
+    vec
 }
 
 

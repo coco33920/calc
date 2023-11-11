@@ -22,7 +22,7 @@
     - [ ] Parsing lpar,rpar
     - [ ] mathematical priority
     - [ ] parenthesis support
-    - [ ] associativity support
+    - [X] associativity support
     - [ ] hidden multiplication support
 - [X] Application REPL
     - [X] Add the REPL

@@ -18,6 +18,7 @@ pub enum Token {
     RPAR,
     LPAR,
     QUOTE,
+    Null,
 }
 
 impl PartialEq<Self> for Operator {
@@ -53,7 +54,8 @@ impl Display for Token {
             Token::FLOAT(i) => write!(f, "{}", i),
             Token::INT(i) => write!(f, "{}", i),
             Token::IDENTIFIER(s) => write!(f, "{}", s),
-            Token::OPE(s) => write!(f, "{}", s)
+            Token::OPE(s) => write!(f, "{}", s),
+            Token::Null => write!(f,"Null")
         }
     }
 }

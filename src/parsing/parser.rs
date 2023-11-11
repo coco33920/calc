@@ -46,11 +46,24 @@ fn push_operator(ast: Ast, token: Token) -> Ast {
     }
 }
 
+fn push_ast(ast: Ast, ast2: Ast) -> Ast {
+    match ast.clone() {
+        Nil => ast2,
+        Node { value: v, left: l, right: r } => {
+            Node {
+                value: v,
+                left: Box::from(Node { value: l.clone().value(), left: Box::from(l.left()), right: r }),
+                right: Box::from(ast2),
+            }
+        }
+    }
+}
+
 
 pub fn parse(lst: &Vec<Token>) -> Ast {
-    fn aux(lst: &[Token], mut acc: Ast, _last_token: &Token) -> Ast {
+    fn aux(lst: &[Token], mut acc: Ast, _last_token: &Token) -> (Ast, Vec<Token>) {
         match lst {
-            [] => acc,
+            [] => (acc, Vec::new()),
             [Token::INT(i), q @ ..] => {
                 acc = push_value(acc, Token::INT(*i));
                 aux(q, acc, &Token::INT(*i))
@@ -71,11 +84,20 @@ pub fn parse(lst: &Vec<Token>) -> Ast {
                 acc = push_operator(acc, Token::EQUAL);
                 aux(q, acc, &Token::EQUAL)
             }
+            [Token::LPAR, q @ ..] => {
+                let (ac, rest) = aux(q, Nil, &Token::Null);
+                acc = push_ast(acc, ac);
+                aux(rest.as_slice(), acc, &Token::LPAR)
+            }
+            [Token::RPAR, q @ ..] => {
+                (acc, q.to_vec())
+            }
             [h, q @ ..] => aux(q, acc, h)
         }
     }
 
-    aux(lst.as_slice(), Ast::Nil, &Token::Null)
+    let (a, _) = aux(lst.as_slice(), Nil, &Token::Null);
+    a
 }
 
 #[cfg(test)]
@@ -152,4 +174,38 @@ mod test {
         let result = parse(&lex("i=1".to_string()));
         assert_eq!(result, expected);
     }
+
+    #[test]
+    pub fn simple_parenthesis() {
+        let expected = Ast::Node {
+            value: Parameters::PlusOperation,
+            left: Box::from(Ast::new(Parameters::Int(1))),
+            right: Box::from(Ast::Node {
+                value: Parameters::MultiplicationOperation,
+                left: Box::new(Ast::new(Parameters::Int(1))),
+                right: Box::new(Ast::new(Parameters::Int(1))),
+            }),
+        };
+        let result = parse(&lex("1+(1*1)".to_string()));
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    pub fn hard_parenthesis() {
+        let expected = Ast::Node {
+            value: Parameters::PlusOperation,
+            left: Box::from(Ast::new(Parameters::Int(1))),
+            right: Box::from(Ast::Node {
+                value: Parameters::MultiplicationOperation,
+                left: Box::from(Ast::new(Parameters::Int(1))),
+                right: Box::from(Ast::Node {
+                    value: Parameters::DivideOperation,
+                    left: Box::from(Ast::new(Parameters::Int(1))),
+                    right: Box::from(Ast::new(Parameters::Int(1))),
+                })
+            }),
+        };
+        let result = parse(&lex("1+(1*(1/1))".to_string()));
+    }
+
 }

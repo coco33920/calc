@@ -19,9 +19,9 @@
     - [X] multiplication operation
     - [X] division operation
 - [ ] Parsing advanced operations
-    - [ ] Parsing lpar,rpar
+    - [X] Parsing lpar,rpar
     - [ ] mathematical priority
-    - [ ] parenthesis support
+    - [X] parenthesis support
     - [X] Assignment
     - [X] associativity support
 - [X] Application REPL

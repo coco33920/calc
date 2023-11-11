@@ -4,7 +4,7 @@ use ansi_term::Color;
 use linefeed::{Interface, ReadResult};
 
 use crate::lexing::lexer::lex;
-use crate::parsing::parser::{parse};
+use crate::parsing::parser::parse;
 
 mod lexing;
 mod parsing;
@@ -18,11 +18,14 @@ fn main() {
     let text = "> ";
     let mut verbose = true;
 
-
-    interface.set_prompt(&format!("\x01{prefix}\x02{text}\x01{suffix}\x02",
-                                  prefix = style.prefix(),
-                                  text = text,
-                                  suffix = style.suffix())).unwrap();
+    interface
+        .set_prompt(&format!(
+            "\x01{prefix}\x02{text}\x01{suffix}\x02",
+            prefix = style.prefix(),
+            text = text,
+            suffix = style.suffix()
+        ))
+        .unwrap();
 
     while let ReadResult::Input(line) = interface.read_line().unwrap() {
         match line.as_str().trim() {
@@ -44,9 +47,7 @@ fn main() {
             "verbose" => {
                 verbose = !verbose;
                 let message = Color::Purple.paint("You toggled the verbose : ");
-                let message2 = Color::Red.paint(
-                    if verbose { "on" } else { "off" }
-                );
+                let message2 = Color::Red.paint(if verbose { "on" } else { "off" });
                 println!("{}{}", message, message2)
             }
             str => {
@@ -56,7 +57,7 @@ fn main() {
                     println!("Lexing of line: {str}");
                     println!("{:?}", &a);
                     println!("Parsing of line: {str}");
-                    println!("{:?}", p);
+                    println!("{:#?}", p);
                     println!()
                 }
             }

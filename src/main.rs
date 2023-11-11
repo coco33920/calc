@@ -20,6 +20,7 @@ fn main() {
     let mut verbose = true;
 
 
+
     interface.set_prompt(&format!("\x01{prefix}\x02{text}\x01{suffix}\x02",
                                   prefix = style.prefix(),
                                   text = text,

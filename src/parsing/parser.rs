@@ -265,4 +265,37 @@ mod test {
         };
         let result = parse(&lex("1+(1*(1/1))".to_string()));
     }
+
+    #[test]
+    pub fn without_parenthesis() {
+        let expected = Ast::Node {
+            value: Parameters::PlusOperation,
+            left: Box::from(Ast::new(Parameters::Int(1))),
+            right: Box::from(Ast::Node {
+                value: Parameters::MultiplicationOperation,
+                left: Box::new(Ast::new(Parameters::Int(1))),
+                right: Box::new(Ast::new(Parameters::Int(1))),
+            }),
+        };
+        let result = parse(&lex("1+1*1".to_string()));
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    pub fn without_parenthesis_hard(){
+        let expected = Ast::Node {
+            value: Parameters::PlusOperation,
+            left: Box::from(Ast::new(Parameters::Int(1))),
+            right: Box::from(Ast::Node {
+                value: Parameters::MultiplicationOperation,
+                left: Box::from(Ast::new(Parameters::Int(1))),
+                right: Box::from(Ast::Node {
+                    value: Parameters::DivideOperation,
+                    left: Box::from(Ast::new(Parameters::Int(1))),
+                    right: Box::from(Ast::new(Parameters::Int(1))),
+                }),
+            }),
+        };
+        let result = parse(&lex("1+1*(1/1)".to_string()));
+    }
 }

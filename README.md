@@ -2,6 +2,8 @@
 
 **Calc: a minimalistic calculator built for educational purpose only.**
 
+[![Rust CI](https://github.com/coco33920/calc/actions/workflows/rust.yml/badge.svg)](https://github.com/coco33920/calc/actions/workflows/rust.yml)
+
 ## TODO List
 
 - [X] Lexing of basic operations

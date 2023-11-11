@@ -26,7 +26,7 @@ impl Clone for Operator {
             Operator::PLUS => Operator::PLUS,
             Operator::MINUS => Operator::MINUS,
             Operator::MULTIPLICATION => Operator::MULTIPLICATION,
-            Operator::DIVIDE => Operator::DIVIDE
+            Operator::DIVIDE => Operator::DIVIDE,
         }
     }
 }
@@ -41,7 +41,7 @@ impl Clone for Token {
             Token::EQUAL => Token::EQUAL,
             Token::RPAR => Token::RPAR,
             Token::LPAR => Token::LPAR,
-            Token::Null => Token::Null
+            Token::Null => Token::Null,
         }
     }
 }
@@ -53,7 +53,7 @@ impl PartialEq<Self> for Operator {
             (Operator::MINUS, Operator::MINUS) => true,
             (Operator::MULTIPLICATION, Operator::MULTIPLICATION) => true,
             (Operator::DIVIDE, Operator::DIVIDE) => true,
-            _ => false
+            _ => false,
         }
     }
 }
@@ -64,7 +64,7 @@ impl Display for Operator {
             Operator::PLUS => write!(f, "+"),
             Operator::MINUS => write!(f, "-"),
             Operator::DIVIDE => write!(f, "/"),
-            Operator::MULTIPLICATION => write!(f, "*")
+            Operator::MULTIPLICATION => write!(f, "*"),
         }
     }
 }
@@ -79,7 +79,7 @@ impl Display for Token {
             Token::INT(i) => write!(f, "{}", i),
             Token::IDENTIFIER(s) => write!(f, "{}", s),
             Token::OPE(s) => write!(f, "{}", s),
-            Token::Null => write!(f, "Null")
+            Token::Null => write!(f, "Null"),
         }
     }
 }
@@ -94,19 +94,19 @@ impl PartialEq<Self> for Token {
             (Token::INT(i), Token::INT(i2)) => i == i2,
             (Token::IDENTIFIER(s), Token::IDENTIFIER(s2)) => s == s2,
             (Token::OPE(o), Token::OPE(p)) => o == p,
-            _ => false
+            _ => false,
         }
     }
 }
 
 impl Token {
-    pub fn priority(&self, other:&Self) -> bool {
-        match (&self,other) {
-            (Token::OPE(Operator::PLUS),Token::OPE(Operator::MULTIPLICATION)) => true,
-            (Token::OPE(Operator::PLUS),Token::OPE(Operator::DIVIDE)) => true,
-            (Token::OPE(Operator::MINUS),Token::OPE(Operator::MULTIPLICATION)) => true,
-            (Token::OPE(Operator::MINUS),Token::OPE(Operator::DIVIDE)) => true,
-            _ => false
+    pub fn priority(&self, other: &Self) -> bool {
+        match (&self, other) {
+            (Token::OPE(Operator::PLUS), Token::OPE(Operator::MULTIPLICATION)) => true,
+            (Token::OPE(Operator::PLUS), Token::OPE(Operator::DIVIDE)) => true,
+            (Token::OPE(Operator::MINUS), Token::OPE(Operator::MULTIPLICATION)) => true,
+            (Token::OPE(Operator::MINUS), Token::OPE(Operator::DIVIDE)) => true,
+            _ => false,
         }
     }
 }

@@ -16,8 +16,12 @@ pub fn is_an_allowed_char(character: char) -> bool {
         || character == '='
 }
 
-
-fn lex_int(current_char: char, chars: &mut Vec<char>, current_pos: usize, len: usize) -> (i64, usize) {
+fn lex_int(
+    current_char: char,
+    chars: &mut Vec<char>,
+    current_pos: usize,
+    len: usize,
+) -> (i64, usize) {
     let (a, b) = lex_raddix(current_char, chars, current_pos, len);
     let err = i64::from_str(&a);
     if err.is_err() {
@@ -27,7 +31,12 @@ fn lex_int(current_char: char, chars: &mut Vec<char>, current_pos: usize, len: u
     }
 }
 
-fn lex_raddix(mut current_char: char, chars: &mut Vec<char>, mut current_pos: usize, len: usize) -> (String, usize) {
+fn lex_raddix(
+    mut current_char: char,
+    chars: &mut Vec<char>,
+    mut current_pos: usize,
+    len: usize,
+) -> (String, usize) {
     let mut str: String = String::new();
     while current_pos < len && (current_char.is_ascii_digit()) {
         str += &*current_char.to_string();
@@ -36,14 +45,18 @@ fn lex_raddix(mut current_char: char, chars: &mut Vec<char>, mut current_pos: us
         let a = chars.get(current_pos);
         match a {
             Some(t) => current_char = *t,
-            None => break
+            None => break,
         }
     }
     (str, current_pos)
 }
 
-
-fn lex_string(mut current_char: char, chars: &mut Vec<char>, mut current_pos: usize, len: usize) -> (String, usize) {
+fn lex_string(
+    mut current_char: char,
+    chars: &mut Vec<char>,
+    mut current_pos: usize,
+    len: usize,
+) -> (String, usize) {
     let mut str: String = String::new();
     while current_pos < len && current_char.is_alphanumeric() {
         str += &*current_char.to_string();
@@ -52,21 +65,24 @@ fn lex_string(mut current_char: char, chars: &mut Vec<char>, mut current_pos: us
         let a = chars.get(current_pos);
         match a {
             Some(t) => current_char = *t,
-            None => break
+            None => break,
         }
     }
     (str, current_pos)
 }
 
-
-fn lex_float(whole_side: i64, chars: &mut Vec<char>, mut current_pos: usize, len: usize) -> (f64, usize) {
+fn lex_float(
+    whole_side: i64,
+    chars: &mut Vec<char>,
+    mut current_pos: usize,
+    len: usize,
+) -> (f64, usize) {
     current_pos += 1;
     let current_char_options = chars.get(current_pos);
-    let current_char =
-        match current_char_options {
-            Some(t) => t,
-            None => &'0'
-        };
+    let current_char = match current_char_options {
+        Some(t) => t,
+        None => &'0',
+    };
     let (a, b) = lex_raddix(*current_char, chars, current_pos, len);
     let f = f64::from_str(&*(whole_side.to_string().as_str().to_owned() + "." + a.as_str()));
     if f.is_err() {
@@ -126,15 +142,13 @@ pub fn lex(input: String) -> Vec<Token> {
                     let cha = chars.get(current_pos);
                     match cha {
                         Some(char) => {
-                            {
-                                if *char == '.' {
-                                    let (a1, b1) = lex_float(a, &mut chars, current_pos, length);
-                                    current_pos = b1;
-                                    vec.push(Token::FLOAT(a1))
-                                } else {
-                                    vec.push(Token::INT(a));
-                                    current_pos = b;
-                                }
+                            if *char == '.' {
+                                let (a1, b1) = lex_float(a, &mut chars, current_pos, length);
+                                current_pos = b1;
+                                vec.push(Token::FLOAT(a1))
+                            } else {
+                                vec.push(Token::INT(a));
+                                current_pos = b;
                             }
                         }
                         None => {
@@ -198,7 +212,6 @@ mod tests {
         assert_eq!(result, expected)
     }
 
-
     #[test]
     fn lex_operators() {
         let mut expected = Vec::new();
@@ -225,7 +238,6 @@ mod tests {
         let result = lex(")".to_string());
         assert_eq!(result, expected)
     }
-
 
     #[test]
     fn lex_equal() {
@@ -305,4 +317,3 @@ mod tests {
         assert_eq!(result, expected)
     }
 }
-

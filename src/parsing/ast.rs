@@ -100,14 +100,6 @@ impl Ast {
             }
         }
     }
-    pub fn right(self) -> Ast {
-        match &self {
-            Nil => Nil,
-            Node {value: _value, left: _left, right: r} => {
-                return *(*(r)).clone();
-            }
-        }
-    }
 }
 
 impl PartialEq for Parameters {

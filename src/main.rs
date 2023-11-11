@@ -4,7 +4,7 @@ use ansi_term::Color;
 use linefeed::{Interface, ReadResult};
 
 use crate::lexing::lexer::lex;
-use crate::parsing::parser::{add_parenthesis, parse};
+use crate::parsing::parser::{parse};
 
 mod lexing;
 mod parsing;

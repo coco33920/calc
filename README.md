@@ -23,15 +23,17 @@
     - [ ] mathematical priority
     - [ ] parenthesis support
     - [X] associativity support
-    - [ ] hidden multiplication support
 - [X] Application REPL
     - [X] Add the REPL
         - [X] basic REPL
         - [X] colour message
         - [X] colourised prompt
     - [X] Add colour
+- [ ] Interpreter
+    - [ ] Basic operation interpreter
+    - [ ] Advanced operation interpreter
+    - [ ] Identifiers (variable) interpreter
 - [ ] Config
-    - [ ] Config parser
     - [ ] Config colours
     - [ ] Config prompt
 - [ ] Add support for functions
@@ -40,8 +42,10 @@
     - [ ] log base a
     - [ ] cos/sin/tan
     - [ ] cosh/sinh/tanh
-- [ ] Defining your own functions
-- [ ] Add RPN mode
+- [ ] For later
+    - [ ] Defining your own functions
+    - [ ] Add RPN mode
+    - [ ] Hidden multiplication
 
 ## Examples
 

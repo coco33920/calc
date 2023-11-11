@@ -2,7 +2,7 @@ use crate::lexing::token::{Operator, Token};
 use crate::parsing::ast::Ast::{Nil, Node};
 use crate::parsing::ast::Parameters::*;
 
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum Parameters {
     Int(i64),
     Float(f64),
@@ -15,7 +15,7 @@ pub enum Parameters {
     Null,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum Ast {
     Nil,
     Node {
@@ -23,33 +23,6 @@ pub enum Ast {
         left: Box<Ast>,
         right: Box<Ast>,
     },
-}
-
-impl Clone for Parameters {
-    fn clone(&self) -> Self {
-        match self {
-            Int(i) => Int(*i),
-            Float(f) => Float(*f),
-            Identifier(s) => Identifier(s.to_string().clone()),
-            PlusOperation => PlusOperation,
-            MinusOperation => MinusOperation,
-            MultiplicationOperation => MultiplicationOperation,
-            DivideOperation => DivideOperation,
-            Assign => Assign,
-            Null => Null
-        }
-    }
-}
-
-impl Clone for Ast {
-    fn clone(&self) -> Self {
-        match self {
-            Nil => Nil,
-            Node { value: v, left: l, right: r } => {
-                Node { value: v.clone(), left: l.clone(), right: r.clone() }
-            }
-        }
-    }
 }
 
 impl Ast {
@@ -63,31 +36,39 @@ impl Ast {
     pub fn insert_left(self, node: Ast) -> Self {
         match &self {
             Nil => node,
-            Node { value, left: _left, right } => {
-                Node {
-                    value: value.clone(),
-                    left: Box::from(node),
-                    right: right.clone(),
-                }
-            }
+            Node {
+                value,
+                left: _left,
+                right,
+            } => Node {
+                value: value.clone(),
+                left: Box::from(node),
+                right: right.clone(),
+            },
         }
     }
     pub fn insert_right(self, node: Ast) -> Self {
         match &self {
             Nil => node,
-            Node { value, left, right: _right } => {
-                Node {
-                    value: value.clone(),
-                    left: left.clone(),
-                    right: Box::from(node),
-                }
-            }
+            Node {
+                value,
+                left,
+                right: _right,
+            } => Node {
+                value: value.clone(),
+                left: left.clone(),
+                right: Box::from(node),
+            },
         }
     }
     pub fn value(self) -> Parameters {
         match &self {
             Nil => Null,
-            Node {value, left: _left, right: _right } => {
+            Node {
+                value,
+                left: _left,
+                right: _right,
+            } => {
                 return value.clone();
             }
         }
@@ -95,60 +76,16 @@ impl Ast {
     pub fn left(self) -> Ast {
         match &self {
             Nil => Nil,
-            Node {value: _value, left: l, right: _right} => {
+            Node {
+                value: _value,
+                left: l,
+                right: _right,
+            } => {
                 return *(*(l)).clone();
             }
         }
     }
 }
-
-impl PartialEq for Parameters {
-    fn eq(&self, other: &Self) -> bool {
-        match (self, other) {
-            (Int(i), Int(i2)) => i == i2,
-            (Float(f), Float(f2)) => f == f2,
-            (Identifier(s), Identifier(s2)) => s == s2,
-            (PlusOperation, PlusOperation) => true,
-            (MinusOperation, MinusOperation) => true,
-            (MultiplicationOperation, MultiplicationOperation) => true,
-            (DivideOperation, DivideOperation) => true,
-            (Assign, Assign) => true,
-            _ => false
-        }
-    }
-
-    fn ne(&self, other: &Self) -> bool {
-        if self == other {
-            false
-        } else {
-            true
-        }
-    }
-}
-
-impl PartialEq for Ast {
-    fn eq(&self, other: &Self) -> bool {
-        match (&self, &other) {
-            (Nil, Nil) => true,
-            (Node { value: p, left: l, right: r }, Node { value: p2, left: l2, right: r2 }) => {
-                if p != p2 {
-                    return false;
-                }
-                return (l.eq(l2)) && (r.eq(r2));
-            }
-            _ => false
-        }
-    }
-
-    fn ne(&self, other: &Self) -> bool {
-        if self == other {
-            false
-        } else {
-            true
-        }
-    }
-}
-
 
 pub fn token_to_parameter(token: Token) -> Parameters {
     match token {
@@ -160,7 +97,7 @@ pub fn token_to_parameter(token: Token) -> Parameters {
         Token::OPE(Operator::MULTIPLICATION) => MultiplicationOperation,
         Token::OPE(Operator::DIVIDE) => DivideOperation,
         Token::EQUAL => Assign,
-        _ => Null
+        _ => Null,
     }
 }
 
@@ -170,7 +107,11 @@ mod test {
 
     #[test]
     pub fn test_new() {
-        let expected = Ast::Node { value: Parameters::Int(2), left: Box::from(Ast::Nil), right: Box::from(Ast::Nil) };
+        let expected = Ast::Node {
+            value: Parameters::Int(2),
+            left: Box::from(Ast::Nil),
+            right: Box::from(Ast::Nil),
+        };
         let result = Ast::new(Parameters::Int(2));
         assert_eq!(result, expected)
     }

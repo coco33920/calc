@@ -47,4 +47,8 @@
 
 ![](assets/test_lexing.png)
 
+### REPL with lexing and basic operation parsing (verbose mode: on by default)
+
+![](assets/test_parsing_basic_operations.png)
+
 ## Configuration

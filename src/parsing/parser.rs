@@ -7,9 +7,9 @@ fn push_value(ast: Ast, token: Token) -> Ast {
             let parameter = token_to_parameter(token);
             match parameter {
                 Parameters::Null => Ast::Nil,
-                _ => Ast::Node(parameter, Box::new(Ast::Nil), Box::new(Ast::Nil))
+                _ => Ast::new(parameter)
             }
-        }
+        },
         _ => Ast::Nil
     }
 }
@@ -22,15 +22,15 @@ pub fn parse(lst: &Vec<Token>) -> Ast {
             [Token::INT(i), q @ ..] => {
                 acc = push_value(acc, Token::INT(*i));
                 aux(q, acc, last_token)
-            }
+            },
             [Token::FLOAT(f), q @ ..] => {
                 acc = push_value(acc, Token::FLOAT(*f));
                 aux(q, acc, last_token)
-            }
+            },
             [Token::IDENTIFIER(s), q @ ..] => {
                 acc = push_value(acc, Token::IDENTIFIER(s.to_string()));
                 aux(q, acc, last_token)
-            }
+            },
             [h, q @ ..] => aux(q, acc, h)
         }
     }

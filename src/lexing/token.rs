@@ -98,3 +98,15 @@ impl PartialEq<Self> for Token {
         }
     }
 }
+
+impl Token {
+    pub fn priority(&self, other:&Self) -> bool {
+        match (&self,other) {
+            (Token::OPE(Operator::PLUS),Token::OPE(Operator::MULTIPLICATION)) => true,
+            (Token::OPE(Operator::PLUS),Token::OPE(Operator::DIVIDE)) => true,
+            (Token::OPE(Operator::MINUS),Token::OPE(Operator::MULTIPLICATION)) => true,
+            (Token::OPE(Operator::MINUS),Token::OPE(Operator::DIVIDE)) => true,
+            _ => false
+        }
+    }
+}

@@ -16,10 +16,7 @@ fn push_value(ast: Ast, token: Token) -> Ast {
                 Nil => ast.insert_left(Ast::new(parameter)),
                 Node { .. } => {
                     match *r {
-                        Nil => ast.insert_right(Ast::new(parameter)),
-                        Node { .. } => {
-                            Ast::new(parameter).insert_left(ast.clone())
-                        }
+                        _ => ast.insert_right(Ast::new(parameter)),
                     }
                 }
             }
@@ -61,20 +58,20 @@ fn push_ast(ast: Ast, ast2: Ast) -> Ast {
 
 
 pub fn parse(lst: &Vec<Token>) -> Ast {
-    fn aux(lst: &[Token], mut acc: Ast, _last_token: &Token) -> (Ast, Vec<Token>) {
+    fn aux(lst: &[Token], mut acc: Ast, _last_operation: &Token) -> (Ast, Vec<Token>) {
         match lst {
             [] => (acc, Vec::new()),
             [Token::INT(i), q @ ..] => {
                 acc = push_value(acc, Token::INT(*i));
-                aux(q, acc, &Token::INT(*i))
+                aux(q, acc, _last_operation)
             }
             [Token::FLOAT(f), q @ ..] => {
                 acc = push_value(acc, Token::FLOAT(*f));
-                aux(q, acc, &Token::FLOAT(*f))
+                aux(q, acc, _last_operation)
             }
             [Token::IDENTIFIER(s), q @ ..] => {
                 acc = push_value(acc, Token::IDENTIFIER(s.to_string()));
-                aux(q, acc, &Token::IDENTIFIER(s.clone()))
+                aux(q, acc, _last_operation)
             }
             [Token::OPE(p), q @ ..] => {
                 acc = push_operator(acc, Token::OPE(p.clone()));
@@ -82,12 +79,12 @@ pub fn parse(lst: &Vec<Token>) -> Ast {
             }
             [Token::EQUAL, q @ ..] => {
                 acc = push_operator(acc, Token::EQUAL);
-                aux(q, acc, &Token::EQUAL)
+                aux(q, acc, _last_operation)
             }
             [Token::LPAR, q @ ..] => {
                 let (ac, rest) = aux(q, Nil, &Token::Null);
                 acc = push_ast(acc, ac);
-                aux(rest.as_slice(), acc, &Token::LPAR)
+                aux(rest.as_slice(), acc, _last_operation)
             }
             [Token::RPAR, q @ ..] => {
                 (acc, q.to_vec())
@@ -96,9 +93,24 @@ pub fn parse(lst: &Vec<Token>) -> Ast {
         }
     }
 
-    let (a, _) = aux(lst.as_slice(), Nil, &Token::Null);
+    let (a, _) = aux(add_parenthesis(lst).as_slice(), Nil, &Token::Null);
     a
 }
+
+
+pub fn add_parenthesis(lst: &Vec<Token>) -> Vec<Token> {
+    fn aux(lst: &[Token], mut acc: Vec<Token>) -> Vec<Token> {
+        match lst {
+            [] => acc,
+            [h,q @ ..] => {
+                acc.push(h.clone());
+                aux(q,acc)
+            }
+        }
+    }
+    aux(lst.as_slice(),Vec::new())
+}
+
 
 #[cfg(test)]
 mod test {
@@ -202,10 +214,9 @@ mod test {
                     value: Parameters::DivideOperation,
                     left: Box::from(Ast::new(Parameters::Int(1))),
                     right: Box::from(Ast::new(Parameters::Int(1))),
-                })
+                }),
             }),
         };
         let result = parse(&lex("1+(1*(1/1))".to_string()));
     }
-
 }

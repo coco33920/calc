@@ -11,11 +11,12 @@
     - [X] Lexing floats
     - [X] Lexing identifiers
 - [ ] Parsing of basic operations
-    - [ ] Parsing int,floats,identifiers,lpar,rpar,quote 
-    - [ ] sum operation
-    - [ ] minus operation
-    - [ ] multiplication operation
-    - [ ] division operation
+    - [X] Parsing int,floats,identifiers
+    - [ ] Parsing lpar,rpar,quote
+    - [X] sum operation
+    - [X] minus operation
+    - [X] multiplication operation
+    - [X] division operation
     - [ ] mathematical priority
     - [ ] parenthesis support
     - [ ] associativity support
@@ -44,6 +45,5 @@
 ### REPL with only Lexing (verbose mode: on by default)
 
 ![](assets/test_lexing.png)
-
 
 ## Configuration

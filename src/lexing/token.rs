@@ -18,6 +18,34 @@ pub enum Token {
     RPAR,
     LPAR,
     QUOTE,
+    Null,
+}
+
+impl Clone for Operator {
+    fn clone(&self) -> Self {
+        match self {
+            Operator::PLUS => Operator::PLUS,
+            Operator::MINUS => Operator::MINUS,
+            Operator::MULTIPLICATION => Operator::MULTIPLICATION,
+            Operator::DIVIDE => Operator::DIVIDE
+        }
+    }
+}
+
+impl Clone for Token {
+    fn clone(&self) -> Self {
+        match self {
+            Token::OPE(p) => Token::OPE(p.clone()),
+            Token::IDENTIFIER(s) => Token::IDENTIFIER(s.clone()),
+            Token::INT(i) => Token::INT(*i),
+            Token::FLOAT(f) => Token::FLOAT(*f),
+            Token::EQUAL => Token::EQUAL,
+            Token::RPAR => Token::RPAR,
+            Token::LPAR => Token::LPAR,
+            Token::QUOTE => Token::QUOTE,
+            Token::Null => Token::Null
+        }
+    }
 }
 
 impl PartialEq<Self> for Operator {
@@ -53,7 +81,8 @@ impl Display for Token {
             Token::FLOAT(i) => write!(f, "{}", i),
             Token::INT(i) => write!(f, "{}", i),
             Token::IDENTIFIER(s) => write!(f, "{}", s),
-            Token::OPE(s) => write!(f, "{}", s)
+            Token::OPE(s) => write!(f, "{}", s),
+            Token::Null => write!(f,"Null")
         }
     }
 }

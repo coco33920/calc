@@ -10,13 +10,14 @@
     - [X] Lexing int
     - [X] Lexing floats
     - [X] Lexing identifiers
-- [ ] Parsing of basic operations
+- [X] Parsing of basic operations
     - [X] Parsing int,floats,identifiers
-    - [ ] Parsing lpar,rpar,quote
     - [X] sum operation
     - [X] minus operation
     - [X] multiplication operation
     - [X] division operation
+- [ ] Parsing advanced operations
+    - [ ] Parsing lpar,rpar
     - [ ] mathematical priority
     - [ ] parenthesis support
     - [ ] associativity support

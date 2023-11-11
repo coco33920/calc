@@ -13,10 +13,10 @@
 - [ ] Parsing of basic operations
     - [X] Parsing int,floats,identifiers
     - [ ] Parsing lpar,rpar,quote
-    - [ ] sum operation
-    - [ ] minus operation
-    - [ ] multiplication operation
-    - [ ] division operation
+    - [X] sum operation
+    - [X] minus operation
+    - [X] multiplication operation
+    - [X] division operation
     - [ ] mathematical priority
     - [ ] parenthesis support
     - [ ] associativity support

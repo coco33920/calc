@@ -34,7 +34,7 @@ fn main() {
             "exit" => break,
             "help" => {
                 let message = Color::Purple.paint(
-                    " Calc v0.3.0 Help \n > info : show infos \n > exit : exit the program \n > help : print this help \n"
+                    " Calc v1.0.0 Help \n > info : show infos \n > exit : exit the program \n > help : print this help \n"
                 );
                 println!("{}", message)
             }

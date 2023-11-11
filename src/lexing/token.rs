@@ -17,7 +17,6 @@ pub enum Token {
     EQUAL,
     RPAR,
     LPAR,
-    QUOTE,
     Null,
 }
 
@@ -42,7 +41,6 @@ impl Clone for Token {
             Token::EQUAL => Token::EQUAL,
             Token::RPAR => Token::RPAR,
             Token::LPAR => Token::LPAR,
-            Token::QUOTE => Token::QUOTE,
             Token::Null => Token::Null
         }
     }
@@ -76,13 +74,12 @@ impl Display for Token {
         match self {
             Token::LPAR => write!(f, "("),
             Token::RPAR => write!(f, ")"),
-            Token::QUOTE => write!(f, "\""),
             Token::EQUAL => write!(f, "="),
             Token::FLOAT(i) => write!(f, "{}", i),
             Token::INT(i) => write!(f, "{}", i),
             Token::IDENTIFIER(s) => write!(f, "{}", s),
             Token::OPE(s) => write!(f, "{}", s),
-            Token::Null => write!(f,"Null")
+            Token::Null => write!(f, "Null")
         }
     }
 }
@@ -92,12 +89,23 @@ impl PartialEq<Self> for Token {
         match (self, other) {
             (Token::LPAR, Token::LPAR) => true,
             (Token::RPAR, Token::RPAR) => true,
-            (Token::QUOTE, Token::QUOTE) => true,
             (Token::EQUAL, Token::EQUAL) => true,
             (Token::FLOAT(i), Token::FLOAT(i2)) => i == i2,
             (Token::INT(i), Token::INT(i2)) => i == i2,
             (Token::IDENTIFIER(s), Token::IDENTIFIER(s2)) => s == s2,
             (Token::OPE(o), Token::OPE(p)) => o == p,
+            _ => false
+        }
+    }
+}
+
+impl Token {
+    pub fn priority(&self, other:&Self) -> bool {
+        match (&self,other) {
+            (Token::OPE(Operator::PLUS),Token::OPE(Operator::MULTIPLICATION)) => true,
+            (Token::OPE(Operator::PLUS),Token::OPE(Operator::DIVIDE)) => true,
+            (Token::OPE(Operator::MINUS),Token::OPE(Operator::MULTIPLICATION)) => true,
+            (Token::OPE(Operator::MINUS),Token::OPE(Operator::DIVIDE)) => true,
             _ => false
         }
     }

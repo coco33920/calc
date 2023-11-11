@@ -115,10 +115,6 @@ pub fn lex(input: String) -> Vec<Token> {
                 vec.push(Token::LPAR);
                 current_pos += 1
             }
-            '"' => {
-                vec.push(Token::QUOTE);
-                current_pos += 1
-            }
             '=' => {
                 vec.push(Token::EQUAL);
                 current_pos += 1
@@ -230,13 +226,6 @@ mod tests {
         assert_eq!(result, expected)
     }
 
-    #[test]
-    fn lex_quote() {
-        let mut expected = Vec::new();
-        expected.push(QUOTE);
-        let result = lex("\"".to_string());
-        assert_eq!(result, expected)
-    }
 
     #[test]
     fn lex_equal() {
@@ -251,9 +240,8 @@ mod tests {
         let mut expected = Vec::new();
         expected.push(LPAR);
         expected.push(RPAR);
-        expected.push(QUOTE);
         expected.push(EQUAL);
-        let result = lex("()\"=".to_string());
+        let result = lex("()=".to_string());
         assert_eq!(result, expected)
     }
 

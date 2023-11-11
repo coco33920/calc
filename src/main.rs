@@ -6,6 +6,7 @@ use linefeed::{Interface, ReadResult};
 use crate::lex::lexer::lex;
 
 mod lex;
+mod parsing;
 
 fn main() {
     let message = Color::Blue.paint("Welcome to calc v0.2.0 by Charlotte Thomas \ntype help for getting help for the commands\n");

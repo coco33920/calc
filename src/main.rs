@@ -56,7 +56,7 @@ fn main() {
                     println!("Lexing of line: {str}");
                     println!("{:?}", &a);
                     println!("Parsing of line: {str}");
-                    println!("{:?}", p);
+                    println!("{:#?}", p);
                     println!()
                 }
             }

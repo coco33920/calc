@@ -6,9 +6,9 @@ use linefeed::{Interface, ReadResult};
 use crate::lexing::lexer::lex;
 use crate::parsing::parser::parse;
 
+mod interpreting;
 mod lexing;
 mod parsing;
-mod interpreting;
 
 fn main() {
     let message = Color::Blue.paint("Welcome to calc v1.0.0 by Charlotte Thomas \ntype help for getting help for the commands\n");

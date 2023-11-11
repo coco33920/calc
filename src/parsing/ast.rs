@@ -96,7 +96,7 @@ impl PartialEq for Parameters {
             (MinusOperation, MinusOperation) => true,
             (MultiplicationOperation, MultiplicationOperation) => true,
             (DivideOperation, DivideOperation) => true,
-            (Assign,Assign) => true,
+            (Assign, Assign) => true,
             _ => false
         }
     }

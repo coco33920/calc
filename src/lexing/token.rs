@@ -82,7 +82,7 @@ impl Display for Token {
             Token::INT(i) => write!(f, "{}", i),
             Token::IDENTIFIER(s) => write!(f, "{}", s),
             Token::OPE(s) => write!(f, "{}", s),
-            Token::Null => write!(f,"Null")
+            Token::Null => write!(f, "Null")
         }
     }
 }

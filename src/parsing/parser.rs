@@ -104,7 +104,7 @@ mod test {
             right: Box::new(Ast::new(Parameters::Int(2))),
         };
         let result = parse(&lex("2+2".to_string()));
-        assert_eq!(result,expected)
+        assert_eq!(result, expected)
     }
 
 
@@ -116,7 +116,7 @@ mod test {
             right: Box::new(Ast::new(Parameters::Int(2))),
         };
         let result = parse(&lex("2-2".to_string()));
-        assert_eq!(result,expected)
+        assert_eq!(result, expected)
     }
 
     #[test]
@@ -127,7 +127,7 @@ mod test {
             right: Box::new(Ast::new(Parameters::Int(2))),
         };
         let result = parse(&lex("2*2".to_string()));
-        assert_eq!(result,expected)
+        assert_eq!(result, expected)
     }
 
     #[test]
@@ -138,9 +138,8 @@ mod test {
             right: Box::new(Ast::new(Parameters::Int(2))),
         };
         let result = parse(&lex("2/2".to_string()));
-        assert_eq!(result,expected)
+        assert_eq!(result, expected)
     }
-
 
 
     #[test]
@@ -151,6 +150,6 @@ mod test {
             right: Box::new(Ast::new(Parameters::Int(1))),
         };
         let result = parse(&lex("i=1".to_string()));
-        assert_eq!(result,expected);
+        assert_eq!(result, expected);
     }
 }

@@ -45,9 +45,9 @@ fn main() {
                 verbose = !verbose;
                 let message = Color::Purple.paint("You toggled the verbose : ");
                 let message2 = Color::Red.paint(
-                    if verbose {"on"} else {"off"}
+                    if verbose { "on" } else { "off" }
                 );
-                println!("{}{}",message,message2)
+                println!("{}{}", message, message2)
             }
             str => {
                 let a = lex(str.to_string());

@@ -3,13 +3,12 @@ use std::process::exit;
 use ansi_term::Color;
 use linefeed::{Interface, ReadResult};
 
-use crate::lexer::lex;
+use crate::lex::lexer::lex;
 
-mod lexer;
-mod token;
+mod lex;
 
 fn main() {
-    let message = Color::Blue.paint("Welcome to calc v0.1.0 by Charlotte Thomas \ntype help for getting help for the commands\n");
+    let message = Color::Blue.paint("Welcome to calc v0.2.0 by Charlotte Thomas \ntype help for getting help for the commands\n");
     println!("{}", message.to_string());
 
     let interface = Interface::new("calc").unwrap();
@@ -24,7 +23,7 @@ fn main() {
     while let ReadResult::Input(line) = interface.read_line().unwrap() {
         match line.as_str().trim() {
             "info" => {
-                let message = Color::Purple.paint(" Calc v0.1.0 \n Author: Charlotte Thomas \n Written in Rust \n Repo: https://github.com/coco33920/various_projects\n");
+                let message = Color::Purple.paint(" Calc v0.2.0 \n Author: Charlotte Thomas \n Written in Rust \n Repo: https://github.com/coco33920/various_projects\n");
                 println!("{}", message)
             }
             "exit" => break,

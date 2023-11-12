@@ -5,6 +5,21 @@
 [![Rust Test](https://github.com/coco33920/calc/actions/workflows/rust-test.yml/badge.svg)](https://github.com/coco33920/calc/actions/workflows/rust-test.yml)
 [![Release](https://img.shields.io/github/v/release/coco33920/calc.svg?include_prereleases=&sort=semver&color=f7a8d8)](https://github.com/coco33920/calc/releases/latest)
 
+## Install
+
+You can install the latest version from source
+```bash 
+git clone https://github.com/coco33920/calc
+cd calc 
+cargo build --release
+./target/release/mini-calc
+```
+
+or install it via cargo
+```bash 
+cargo install mini-calc
+```
+
 
 ## TODO List
 

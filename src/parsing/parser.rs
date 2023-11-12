@@ -77,43 +77,7 @@ fn push_ast(ast: Ast, ast2: Ast) -> Ast {
 }
 
 pub fn parse(lst: &Vec<Token>) -> Ast {
-    fn aux(lst: &[Token], mut acc: Ast, _last_operation: &Token) -> (Ast, Vec<Token>) {
-        println!("{:?}", lst);
-        //println!("Acc : {:#?}", acc);
-        match lst {
-            [] => (acc, Vec::new()),
-            [INT(i), q @ ..] => {
-                acc = push_value(acc, Token::INT(*i));
-                aux(q, acc, _last_operation)
-            }
-            [FLOAT(f), q @ ..] => {
-                acc = push_value(acc, Token::FLOAT(*f));
-                aux(q, acc, _last_operation)
-            }
-            [IDENTIFIER(s), q @ ..] => {
-                acc = push_value(acc, Token::IDENTIFIER(s.to_string()));
-                aux(q, acc, _last_operation)
-            }
-            [OPE(p), q @ ..] => {
-                acc = push_operator(acc, Token::OPE(p.clone()));
-                aux(q, acc, &Token::OPE(p.clone()))
-            }
-            [EQUAL, q @ ..] => {
-                acc = push_operator(acc, Token::EQUAL);
-                aux(q, acc, _last_operation)
-            }
-            [LPAR, q @ ..] => {
-                let (ac, rest) = aux(q, Nil, &Null);
-                acc = push_ast(acc, ac);
-                aux(rest.as_slice(), acc, _last_operation)
-            }
-            [RPAR, q @ ..] => (acc, q.to_vec()),
-            [h, q @ ..] => aux(q, acc, h),
-        }
-    }
-
-    let (a, _) = aux(lst.as_slice(), Nil, &Null);
-    a
+    Nil
 }
 
 #[cfg(test)]

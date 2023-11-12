@@ -1,9 +1,9 @@
+use std::collections::HashMap;
+use std::fmt::{Display, Formatter};
+
 use crate::lexing::token::{Operator, Token};
 use crate::parsing::ast::Ast::{Nil, Node};
 use crate::parsing::ast::Parameters::*;
-use std::collections::HashMap;
-use std::fmt::{Display, Formatter};
-use std::ptr::write;
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Parameters {

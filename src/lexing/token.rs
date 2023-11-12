@@ -1,6 +1,6 @@
 use std::fmt::{Display, Formatter};
 
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum Operator {
     PLUS,
     MINUS,
@@ -8,7 +8,7 @@ pub enum Operator {
     DIVIDE,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum Token {
     OPE(Operator),
     IDENTIFIER(String),
@@ -18,44 +18,6 @@ pub enum Token {
     RPAR,
     LPAR,
     Null,
-}
-
-impl Clone for Operator {
-    fn clone(&self) -> Self {
-        match self {
-            Operator::PLUS => Operator::PLUS,
-            Operator::MINUS => Operator::MINUS,
-            Operator::MULTIPLICATION => Operator::MULTIPLICATION,
-            Operator::DIVIDE => Operator::DIVIDE,
-        }
-    }
-}
-
-impl Clone for Token {
-    fn clone(&self) -> Self {
-        match self {
-            Token::OPE(p) => Token::OPE(p.clone()),
-            Token::IDENTIFIER(s) => Token::IDENTIFIER(s.clone()),
-            Token::INT(i) => Token::INT(*i),
-            Token::FLOAT(f) => Token::FLOAT(*f),
-            Token::EQUAL => Token::EQUAL,
-            Token::RPAR => Token::RPAR,
-            Token::LPAR => Token::LPAR,
-            Token::Null => Token::Null,
-        }
-    }
-}
-
-impl PartialEq<Self> for Operator {
-    fn eq(&self, other: &Self) -> bool {
-        match (self, other) {
-            (Operator::PLUS, Operator::PLUS) => true,
-            (Operator::MINUS, Operator::MINUS) => true,
-            (Operator::MULTIPLICATION, Operator::MULTIPLICATION) => true,
-            (Operator::DIVIDE, Operator::DIVIDE) => true,
-            _ => false,
-        }
-    }
 }
 
 impl Display for Operator {
@@ -80,21 +42,6 @@ impl Display for Token {
             Token::IDENTIFIER(s) => write!(f, "{}", s),
             Token::OPE(s) => write!(f, "{}", s),
             Token::Null => write!(f, "Null"),
-        }
-    }
-}
-
-impl PartialEq<Self> for Token {
-    fn eq(&self, other: &Self) -> bool {
-        match (self, other) {
-            (Token::LPAR, Token::LPAR) => true,
-            (Token::RPAR, Token::RPAR) => true,
-            (Token::EQUAL, Token::EQUAL) => true,
-            (Token::FLOAT(i), Token::FLOAT(i2)) => i == i2,
-            (Token::INT(i), Token::INT(i2)) => i == i2,
-            (Token::IDENTIFIER(s), Token::IDENTIFIER(s2)) => s == s2,
-            (Token::OPE(o), Token::OPE(p)) => o == p,
-            _ => false,
         }
     }
 }

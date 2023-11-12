@@ -21,7 +21,7 @@ pub fn apply_operator(
             let value = i_ram.get(&s);
             match value {
                 None => value2,
-                Some(val) => f(val.clone(), value2, None),
+                Some(val) => f(val.clone(), value2.clone(), ram),
             }
         }
     }
@@ -37,16 +37,26 @@ pub fn add(i: Parameters, i2: Parameters, ram: Option<&HashMap<String, Parameter
         (Parameters::Int(v), Parameters::Float(f)) => Parameters::Float((v as f64) + f),
         (Parameters::Float(v), Parameters::Float(f)) => Parameters::Float(v + f),
         (Parameters::Float(v), Parameters::Int(i1)) => Parameters::Float(v + (i1 as f64)),
+        (Parameters::Identifier(s), Parameters::Identifier(s2)) => apply_operator(
+            Parameters::Identifier(s),
+            Parameters::Identifier(s2),
+            ram,
+            add,
+        ),
         (Parameters::Identifier(s), Parameters::Int(i)) => {
+            println!("add1");
             apply_operator(Parameters::Identifier(s), Parameters::Int(i), ram, add)
         }
         (Parameters::Int(i), Parameters::Identifier(s)) => {
+            println!("add2");
             apply_operator(Parameters::Identifier(s), Parameters::Int(i), ram, add)
         }
         (Parameters::Identifier(s), Parameters::Float(i)) => {
+            println!("add3");
             apply_operator(Parameters::Identifier(s), Parameters::Float(i), ram, add)
         }
         (Parameters::Float(i), Parameters::Identifier(s)) => {
+            println!("add4");
             apply_operator(Parameters::Identifier(s), Parameters::Float(i), ram, add)
         }
         _ => Parameters::Null,
@@ -67,6 +77,12 @@ pub fn minus(
         (Parameters::Int(v), Parameters::Float(f)) => Parameters::Float((v as f64) - f),
         (Parameters::Float(v), Parameters::Float(f)) => Parameters::Float(v - f),
         (Parameters::Float(v), Parameters::Int(i1)) => Parameters::Float(v - (i1 as f64)),
+        (Parameters::Identifier(s), Parameters::Identifier(s2)) => apply_operator(
+            Parameters::Identifier(s),
+            Parameters::Identifier(s2),
+            ram,
+            minus,
+        ),
         (Parameters::Identifier(s), Parameters::Int(i)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Int(i), ram, minus)
         }
@@ -105,6 +121,12 @@ pub fn mult(
         (Parameters::Int(v), Parameters::Float(f)) => Parameters::Float((v as f64) * f),
         (Parameters::Float(v), Parameters::Float(f)) => Parameters::Float(v * f),
         (Parameters::Float(v), Parameters::Int(i1)) => Parameters::Float(v * (i1 as f64)),
+        (Parameters::Identifier(s), Parameters::Identifier(s2)) => apply_operator(
+            Parameters::Identifier(s),
+            Parameters::Identifier(s2),
+            ram,
+            mult,
+        ),
         (Parameters::Identifier(s), Parameters::Int(i)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Int(i), ram, mult)
         }
@@ -135,6 +157,12 @@ pub fn divide(
         (Parameters::Int(v), Parameters::Float(f)) => Parameters::Float((v as f64) / f),
         (Parameters::Float(v), Parameters::Float(f)) => Parameters::Float(v / f),
         (Parameters::Float(v), Parameters::Int(i1)) => Parameters::Float(v / (i1 as f64)),
+        (Parameters::Identifier(s), Parameters::Identifier(s2)) => apply_operator(
+            Parameters::Identifier(s),
+            Parameters::Identifier(s2),
+            ram,
+            divide,
+        ),
         (Parameters::Identifier(s), Parameters::Int(i)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Int(i), ram, divide)
         }

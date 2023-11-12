@@ -30,10 +30,10 @@
         - [X] colour message
         - [X] colourised prompt
     - [X] Add colour
-- [ ] Interpreter
-    - [ ] Basic operation interpreter
-    - [ ] Advanced operation interpreter
-    - [ ] Identifiers (variable) interpreter
+- [X] Interpreter
+    - [X] Basic operation interpreter
+    - [X] Advanced operation interpreter
+    - [X] Identifiers (variable) interpreter
 - [ ] Config
     - [ ] Config colours
     - [ ] Config prompt
@@ -57,5 +57,9 @@
 ### REPL with lexing and basic operation parsing (verbose mode: on by default)
 
 ![](assets/test_parsing_basic_operations.png)
+
+### REPL and functionning interpreter (verbose mode: off by default)
+
+![](assets/test_interpreter.png)
 
 ## Configuration

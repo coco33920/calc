@@ -1,22 +1,26 @@
+use std::collections::HashMap;
 use std::process::exit;
 
 use ansi_term::Color;
 use linefeed::{Interface, ReadResult};
 
+use crate::interpreting::interpreter::interpret;
 use crate::lexing::lexer::lex;
+use crate::parsing::ast::Parameters;
 use crate::parsing::parser::parse;
 
+mod interpreting;
 mod lexing;
 mod parsing;
 
 fn main() {
-    let message = Color::Blue.paint("Welcome to calc v0.3.0 by Charlotte Thomas \ntype help for getting help for the commands\n");
+    let message = Color::Blue.paint("Welcome to calc v1.0.0 by Charlotte Thomas \ntype help for getting help for the commands\n");
     println!("{}", message.to_string());
 
     let interface = Interface::new("calc").unwrap();
     let style = Color::Cyan;
     let text = "> ";
-    let mut verbose = true;
+    let mut verbose = false;
 
     interface
         .set_prompt(&format!(
@@ -26,22 +30,22 @@ fn main() {
             suffix = style.suffix()
         ))
         .unwrap();
-
+    let mut ram: HashMap<String, Parameters> = HashMap::new();
     while let ReadResult::Input(line) = interface.read_line().unwrap() {
         match line.as_str().trim() {
             "info" => {
-                let message = Color::Purple.paint(" Calc v0.3.0 \n Author: Charlotte Thomas \n Written in Rust \n Repo: https://github.com/coco33920/calc\n");
+                let message = Color::Purple.paint(" Calc v1.0.0 \n Author: Charlotte Thomas \n Written in Rust \n Repo: https://github.com/coco33920/calc\n");
                 println!("{}", message)
             }
             "exit" => break,
             "help" => {
                 let message = Color::Purple.paint(
-                    " Calc v0.3.0 Help \n > info : show infos \n > exit : exit the program \n > help : print this help \n"
+                    " Calc v1.0.0 Help \n > info : show infos \n > exit : exit the program \n > help : print this help \n > verbose : toggle the verbose \n > version : prints the version \n"
                 );
                 println!("{}", message)
             }
             "version" => {
-                let message = Color::Purple.paint(" Calc v0.3.0\n");
+                let message = Color::Purple.paint(" Calc v1.0.0\n");
                 println!("{}", message)
             }
             "verbose" => {
@@ -59,6 +63,10 @@ fn main() {
                     println!("Parsing of line: {str}");
                     println!("{:#?}", p);
                     println!()
+                }
+                let result = interpret(p.clone(), &mut ram);
+                if result != Parameters::Null {
+                    result.pretty_print(Some(&ram))
                 }
             }
         }

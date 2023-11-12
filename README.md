@@ -58,4 +58,8 @@
 
 ![](assets/test_parsing_basic_operations.png)
 
+### REPL and functionning interpreter (verbose mode: off by default)
+
+![](assets/test_interpreter.png)
+
 ## Configuration

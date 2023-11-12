@@ -48,6 +48,7 @@ fn push_operator(ast: Ast, token: Token) -> Ast {
 }
 
 fn push_ast(ast: Ast, ast2: Ast) -> Ast {
+    println!("{:#?}\n{:#?}", ast, ast2);
     match ast.clone() {
         Nil => ast2,
         Node {
@@ -68,7 +69,6 @@ fn push_ast(ast: Ast, ast2: Ast) -> Ast {
 
 pub fn parse(lst: &Vec<Token>) -> Ast {
     fn aux(lst: &[Token], mut acc: Ast, _last_operation: &Token) -> (Ast, Vec<Token>) {
-        println!("{:?}", lst);
         match lst {
             [] => (acc, Vec::new()),
             [INT(i), q @ ..] => {
@@ -126,12 +126,12 @@ pub fn add_parenthesis(lst: &Vec<Token>) -> Vec<Token> {
                             && last_operation != OPE(PLUS)
                             && last_operation != OPE(MINUS)
                         {
+                            acc.push(Token::OPE(p.clone()));
                             if position_before_operation == 1 {
                                 acc.insert(0, LPAR)
                             } else {
-                                acc.insert(position_before_operation + 1, LPAR);
+                                acc.insert(position_before_operation, LPAR);
                             }
-                            acc.push(Token::OPE(p.clone()));
                             acc.push(LPAR);
                             par += 2;
                             add2 = true;
@@ -164,7 +164,6 @@ pub fn add_parenthesis(lst: &Vec<Token>) -> Vec<Token> {
                         }
                     }
                 }
-
                 position += 1;
                 aux(
                     q,

@@ -1,7 +1,16 @@
 [package]
-name = "calc"
+name = "mini-calc"
 version = "1.0.0"
+license = "GPL-3.0-or-later"
+description = "A minimalistic configurable calculator"
+homepage = "https://calc.nwa2coco.fr"
+repository = "https://github.com/coco33920/calc"
+readme = "README.md"
 edition = "2021"
+exclude = [
+    "assets/*"
+]
+
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

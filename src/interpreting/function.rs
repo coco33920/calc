@@ -44,19 +44,15 @@ pub fn add(i: Parameters, i2: Parameters, ram: Option<&HashMap<String, Parameter
             add,
         ),
         (Parameters::Identifier(s), Parameters::Int(i)) => {
-            println!("add1");
             apply_operator(Parameters::Identifier(s), Parameters::Int(i), ram, add)
         }
         (Parameters::Int(i), Parameters::Identifier(s)) => {
-            println!("add2");
             apply_operator(Parameters::Identifier(s), Parameters::Int(i), ram, add)
         }
         (Parameters::Identifier(s), Parameters::Float(i)) => {
-            println!("add3");
             apply_operator(Parameters::Identifier(s), Parameters::Float(i), ram, add)
         }
         (Parameters::Float(i), Parameters::Identifier(s)) => {
-            println!("add4");
             apply_operator(Parameters::Identifier(s), Parameters::Float(i), ram, add)
         }
         _ => Parameters::Null,

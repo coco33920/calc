@@ -20,7 +20,7 @@ fn main() {
     let interface = Interface::new("calc").unwrap();
     let style = Color::Cyan;
     let text = "> ";
-    let mut verbose = true;
+    let mut verbose = false;
 
     interface
         .set_prompt(&format!(
@@ -40,7 +40,7 @@ fn main() {
             "exit" => break,
             "help" => {
                 let message = Color::Purple.paint(
-                    " Calc v1.0.0 Help \n > info : show infos \n > exit : exit the program \n > help : print this help \n"
+                    " Calc v1.0.0 Help \n > info : show infos \n > exit : exit the program \n > help : print this help \n > verbose : toggle the verbose \n > version : prints the version \n"
                 );
                 println!("{}", message)
             }
@@ -66,7 +66,7 @@ fn main() {
                 }
                 let result = interpret(p.clone(), &mut ram);
                 if result != Parameters::Null {
-                    println!("{}", result);
+                    result.pretty_print(Some(&ram))
                 }
             }
         }

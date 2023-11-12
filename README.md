@@ -30,10 +30,10 @@
         - [X] colour message
         - [X] colourised prompt
     - [X] Add colour
-- [ ] Interpreter
+- [X] Interpreter
     - [X] Basic operation interpreter
     - [X] Advanced operation interpreter
-    - [ ] Identifiers (variable) interpreter
+    - [X] Identifiers (variable) interpreter
 - [ ] Config
     - [ ] Config colours
     - [ ] Config prompt

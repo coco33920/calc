@@ -1,5 +1,5 @@
 use crate::lexing::token::Token;
-use crate::lexing::token::Token::{LPAR, RPAR};
+use crate::lexing::token::Token::*;
 use crate::parsing::ast::Ast::{Nil, Node};
 use crate::parsing::ast::{token_to_parameter, Ast, Parameters};
 
@@ -69,37 +69,37 @@ pub fn parse(lst: &Vec<Token>) -> Ast {
     fn aux(lst: &[Token], mut acc: Ast, _last_operation: &Token) -> (Ast, Vec<Token>) {
         match lst {
             [] => (acc, Vec::new()),
-            [Token::INT(i), q @ ..] => {
+            [INT(i), q @ ..] => {
                 acc = push_value(acc, Token::INT(*i));
                 aux(q, acc, _last_operation)
             }
-            [Token::FLOAT(f), q @ ..] => {
+            [FLOAT(f), q @ ..] => {
                 acc = push_value(acc, Token::FLOAT(*f));
                 aux(q, acc, _last_operation)
             }
-            [Token::IDENTIFIER(s), q @ ..] => {
+            [IDENTIFIER(s), q @ ..] => {
                 acc = push_value(acc, Token::IDENTIFIER(s.to_string()));
                 aux(q, acc, _last_operation)
             }
-            [Token::OPE(p), q @ ..] => {
+            [OPE(p), q @ ..] => {
                 acc = push_operator(acc, Token::OPE(p.clone()));
                 aux(q, acc, &Token::OPE(p.clone()))
             }
-            [Token::EQUAL, q @ ..] => {
+            [EQUAL, q @ ..] => {
                 acc = push_operator(acc, Token::EQUAL);
                 aux(q, acc, _last_operation)
             }
-            [Token::LPAR, q @ ..] => {
-                let (ac, rest) = aux(q, Nil, &Token::Null);
+            [LPAR, q @ ..] => {
+                let (ac, rest) = aux(q, Nil, &Null);
                 acc = push_ast(acc, ac);
                 aux(rest.as_slice(), acc, _last_operation)
             }
-            [Token::RPAR, q @ ..] => (acc, q.to_vec()),
+            [RPAR, q @ ..] => (acc, q.to_vec()),
             [h, q @ ..] => aux(q, acc, h),
         }
     }
 
-    let (a, _) = aux(add_parenthesis(lst).as_slice(), Nil, &Token::Null);
+    let (a, _) = aux(add_parenthesis(lst).as_slice(), Nil, &Null);
     a
 }
 
@@ -118,10 +118,14 @@ pub fn add_parenthesis(lst: &Vec<Token>) -> Vec<Token> {
             [] => (acc, par),
             [h, q @ ..] => {
                 match h {
-                    Token::OPE(p) => {
-                        let precedence = last_operation.priority(&Token::OPE(p.clone()));
-                        if last_operation == Token::OPE(p.clone()) {
-                            acc.insert(position_before_operation, LPAR);
+                    OPE(p) => {
+                        let precedence = last_operation.priority(&OPE(p.clone()));
+                        if last_operation == OPE(p.clone()) {
+                            if position_before_operation == 1 {
+                                acc.insert(0, LPAR)
+                            } else {
+                                acc.insert(position_before_operation, LPAR);
+                            }
                             acc.push(Token::OPE(p.clone()));
                             acc.push(LPAR);
                             par += 2;

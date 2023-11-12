@@ -18,12 +18,12 @@
     - [X] minus operation
     - [X] multiplication operation
     - [X] division operation
-- [ ] Parsing advanced operations
+- [X] Parsing advanced operations
     - [X] Parsing lpar,rpar
     - [X] mathematical priority
     - [X] parenthesis support
     - [X] Assignment
-    - [ ] associativity support
+    - [X] associativity support
 - [X] Application REPL
     - [X] Add the REPL
         - [X] basic REPL
@@ -31,8 +31,8 @@
         - [X] colourised prompt
     - [X] Add colour
 - [ ] Interpreter
-    - [ ] Basic operation interpreter
-    - [ ] Advanced operation interpreter
+    - [X] Basic operation interpreter
+    - [X] Advanced operation interpreter
     - [ ] Identifiers (variable) interpreter
 - [ ] Config
     - [ ] Config colours

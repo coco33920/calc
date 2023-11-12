@@ -1,6 +1,7 @@
 use crate::lexing::token::{Operator, Token};
 use crate::parsing::ast::Ast::{Nil, Node};
 use crate::parsing::ast::Parameters::*;
+use std::fmt::{Display, Formatter};
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Parameters {
@@ -23,6 +24,22 @@ pub enum Ast {
         left: Box<Ast>,
         right: Box<Ast>,
     },
+}
+
+impl Display for Parameters {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Int(i) => write!(f, "{}", i),
+            Float(fl) => write!(f, "{}", fl),
+            Identifier(s) => write!(f, "{}", s),
+            PlusOperation => write!(f, "+"),
+            MinusOperation => write!(f, "-"),
+            MultiplicationOperation => write!(f, "*"),
+            DivideOperation => write!(f, "/"),
+            Assign => write!(f, "="),
+            Null => write!(f, ""),
+        }
+    }
 }
 
 impl Ast {

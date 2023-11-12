@@ -1,9 +1,12 @@
+use std::collections::HashMap;
 use std::process::exit;
 
 use ansi_term::Color;
 use linefeed::{Interface, ReadResult};
 
+use crate::interpreting::interpreter::interpret;
 use crate::lexing::lexer::lex;
+use crate::parsing::ast::Parameters;
 use crate::parsing::parser::parse;
 
 mod interpreting;
@@ -61,6 +64,9 @@ fn main() {
                     println!("{:#?}", p);
                     println!()
                 }
+                let ram: HashMap<String, Parameters> = HashMap::new();
+                let result = interpret(p.clone(), &ram);
+                println!("{}", result);
             }
         }
         interface.add_history_unique(line);

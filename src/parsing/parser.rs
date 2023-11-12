@@ -1,3 +1,4 @@
+use crate::lexing::token::Operator::{MINUS, PLUS};
 use crate::lexing::token::Token;
 use crate::lexing::token::Token::*;
 use crate::parsing::ast::Ast::{Nil, Node};
@@ -67,6 +68,7 @@ fn push_ast(ast: Ast, ast2: Ast) -> Ast {
 
 pub fn parse(lst: &Vec<Token>) -> Ast {
     fn aux(lst: &[Token], mut acc: Ast, _last_operation: &Token) -> (Ast, Vec<Token>) {
+        println!("{:?}", lst);
         match lst {
             [] => (acc, Vec::new()),
             [INT(i), q @ ..] => {
@@ -99,7 +101,7 @@ pub fn parse(lst: &Vec<Token>) -> Ast {
         }
     }
 
-    let (a, _) = aux(add_parenthesis(lst).as_slice(), Nil, &Null);
+    let (a, _) = aux(lst.as_slice(), Nil, &Null);
     a
 }
 
@@ -120,11 +122,14 @@ pub fn add_parenthesis(lst: &Vec<Token>) -> Vec<Token> {
                 match h {
                     OPE(p) => {
                         let precedence = last_operation.priority(&OPE(p.clone()));
-                        if last_operation == OPE(p.clone()) {
+                        if last_operation == OPE(p.clone())
+                            && last_operation != OPE(PLUS)
+                            && last_operation != OPE(MINUS)
+                        {
                             if position_before_operation == 1 {
                                 acc.insert(0, LPAR)
                             } else {
-                                acc.insert(position_before_operation, LPAR);
+                                acc.insert(position_before_operation + 1, LPAR);
                             }
                             acc.push(Token::OPE(p.clone()));
                             acc.push(LPAR);

@@ -53,6 +53,9 @@ impl Token {
             (Token::OPE(Operator::PLUS), Token::OPE(Operator::DIVIDE)) => true,
             (Token::OPE(Operator::MINUS), Token::OPE(Operator::MULTIPLICATION)) => true,
             (Token::OPE(Operator::MINUS), Token::OPE(Operator::DIVIDE)) => true,
+            (Token::OPE(Operator::MULTIPLICATION), Token::OPE(Operator::MULTIPLICATION)) => true,
+            (Token::OPE(Operator::MULTIPLICATION), Token::OPE(Operator::DIVIDE)) => true,
+            (Token::OPE(Operator::DIVIDE), Token::OPE(Operator::DIVIDE)) => true,
             _ => false,
         }
     }

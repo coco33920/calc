@@ -1,4 +1,3 @@
-use crate::lexing::token::Operator::{MINUS, PLUS};
 use crate::lexing::token::Token;
 use crate::lexing::token::Token::*;
 use crate::parsing::ast::Ast::{Nil, Node};
@@ -48,27 +47,39 @@ fn push_operator(ast: Ast, token: Token) -> Ast {
 }
 
 fn push_ast(ast: Ast, ast2: Ast) -> Ast {
-    println!("{:#?}\n{:#?}", ast, ast2);
     match ast.clone() {
         Nil => ast2,
         Node {
             value: v,
             left: l,
             right: r,
-        } => Node {
-            value: v,
-            left: Box::from(Node {
-                value: l.clone().value(),
-                left: Box::from(l.left()),
-                right: r,
-            }),
-            right: Box::from(ast2),
+        } => match *l {
+            Nil => ast.clone().insert_left(ast2),
+            Node {
+                value: v1,
+                left: l1,
+                right: r1,
+            } => match *r {
+                Nil => ast.clone().insert_right(ast2),
+                Node {
+                    value: v2,
+                    left: l2,
+                    right: r2,
+                } => push_ast(
+                    Ast::new(v)
+                        .insert_left(Ast::new(v1).insert_left(*l1).insert_right(*r1))
+                        .insert_right(Ast::new(v2).insert_left(*l2).insert_right(*r2)),
+                    ast2,
+                ),
+            },
         },
     }
 }
 
 pub fn parse(lst: &Vec<Token>) -> Ast {
     fn aux(lst: &[Token], mut acc: Ast, _last_operation: &Token) -> (Ast, Vec<Token>) {
+        println!("{:?}", lst);
+        //println!("Acc : {:#?}", acc);
         match lst {
             [] => (acc, Vec::new()),
             [INT(i), q @ ..] => {
@@ -103,96 +114,6 @@ pub fn parse(lst: &Vec<Token>) -> Ast {
 
     let (a, _) = aux(lst.as_slice(), Nil, &Null);
     a
-}
-
-pub fn add_parenthesis(lst: &Vec<Token>) -> Vec<Token> {
-    fn aux(
-        lst: &[Token],
-        mut acc: Vec<Token>,
-        mut last_operation: Token,
-        mut position_before_operation: usize,
-        mut position: usize,
-        mut add: bool,
-        mut add2: bool,
-        mut par: i32,
-    ) -> (Vec<Token>, i32) {
-        match lst {
-            [] => (acc, par),
-            [h, q @ ..] => {
-                match h {
-                    OPE(p) => {
-                        let precedence = last_operation.priority(&OPE(p.clone()));
-                        if last_operation == OPE(p.clone())
-                            && last_operation != OPE(PLUS)
-                            && last_operation != OPE(MINUS)
-                        {
-                            acc.push(Token::OPE(p.clone()));
-                            if position_before_operation == 1 {
-                                acc.insert(0, LPAR)
-                            } else {
-                                acc.insert(position_before_operation, LPAR);
-                            }
-                            acc.push(LPAR);
-                            par += 2;
-                            add2 = true;
-                        } else {
-                            if !precedence {
-                                acc.push(Token::OPE(p.clone()));
-                                last_operation = Token::OPE(p.clone());
-                                position_before_operation = position;
-                            } else {
-                                acc.insert(position_before_operation + 1, LPAR);
-                                acc.push(Token::OPE(p.clone()));
-                                last_operation = Token::OPE(p.clone());
-                                par += 1;
-                                position_before_operation = position;
-                                add = true;
-                            }
-                        }
-                    }
-                    q => {
-                        acc.push(q.clone());
-                        if add {
-                            acc.push(Token::RPAR);
-                            add = false;
-                            par -= 1;
-                        }
-                        if add2 {
-                            acc.push(Token::RPAR);
-                            add2 = false;
-                            par -= 1;
-                        }
-                    }
-                }
-                position += 1;
-                aux(
-                    q,
-                    acc,
-                    last_operation.clone(),
-                    position_before_operation,
-                    position,
-                    add,
-                    add2,
-                    par,
-                )
-            }
-        }
-    }
-    let (a, b) = aux(
-        lst.as_slice(),
-        Vec::new(),
-        Token::Null,
-        0,
-        0,
-        false,
-        false,
-        0,
-    );
-    let mut vec = a.clone();
-    for _ in 0..b {
-        vec.push(RPAR);
-    }
-    vec
 }
 
 #[cfg(test)]

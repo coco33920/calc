@@ -98,30 +98,6 @@ impl Ast {
             },
         }
     }
-    pub fn value(self) -> Parameters {
-        match &self {
-            Nil => Null,
-            Node {
-                value,
-                left: _left,
-                right: _right,
-            } => {
-                return value.clone();
-            }
-        }
-    }
-    pub fn left(self) -> Ast {
-        match &self {
-            Nil => Nil,
-            Node {
-                value: _value,
-                left: l,
-                right: _right,
-            } => {
-                return *(*(l)).clone();
-            }
-        }
-    }
 }
 
 pub fn token_to_parameter(token: Token) -> Parameters {

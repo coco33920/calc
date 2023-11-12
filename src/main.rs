@@ -30,7 +30,7 @@ fn main() {
             suffix = style.suffix()
         ))
         .unwrap();
-
+    let mut ram: HashMap<String, Parameters> = HashMap::new();
     while let ReadResult::Input(line) = interface.read_line().unwrap() {
         match line.as_str().trim() {
             "info" => {
@@ -64,9 +64,10 @@ fn main() {
                     println!("{:#?}", p);
                     println!()
                 }
-                let ram: HashMap<String, Parameters> = HashMap::new();
-                let result = interpret(p.clone(), &ram);
-                println!("{}", result);
+                let result = interpret(p.clone(), &mut ram);
+                if result != Parameters::Null {
+                    println!("{}", result);
+                }
             }
         }
         interface.add_history_unique(line);

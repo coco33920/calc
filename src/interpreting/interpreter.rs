@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use crate::interpreting::function::{add, assign, divide, minus, mult};
 use crate::parsing::ast::{Ast, Parameters};
 
-pub fn interpret(ast: Ast, ram: &HashMap<String, Parameters>) -> Parameters {
+pub fn interpret(ast: Ast, mut ram: &mut HashMap<String, Parameters>) -> Parameters {
     match ast {
         Ast::Nil => Parameters::Null,
         Ast::Node {
@@ -11,15 +11,18 @@ pub fn interpret(ast: Ast, ram: &HashMap<String, Parameters>) -> Parameters {
             left: l,
             right: r,
         } => {
-            let param1 = interpret(*l, ram);
-            let param2 = interpret(*r, ram);
+            let param1 = interpret(*l, &mut ram);
+            let param2 = interpret(*r, &mut ram);
             match v {
-                Parameters::PlusOperation => add(param1, param2),
-                Parameters::MinusOperation => minus(param1, param2),
-                Parameters::MultiplicationOperation => mult(param1, param2),
-                Parameters::DivideOperation => divide(param1, param2),
+                Parameters::PlusOperation => add(param1, param2, Some(&ram)),
+                Parameters::MinusOperation => minus(param1, param2, Some(&ram)),
+                Parameters::MultiplicationOperation => mult(param1, param2, Some(&ram)),
+                Parameters::DivideOperation => divide(param1, param2, Some(&ram)),
                 Parameters::Assign => {
-                    assign(ram, param1, param2);
+                    let (a, b) = assign(param1, param2);
+                    if a != "".to_string() {
+                        (ram).insert(a, b);
+                    }
                     Parameters::Null
                 }
                 Parameters::Float(f) => Parameters::Float(f),

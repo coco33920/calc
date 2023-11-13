@@ -4,7 +4,8 @@ use crate::lexing::token::Token::*;
 use crate::lexing::token::{Token, TokenType};
 use crate::parsing::ast::Ast;
 use crate::parsing::parselets::infix_parselet::{
-    DivideParselet, InfixParselet, MinusParselet, MultParselet, NullParset, PlusParselet,
+    AssignParselet, DivideParselet, InfixParselet, MinusParselet, MultParselet, NullParset,
+    PlusParselet,
 };
 use crate::parsing::parselets::prefix_parselet::{
     FloatParselet, IdentifierParselet, IntParselet, NullParselet, OperatorPrefixParselet,
@@ -33,7 +34,18 @@ impl CalcParser<'_> {
         let prefix = self
             .clone()
             .get_prefix_parselet(token.clone().to_token_type());
-        let left = prefix.unwrap().parse(self, token.clone());
+
+        let mut left = prefix.unwrap().parse(self, token.clone());
+
+        while precedence < self.get_precedence() {
+            token = self.consume();
+            let parser = self
+                .clone()
+                .get_infix_parselet(token.clone().to_token_type())
+                .unwrap();
+            left = parser.parse(self, &left, token);
+        }
+
         token = self.look_ahead(0);
         let pars: Option<Box<dyn InfixParselet>> =
             self.clone().get_infix_parselet(token.to_token_type());
@@ -101,6 +113,7 @@ impl CalcParser<'_> {
             TokenType::MINUS => Some(Box::from(MinusParselet {})),
             TokenType::MULTIPLICATION => Some(Box::from(MultParselet {})),
             TokenType::DIVIDE => Some(Box::from(DivideParselet {})),
+            TokenType::EQUAL => Some(Box::from(AssignParselet {})),
             _ => Some(Box::from(NullParset {})),
         }
     }

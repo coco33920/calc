@@ -35,6 +35,17 @@ pub enum TokenType {
     Null,
 }
 
+pub enum Precedence {
+    ASSIGNMENT = 1,
+    CONDITIONAL = 2,
+    SUM = 3,
+    PRODUCT = 4,
+    EXPONENT = 5,
+    PREFIX = 6,
+    POSTFIX = 7,
+    CALL = 8,
+}
+
 impl Display for Operator {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
@@ -61,25 +72,7 @@ impl Display for Token {
     }
 }
 
-impl Operator {
-    fn priority(&self) -> i64 {
-        match &self {
-            Operator::PLUS => 3,
-            Operator::MINUS => 4,
-            Operator::MULTIPLICATION => 5,
-            Operator::DIVIDE => 6,
-        }
-    }
-}
-
 impl Token {
-    pub fn priority(&self) -> i64 {
-        match &self {
-            Token::OPE(p) => p.priority(),
-            Token::EQUAL => 1,
-            _ => 0,
-        }
-    }
     pub fn get_text(&self) -> String {
         match &self {
             Token::IDENTIFIER(s) => s.clone(),

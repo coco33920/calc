@@ -1,7 +1,7 @@
 use crate::lexing::token::Token;
 use crate::lexing::token::Token::*;
-use crate::parsing::ast::Ast::{Nil};
-use crate::parsing::ast::{Ast};
+use crate::parsing::ast::Ast;
+use crate::parsing::ast::Ast::Nil;
 
 pub fn parse(lst: &Vec<Token>) -> Ast {
     Nil
@@ -37,6 +37,21 @@ mod test {
     }
 
     #[test]
+    pub fn test_parse_plus_operation_hard() {
+        let expected = Ast::Node {
+            value: Parameters::PlusOperation,
+            left: Box::from(Ast::Node {
+                value: Parameters::PlusOperation,
+                left: Box::from(Ast::new(Parameters::Int(1))),
+                right: Box::from(Ast::new(Parameters::Int(1))),
+            }),
+            right: Box::from(Ast::new(Parameters::Int(1))),
+        };
+        let result = parse(&lex("1+1+1".to_string()));
+        assert_eq!(result, expected)
+    }
+
+    #[test]
     pub fn test_parse_minus_operation() {
         let expected = Ast::Node {
             value: Parameters::MinusOperation,
@@ -56,6 +71,20 @@ mod test {
         };
         let result = parse(&lex("2*2".to_string()));
         assert_eq!(result, expected)
+    }
+
+    #[test]
+    pub fn test_parse_hard_mult_operation() {
+        let expected = Ast::Node {
+            value: Parameters::MultiplicationOperation,
+            left: Box::from(Ast::Node {
+                value: Parameters::MultiplicationOperation,
+                left: Box::from(Ast::new(Parameters::Int(2))),
+                right: Box::from(Ast::new(Parameters::Int(2))),
+            }),
+            right: Box::from(Ast::new(Parameters::Int(2))),
+        };
+        let result = parse(&lex("2*2*2".to_string()));
     }
 
     #[test]
@@ -130,21 +159,21 @@ mod test {
     }
 
     #[test]
-    pub fn without_parenthesis_hard() {
+    pub fn hard_without_parenthesis() {
         let expected = Ast::Node {
             value: Parameters::PlusOperation,
             left: Box::from(Ast::new(Parameters::Int(1))),
             right: Box::from(Ast::Node {
-                value: Parameters::DivideOperation,
+                value: Parameters::MultiplicationOperation,
                 left: Box::from(Ast::Node {
-                    value: Parameters::MultiplicationOperation,
+                    value: Parameters::DivideOperation,
                     left: Box::from(Ast::new(Parameters::Int(1))),
                     right: Box::from(Ast::new(Parameters::Int(1))),
                 }),
                 right: Box::from(Ast::new(Parameters::Int(1))),
             }),
         };
-        let result = parse(&lex("1+1*(1/1)".to_string()));
+        let result = parse(&lex("1+1*1/1".to_string()));
         assert_eq!(result, expected)
     }
 }

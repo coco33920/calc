@@ -8,8 +8,8 @@ use crate::parsing::parselets::infix_parselet::{
     PlusParselet,
 };
 use crate::parsing::parselets::prefix_parselet::{
-    FloatParselet, IdentifierParselet, IntParselet, NullParselet, OperatorPrefixParselet,
-    PrefixParselet,
+    FloatParselet, GroupParselet, IdentifierParselet, IntParselet, NullParselet,
+    OperatorPrefixParselet, PrefixParselet,
 };
 
 #[derive(Clone)]
@@ -78,23 +78,19 @@ impl CalcParser<'_> {
 
     pub fn consume_expected(&mut self, expected: TokenType) -> Token {
         self.look_ahead(0);
+        if self.read.len() == 0 {
+            return Null;
+        }
         match self.read.remove(0) {
             t => {
                 if t.to_token_type() == expected {
                     t
                 } else {
+                    println!("error!");
                     Null
                 }
             }
         }
-    }
-
-    fn match_token(&mut self, expected: TokenType) -> bool {
-        let token = self.look_ahead(0);
-        if token.to_token_type() != expected {
-            return false;
-        }
-        return true;
     }
 
     fn get_precedence(&mut self) -> i64 {
@@ -109,10 +105,10 @@ impl CalcParser<'_> {
 
     pub fn get_infix_parselet(self, token_type: TokenType) -> Option<Box<dyn InfixParselet>> {
         match token_type {
-            TokenType::PLUS => Some(Box::from(PlusParselet {})),
-            TokenType::MINUS => Some(Box::from(MinusParselet {})),
-            TokenType::MULTIPLICATION => Some(Box::from(MultParselet {})),
-            TokenType::DIVIDE => Some(Box::from(DivideParselet {})),
+            TokenType::PLUS => Some(Box::from(PlusParselet { is_right: false })),
+            TokenType::MINUS => Some(Box::from(MinusParselet { is_right: false })),
+            TokenType::MULTIPLICATION => Some(Box::from(MultParselet { is_right: false })),
+            TokenType::DIVIDE => Some(Box::from(DivideParselet { is_right: false })),
             TokenType::EQUAL => Some(Box::from(AssignParselet {})),
             _ => Some(Box::from(NullParset {})),
         }
@@ -127,6 +123,7 @@ impl CalcParser<'_> {
             TokenType::IDENTIFIER => Some(Box::from(IdentifierParselet {})),
             TokenType::INT => Some(Box::from(IntParselet {})),
             TokenType::FLOAT => Some(Box::from(FloatParselet {})),
+            TokenType::LPAR => Some(Box::from(GroupParselet {})),
             _ => Some(Box::from(NullParselet {})),
         }
     }
@@ -176,16 +173,16 @@ mod test {
 
     #[test]
     pub fn test_parse_plus_operation_hard() {
-        let b = lex("1+1+&".to_string());
+        let b = lex("1+1+1".to_string());
         let mut parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
             value: Parameters::PlusOperation,
-            left: Box::from(Ast::Node {
+            left: Box::from(Ast::new(Parameters::Int(1))),
+            right: Box::from(Ast::Node {
                 value: Parameters::PlusOperation,
                 left: Box::from(Ast::new(Parameters::Int(1))),
                 right: Box::from(Ast::new(Parameters::Int(1))),
             }),
-            right: Box::from(Ast::new(Parameters::Int(1))),
         };
         let result = parser.parse();
         assert_eq!(result, expected)
@@ -284,13 +281,13 @@ mod test {
             value: Parameters::PlusOperation,
             left: Box::from(Ast::new(Parameters::Int(1))),
             right: Box::from(Ast::Node {
-                value: Parameters::DivideOperation,
-                left: Box::from(Ast::Node {
-                    value: Parameters::MultiplicationOperation,
+                value: Parameters::MultiplicationOperation,
+                left: Box::from(Ast::new(Parameters::Int(1))),
+                right: Box::from(Ast::Node {
+                    value: Parameters::DivideOperation,
                     left: Box::from(Ast::new(Parameters::Int(1))),
                     right: Box::from(Ast::new(Parameters::Int(1))),
                 }),
-                right: Box::from(Ast::new(Parameters::Int(1))),
             }),
         };
         let result = parser.parse();
@@ -323,12 +320,12 @@ mod test {
             left: Box::from(Ast::new(Parameters::Int(1))),
             right: Box::from(Ast::Node {
                 value: Parameters::MultiplicationOperation,
-                left: Box::from(Ast::Node {
+                left: Box::from(Ast::new(Parameters::Int(1))),
+                right: Box::from(Ast::Node {
                     value: Parameters::DivideOperation,
                     left: Box::from(Ast::new(Parameters::Int(1))),
                     right: Box::from(Ast::new(Parameters::Int(1))),
                 }),
-                right: Box::from(Ast::new(Parameters::Int(1))),
             }),
         };
         let result = parser.parse();

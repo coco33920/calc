@@ -37,13 +37,15 @@ pub enum TokenType {
 
 pub enum Precedence {
     ASSIGNMENT = 1,
-    CONDITIONAL = 2,
-    SUM = 3,
-    PRODUCT = 4,
-    EXPONENT = 5,
-    PREFIX = 6,
-    POSTFIX = 7,
-    CALL = 8,
+    //CONDITIONAL = 2,
+    SUM = 4,
+    MINUS = 3,
+    PRODUCT = 6,
+    DIVIDE = 5,
+    //EXPONENT = 7,
+    //PREFIX = 8,
+    //POSTFIX = 9,
+    //CALL = 10,
 }
 
 impl Display for Operator {

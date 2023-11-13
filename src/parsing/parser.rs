@@ -59,12 +59,15 @@ impl CalcParser<'_> {
             }
         }
         match self.read.get(distance) {
-            None => Token::Null,
+            None => Null,
             Some(t) => t.clone(),
         }
     }
     pub fn consume(&mut self) -> Token {
         self.look_ahead(0);
+        if self.read.len() == 0 {
+            return Null;
+        }
         self.read.remove(0)
     }
 
@@ -138,7 +141,7 @@ mod test {
     #[test]
     pub fn test_parse_nil() {
         let b = lex("".to_string());
-        let mut parser: &CalcParser = &init_calc_parser(&b);
+        let mut parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Nil;
         let result = parser.parse();
         assert_eq!(result, expected);
@@ -147,7 +150,7 @@ mod test {
     #[test]
     pub fn test_parse_one_token() {
         let b = lex("2".to_string());
-        let mut parser: &CalcParser = &init_calc_parser(&b);
+        let mut parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
             value: Parameters::Int(2),
             left: Box::new(Ast::Nil),
@@ -161,7 +164,7 @@ mod test {
     #[test]
     pub fn test_parse_plus_operation() {
         let b = lex("2+2".to_string());
-        let mut parser: &CalcParser = &init_calc_parser(&b);
+        let mut parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
             value: Parameters::PlusOperation,
             left: Box::new(Ast::new(Parameters::Int(2))),
@@ -174,7 +177,7 @@ mod test {
     #[test]
     pub fn test_parse_plus_operation_hard() {
         let b = lex("1+1+&".to_string());
-        let mut parser: &CalcParser = &init_calc_parser(&b);
+        let mut parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
             value: Parameters::PlusOperation,
             left: Box::from(Ast::Node {
@@ -191,7 +194,7 @@ mod test {
     #[test]
     pub fn test_parse_minus_operation() {
         let b = lex("2-2".to_string());
-        let mut parser: &CalcParser = &init_calc_parser(&b);
+        let mut parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
             value: Parameters::MinusOperation,
             left: Box::new(Ast::new(Parameters::Int(2))),
@@ -204,7 +207,7 @@ mod test {
     #[test]
     pub fn test_parse_mult_operation() {
         let b = lex("2*2".to_string());
-        let mut parser: &CalcParser = &init_calc_parser(&b);
+        let mut parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
             value: Parameters::MultiplicationOperation,
             left: Box::new(Ast::new(Parameters::Int(2))),
@@ -217,7 +220,7 @@ mod test {
     #[test]
     pub fn test_parse_hard_mult_operation() {
         let b = lex("2*2*2".to_string());
-        let mut parser: &CalcParser = &init_calc_parser(&b);
+        let mut parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
             value: Parameters::MultiplicationOperation,
             left: Box::from(Ast::Node {
@@ -233,7 +236,7 @@ mod test {
     #[test]
     pub fn test_parse_divide_operation() {
         let b = lex("2/2".to_string());
-        let mut parser: &CalcParser = &init_calc_parser(&b);
+        let mut parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
             value: Parameters::DivideOperation,
             left: Box::new(Ast::new(Parameters::Int(2))),
@@ -246,7 +249,7 @@ mod test {
     #[test]
     pub fn test_assignment() {
         let b = lex("i=1".to_string());
-        let mut parser: &CalcParser = &init_calc_parser(&b);
+        let mut parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
             value: Parameters::Assign,
             left: Box::new(Ast::new(Parameters::Identifier("i".to_string()))),
@@ -259,7 +262,7 @@ mod test {
     #[test]
     pub fn simple_parenthesis() {
         let b = lex("1+(1*1)".to_string());
-        let mut parser: &CalcParser = &init_calc_parser(&b);
+        let mut parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
             value: Parameters::PlusOperation,
             left: Box::from(Ast::new(Parameters::Int(1))),
@@ -276,7 +279,7 @@ mod test {
     #[test]
     pub fn hard_parenthesis() {
         let b = lex("1+(1*(1/1))".to_string());
-        let mut parser: &CalcParser = &init_calc_parser(&b);
+        let mut parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
             value: Parameters::PlusOperation,
             left: Box::from(Ast::new(Parameters::Int(1))),
@@ -297,7 +300,7 @@ mod test {
     #[test]
     pub fn without_parenthesis() {
         let b = lex("1+1*1".to_string());
-        let mut parser: &CalcParser = &init_calc_parser(&b);
+        let mut parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
             value: Parameters::PlusOperation,
             left: Box::from(Ast::new(Parameters::Int(1))),
@@ -314,7 +317,7 @@ mod test {
     #[test]
     pub fn hard_without_parenthesis() {
         let b = lex("1+1*1/1".to_string());
-        let mut parser: &CalcParser = &init_calc_parser(&b);
+        let mut parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
             value: Parameters::PlusOperation,
             left: Box::from(Ast::new(Parameters::Int(1))),

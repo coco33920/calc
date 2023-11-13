@@ -4,10 +4,11 @@ use crate::lexing::token::Token::*;
 use crate::lexing::token::{Token, TokenType};
 use crate::parsing::ast::Ast;
 use crate::parsing::parselets::infix_parselet::{
-    DivideParselet, InfixParselet, MinusParselet, MultParselet, PlusParselet,
+    DivideParselet, InfixParselet, MinusParselet, MultParselet, NullParset, PlusParselet,
 };
 use crate::parsing::parselets::prefix_parselet::{
-    FloatParselet, IdentifierParselet, IntParselet, OperatorPrefixParselet, PrefixParselet,
+    FloatParselet, IdentifierParselet, IntParselet, NullParselet, OperatorPrefixParselet,
+    PrefixParselet,
 };
 
 #[derive(Clone)]
@@ -28,22 +29,16 @@ impl CalcParser<'_> {
         self.parse_expression_empty()
     }
     pub fn parse_expression(&mut self, precedence: i64) -> Ast {
-        let token = self.consume();
+        let mut token = self.consume();
         let prefix = self
             .clone()
             .get_prefix_parselet(token.clone().to_token_type());
-        let mut left = match prefix {
-            None => Ast::Nil,
-            Some(t) => (*t).parse(self, token.clone()),
-        };
-        while precedence < self.get_precedence() {
-            let t = self.consume();
-            let infix = match self.clone().get_infix_parselet(t.clone().to_token_type()) {
-                None => (),
-                Some(t) => left = (*t).parse(self, &left, token.clone()),
-            };
-        }
-        left
+        let left = prefix.unwrap().parse(self, token.clone());
+        token = self.look_ahead(0);
+        let pars: Option<Box<dyn InfixParselet>> =
+            self.clone().get_infix_parselet(token.to_token_type());
+        self.consume();
+        pars.unwrap().parse(self, &left, token)
     }
 
     pub fn parse_expression_empty(&mut self) -> Ast {
@@ -106,7 +101,7 @@ impl CalcParser<'_> {
             TokenType::MINUS => Some(Box::from(MinusParselet {})),
             TokenType::MULTIPLICATION => Some(Box::from(MultParselet {})),
             TokenType::DIVIDE => Some(Box::from(DivideParselet {})),
-            _ => None,
+            _ => Some(Box::from(NullParset {})),
         }
     }
 
@@ -119,7 +114,7 @@ impl CalcParser<'_> {
             TokenType::IDENTIFIER => Some(Box::from(IdentifierParselet {})),
             TokenType::INT => Some(Box::from(IntParselet {})),
             TokenType::FLOAT => Some(Box::from(FloatParselet {})),
-            _ => None,
+            _ => Some(Box::from(NullParselet {})),
         }
     }
 }

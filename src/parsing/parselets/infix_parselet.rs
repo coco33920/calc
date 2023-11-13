@@ -19,7 +19,7 @@ pub struct NullParset {}
 
 impl InfixParselet for PlusParselet {
     fn parse(&self, parser: &CalcParser, left: &Ast, token: Token) -> Ast {
-        Ast::Nil
+        left.clone()
     }
 
     fn get_precedence(&self) -> i64 {
@@ -29,7 +29,7 @@ impl InfixParselet for PlusParselet {
 
 impl InfixParselet for MinusParselet {
     fn parse(&self, parser: &CalcParser, left: &Ast, token: Token) -> Ast {
-        Ast::Nil
+        left.clone()
     }
 
     fn get_precedence(&self) -> i64 {
@@ -39,7 +39,7 @@ impl InfixParselet for MinusParselet {
 
 impl InfixParselet for MultParselet {
     fn parse(&self, parser: &CalcParser, left: &Ast, token: Token) -> Ast {
-        Ast::Nil
+        left.clone()
     }
 
     fn get_precedence(&self) -> i64 {
@@ -49,7 +49,7 @@ impl InfixParselet for MultParselet {
 
 impl InfixParselet for DivideParselet {
     fn parse(&self, parser: &CalcParser, left: &Ast, token: Token) -> Ast {
-        Ast::Nil
+        left.clone()
     }
 
     fn get_precedence(&self) -> i64 {
@@ -59,7 +59,7 @@ impl InfixParselet for DivideParselet {
 
 impl InfixParselet for NullParset {
     fn parse(&self, parser: &CalcParser, left: &Ast, token: Token) -> Ast {
-        Ast::Nil
+        left.clone()
     }
 
     fn get_precedence(&self) -> i64 {

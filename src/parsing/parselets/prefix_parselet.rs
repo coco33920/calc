@@ -20,6 +20,9 @@ pub struct IntParselet {}
 #[derive(Clone)]
 pub struct FloatParselet {}
 
+#[derive(Clone)]
+pub struct NullParselet {}
+
 impl PrefixParselet for IdentifierParselet {
     fn parse(&self, _parser: &mut CalcParser, token: Token) -> Ast {
         Ast::Node {
@@ -58,5 +61,11 @@ impl PrefixParselet for OperatorPrefixParselet {
             left: Box::from(operand),
             right: Box::from(Ast::Nil),
         }
+    }
+}
+
+impl PrefixParselet for NullParselet {
+    fn parse(&self, _parser: &mut CalcParser, token: Token) -> Ast {
+        Ast::Nil
     }
 }

@@ -10,10 +10,6 @@ use crate::parsing::parselets::prefix_parselet::{
     FloatParselet, IdentifierParselet, IntParselet, OperatorPrefixParselet, PrefixParselet,
 };
 
-pub trait Parsing {
-    fn parse(&mut self) -> Ast;
-}
-
 #[derive(Clone)]
 pub struct CalcParser<'a> {
     tokens: Iter<'a, Token>,
@@ -28,14 +24,17 @@ pub fn init_calc_parser(input: &Vec<Token>) -> CalcParser {
 }
 
 impl CalcParser<'_> {
-    fn parse_expression(&mut self, precedence: i64) -> Ast {
+    pub fn parse(&mut self) -> Ast {
+        self.parse_expression_empty()
+    }
+    pub fn parse_expression(&mut self, precedence: i64) -> Ast {
         let token = self.consume();
         let prefix = self
             .clone()
             .get_prefix_parselet(token.clone().to_token_type());
         let mut left = match prefix {
             None => Ast::Nil,
-            Some(t) => (*t).parse(&self.clone(), token.clone()),
+            Some(t) => (*t).parse(self, token.clone()),
         };
         while precedence < self.get_precedence() {
             let t = self.consume();
@@ -47,10 +46,9 @@ impl CalcParser<'_> {
         left
     }
 
-    fn parse_expression_empty(&mut self) -> Ast {
+    pub fn parse_expression_empty(&mut self) -> Ast {
         self.parse_expression(0)
     }
-
     fn look_ahead(&mut self, distance: usize) -> Token {
         while distance >= self.read.len() {
             match self.tokens.next() {
@@ -126,17 +124,11 @@ impl CalcParser<'_> {
     }
 }
 
-impl Parsing for CalcParser<'_> {
-    fn parse(&mut self) -> Ast {
-        self.parse_expression_empty()
-    }
-}
-
 #[cfg(test)]
 mod test {
     use crate::lexing::lexer::lex;
     use crate::parsing::ast::{Ast, Parameters};
-    use crate::parsing::parser::{init_calc_parser, CalcParser, Parsing};
+    use crate::parsing::parser::{init_calc_parser, CalcParser};
 
     #[test]
     pub fn test_parse_nil() {

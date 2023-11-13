@@ -8,6 +8,7 @@
 ## Install
 
 You can install the latest version from source
+
 ```bash 
 git clone https://github.com/coco33920/calc
 cd calc 
@@ -16,10 +17,10 @@ cargo build --release
 ```
 
 or install it via cargo
+
 ```bash 
 cargo install mini-calc
 ```
-
 
 ## TODO List
 

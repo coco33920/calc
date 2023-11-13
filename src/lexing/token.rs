@@ -19,7 +19,7 @@ pub enum Token {
     Null,
 }
 
-#[derive(Debug,Clone,PartialEq)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum TokenType {
     OPE,
     IDENTIFIER,
@@ -28,7 +28,7 @@ pub enum TokenType {
     EQUAL,
     RPAR,
     LPAR,
-    Null
+    Null,
 }
 
 impl Display for Operator {
@@ -73,13 +73,13 @@ impl Token {
         match &self {
             Token::OPE(p) => p.priority(),
             Token::EQUAL => 1,
-            _ => 0
+            _ => 0,
         }
     }
     pub fn get_text(&self) -> String {
         match &self {
             Token::IDENTIFIER(s) => s.clone(),
-            _ => "".to_string()
+            _ => "".to_string(),
         }
     }
     pub fn to_token_type(&self) -> TokenType {
@@ -91,7 +91,7 @@ impl Token {
             Token::EQUAL => TokenType::EQUAL,
             Token::RPAR => TokenType::RPAR,
             Token::LPAR => TokenType::LPAR,
-            Token::Null => TokenType::Null
+            Token::Null => TokenType::Null,
         }
     }
 }

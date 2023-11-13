@@ -1,8 +1,8 @@
 use core::slice::Iter;
 use std::collections::HashMap;
 
-use crate::lexing::token::{Token, TokenType};
 use crate::lexing::token::Token::*;
+use crate::lexing::token::{Token, TokenType};
 use crate::parsing::ast::Ast;
 use crate::parsing::ast::Ast::Nil;
 use crate::parsing::parselets::infix_parselet::InfixParselet;
@@ -41,12 +41,12 @@ impl CalcParser<'_> {
         while distance >= self.read.len() {
             match self.tokens.next() {
                 None => break,
-                Some(t) => self.read.push(t.clone())
+                Some(t) => self.read.push(t.clone()),
             }
         }
         match self.read.get(distance) {
             None => Token::Null,
-            Some(t) => t.clone()
+            Some(t) => t.clone(),
         }
     }
     pub fn consume(&mut self) -> Token {
@@ -56,7 +56,13 @@ impl CalcParser<'_> {
     pub fn consume_expected(&mut self, expected: TokenType) -> Token {
         self.look_ahead(0);
         match self.read.remove(0) {
-            t => if t.to_token_type() == expected { t } else { Token::Null }
+            t => {
+                if t.to_token_type() == expected {
+                    t
+                } else {
+                    Token::Null
+                }
+            }
         }
     }
     fn get_precedence(&self) {}
@@ -72,8 +78,7 @@ impl Parsing for CalcParser<'_> {
 mod test {
     use crate::lexing::lexer::lex;
     use crate::parsing::ast::{Ast, Parameters};
-    use crate::parsing::parser::{CalcParser, init_calc_parser, Parsing};
-
+    use crate::parsing::parser::{init_calc_parser, CalcParser, Parsing};
 
     #[test]
     pub fn test_parse_nil() {
@@ -215,7 +220,7 @@ mod test {
 
     #[test]
     pub fn hard_parenthesis() {
-        let b  = lex("1+(1*(1/1))".to_string());
+        let b = lex("1+(1*(1/1))".to_string());
         let parser: &CalcParser = &init_calc_parser(&b).init();
         let expected = Ast::Node {
             value: Parameters::PlusOperation,

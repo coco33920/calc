@@ -1,5 +1,4 @@
 use std::fmt::{Display, Formatter};
-
 #[derive(Debug, Clone, PartialEq)]
 pub enum Operator {
     PLUS,
@@ -18,6 +17,18 @@ pub enum Token {
     RPAR,
     LPAR,
     Null,
+}
+
+#[derive(Debug,Clone,PartialEq)]
+pub enum TokenType {
+    OPE,
+    IDENTIFIER,
+    INT,
+    FLOAT,
+    EQUAL,
+    RPAR,
+    LPAR,
+    Null
 }
 
 impl Display for Operator {
@@ -46,17 +57,41 @@ impl Display for Token {
     }
 }
 
+impl Operator {
+    fn priority(&self) -> i64 {
+        match &self {
+            Operator::PLUS => 3,
+            Operator::MINUS => 4,
+            Operator::MULTIPLICATION => 5,
+            Operator::DIVIDE => 6,
+        }
+    }
+}
+
 impl Token {
-    pub fn priority(&self, other: &Self) -> bool {
-        match (&self, other) {
-            (Token::OPE(Operator::PLUS), Token::OPE(Operator::MULTIPLICATION)) => true,
-            (Token::OPE(Operator::PLUS), Token::OPE(Operator::DIVIDE)) => true,
-            (Token::OPE(Operator::MINUS), Token::OPE(Operator::MULTIPLICATION)) => true,
-            (Token::OPE(Operator::MINUS), Token::OPE(Operator::DIVIDE)) => true,
-            (Token::OPE(Operator::MULTIPLICATION), Token::OPE(Operator::MULTIPLICATION)) => true,
-            (Token::OPE(Operator::MULTIPLICATION), Token::OPE(Operator::DIVIDE)) => true,
-            (Token::OPE(Operator::DIVIDE), Token::OPE(Operator::DIVIDE)) => true,
-            _ => false,
+    pub fn priority(&self) -> i64 {
+        match &self {
+            Token::OPE(p) => p.priority(),
+            Token::EQUAL => 1,
+            _ => 0
+        }
+    }
+    pub fn get_text(&self) -> String {
+        match &self {
+            Token::IDENTIFIER(s) => s.clone(),
+            _ => "".to_string()
+        }
+    }
+    pub fn to_token_type(&self) -> TokenType {
+        match &self {
+            Token::OPE(_) => TokenType::OPE,
+            Token::IDENTIFIER(_) => TokenType::IDENTIFIER,
+            Token::INT(_) => TokenType::INT,
+            Token::FLOAT(_) => TokenType::FLOAT,
+            Token::EQUAL => TokenType::EQUAL,
+            Token::RPAR => TokenType::RPAR,
+            Token::LPAR => TokenType::LPAR,
+            Token::Null => TokenType::Null
         }
     }
 }

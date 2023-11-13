@@ -7,7 +7,7 @@ use linefeed::{Interface, ReadResult};
 use crate::interpreting::interpreter::interpret;
 use crate::lexing::lexer::lex;
 use crate::parsing::ast::Parameters;
-use crate::parsing::parser::parse;
+use crate::parsing::parser::{CalcParser, Parsing};
 
 mod interpreting;
 mod lexing;
@@ -56,7 +56,8 @@ fn main() {
             }
             str => {
                 let a = lex(str.to_string());
-                let p = parse(&a);
+                let parser: &CalcParser = &parsing::parser::init_calc_parser(&a);
+                let p = parser.parse();
                 if verbose {
                     println!("Lexing of line: {str}");
                     println!("{:?}", &a);

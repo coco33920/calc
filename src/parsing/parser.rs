@@ -37,6 +37,31 @@ impl CalcParser<'_> {
         self
     }
 
+    fn parse_expression(&mut self,precende: i64) -> Ast {
+        let token = self.consume();
+        let prefix = self.prefix_parselet.get(&token.to_token_type());
+        let mut left = match prefix {
+            None => Ast::Nil,
+            Some(t) => {
+                (*t).parse(self,token)
+            }
+        };
+        while precende < self.get_precedence() {
+            let t = self.consume();
+            let infix = match self.infix_parselet.get(&(t.to_token_type())) {
+                None => Ast::Nil,
+                Some(t) => {
+                    left = (*t).parse(self,&left,token.clone())
+                }
+            };
+        }
+        left
+    }
+
+    fn parse_expression_empty(&mut self) -> Ast {
+        self.parse_expression(0)
+    }
+
     fn look_ahead(&mut self, distance: usize) -> Token {
         while distance >= self.read.len() {
             match self.tokens.next() {
@@ -65,7 +90,21 @@ impl CalcParser<'_> {
             }
         }
     }
-    fn get_precedence(&self) {}
+
+    fn match_token(&mut self, expected: TokenType) -> bool {
+        let token = self.look_ahead(0);
+        if token.to_token_type() != expected {
+            return false;
+        }
+        return true;
+    }
+
+    fn get_precedence(&mut self) -> i64 {
+        let parser: dyn InfixParselet = self
+            .infix_parselet
+            .get(&(self.look_ahead(0).to_token_type()));
+        parser.get_precedence()
+    }
 }
 
 impl Parsing for CalcParser<'_> {

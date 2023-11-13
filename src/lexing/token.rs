@@ -1,4 +1,5 @@
 use std::fmt::{Display, Formatter};
+
 #[derive(Debug, Clone, PartialEq)]
 pub enum Operator {
     PLUS,
@@ -19,9 +20,12 @@ pub enum Token {
     Null,
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Hash, Eq)]
 pub enum TokenType {
-    OPE,
+    PLUS,
+    MINUS,
+    MULTIPLICATION,
+    DIVIDE,
     IDENTIFIER,
     INT,
     FLOAT,
@@ -82,9 +86,26 @@ impl Token {
             _ => "".to_string(),
         }
     }
+    pub fn get_int(&self) -> i64 {
+        match &self {
+            Token::INT(i) => *i,
+            _ => 0,
+        }
+    }
+    pub fn get_float(&self) -> f64 {
+        match &self {
+            Token::FLOAT(f) => *f,
+            _ => 0.0,
+        }
+    }
     pub fn to_token_type(&self) -> TokenType {
         match &self {
-            Token::OPE(_) => TokenType::OPE,
+            Token::OPE(p) => match p {
+                Operator::PLUS => TokenType::PLUS,
+                Operator::MINUS => TokenType::MINUS,
+                Operator::MULTIPLICATION => TokenType::MULTIPLICATION,
+                Operator::DIVIDE => TokenType::DIVIDE,
+            },
             Token::IDENTIFIER(_) => TokenType::IDENTIFIER,
             Token::INT(_) => TokenType::INT,
             Token::FLOAT(_) => TokenType::FLOAT,

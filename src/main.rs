@@ -56,7 +56,7 @@ fn main() {
             }
             str => {
                 let a = lex(str.to_string());
-                let parser: &CalcParser = &parsing::parser::init_calc_parser(&a);
+                let parser: &mut CalcParser = &mut parsing::parser::init_calc_parser(&a);
                 let p = parser.parse();
                 if verbose {
                     println!("Lexing of line: {str}");

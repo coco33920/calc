@@ -157,6 +157,9 @@ The following functions are available
 - sqrt
 - factorial (aliases: fact or !)
 - abs
+- ceil
+- floor
+- round
 
 ### Trigonometry
 
@@ -175,3 +178,9 @@ If you use the exp function you can pass a second argument for the base you are 
 You can take the nth root with the sqrt function, by default it takes the second root.
 
 ![img.png](docs/assets/nth_root.png)
+
+### Round
+
+You can round to the nth decimal with the round function, by default it round to the integer (floor)
+
+![img.png](docs/assets/round.png)

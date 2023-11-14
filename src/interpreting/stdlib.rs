@@ -1,3 +1,4 @@
+use crate::lexing::token::Token;
 use std::collections::HashMap;
 use std::f64::consts::PI;
 
@@ -64,7 +65,16 @@ pub fn cos(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> Pa
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(t) => match t.get(s.as_str()) {
                 None => Parameters::Null,
-                Some(t) => cos(&vec![t.clone()], ram),
+                Some(t) => {
+                    if degrees {
+                        cos(
+                            &vec![t.clone(), Parameters::Identifier("false".to_string())],
+                            ram,
+                        )
+                    } else {
+                        cos(&vec![t.clone()], ram)
+                    }
+                }
             },
         },
         _ => Parameters::Null,
@@ -102,7 +112,16 @@ pub fn sin(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> Pa
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(t) => match t.get(s.as_str()) {
                 None => Parameters::Null,
-                Some(t) => sin(&vec![t.clone()], ram),
+                Some(t) => {
+                    if degrees {
+                        sin(
+                            &vec![t.clone(), Parameters::Identifier("false".to_string())],
+                            ram,
+                        )
+                    } else {
+                        sin(&vec![t.clone()], ram)
+                    }
+                }
             },
         },
         _ => Parameters::Null,
@@ -140,7 +159,16 @@ pub fn tan(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> Pa
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(t) => match t.get(s.as_str()) {
                 None => Parameters::Null,
-                Some(t) => tan(&vec![t.clone()], ram),
+                Some(t) => {
+                    if degrees {
+                        tan(
+                            &vec![t.clone(), Parameters::Identifier("false".to_string())],
+                            ram,
+                        )
+                    } else {
+                        tan(&vec![t.clone()], ram)
+                    }
+                }
             },
         },
         _ => Parameters::Null,
@@ -178,7 +206,16 @@ pub fn cosh(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> P
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(t) => match t.get(s.as_str()) {
                 None => Parameters::Null,
-                Some(t) => cos(&vec![t.clone()], ram),
+                Some(t) => {
+                    if degrees {
+                        cosh(
+                            &vec![t.clone(), Parameters::Identifier("false".to_string())],
+                            ram,
+                        )
+                    } else {
+                        cosh(&vec![t.clone()], ram)
+                    }
+                }
             },
         },
         _ => Parameters::Null,
@@ -216,7 +253,16 @@ pub fn sinh(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> P
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(t) => match t.get(s.as_str()) {
                 None => Parameters::Null,
-                Some(t) => sinh(&vec![t.clone()], ram),
+                Some(t) => {
+                    if degrees {
+                        sinh(
+                            &vec![t.clone(), Parameters::Identifier("false".to_string())],
+                            ram,
+                        )
+                    } else {
+                        sinh(&vec![t.clone()], ram)
+                    }
+                }
             },
         },
         _ => Parameters::Null,
@@ -254,7 +300,16 @@ pub fn tanh(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> P
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(t) => match t.get(s.as_str()) {
                 None => Parameters::Null,
-                Some(t) => tanh(&vec![t.clone()], ram),
+                Some(t) => {
+                    if degrees {
+                        tanh(
+                            &vec![t.clone(), Parameters::Identifier("false".to_string())],
+                            ram,
+                        )
+                    } else {
+                        tanh(&vec![t.clone()], ram)
+                    }
+                }
             },
         },
         _ => Parameters::Null,
@@ -293,7 +348,16 @@ pub fn acos(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> P
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(t) => match t.get(s.as_str()) {
                 None => Parameters::Null,
-                Some(t) => acos(&vec![t.clone()], ram),
+                Some(t) => {
+                    if degrees {
+                        acos(
+                            &vec![t.clone(), Parameters::Identifier("false".to_string())],
+                            ram,
+                        )
+                    } else {
+                        acos(&vec![t.clone()], ram)
+                    }
+                }
             },
         },
         _ => Parameters::Null,
@@ -332,7 +396,16 @@ pub fn asin(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> P
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(t) => match t.get(s.as_str()) {
                 None => Parameters::Null,
-                Some(t) => asin(&vec![t.clone()], ram),
+                Some(t) => {
+                    if degrees {
+                        asin(
+                            &vec![t.clone(), Parameters::Identifier("false".to_string())],
+                            ram,
+                        )
+                    } else {
+                        asin(&vec![t.clone()], ram)
+                    }
+                }
             },
         },
         _ => Parameters::Null,
@@ -371,7 +444,16 @@ pub fn atan(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> P
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(t) => match t.get(s.as_str()) {
                 None => Parameters::Null,
-                Some(t) => atan(&vec![t.clone()], ram),
+                Some(t) => {
+                    if degrees {
+                        atan(
+                            &vec![t.clone(), Parameters::Identifier("false".to_string())],
+                            ram,
+                        )
+                    } else {
+                        atan(&vec![t.clone()], ram)
+                    }
+                }
             },
         },
         _ => Parameters::Null,
@@ -420,7 +502,7 @@ pub fn exp(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> Pa
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(t) => match t.get(s.as_str()) {
                 None => Parameters::Null,
-                Some(t) => exp(&vec![t.clone()], ram),
+                Some(t) => exp(&vec![t.clone(), Parameters::Float(ln)], ram),
             },
         },
         _ => Parameters::Null,
@@ -469,7 +551,7 @@ pub fn ln(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> Par
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(t) => match t.get(s.as_str()) {
                 None => Parameters::Null,
-                Some(t) => ln(&vec![t.clone()], ram),
+                Some(t) => ln(&vec![t.clone(), Parameters::Float(sln)], ram),
             },
         },
         _ => Parameters::Null,
@@ -518,7 +600,7 @@ pub fn sqrt(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> P
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(t) => match t.get(s.as_str()) {
                 None => Parameters::Null,
-                Some(t) => sqrt(&vec![t.clone()], ram),
+                Some(t) => sqrt(&vec![t.clone(), Parameters::Float(sln)], ram),
             },
         },
         _ => Parameters::Null,
@@ -653,7 +735,7 @@ pub fn round(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> 
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(t) => match t.get(s.as_str()) {
                 None => Parameters::Null,
-                Some(t) => round(&vec![t.clone()], ram),
+                Some(t) => round(&vec![t.clone(), Parameters::Float(sln)], ram),
             },
         },
         _ => Parameters::Null,

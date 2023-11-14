@@ -3,12 +3,11 @@
 <div align="center">
 
 <span style="font-weight:bold">Calc: a minimalistic calculator built in rust for educational purpose only.</span>
-
+<br/>
 <a href="https://github.com/coco33920/calc/actions/workflows/rust-test.yml"><img src="https://github.com/coco33920/calc/actions/workflows/rust-test.yml/badge.svg"></a>
-
-[![Release](https://img.shields.io/github/v/release/coco33920/calc.svg?include_prereleases=&sort=semver&color=f7a8d8)](https://github.com/coco33920/calc/releases/latest)
-[![](https://img.shields.io/crates/v/mini-calc?link=https%3A%2F%2Fcrates.io%2Fcrates%2Fmini-calc)](https://crates.io/crates/mini-calc)
-![](https://img.shields.io/crates/l/mini-calc?link=https%3A%2F%2Fgithub.com%2coco33920%2Fcalc%2Fblob%2Fmaster%2FLICENCE)
+<a href="https://github.com/coco33920/calc/releases/latest"><img src="https://img.shields.io/github/v/release/coco33920/calc.svg?include_prereleases=&sort=semver&color=f7a8d8"></a>
+<a href="https://crates.io/crates/mini-calc"><img src="https://img.shields.io/crates/v/mini-calc?link=https%3A%2F%2Fcrates.io%2Fcrates%2Fmini-calc"></a>
+<a href="https://github.com/coco33920/calc/blob/master/LICENSE"><img src="https://img.shields.io/crates/l/mini-calc?link=https%3A%2F%2Fgithub.com%2coco33920%2Fcalc%2Fblob%2Fmaster%2FLICENCE"></a>
 
 </div>
 

@@ -67,14 +67,15 @@ cargo install mini-calc
 - [X] Config
     - [X] Config colours
     - [X] Config prompt
-- [ ] Add more operations
+- [X] Add more operations
   - [X] exponent
-- [ ] Add support for functions
+- [X] Add support for functions
     - [X] exp
-    - [ ] ln
-    - [ ] log base a
+    - [X] ln
+    - [X] log base a
     - [X] cos/sin/tan
-    - [ ] cosh/sinh/tanh
+    - [X] cosh/sinh/tanh
+    - [X] atan/acos/asin
 - [ ] For later
     - [ ] Defining your own functions
     - [ ] Add RPN mode

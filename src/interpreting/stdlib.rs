@@ -19,6 +19,8 @@ pub fn exec(
         "acos" => acos(&lst, ram),
         "asin" => asin(&lst, ram),
         "atan" => atan(&lst, ram),
+        "ln" => ln(&lst, ram),
+        "log" => ln(&lst, ram),
         _ => cos(&lst, ram),
     }
 }
@@ -411,6 +413,54 @@ pub fn exp(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> Pa
             Some(t) => match t.get(s.as_str()) {
                 None => Parameters::Null,
                 Some(t) => exp(&vec![t.clone()], ram),
+            },
+        },
+        _ => Parameters::Null,
+    }
+}
+pub fn ln(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> Parameters {
+    if p.len() < 1 {
+        return Parameters::Null;
+    }
+
+    let mut plus = false;
+    let mut sln: f64 = 0.0;
+
+    if p.len() > 1 {
+        match p.get(1) {
+            None => plus = false,
+            Some(t) => {
+                plus = true;
+                match t {
+                    Parameters::Float(f) => sln = (*f),
+                    Parameters::Int(i) => sln = ((*i) as f64),
+                    _ => sln = 0.0,
+                }
+            }
+        }
+    }
+
+    match p.get(0).unwrap() {
+        Parameters::Int(i) => {
+            let fs: f64 = (*i) as f64;
+            if plus {
+                Parameters::Float(fs.log(sln))
+            } else {
+                Parameters::Float(fs.ln())
+            }
+        }
+        Parameters::Float(f) => {
+            if plus {
+                Parameters::Float((*f).log(sln))
+            } else {
+                Parameters::Float((*f).ln())
+            }
+        }
+        Parameters::Identifier(s) => match ram {
+            None => Parameters::Identifier("This variable is not initialized yet".to_string()),
+            Some(t) => match t.get(s.as_str()) {
+                None => Parameters::Null,
+                Some(t) => ln(&vec![t.clone()], ram),
             },
         },
         _ => Parameters::Null,

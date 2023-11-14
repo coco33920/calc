@@ -27,6 +27,10 @@ or install it via cargo
 cargo install mini-calc
 ```
 
+## Explaining
+
+Check [the website](https://calc.nwa2coco.fr) for more informations.
+
 ## TODO List
 
 - [X] Lexing of basic operations

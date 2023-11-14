@@ -20,7 +20,7 @@ fn main() {
     let interface = Interface::new("calc").unwrap();
     let style = Color::Cyan;
     let text = "> ";
-    let mut verbose = true;
+    let mut verbose = false;
 
     interface
         .set_prompt(&format!(

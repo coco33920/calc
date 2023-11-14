@@ -330,6 +330,48 @@ pub fn greater(
     }
 }
 
+pub fn lesser(
+    i: Parameters,
+    i2: Parameters,
+    ram: Option<&HashMap<String, Parameters>>,
+) -> Parameters {
+    match (i, i2) {
+        (Parameters::Null, Parameters::Int(_)) => Bool(false),
+        (Parameters::Null, Parameters::Float(_)) => Bool(false),
+        (Parameters::Int(_), Parameters::Null) => Bool(false),
+        (Parameters::Float(_), Parameters::Null) => Bool(false),
+        (Parameters::Int(v), Parameters::Int(v2)) => Bool(v < v2),
+        (Parameters::Int(v), Parameters::Float(f)) => Bool((v as f64) < f),
+        (Parameters::Float(v), Parameters::Float(f)) => Bool(v < f),
+        (Parameters::Float(v), Parameters::Int(i1)) => Bool(v < (i1 as f64)),
+        (Parameters::Identifier(s), Parameters::Identifier(s2)) => apply_operator(
+            Parameters::Identifier(s),
+            Parameters::Identifier(s2),
+            ram,
+            lesser,
+        ),
+        (Parameters::Identifier(s), Parameters::Int(i)) => {
+            apply_operator(Parameters::Identifier(s), Parameters::Int(i), ram, lesser)
+        }
+        (Parameters::Null, Parameters::Identifier(s)) => {
+            apply_operator(Parameters::Identifier(s), Parameters::Null, ram, lesser)
+        }
+        (Parameters::Identifier(s), Parameters::Null) => {
+            apply_operator(Parameters::Identifier(s), Parameters::Null, ram, lesser)
+        }
+        (Parameters::Int(i), Parameters::Identifier(s)) => {
+            apply_operator_reverse(Parameters::Int(i), Parameters::Identifier(s), ram, lesser)
+        }
+        (Parameters::Identifier(s), Parameters::Float(i)) => {
+            apply_operator(Parameters::Identifier(s), Parameters::Float(i), ram, lesser)
+        }
+        (Parameters::Float(i), Parameters::Identifier(s)) => {
+            apply_operator_reverse(Parameters::Float(i), Parameters::Identifier(s), ram, lesser)
+        }
+        _ => Parameters::Null,
+    }
+}
+
 #[cfg(test)]
 mod test {
     use crate::interpreting::function::{add, divide, minus, mult};

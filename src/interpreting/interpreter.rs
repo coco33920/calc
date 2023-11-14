@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use crate::interpreting::function::{
-    add, assign, divide, expo, greater, greater_or_equal, lesser, minus, mult,
+    add, assign, divide, expo, greater, greater_or_equal, lesser, lesser_or_equal, minus, mult,
 };
 use crate::interpreting::stdlib::exec;
 use crate::parsing::ast::{Ast, Parameters};
@@ -27,7 +27,7 @@ pub fn interpret(ast: Ast, mut ram: &mut HashMap<String, Parameters>) -> Paramet
                 Parameters::GreaterOperation => greater(param1, param2, Some(&ram)),
                 Parameters::GreaterOrEqualOperation => greater_or_equal(param1, param2, Some(&ram)),
                 Parameters::LesserOperation => lesser(param1, param2, Some(&ram)),
-                Parameters::LesserOrEqualOperation => Parameters::Null,
+                Parameters::LesserOrEqualOperation => lesser_or_equal(param1, param2, Some(&ram)),
                 Parameters::Assign => {
                     let (a, b) = assign(param1, param2);
                     if a != "".to_string() {

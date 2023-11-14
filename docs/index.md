@@ -20,6 +20,10 @@ or install it via cargo
 cargo install mini-calc
 ```
 
+## Usage
+
+You can see an overview of the usage over at [the usage page](usage.md)
+
 
 ## TODO List
 
@@ -54,6 +58,8 @@ cargo install mini-calc
 - [ ] Config
   - [ ] Config colours
   - [ ] Config prompt
+- [ ] Add operators
+  - [X] Add exponent operator
 - [ ] Add support for functions
   - [ ] exp
   - [ ] ln

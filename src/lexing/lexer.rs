@@ -177,7 +177,7 @@ pub fn lex(input: String) -> Vec<Token> {
                 current_pos += 1
             }
             '!' => {
-                vec.push_front(Token::IDENTIFIER("!".to_string()));
+                vec.push_front(Token::OPE(NOT));
                 current_pos += 1
             }
             ch => {

@@ -159,7 +159,7 @@ The following functions are available
 - ln
 - log (alias of ln)
 - sqrt
-- factorial (aliases: fact or !)
+- factorial (aliases: fact)
 - abs
 - ceil
 - floor

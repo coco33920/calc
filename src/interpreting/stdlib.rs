@@ -23,7 +23,6 @@ pub fn exec(
         "ln" => ln(&lst, ram),
         "log" => ln(&lst, ram),
         "sqrt" => sqrt(&lst, ram),
-        "!" => factorial(&lst, ram),
         "fact" => factorial(&lst, ram),
         "factorial" => factorial(&lst, ram),
         "abs" => abs(&lst, ram),

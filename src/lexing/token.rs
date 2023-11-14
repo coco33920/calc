@@ -12,6 +12,7 @@ pub enum Operator {
     LESSER_THAN,
     GREATER_OR_EQUAL,
     LESSER_OR_EQUAL,
+    NOT,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -43,6 +44,7 @@ pub enum TokenType {
     LESSER,
     GREATEREQ,
     LESSEREQ,
+    NOT,
     BOOL,
     RPAR,
     LPAR,
@@ -77,6 +79,7 @@ impl Display for Operator {
             Operator::GREATER_THAN => write!(f, ">"),
             Operator::LESSER_OR_EQUAL => write!(f, "<="),
             Operator::LESSER_THAN => write!(f, "<"),
+            Operator::NOT => write!(f, "!"),
         }
     }
 }
@@ -130,6 +133,7 @@ impl Token {
                 Operator::GREATER_OR_EQUAL => TokenType::GREATEREQ,
                 Operator::LESSER_THAN => TokenType::LESSER,
                 Operator::LESSER_OR_EQUAL => TokenType::LESSEREQ,
+                Operator::NOT => TokenType::NOT,
             },
             Token::IDENTIFIER(_) => TokenType::IDENTIFIER,
             Token::INT(_) => TokenType::INT,

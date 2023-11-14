@@ -158,6 +158,7 @@ The following functions are available
 ### Trigonometry
 
 For trigonometry, the input are assumed to be in radian, if not, you have to put "false" or "true" as second argument, example shown bellow
+
 ![img.png](docs/assets/trigo.png)
 
 ### Exp/ln

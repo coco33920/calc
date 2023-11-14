@@ -372,6 +372,66 @@ pub fn lesser(
     }
 }
 
+pub fn greater_or_equal(
+    i: Parameters,
+    i2: Parameters,
+    ram: Option<&HashMap<String, Parameters>>,
+) -> Parameters {
+    match (i, i2) {
+        (Parameters::Null, Parameters::Int(_)) => Bool(true),
+        (Parameters::Null, Parameters::Float(_)) => Bool(true),
+        (Parameters::Int(_), Parameters::Null) => Bool(true),
+        (Parameters::Float(_), Parameters::Null) => Bool(true),
+        (Parameters::Int(v), Parameters::Int(v2)) => Bool(v >= v2),
+        (Parameters::Int(v), Parameters::Float(f)) => Bool((v as f64) >= f),
+        (Parameters::Float(v), Parameters::Float(f)) => Bool(v >= f),
+        (Parameters::Float(v), Parameters::Int(i1)) => Bool(v >= (i1 as f64)),
+        (Parameters::Identifier(s), Parameters::Identifier(s2)) => apply_operator(
+            Parameters::Identifier(s),
+            Parameters::Identifier(s2),
+            ram,
+            greater_or_equal,
+        ),
+        (Parameters::Identifier(s), Parameters::Int(i)) => apply_operator(
+            Parameters::Identifier(s),
+            Parameters::Int(i),
+            ram,
+            greater_or_equal,
+        ),
+        (Parameters::Null, Parameters::Identifier(s)) => apply_operator(
+            Parameters::Identifier(s),
+            Parameters::Null,
+            ram,
+            greater_or_equal,
+        ),
+        (Parameters::Identifier(s), Parameters::Null) => apply_operator(
+            Parameters::Identifier(s),
+            Parameters::Null,
+            ram,
+            greater_or_equal,
+        ),
+        (Parameters::Int(i), Parameters::Identifier(s)) => apply_operator_reverse(
+            Parameters::Int(i),
+            Parameters::Identifier(s),
+            ram,
+            greater_or_equal,
+        ),
+        (Parameters::Identifier(s), Parameters::Float(i)) => apply_operator(
+            Parameters::Identifier(s),
+            Parameters::Float(i),
+            ram,
+            greater_or_equal,
+        ),
+        (Parameters::Float(i), Parameters::Identifier(s)) => apply_operator_reverse(
+            Parameters::Float(i),
+            Parameters::Identifier(s),
+            ram,
+            greater_or_equal,
+        ),
+        _ => Parameters::Null,
+    }
+}
+
 #[cfg(test)]
 mod test {
     use crate::interpreting::function::{add, divide, minus, mult};

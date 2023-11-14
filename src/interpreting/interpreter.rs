@@ -1,6 +1,8 @@
 use std::collections::HashMap;
 
-use crate::interpreting::function::{add, assign, divide, expo, greater, lesser, minus, mult};
+use crate::interpreting::function::{
+    add, assign, divide, expo, greater, greater_or_equal, lesser, minus, mult,
+};
 use crate::interpreting::stdlib::exec;
 use crate::parsing::ast::{Ast, Parameters};
 
@@ -23,7 +25,7 @@ pub fn interpret(ast: Ast, mut ram: &mut HashMap<String, Parameters>) -> Paramet
                 Parameters::Equal => Parameters::Null,
                 Parameters::Not => Parameters::Null,
                 Parameters::GreaterOperation => greater(param1, param2, Some(&ram)),
-                Parameters::GreaterOrEqualOperation => Parameters::Null,
+                Parameters::GreaterOrEqualOperation => greater_or_equal(param1, param2, Some(&ram)),
                 Parameters::LesserOperation => lesser(param1, param2, Some(&ram)),
                 Parameters::LesserOrEqualOperation => Parameters::Null,
                 Parameters::Assign => {

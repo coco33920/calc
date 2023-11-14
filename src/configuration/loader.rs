@@ -17,11 +17,13 @@ pub struct Prompt {
 
 #[derive(Serialize, Deserialize)]
 pub struct Config {
+    general_color: String,
     greeting: Greeting,
     prompt: Prompt,
 }
 
 pub struct Loaded<'a> {
+    pub general_color: Color,
     pub greeting_message: ANSIGenericString<'a, str>,
     pub prompt: String,
     pub prompt_style: Color,
@@ -49,6 +51,7 @@ impl Default for Prompt {
 impl Default for Config {
     fn default() -> Self {
         Self {
+            general_color: "purple".to_string(),
             greeting: Greeting::default(),
             prompt: Prompt::default(),
         }
@@ -65,10 +68,9 @@ pub fn load_rgb_color(str: &str) -> (u8, u8, u8) {
     let second = &str[2..4];
     let last = &str[4..6];
 
-
-    let rd = u8::from_str_radix(first,16);
-    let gd = u8::from_str_radix(second,16);
-    let bd = u8::from_str_radix(last,16);
+    let rd = u8::from_str_radix(first, 16);
+    let gd = u8::from_str_radix(second, 16);
+    let bd = u8::from_str_radix(last, 16);
 
     let r = match rd {
         Ok(c) => c,
@@ -119,12 +121,13 @@ pub fn load_color(string: String) -> Color {
 
 pub fn replace_variable(str: String) -> String {
     str.replace("%author%", "Charlotte Thomas")
-        .replace("%version%", "v2.2.1")
+        .replace("%version%", "v2.2.2")
         .to_string()
 }
 
 pub fn load_config<'a>(config: Config) -> Loaded<'a> {
     Loaded {
+        general_color: load_color(config.general_color),
         greeting_message: load_color(config.greeting.greeting_color)
             .paint(replace_variable(config.greeting.greeting_message)),
         prompt: config.prompt.prompt,

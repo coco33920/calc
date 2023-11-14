@@ -32,6 +32,9 @@ cargo install mini-calc
 
 You can see how the calculator works over at [the usage page](usage.md)
 
+# Config
+
+An overview of the configuration of mini-calc can be found [here](config.md)
 
 ## TODO List
 

@@ -1,6 +1,7 @@
-use crate::parsing::ast::Parameters;
 use std::collections::HashMap;
 use std::f64::consts::PI;
+
+use crate::parsing::ast::Parameters;
 
 pub fn exec(
     s: String,
@@ -10,7 +11,14 @@ pub fn exec(
     match s.as_str() {
         "cos" => cos(&lst, ram),
         "sin" => sin(&lst, ram),
+        "tan" => tan(&lst, ram),
+        "cosh" => cosh(&lst, ram),
+        "sinh" => sinh(&lst, ram),
+        "tanh" => tanh(&lst, ram),
         "exp" => exp(&lst, ram),
+        "acos" => acos(&lst, ram),
+        "asin" => asin(&lst, ram),
+        "atan" => atan(&lst, ram),
         _ => cos(&lst, ram),
     }
 }
@@ -85,6 +93,275 @@ pub fn sin(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> Pa
             Some(t) => match t.get(s.as_str()) {
                 None => Parameters::Null,
                 Some(t) => sin(&vec![t.clone()], ram),
+            },
+        },
+        _ => Parameters::Null,
+    }
+}
+
+pub fn tan(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> Parameters {
+    if p.len() < 1 {
+        return Parameters::Null;
+    }
+
+    let mut degrees = false;
+
+    if p.len() > 1 {
+        match p.get(1) {
+            None => degrees = false,
+            Some(_) => degrees = true,
+        }
+    }
+
+    match p.get(0).unwrap() {
+        Parameters::Int(i) => {
+            let fs: f64 = if degrees {
+                ((*i).clone() as f64) * (PI / 180.0)
+            } else {
+                (*i).clone() as f64
+            };
+            Parameters::Float(fs.tan())
+        }
+        Parameters::Float(f) => {
+            let fs: f64 = if degrees { (*f) * (PI / 180.0) } else { *f };
+            Parameters::Float(fs.tan())
+        }
+        Parameters::Identifier(s) => match ram {
+            None => Parameters::Identifier("This variable is not initialized yet".to_string()),
+            Some(t) => match t.get(s.as_str()) {
+                None => Parameters::Null,
+                Some(t) => tan(&vec![t.clone()], ram),
+            },
+        },
+        _ => Parameters::Null,
+    }
+}
+
+pub fn cosh(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> Parameters {
+    if p.len() < 1 {
+        return Parameters::Null;
+    }
+
+    let mut degrees = false;
+
+    if p.len() > 1 {
+        match p.get(1) {
+            None => degrees = false,
+            Some(_) => degrees = true,
+        }
+    }
+
+    match p.get(0).unwrap() {
+        Parameters::Int(i) => {
+            let fs: f64 = if degrees {
+                ((*i).clone() as f64) * (PI / 180.0)
+            } else {
+                (*i).clone() as f64
+            };
+            Parameters::Float(fs.cosh())
+        }
+        Parameters::Float(f) => {
+            let fs: f64 = if degrees { (*f) * (PI / 180.0) } else { *f };
+            Parameters::Float(fs.cosh())
+        }
+        Parameters::Identifier(s) => match ram {
+            None => Parameters::Identifier("This variable is not initialized yet".to_string()),
+            Some(t) => match t.get(s.as_str()) {
+                None => Parameters::Null,
+                Some(t) => cos(&vec![t.clone()], ram),
+            },
+        },
+        _ => Parameters::Null,
+    }
+}
+
+pub fn sinh(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> Parameters {
+    if p.len() < 1 {
+        return Parameters::Null;
+    }
+
+    let mut degrees = false;
+
+    if p.len() > 1 {
+        match p.get(1) {
+            None => degrees = false,
+            Some(_) => degrees = true,
+        }
+    }
+
+    match p.get(0).unwrap() {
+        Parameters::Int(i) => {
+            let fs: f64 = if degrees {
+                ((*i).clone() as f64) * (PI / 180.0)
+            } else {
+                (*i).clone() as f64
+            };
+            Parameters::Float(fs.sinh())
+        }
+        Parameters::Float(f) => {
+            let fs: f64 = if degrees { (*f) * (PI / 180.0) } else { *f };
+            Parameters::Float(fs.sinh())
+        }
+        Parameters::Identifier(s) => match ram {
+            None => Parameters::Identifier("This variable is not initialized yet".to_string()),
+            Some(t) => match t.get(s.as_str()) {
+                None => Parameters::Null,
+                Some(t) => sinh(&vec![t.clone()], ram),
+            },
+        },
+        _ => Parameters::Null,
+    }
+}
+
+pub fn tanh(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> Parameters {
+    if p.len() < 1 {
+        return Parameters::Null;
+    }
+
+    let mut degrees = false;
+
+    if p.len() > 1 {
+        match p.get(1) {
+            None => degrees = false,
+            Some(_) => degrees = true,
+        }
+    }
+
+    match p.get(0).unwrap() {
+        Parameters::Int(i) => {
+            let fs: f64 = if degrees {
+                ((*i).clone() as f64) * (PI / 180.0)
+            } else {
+                (*i).clone() as f64
+            };
+            Parameters::Float(fs.tanh())
+        }
+        Parameters::Float(f) => {
+            let fs: f64 = if degrees { (*f) * (PI / 180.0) } else { *f };
+            Parameters::Float(fs.tanh())
+        }
+        Parameters::Identifier(s) => match ram {
+            None => Parameters::Identifier("This variable is not initialized yet".to_string()),
+            Some(t) => match t.get(s.as_str()) {
+                None => Parameters::Null,
+                Some(t) => tanh(&vec![t.clone()], ram),
+            },
+        },
+        _ => Parameters::Null,
+    }
+}
+
+pub fn acos(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> Parameters {
+    if p.len() < 1 {
+        return Parameters::Null;
+    }
+
+    let mut degrees = false;
+
+    if p.len() > 1 {
+        match p.get(1) {
+            None => degrees = false,
+            Some(_) => degrees = true,
+        }
+    }
+
+    match p.get(0).unwrap() {
+        Parameters::Int(i) => {
+            let fs: f64 = (*i) as f64;
+            Parameters::Float(if degrees {
+                fs.acos() * (180.0 / PI)
+            } else {
+                fs.acos()
+            })
+        }
+        Parameters::Float(f) => Parameters::Float(if degrees {
+            f.acos() * (180.0 / PI)
+        } else {
+            f.acos()
+        }),
+        Parameters::Identifier(s) => match ram {
+            None => Parameters::Identifier("This variable is not initialized yet".to_string()),
+            Some(t) => match t.get(s.as_str()) {
+                None => Parameters::Null,
+                Some(t) => acos(&vec![t.clone()], ram),
+            },
+        },
+        _ => Parameters::Null,
+    }
+}
+
+pub fn asin(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> Parameters {
+    if p.len() < 1 {
+        return Parameters::Null;
+    }
+
+    let mut degrees = false;
+
+    if p.len() > 1 {
+        match p.get(1) {
+            None => degrees = false,
+            Some(_) => degrees = true,
+        }
+    }
+
+    match p.get(0).unwrap() {
+        Parameters::Int(i) => {
+            let fs: f64 = (*i) as f64;
+            Parameters::Float(if degrees {
+                fs.asin() * (180.0 / PI)
+            } else {
+                fs.asin()
+            })
+        }
+        Parameters::Float(f) => Parameters::Float(if degrees {
+            f.asin() * (180.0 / PI)
+        } else {
+            f.asin()
+        }),
+        Parameters::Identifier(s) => match ram {
+            None => Parameters::Identifier("This variable is not initialized yet".to_string()),
+            Some(t) => match t.get(s.as_str()) {
+                None => Parameters::Null,
+                Some(t) => asin(&vec![t.clone()], ram),
+            },
+        },
+        _ => Parameters::Null,
+    }
+}
+
+pub fn atan(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> Parameters {
+    if p.len() < 1 {
+        return Parameters::Null;
+    }
+
+    let mut degrees = false;
+
+    if p.len() > 1 {
+        match p.get(1) {
+            None => degrees = false,
+            Some(_) => degrees = true,
+        }
+    }
+
+    match p.get(0).unwrap() {
+        Parameters::Int(i) => {
+            let fs: f64 = (*i) as f64;
+            Parameters::Float(if degrees {
+                fs.atan() * (180.0 / PI)
+            } else {
+                fs.atan()
+            })
+        }
+        Parameters::Float(f) => Parameters::Float(if degrees {
+            f.atan() * (180.0 / PI)
+        } else {
+            f.atan()
+        }),
+        Parameters::Identifier(s) => match ram {
+            None => Parameters::Identifier("This variable is not initialized yet".to_string()),
+            Some(t) => match t.get(s.as_str()) {
+                None => Parameters::Null,
+                Some(t) => atan(&vec![t.clone()], ram),
             },
         },
         _ => Parameters::Null,

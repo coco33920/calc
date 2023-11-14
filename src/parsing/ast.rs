@@ -62,6 +62,20 @@ impl Parameters {
     }
 }
 
+pub fn token_to_parameter(token: Token) -> Parameters {
+    match token {
+        Token::INT(i) => Int(i),
+        Token::FLOAT(f) => Float(f),
+        Token::IDENTIFIER(s) => Identifier(s),
+        Token::OPE(Operator::PLUS) => PlusOperation,
+        Token::OPE(Operator::MINUS) => MinusOperation,
+        Token::OPE(Operator::MULTIPLICATION) => MultiplicationOperation,
+        Token::OPE(Operator::DIVIDE) => DivideOperation,
+        Token::EQUAL => Assign,
+        _ => Null,
+    }
+}
+
 impl Ast {
     pub fn new(p: Parameters) -> Self {
         Node {
@@ -97,20 +111,6 @@ impl Ast {
                 right: Box::from(node),
             },
         }
-    }
-}
-
-pub fn token_to_parameter(token: Token) -> Parameters {
-    match token {
-        Token::INT(i) => Int(i),
-        Token::FLOAT(f) => Float(f),
-        Token::IDENTIFIER(s) => Identifier(s),
-        Token::OPE(Operator::PLUS) => PlusOperation,
-        Token::OPE(Operator::MINUS) => MinusOperation,
-        Token::OPE(Operator::MULTIPLICATION) => MultiplicationOperation,
-        Token::OPE(Operator::DIVIDE) => DivideOperation,
-        Token::EQUAL => Assign,
-        _ => Null,
     }
 }
 

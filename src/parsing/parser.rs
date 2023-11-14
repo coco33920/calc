@@ -4,8 +4,8 @@ use crate::lexing::token::Token::*;
 use crate::lexing::token::{Token, TokenType};
 use crate::parsing::ast::Ast;
 use crate::parsing::parselets::infix_parselet::{
-    AssignParselet, DivideParselet, ExpoParselet, InfixParselet, MinusParselet, MultParselet,
-    NullParset, PlusParselet,
+    AssignParselet, CallParselet, DivideParselet, ExpoParselet, InfixParselet, MinusParselet,
+    MultParselet, NullParset, PlusParselet,
 };
 use crate::parsing::parselets::prefix_parselet::{
     FloatParselet, GroupParselet, IdentifierParselet, IntParselet, NullParselet,
@@ -70,6 +70,14 @@ impl CalcParser<'_> {
         self.read.remove(0)
     }
 
+    pub fn match_token(&mut self, expected: TokenType) -> bool {
+        let token = self.look_ahead(0);
+        if token.to_token_type() != expected {
+            return false;
+        }
+        return true;
+    }
+
     pub fn consume_expected(&mut self, expected: TokenType) -> Token {
         self.look_ahead(0);
         if self.read.len() == 0 {
@@ -105,6 +113,7 @@ impl CalcParser<'_> {
             TokenType::DIVIDE => Some(Box::from(DivideParselet { is_right: false })),
             TokenType::EQUAL => Some(Box::from(AssignParselet {})),
             TokenType::EXPO => Some(Box::from(ExpoParselet { is_right: false })),
+            TokenType::LPAR => Some(Box::from(CallParselet {})),
             _ => Some(Box::from(NullParset {})),
         }
     }

@@ -34,7 +34,7 @@ fn main() {
     let style = loaded.prompt_style;
     let text = loaded.prompt;
     let mut verbose = false;
-    let version: String = "v2.2.2".to_string();
+    let version: String = "v2.3.0".to_string();
     interface
         .set_prompt(&format!(
             "\x01{prefix}\x02{text}\x01{suffix}\x02",
@@ -54,9 +54,9 @@ fn main() {
             }
             "exit" => break,
             "help" => {
-                let message = loaded.general_color.paint((format!(
+                let message = loaded.general_color.paint(format!(
                     " Calc {version} Help \n > info : show infos \n > exit : exit the program \n > help : print this help \n > verbose : toggle the verbose \n > version : prints the version \n"
-                )));
+                ));
                 println!("{}", message)
             }
             "version" => {

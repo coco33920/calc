@@ -1,4 +1,5 @@
-use crate::lexing::token::{Precedence, Token};
+use crate::lexing::token::{Precedence, Token, TokenType};
+use crate::parsing::ast::Ast::Call;
 use crate::parsing::ast::{Ast, Parameters};
 use crate::parsing::parser::CalcParser;
 
@@ -29,6 +30,8 @@ pub struct AssignParselet {}
 pub struct ExpoParselet {
     pub is_right: bool,
 }
+
+pub struct CallParselet {}
 
 pub struct NullParset {}
 
@@ -139,6 +142,42 @@ impl InfixParselet for AssignParselet {
 
     fn get_precedence(&self) -> i64 {
         Precedence::ASSIGNMENT as i64
+    }
+}
+
+impl InfixParselet for CallParselet {
+    fn parse(&self, parser: &mut CalcParser, left: &Ast, _token: Token) -> Ast {
+        let name = match left {
+            Ast::Nil => "",
+            Ast::Node {
+                value: v,
+                left: _left,
+                right: _right,
+            } => match v {
+                Parameters::Identifier(s) => s.as_str(),
+                _ => "",
+            },
+            _ => "",
+        };
+
+        let mut lst: Vec<Ast> = Vec::new();
+        if !parser.match_token(TokenType::RPAR) {
+            lst.push(parser.parse_expression_empty());
+            while parser.match_token(TokenType::COMMA) {
+                parser.consume();
+                let ast = parser.parse_expression_empty();
+                lst.push(ast);
+            }
+            parser.consume_expected(TokenType::RPAR);
+        }
+        Call {
+            name: name.to_string(),
+            lst,
+        }
+    }
+
+    fn get_precedence(&self) -> i64 {
+        Precedence::CALL as i64
     }
 }
 

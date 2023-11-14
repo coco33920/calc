@@ -32,9 +32,13 @@ cargo install mini-calc
 
 You can see how the calculator works over at [the usage page](usage.md)
 
-# Config
+## Config
 
 An overview of the configuration of mini-calc can be found [here](config.md)
+
+## Function 
+
+An overview of the function of mini-calc can be found [here](function.md) 
 
 ## TODO List
 
@@ -73,17 +77,17 @@ An overview of the configuration of mini-calc can be found [here](config.md)
 - [X] Built-in
   - [X] pi
   - [X] e
-- [ ] Config
-  - [ ] Config colours
-  - [ ] Config prompt
-- [ ] Add more operations
+- [X] Config
+  - [X] Config colours
+  - [X] Config prompt
+- [X] Add more operations
   - [X] exponent
-- [ ] Add support for functions
-  - [ ] exp
-  - [ ] ln
-  - [ ] log base a
-  - [ ] cos/sin/tan
-  - [ ] cosh/sinh/tanh
+- [X] Add support for functions
+  - [X] exp
+  - [X] ln
+  - [X] log base a
+  - [X] cos/sin/tan
+  - [X] cosh/sinh/tanh
 - [ ] For later
   - [ ] Defining your own functions
   - [ ] Add RPN mode
@@ -102,5 +106,3 @@ An overview of the configuration of mini-calc can be found [here](config.md)
 ### REPL and functionning interpreter (verbose mode: off by default)
 
 ![](docs/assets/test_interpreter.png)
-
-## Configuration

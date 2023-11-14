@@ -133,3 +133,30 @@ Configuration:
 It looks like: 
 
 ![img.png](docs/assets/config_looks.png)
+
+## Functions
+
+The following functions are available
+
+- sin
+- cos
+- tan
+- sinh
+- cosh
+- tanh
+- asin
+- acos
+- atan
+- exp
+- ln
+- log (alias of ln)
+
+### Trigonometry
+
+For trigonometry, the input are assumed to be in radian, if not, you have to put "false" or "true" as second argument, example shown bellow
+![img.png](docs/assets/trigo.png)
+
+### Exp/ln
+
+If you use the exp function you can pass a second argument for the base you are using, if no second arguments are passed this is assumed to be in natural base
+![img.png](docs/assets/expln.png)

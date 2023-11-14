@@ -34,7 +34,7 @@ fn main() {
     let style = loaded.prompt_style;
     let text = loaded.prompt;
     let mut verbose = false;
-    let version: String = "v2.2.2".to_string();
+    let version: String = "v2.3.0".to_string();
     interface
         .set_prompt(&format!(
             "\x01{prefix}\x02{text}\x01{suffix}\x02",

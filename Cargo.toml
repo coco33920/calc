@@ -1,8 +1,8 @@
 [package]
 name = "mini-calc"
-version = "1.0.0"
+version = "2.1.1"
 license = "GPL-3.0-or-later"
-description = "A minimalistic configurable calculator"
+description = "A minimalistic configurable rust calculator"
 homepage = "https://calc.nwa2coco.fr"
 repository = "https://github.com/coco33920/calc"
 readme = "README.md"
@@ -17,3 +17,5 @@ exclude = [
 [dependencies]
 ansi_term = "0.12.1"
 linefeed = "0.6"
+confy = "0.5.1"
+serde = { version = "1.0.192", features = ["derive"] }

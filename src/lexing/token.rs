@@ -1,14 +1,15 @@
 use std::fmt::{Display, Formatter};
 
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum Operator {
     PLUS,
     MINUS,
     MULTIPLICATION,
     DIVIDE,
+    EXPO,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum Token {
     OPE(Operator),
     IDENTIFIER(String),
@@ -20,42 +21,33 @@ pub enum Token {
     Null,
 }
 
-impl Clone for Operator {
-    fn clone(&self) -> Self {
-        match self {
-            Operator::PLUS => Operator::PLUS,
-            Operator::MINUS => Operator::MINUS,
-            Operator::MULTIPLICATION => Operator::MULTIPLICATION,
-            Operator::DIVIDE => Operator::DIVIDE,
-        }
-    }
+#[derive(Debug, Clone, PartialEq, Hash, Eq)]
+pub enum TokenType {
+    PLUS,
+    MINUS,
+    MULTIPLICATION,
+    DIVIDE,
+    IDENTIFIER,
+    INT,
+    FLOAT,
+    EQUAL,
+    RPAR,
+    LPAR,
+    Null,
+    EXPO,
 }
 
-impl Clone for Token {
-    fn clone(&self) -> Self {
-        match self {
-            Token::OPE(p) => Token::OPE(p.clone()),
-            Token::IDENTIFIER(s) => Token::IDENTIFIER(s.clone()),
-            Token::INT(i) => Token::INT(*i),
-            Token::FLOAT(f) => Token::FLOAT(*f),
-            Token::EQUAL => Token::EQUAL,
-            Token::RPAR => Token::RPAR,
-            Token::LPAR => Token::LPAR,
-            Token::Null => Token::Null,
-        }
-    }
-}
-
-impl PartialEq<Self> for Operator {
-    fn eq(&self, other: &Self) -> bool {
-        match (self, other) {
-            (Operator::PLUS, Operator::PLUS) => true,
-            (Operator::MINUS, Operator::MINUS) => true,
-            (Operator::MULTIPLICATION, Operator::MULTIPLICATION) => true,
-            (Operator::DIVIDE, Operator::DIVIDE) => true,
-            _ => false,
-        }
-    }
+pub enum Precedence {
+    ASSIGNMENT = 1,
+    //CONDITIONAL = 2,
+    SUM = 4,
+    MINUS = 3,
+    PRODUCT = 6,
+    DIVIDE = 5,
+    EXPONENT = 7,
+    //PREFIX = 8,
+    //POSTFIX = 9,
+    //CALL = 10,
 }
 
 impl Display for Operator {
@@ -65,6 +57,7 @@ impl Display for Operator {
             Operator::MINUS => write!(f, "-"),
             Operator::DIVIDE => write!(f, "/"),
             Operator::MULTIPLICATION => write!(f, "*"),
+            Operator::EXPO => write!(f, "^"),
         }
     }
 }
@@ -84,29 +77,41 @@ impl Display for Token {
     }
 }
 
-impl PartialEq<Self> for Token {
-    fn eq(&self, other: &Self) -> bool {
-        match (self, other) {
-            (Token::LPAR, Token::LPAR) => true,
-            (Token::RPAR, Token::RPAR) => true,
-            (Token::EQUAL, Token::EQUAL) => true,
-            (Token::FLOAT(i), Token::FLOAT(i2)) => i == i2,
-            (Token::INT(i), Token::INT(i2)) => i == i2,
-            (Token::IDENTIFIER(s), Token::IDENTIFIER(s2)) => s == s2,
-            (Token::OPE(o), Token::OPE(p)) => o == p,
-            _ => false,
+impl Token {
+    pub fn get_text(&self) -> String {
+        match &self {
+            Token::IDENTIFIER(s) => s.clone(),
+            _ => "".to_string(),
         }
     }
-}
-
-impl Token {
-    pub fn priority(&self, other: &Self) -> bool {
-        match (&self, other) {
-            (Token::OPE(Operator::PLUS), Token::OPE(Operator::MULTIPLICATION)) => true,
-            (Token::OPE(Operator::PLUS), Token::OPE(Operator::DIVIDE)) => true,
-            (Token::OPE(Operator::MINUS), Token::OPE(Operator::MULTIPLICATION)) => true,
-            (Token::OPE(Operator::MINUS), Token::OPE(Operator::DIVIDE)) => true,
-            _ => false,
+    pub fn get_int(&self) -> i64 {
+        match &self {
+            Token::INT(i) => *i,
+            _ => 0,
+        }
+    }
+    pub fn get_float(&self) -> f64 {
+        match &self {
+            Token::FLOAT(f) => *f,
+            _ => 0.0,
+        }
+    }
+    pub fn to_token_type(&self) -> TokenType {
+        match &self {
+            Token::OPE(p) => match p {
+                Operator::PLUS => TokenType::PLUS,
+                Operator::MINUS => TokenType::MINUS,
+                Operator::MULTIPLICATION => TokenType::MULTIPLICATION,
+                Operator::DIVIDE => TokenType::DIVIDE,
+                Operator::EXPO => TokenType::EXPO,
+            },
+            Token::IDENTIFIER(_) => TokenType::IDENTIFIER,
+            Token::INT(_) => TokenType::INT,
+            Token::FLOAT(_) => TokenType::FLOAT,
+            Token::EQUAL => TokenType::EQUAL,
+            Token::RPAR => TokenType::RPAR,
+            Token::LPAR => TokenType::LPAR,
+            Token::Null => TokenType::Null,
         }
     }
 }

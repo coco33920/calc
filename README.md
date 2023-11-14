@@ -50,15 +50,15 @@ The page walking down the configuration of the project is available [here](docs/
   - [X] multiplication operation
   - [X] division operation
 - [X] Parsing advanced operations
-  - [X] Parsing lpar,rpar
-  - [X] mathematical priority
-    - [X] Left priority
-    - [X] Right priority
-  - [X] parenthesis support
-  - [X] Assignment
-  - [X] associativity support
-    - [X] Left associativity
-    - [X] Right associativity
+    - [X] Parsing lpar,rpar
+    - [X] mathematical priority
+      - [X] Left priority
+      - [X] Right priority
+    - [X] parenthesis support
+    - [X] Assignment
+    - [X] associativity support
+      - [X] Left associativity
+      - [X] Right associativity
 - [X] Application REPL
   - [X] Add the REPL
     - [X] basic REPL
@@ -69,12 +69,15 @@ The page walking down the configuration of the project is available [here](docs/
   - [X] Basic operation interpreter
   - [X] Advanced operation interpreter
   - [X] Identifiers (variable) interpreter
+  - [X] Basic operation interpreter
+  - [X] Advanced operation interpreter
+  - [X] Identifiers (variable) interpreter
 - [X] Built-in
   - [X] pi
   - [X] e
-- [ ] Config
-  - [ ] Config colours
-  - [ ] Config prompt
+- [X] Config
+    - [X] Config colours
+    - [X] Config prompt
 - [ ] Add more operations
   - [X] exponent
 - [ ] Add support for functions

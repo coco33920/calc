@@ -1,271 +1,281 @@
-use crate::lexing::token::Token;
+use core::slice::Iter;
+
 use crate::lexing::token::Token::*;
-use crate::parsing::ast::Ast::{Nil, Node};
-use crate::parsing::ast::{token_to_parameter, Ast, Parameters};
+use crate::lexing::token::{Token, TokenType};
+use crate::parsing::ast::Ast;
+use crate::parsing::parselets::infix_parselet::{
+    AssignParselet, DivideParselet, ExpoParselet, InfixParselet, MinusParselet, MultParselet,
+    NullParset, PlusParselet,
+};
+use crate::parsing::parselets::prefix_parselet::{
+    FloatParselet, GroupParselet, IdentifierParselet, IntParselet, NullParselet,
+    OperatorPrefixParselet, PrefixParselet,
+};
 
-fn push_value(ast: Ast, token: Token) -> Ast {
-    let parameter = token_to_parameter(token);
-    match ast.clone() {
-        Nil => match parameter {
-            Parameters::Null => Nil,
-            _ => Ast::new(parameter),
-        },
-        Node {
-            value: _v,
-            left: l,
-            right: r,
-        } => match *l {
-            Nil => ast.insert_left(Ast::new(parameter)),
-            Node { .. } => match *r {
-                _ => ast.insert_right(Ast::new(parameter)),
-            },
-        },
+#[derive(Clone)]
+pub struct CalcParser<'a> {
+    tokens: Iter<'a, Token>,
+    read: Vec<Token>,
+}
+
+pub fn init_calc_parser(input: &Vec<Token>) -> CalcParser {
+    CalcParser {
+        tokens: input.iter(),
+        read: Vec::new(),
     }
 }
 
-fn push_operator(ast: Ast, token: Token) -> Ast {
-    let parameter = token_to_parameter(token);
-    match ast.clone() {
-        Nil => match parameter {
-            Parameters::Null => Nil,
-            _ => Ast::new(parameter),
-        },
-        Node {
-            value: v,
-            left: l,
-            right: r,
-        } => Node {
-            value: parameter,
-            left: Box::from(Node {
-                value: v,
-                left: l,
-                right: r,
-            }),
-            right: Box::from(Nil),
-        },
+impl CalcParser<'_> {
+    pub fn parse(&mut self) -> Ast {
+        self.parse_expression_empty()
     }
-}
+    pub fn parse_expression(&mut self, precedence: i64) -> Ast {
+        let mut token = self.consume();
+        let prefix = self
+            .clone()
+            .get_prefix_parselet(token.clone().to_token_type());
 
-fn push_ast(ast: Ast, ast2: Ast) -> Ast {
-    match ast.clone() {
-        Nil => ast2,
-        Node {
-            value: v,
-            left: l,
-            right: r,
-        } => Node {
-            value: v,
-            left: Box::from(Node {
-                value: l.clone().value(),
-                left: Box::from(l.left()),
-                right: r,
-            }),
-            right: Box::from(ast2),
-        },
+        let mut left = prefix.unwrap().parse(self, token.clone());
+        while precedence < self.get_precedence() {
+            token = self.consume();
+            let parser = self
+                .clone()
+                .get_infix_parselet(token.clone().to_token_type())
+                .unwrap();
+            left = parser.parse(self, &left, token);
+        }
+        left
     }
-}
 
-pub fn parse(lst: &Vec<Token>) -> Ast {
-    fn aux(lst: &[Token], mut acc: Ast, _last_operation: &Token) -> (Ast, Vec<Token>) {
-        match lst {
-            [] => (acc, Vec::new()),
-            [INT(i), q @ ..] => {
-                acc = push_value(acc, Token::INT(*i));
-                aux(q, acc, _last_operation)
+    pub fn parse_expression_empty(&mut self) -> Ast {
+        self.parse_expression(0)
+    }
+    fn look_ahead(&mut self, distance: usize) -> Token {
+        while distance >= self.read.len() {
+            match self.tokens.next() {
+                None => break,
+                Some(t) => self.read.push(t.clone()),
             }
-            [FLOAT(f), q @ ..] => {
-                acc = push_value(acc, Token::FLOAT(*f));
-                aux(q, acc, _last_operation)
-            }
-            [IDENTIFIER(s), q @ ..] => {
-                acc = push_value(acc, Token::IDENTIFIER(s.to_string()));
-                aux(q, acc, _last_operation)
-            }
-            [OPE(p), q @ ..] => {
-                acc = push_operator(acc, Token::OPE(p.clone()));
-                aux(q, acc, &Token::OPE(p.clone()))
-            }
-            [EQUAL, q @ ..] => {
-                acc = push_operator(acc, Token::EQUAL);
-                aux(q, acc, _last_operation)
-            }
-            [LPAR, q @ ..] => {
-                let (ac, rest) = aux(q, Nil, &Null);
-                acc = push_ast(acc, ac);
-                aux(rest.as_slice(), acc, _last_operation)
-            }
-            [RPAR, q @ ..] => (acc, q.to_vec()),
-            [h, q @ ..] => aux(q, acc, h),
+        }
+        match self.read.get(distance) {
+            None => Null,
+            Some(t) => t.clone(),
         }
     }
+    pub fn consume(&mut self) -> Token {
+        self.look_ahead(0);
+        if self.read.len() == 0 {
+            return Null;
+        }
+        self.read.remove(0)
+    }
 
-    let (a, _) = aux(add_parenthesis(lst).as_slice(), Nil, &Null);
-    a
-}
-
-pub fn add_parenthesis(lst: &Vec<Token>) -> Vec<Token> {
-    fn aux(
-        lst: &[Token],
-        mut acc: Vec<Token>,
-        mut last_operation: Token,
-        mut position_before_operation: usize,
-        mut position: usize,
-        mut add: bool,
-        mut add2: bool,
-        mut par: i32,
-    ) -> (Vec<Token>, i32) {
-        match lst {
-            [] => (acc, par),
-            [h, q @ ..] => {
-                match h {
-                    OPE(p) => {
-                        let precedence = last_operation.priority(&OPE(p.clone()));
-                        if last_operation == OPE(p.clone()) {
-                            if position_before_operation == 1 {
-                                acc.insert(0, LPAR)
-                            } else {
-                                acc.insert(position_before_operation, LPAR);
-                            }
-                            acc.push(Token::OPE(p.clone()));
-                            acc.push(LPAR);
-                            par += 2;
-                            add2 = true;
-                        } else {
-                            if !precedence {
-                                acc.push(Token::OPE(p.clone()));
-                                last_operation = Token::OPE(p.clone());
-                                position_before_operation = position;
-                            } else {
-                                acc.insert(position_before_operation + 1, LPAR);
-                                acc.push(Token::OPE(p.clone()));
-                                last_operation = Token::OPE(p.clone());
-                                par += 1;
-                                position_before_operation = position;
-                                add = true;
-                            }
-                        }
-                    }
-                    q => {
-                        acc.push(q.clone());
-                        if add {
-                            acc.push(Token::RPAR);
-                            add = false;
-                            par -= 1;
-                        }
-                        if add2 {
-                            acc.push(Token::RPAR);
-                            add2 = false;
-                            par -= 1;
-                        }
-                    }
+    pub fn consume_expected(&mut self, expected: TokenType) -> Token {
+        self.look_ahead(0);
+        if self.read.len() == 0 {
+            return Null;
+        }
+        match self.read.remove(0) {
+            t => {
+                if t.to_token_type() == expected {
+                    t
+                } else {
+                    println!("error!");
+                    Null
                 }
-
-                position += 1;
-                aux(
-                    q,
-                    acc,
-                    last_operation.clone(),
-                    position_before_operation,
-                    position,
-                    add,
-                    add2,
-                    par,
-                )
             }
         }
     }
-    let (a, b) = aux(
-        lst.as_slice(),
-        Vec::new(),
-        Token::Null,
-        0,
-        0,
-        false,
-        false,
-        0,
-    );
-    let mut vec = a.clone();
-    for _ in 0..b {
-        vec.push(RPAR);
+
+    fn get_precedence(&mut self) -> i64 {
+        let p: Option<Box<dyn InfixParselet>> = self
+            .clone()
+            .get_infix_parselet(self.look_ahead(0).to_token_type());
+        match p {
+            None => 0,
+            Some(t) => (*t).get_precedence(),
+        }
     }
-    vec
+
+    pub fn get_infix_parselet(self, token_type: TokenType) -> Option<Box<dyn InfixParselet>> {
+        match token_type {
+            TokenType::PLUS => Some(Box::from(PlusParselet { is_right: false })),
+            TokenType::MINUS => Some(Box::from(MinusParselet { is_right: false })),
+            TokenType::MULTIPLICATION => Some(Box::from(MultParselet { is_right: false })),
+            TokenType::DIVIDE => Some(Box::from(DivideParselet { is_right: false })),
+            TokenType::EQUAL => Some(Box::from(AssignParselet {})),
+            TokenType::EXPO => Some(Box::from(ExpoParselet { is_right: false })),
+            _ => Some(Box::from(NullParset {})),
+        }
+    }
+
+    pub fn get_prefix_parselet(self, token_type: TokenType) -> Option<Box<dyn PrefixParselet>> {
+        match token_type {
+            TokenType::PLUS => Some(Box::from(OperatorPrefixParselet {})),
+            TokenType::MINUS => Some(Box::from(OperatorPrefixParselet {})),
+            TokenType::MULTIPLICATION => Some(Box::from(OperatorPrefixParselet {})),
+            TokenType::DIVIDE => Some(Box::from(OperatorPrefixParselet {})),
+            TokenType::IDENTIFIER => Some(Box::from(IdentifierParselet {})),
+            TokenType::INT => Some(Box::from(IntParselet {})),
+            TokenType::FLOAT => Some(Box::from(FloatParselet {})),
+            TokenType::LPAR => Some(Box::from(GroupParselet {})),
+            _ => Some(Box::from(NullParselet {})),
+        }
+    }
 }
 
 #[cfg(test)]
 mod test {
     use crate::lexing::lexer::lex;
+    use crate::parsing::ast::Parameters::{
+        DivideOperation, MultiplicationOperation, PlusOperation,
+    };
     use crate::parsing::ast::{Ast, Parameters};
-    use crate::parsing::parser::parse;
+    use crate::parsing::parser::{init_calc_parser, CalcParser};
+
+    #[test]
+    pub fn test_parse_nil() {
+        let b = lex("".to_string());
+        let parser: &mut CalcParser = &mut init_calc_parser(&b);
+        let expected = Ast::Nil;
+        let result = parser.parse();
+        assert_eq!(result, expected);
+    }
 
     #[test]
     pub fn test_parse_one_token() {
+        let b = lex("2".to_string());
+        let parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
             value: Parameters::Int(2),
             left: Box::new(Ast::Nil),
             right: Box::new(Ast::Nil),
         };
 
-        let result = parse(&lex("2".to_string()));
+        let result = parser.parse();
         assert_eq!(result, expected);
     }
 
     #[test]
     pub fn test_parse_plus_operation() {
+        let b = lex("2+2".to_string());
+        let parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
             value: Parameters::PlusOperation,
             left: Box::new(Ast::new(Parameters::Int(2))),
             right: Box::new(Ast::new(Parameters::Int(2))),
         };
-        let result = parse(&lex("2+2".to_string()));
+        let result = parser.parse();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    pub fn test_parse_plus_operation_hard() {
+        let b = lex("1+1+1".to_string());
+        let parser: &mut CalcParser = &mut init_calc_parser(&b);
+        let expected = Ast::Node {
+            value: Parameters::PlusOperation,
+            left: Box::from(Ast::Node {
+                value: Parameters::PlusOperation,
+                left: Box::from(Ast::new(Parameters::Int(1))),
+                right: Box::from(Ast::new(Parameters::Int(1))),
+            }),
+            right: Box::from(Ast::new(Parameters::Int(1))),
+        };
+        let result = parser.parse();
         assert_eq!(result, expected)
     }
 
     #[test]
     pub fn test_parse_minus_operation() {
+        let b = lex("2-2".to_string());
+        let parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
             value: Parameters::MinusOperation,
             left: Box::new(Ast::new(Parameters::Int(2))),
             right: Box::new(Ast::new(Parameters::Int(2))),
         };
-        let result = parse(&lex("2-2".to_string()));
+        let result = parser.parse();
         assert_eq!(result, expected)
     }
 
     #[test]
     pub fn test_parse_mult_operation() {
+        let b = lex("2*2".to_string());
+        let parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
             value: Parameters::MultiplicationOperation,
             left: Box::new(Ast::new(Parameters::Int(2))),
             right: Box::new(Ast::new(Parameters::Int(2))),
         };
-        let result = parse(&lex("2*2".to_string()));
+        let result = parser.parse();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    pub fn test_parse_mult_divide_operation() {
+        let b = lex("2*2/2".to_string());
+        let parser: &mut CalcParser = &mut init_calc_parser(&b);
+        let expected = Ast::Node {
+            value: Parameters::DivideOperation,
+            left: Box::from(Ast::Node {
+                value: Parameters::MultiplicationOperation,
+                left: Box::new(Ast::new(Parameters::Int(2))),
+                right: Box::new(Ast::new(Parameters::Int(2))),
+            }),
+            right: Box::from(Ast::new(Parameters::Int(2))),
+        };
+        let result = parser.parse();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    pub fn test_parse_hard_mult_operation() {
+        let b = lex("2*2*2".to_string());
+        let parser: &mut CalcParser = &mut init_calc_parser(&b);
+        let expected = Ast::Node {
+            value: Parameters::MultiplicationOperation,
+            left: Box::from(Ast::Node {
+                value: Parameters::MultiplicationOperation,
+                left: Box::from(Ast::new(Parameters::Int(2))),
+                right: Box::from(Ast::new(Parameters::Int(2))),
+            }),
+            right: Box::from(Ast::new(Parameters::Int(2))),
+        };
+        let result = parser.parse();
         assert_eq!(result, expected)
     }
 
     #[test]
     pub fn test_parse_divide_operation() {
+        let b = lex("2/2".to_string());
+        let parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
             value: Parameters::DivideOperation,
             left: Box::new(Ast::new(Parameters::Int(2))),
             right: Box::new(Ast::new(Parameters::Int(2))),
         };
-        let result = parse(&lex("2/2".to_string()));
+        let result = parser.parse();
         assert_eq!(result, expected)
     }
 
     #[test]
     pub fn test_assignment() {
+        let b = lex("i=1".to_string());
+        let parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
             value: Parameters::Assign,
             left: Box::new(Ast::new(Parameters::Identifier("i".to_string()))),
             right: Box::new(Ast::new(Parameters::Int(1))),
         };
-        let result = parse(&lex("i=1".to_string()));
+        let result = parser.parse();
         assert_eq!(result, expected);
     }
 
     #[test]
     pub fn simple_parenthesis() {
+        let b = lex("1+(1*1)".to_string());
+        let parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
             value: Parameters::PlusOperation,
             left: Box::from(Ast::new(Parameters::Int(1))),
@@ -275,31 +285,35 @@ mod test {
                 right: Box::new(Ast::new(Parameters::Int(1))),
             }),
         };
-        let result = parse(&lex("1+(1*1)".to_string()));
+        let result = parser.parse();
         assert_eq!(result, expected)
     }
 
     #[test]
     pub fn hard_parenthesis() {
+        let b = lex("1+(1*(1/1))".to_string());
+        let parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
             value: Parameters::PlusOperation,
             left: Box::from(Ast::new(Parameters::Int(1))),
             right: Box::from(Ast::Node {
-                value: Parameters::DivideOperation,
-                left: Box::from(Ast::Node {
-                    value: Parameters::MultiplicationOperation,
+                value: Parameters::MultiplicationOperation,
+                left: Box::from(Ast::new(Parameters::Int(1))),
+                right: Box::from(Ast::Node {
+                    value: Parameters::DivideOperation,
                     left: Box::from(Ast::new(Parameters::Int(1))),
                     right: Box::from(Ast::new(Parameters::Int(1))),
                 }),
-                right: Box::from(Ast::new(Parameters::Int(1))),
             }),
         };
-        let result = parse(&lex("1+(1*(1/1))".to_string()));
+        let result = parser.parse();
         assert_eq!(result, expected)
     }
 
     #[test]
     pub fn without_parenthesis() {
+        let b = lex("1+1*1".to_string());
+        let parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
             value: Parameters::PlusOperation,
             left: Box::from(Ast::new(Parameters::Int(1))),
@@ -309,26 +323,63 @@ mod test {
                 right: Box::new(Ast::new(Parameters::Int(1))),
             }),
         };
-        let result = parse(&lex("1+1*1".to_string()));
+        let result = parser.parse();
         assert_eq!(result, expected)
     }
 
     #[test]
-    pub fn without_parenthesis_hard() {
+    pub fn hard_without_parenthesis() {
+        let b = lex("1+1*1/1".to_string());
+        let parser: &mut CalcParser = &mut init_calc_parser(&b);
+        //1+((1*1)/1)
         let expected = Ast::Node {
-            value: Parameters::PlusOperation,
+            value: PlusOperation,
             left: Box::from(Ast::new(Parameters::Int(1))),
             right: Box::from(Ast::Node {
-                value: Parameters::DivideOperation,
+                value: DivideOperation,
                 left: Box::from(Ast::Node {
-                    value: Parameters::MultiplicationOperation,
+                    value: MultiplicationOperation,
                     left: Box::from(Ast::new(Parameters::Int(1))),
                     right: Box::from(Ast::new(Parameters::Int(1))),
                 }),
                 right: Box::from(Ast::new(Parameters::Int(1))),
             }),
         };
-        let result = parse(&lex("1+1*(1/1)".to_string()));
+        let result = parser.parse();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    pub fn test_left_priority() {
+        let b = lex("1+2*2".to_string());
+        let parser: &mut CalcParser = &mut init_calc_parser(&b);
+        let expected = Ast::Node {
+            value: Parameters::PlusOperation,
+            left: Box::from(Ast::new(Parameters::Int(1))),
+            right: Box::from(Ast::Node {
+                value: Parameters::MultiplicationOperation,
+                left: Box::from(Ast::new(Parameters::Int(2))),
+                right: Box::from(Ast::new(Parameters::Int(2))),
+            }),
+        };
+        let result = parser.parse();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    pub fn test_right_priority() {
+        let b = lex("2*2+1".to_string());
+        let parser = &mut init_calc_parser(&b);
+        let expected = Ast::Node {
+            value: Parameters::PlusOperation,
+            left: Box::from(Ast::Node {
+                value: Parameters::MultiplicationOperation,
+                left: Box::from(Ast::new(Parameters::Int(2))),
+                right: Box::from(Ast::new(Parameters::Int(2))),
+            }),
+            right: Box::from(Ast::new(Parameters::Int(1))),
+        };
+        let result = parser.parse();
         assert_eq!(result, expected)
     }
 }

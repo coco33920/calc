@@ -46,7 +46,7 @@ pub fn apply_operator_reverse(
             let val3 = i_ram.get(&s);
             match val3 {
                 None => value,
-                Some(val) => f(val.clone(), value.clone(), ram),
+                Some(val) => f(value.clone(), val.clone(), ram),
             }
         }
     }

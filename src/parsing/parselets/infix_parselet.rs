@@ -187,11 +187,7 @@ impl InfixParselet for CallParselet {
             parser.consume_expected(TokenType::RPAR);
         }
         let l = create_ast_from_lst(&lst, name.clone().to_string());
-        Ast::Node {
-            value: Parameters::Call(name.to_string().clone()),
-            left: Box::new(Ast::Nil),
-            right: Box::new(Ast::Nil),
-        }
+        l
     }
 
     fn get_precedence(&self) -> i64 {

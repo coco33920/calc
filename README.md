@@ -70,10 +70,10 @@ cargo install mini-calc
 - [ ] Add more operations
   - [X] exponent
 - [ ] Add support for functions
-    - [ ] exp
+    - [X] exp
     - [ ] ln
     - [ ] log base a
-    - [ ] cos/sin/tan
+    - [X] cos/sin/tan
     - [ ] cosh/sinh/tanh
 - [ ] For later
     - [ ] Defining your own functions

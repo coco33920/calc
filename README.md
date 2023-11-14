@@ -31,6 +31,9 @@ cargo install mini-calc
 
 You can see how the calculator works over at [the usage page](docs/usage.md)
 
+## Configuration
+
+The page walking down the configuration of the project is available [here](docs/config.md)
 
 ## TODO List
 
@@ -98,5 +101,3 @@ You can see how the calculator works over at [the usage page](docs/usage.md)
 ### REPL and functionning interpreter (verbose mode: off by default)
 
 ![](docs/assets/test_interpreter.png)
-
-## Configuration

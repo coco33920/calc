@@ -36,7 +36,6 @@ impl CalcParser<'_> {
             .get_prefix_parselet(token.clone().to_token_type());
 
         let mut left = prefix.unwrap().parse(self, token.clone());
-
         while precedence < self.get_precedence() {
             token = self.consume();
             let parser = self
@@ -45,12 +44,7 @@ impl CalcParser<'_> {
                 .unwrap();
             left = parser.parse(self, &left, token);
         }
-
-        token = self.look_ahead(0);
-        let pars: Option<Box<dyn InfixParselet>> =
-            self.clone().get_infix_parselet(token.to_token_type());
-        self.consume();
-        pars.unwrap().parse(self, &left, token)
+        left
     }
 
     pub fn parse_expression_empty(&mut self) -> Ast {
@@ -132,6 +126,9 @@ impl CalcParser<'_> {
 #[cfg(test)]
 mod test {
     use crate::lexing::lexer::lex;
+    use crate::parsing::ast::Parameters::{
+        DivideOperation, MultiplicationOperation, PlusOperation,
+    };
     use crate::parsing::ast::{Ast, Parameters};
     use crate::parsing::parser::{init_calc_parser, CalcParser};
 
@@ -177,12 +174,12 @@ mod test {
         let parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
             value: Parameters::PlusOperation,
-            left: Box::from(Ast::new(Parameters::Int(1))),
-            right: Box::from(Ast::Node {
+            left: Box::from(Ast::Node {
                 value: Parameters::PlusOperation,
                 left: Box::from(Ast::new(Parameters::Int(1))),
                 right: Box::from(Ast::new(Parameters::Int(1))),
             }),
+            right: Box::from(Ast::new(Parameters::Int(1))),
         };
         let result = parser.parse();
         assert_eq!(result, expected)
@@ -219,13 +216,13 @@ mod test {
         let b = lex("2*2/2".to_string());
         let parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
-            value: Parameters::MultiplicationOperation,
-            left: Box::from(Ast::new(Parameters::Int(2))),
-            right: Box::from(Ast::Node {
-                value: Parameters::DivideOperation,
+            value: Parameters::DivideOperation,
+            left: Box::from(Ast::Node {
+                value: Parameters::MultiplicationOperation,
                 left: Box::new(Ast::new(Parameters::Int(2))),
                 right: Box::new(Ast::new(Parameters::Int(2))),
             }),
+            right: Box::from(Ast::new(Parameters::Int(2))),
         };
         let result = parser.parse();
         assert_eq!(result, expected)
@@ -237,12 +234,12 @@ mod test {
         let parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
             value: Parameters::MultiplicationOperation,
-            left: Box::from(Ast::new(Parameters::Int(2))),
-            right: Box::from(Ast::Node {
+            left: Box::from(Ast::Node {
                 value: Parameters::MultiplicationOperation,
                 left: Box::from(Ast::new(Parameters::Int(2))),
                 right: Box::from(Ast::new(Parameters::Int(2))),
             }),
+            right: Box::from(Ast::new(Parameters::Int(2))),
         };
         let result = parser.parse();
         assert_eq!(result, expected)
@@ -333,18 +330,53 @@ mod test {
     pub fn hard_without_parenthesis() {
         let b = lex("1+1*1/1".to_string());
         let parser: &mut CalcParser = &mut init_calc_parser(&b);
+        //1+((1*1)/1)
+        let expected = Ast::Node {
+            value: PlusOperation,
+            left: Box::from(Ast::new(Parameters::Int(1))),
+            right: Box::from(Ast::Node {
+                value: DivideOperation,
+                left: Box::from(Ast::Node {
+                    value: MultiplicationOperation,
+                    left: Box::from(Ast::new(Parameters::Int(1))),
+                    right: Box::from(Ast::new(Parameters::Int(1))),
+                }),
+                right: Box::from(Ast::new(Parameters::Int(1))),
+            }),
+        };
+        let result = parser.parse();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    pub fn test_left_priority() {
+        let b = lex("1+2*2".to_string());
+        let parser: &mut CalcParser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
             value: Parameters::PlusOperation,
             left: Box::from(Ast::new(Parameters::Int(1))),
             right: Box::from(Ast::Node {
                 value: Parameters::MultiplicationOperation,
-                left: Box::from(Ast::new(Parameters::Int(1))),
-                right: Box::from(Ast::Node {
-                    value: Parameters::DivideOperation,
-                    left: Box::from(Ast::new(Parameters::Int(1))),
-                    right: Box::from(Ast::new(Parameters::Int(1))),
-                }),
+                left: Box::from(Ast::new(Parameters::Int(2))),
+                right: Box::from(Ast::new(Parameters::Int(2))),
             }),
+        };
+        let result = parser.parse();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    pub fn test_right_priority() {
+        let b = lex("2*2+1".to_string());
+        let parser = &mut init_calc_parser(&b);
+        let expected = Ast::Node {
+            value: Parameters::PlusOperation,
+            left: Box::from(Ast::Node {
+                value: Parameters::MultiplicationOperation,
+                left: Box::from(Ast::new(Parameters::Int(2))),
+                right: Box::from(Ast::new(Parameters::Int(2))),
+            }),
+            right: Box::from(Ast::new(Parameters::Int(1))),
         };
         let result = parser.parse();
         assert_eq!(result, expected)

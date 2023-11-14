@@ -1,5 +1,3 @@
-use std::str::FromStr;
-
 use ansi_term::{ANSIGenericString, Color};
 use serde::{Deserialize, Serialize};
 
@@ -74,7 +72,7 @@ pub fn load_rgb_color(str: &str) -> (u8, u8, u8) {
 
     let r = match rd {
         Ok(c) => c,
-        Err(e) => 0xFF,
+        Err(_) => 0xFF,
     };
 
     let g = match gd {

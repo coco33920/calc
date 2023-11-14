@@ -54,9 +54,9 @@ fn main() {
             }
             "exit" => break,
             "help" => {
-                let message = loaded.general_color.paint((format!(
+                let message = loaded.general_color.paint(format!(
                     " Calc {version} Help \n > info : show infos \n > exit : exit the program \n > help : print this help \n > verbose : toggle the verbose \n > version : prints the version \n"
-                )));
+                ));
                 println!("{}", message)
             }
             "version" => {

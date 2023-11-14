@@ -24,6 +24,5 @@ myvar = (2+2)
 
 ## Built-in variable
 
-- `ans` is the last calculation done
-- `pi` is pi 
-- `e` is e
+- `pi` is pi as a double precision float
+- `e` is e as a double precision float

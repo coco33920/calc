@@ -2,7 +2,9 @@ use std::collections::HashMap;
 use std::f64::consts::{E, PI};
 use std::process::exit;
 
+use crate::configuration::loader::{load, load_config, Loaded};
 use ansi_term::Color;
+use confy::ConfyError;
 use linefeed::{Interface, ReadResult};
 
 use crate::interpreting::interpreter::interpret;
@@ -10,17 +12,29 @@ use crate::lexing::lexer::lex;
 use crate::parsing::ast::Parameters;
 use crate::parsing::parser::CalcParser;
 
+mod configuration;
 mod interpreting;
 mod lexing;
 mod parsing;
 
 fn main() {
-    let message = Color::Blue.paint("Welcome to calc v2.1.1 by Charlotte Thomas \ntype help for getting help for the commands\n");
+    let config = match load() {
+        Ok(config) => config,
+        Err(e) => {
+            println!("{e}");
+            exit(1)
+        }
+    };
+
+    let loaded: Loaded = load_config(config);
+
+
+    let message = loaded.greeting_message;
     println!("{}", message.to_string());
 
     let interface = Interface::new("calc").unwrap();
-    let style = Color::Cyan;
-    let text = "> ";
+    let style = loaded.prompt_style;
+    let text = loaded.prompt;
     let mut verbose = false;
 
     interface
@@ -32,7 +46,7 @@ fn main() {
         ))
         .unwrap();
     let mut ram: HashMap<String, Parameters> = HashMap::new();
-    ram.insert("pi".to_string(),Parameters::Float(PI));
+    ram.insert("pi".to_string(), Parameters::Float(PI));
     ram.insert("e".to_string(), Parameters::Float(E));
     while let ReadResult::Input(line) = interface.read_line().unwrap() {
         match line.as_str().trim() {

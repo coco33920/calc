@@ -20,6 +20,34 @@ pub enum Token {
     Null,
 }
 
+#[derive(Debug, Clone, PartialEq, Hash, Eq)]
+pub enum TokenType {
+    PLUS,
+    MINUS,
+    MULTIPLICATION,
+    DIVIDE,
+    IDENTIFIER,
+    INT,
+    FLOAT,
+    EQUAL,
+    RPAR,
+    LPAR,
+    Null,
+}
+
+pub enum Precedence {
+    ASSIGNMENT = 1,
+    //CONDITIONAL = 2,
+    SUM = 4,
+    MINUS = 3,
+    PRODUCT = 6,
+    DIVIDE = 5,
+    //EXPONENT = 7,
+    //PREFIX = 8,
+    //POSTFIX = 9,
+    //CALL = 10,
+}
+
 impl Display for Operator {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
@@ -47,13 +75,39 @@ impl Display for Token {
 }
 
 impl Token {
-    pub fn priority(&self, other: &Self) -> bool {
-        match (&self, other) {
-            (Token::OPE(Operator::PLUS), Token::OPE(Operator::MULTIPLICATION)) => true,
-            (Token::OPE(Operator::PLUS), Token::OPE(Operator::DIVIDE)) => true,
-            (Token::OPE(Operator::MINUS), Token::OPE(Operator::MULTIPLICATION)) => true,
-            (Token::OPE(Operator::MINUS), Token::OPE(Operator::DIVIDE)) => true,
-            _ => false,
+    pub fn get_text(&self) -> String {
+        match &self {
+            Token::IDENTIFIER(s) => s.clone(),
+            _ => "".to_string(),
+        }
+    }
+    pub fn get_int(&self) -> i64 {
+        match &self {
+            Token::INT(i) => *i,
+            _ => 0,
+        }
+    }
+    pub fn get_float(&self) -> f64 {
+        match &self {
+            Token::FLOAT(f) => *f,
+            _ => 0.0,
+        }
+    }
+    pub fn to_token_type(&self) -> TokenType {
+        match &self {
+            Token::OPE(p) => match p {
+                Operator::PLUS => TokenType::PLUS,
+                Operator::MINUS => TokenType::MINUS,
+                Operator::MULTIPLICATION => TokenType::MULTIPLICATION,
+                Operator::DIVIDE => TokenType::DIVIDE,
+            },
+            Token::IDENTIFIER(_) => TokenType::IDENTIFIER,
+            Token::INT(_) => TokenType::INT,
+            Token::FLOAT(_) => TokenType::FLOAT,
+            Token::EQUAL => TokenType::EQUAL,
+            Token::RPAR => TokenType::RPAR,
+            Token::LPAR => TokenType::LPAR,
+            Token::Null => TokenType::Null,
         }
     }
 }

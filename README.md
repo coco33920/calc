@@ -1,6 +1,6 @@
 # Calc
 
-**Calc: a minimalistic calculator built for educational purpose only.**
+**Calc: a minimalistic calculator built in rust for educational purpose only.**
 
 [![Rust Test](https://github.com/coco33920/calc/actions/workflows/rust-test.yml/badge.svg)](https://github.com/coco33920/calc/actions/workflows/rust-test.yml)
 [![Release](https://img.shields.io/github/v/release/coco33920/calc.svg?include_prereleases=&sort=semver&color=f7a8d8)](https://github.com/coco33920/calc/releases/latest)
@@ -8,6 +8,7 @@
 ## Install
 
 You can install the latest version from source
+
 ```bash 
 git clone https://github.com/coco33920/calc
 cd calc 
@@ -16,10 +17,10 @@ cargo build --release
 ```
 
 or install it via cargo
+
 ```bash 
 cargo install mini-calc
 ```
-
 
 ## TODO List
 
@@ -35,12 +36,16 @@ cargo install mini-calc
     - [X] minus operation
     - [X] multiplication operation
     - [X] division operation
-- [ ] Parsing advanced operations
+- [X] Parsing advanced operations
     - [X] Parsing lpar,rpar
     - [X] mathematical priority
+      - [X] Left priority
+      - [X] Right priority
     - [X] parenthesis support
     - [X] Assignment
-    - [ ] associativity support
+    - [X] associativity support
+      - [X] Left associativity
+      - [X] Right associativity
 - [X] Application REPL
     - [X] Add the REPL
         - [X] basic REPL
@@ -54,6 +59,8 @@ cargo install mini-calc
 - [ ] Config
     - [ ] Config colours
     - [ ] Config prompt
+- [ ] Add more operations
+  - [ ] exponent
 - [ ] Add support for functions
     - [ ] exp
     - [ ] ln

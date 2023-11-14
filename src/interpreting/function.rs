@@ -27,6 +27,31 @@ pub fn apply_operator(
     }
 }
 
+pub fn apply_operator_reverse(
+    value: Parameters,
+    value2: Parameters,
+    ram: Option<&HashMap<String, Parameters>>,
+    f: fn(Parameters, Parameters, Option<&HashMap<String, Parameters>>) -> Parameters,
+) -> Parameters {
+    let s = match value2 {
+        Parameters::Identifier(s) => s,
+        _ => "".to_string(),
+    };
+    if s == "".to_string() {
+        return Parameters::Null;
+    }
+    match ram {
+        None => value,
+        Some(i_ram) => {
+            let val3 = i_ram.get(&s);
+            match val3 {
+                None => value,
+                Some(val) => f(val.clone(), valuet.clone(), ram),
+            }
+        }
+    }
+}
+
 pub fn add(i: Parameters, i2: Parameters, ram: Option<&HashMap<String, Parameters>>) -> Parameters {
     match (i, i2) {
         (Parameters::Null, Parameters::Int(v)) => Parameters::Int(v),
@@ -178,6 +203,42 @@ pub fn divide(
                 Parameters::Float(i) => Parameters::Float(1.0 / i),
                 _ => Parameters::Null,
             }
+        }
+        _ => Parameters::Null,
+    }
+}
+
+pub fn expo(
+    i: Parameters,
+    i2: Parameters,
+    ram: Option<&HashMap<String, Parameters>>,
+) -> Parameters {
+    match (i, i2) {
+        (Parameters::Null, Parameters::Int(v)) => Parameters::Int(v),
+        (Parameters::Null, Parameters::Float(f)) => Parameters::Float(f),
+        (Parameters::Int(v), Parameters::Null) => Parameters::Int(v),
+        (Parameters::Float(f), Parameters::Null) => Parameters::Float(f),
+        (Parameters::Int(v), Parameters::Int(v2)) => Parameters::Float((v as f64).powf(v2 as f64)),
+        (Parameters::Int(v), Parameters::Float(f)) => Parameters::Float((v as f64).powf(f)),
+        (Parameters::Float(v), Parameters::Float(f)) => Parameters::Float(v.powf(f)),
+        (Parameters::Float(v), Parameters::Int(i1)) => Parameters::Float(v.powf(i1 as f64)),
+        (Parameters::Identifier(s), Parameters::Identifier(s2)) => apply_operator(
+            Parameters::Identifier(s),
+            Parameters::Identifier(s2),
+            ram,
+            expo,
+        ),
+        (Parameters::Identifier(s), Parameters::Int(i)) => {
+            apply_operator(Parameters::Identifier(s), Parameters::Int(i), ram, expo)
+        }
+        (Parameters::Int(i), Parameters::Identifier(s)) => {
+            apply_operator_reverse(Parameters::Int(i), Parameters::Identifier(s), ram, expo)
+        }
+        (Parameters::Identifier(s), Parameters::Float(i)) => {
+            apply_operator(Parameters::Identifier(s), Parameters::Float(i), ram, expo)
+        }
+        (Parameters::Float(i), Parameters::Identifier(s)) => {
+            apply_operator_reverse(Parameters::Float(i), Parameters::Identifier(s), ram, expo)
         }
         _ => Parameters::Null,
     }

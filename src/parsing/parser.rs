@@ -4,8 +4,8 @@ use crate::lexing::token::Token::*;
 use crate::lexing::token::{Token, TokenType};
 use crate::parsing::ast::Ast;
 use crate::parsing::parselets::infix_parselet::{
-    AssignParselet, DivideParselet, InfixParselet, MinusParselet, MultParselet, NullParset,
-    PlusParselet,
+    AssignParselet, DivideParselet, ExpoParselet, InfixParselet, MinusParselet, MultParselet,
+    NullParset, PlusParselet,
 };
 use crate::parsing::parselets::prefix_parselet::{
     FloatParselet, GroupParselet, IdentifierParselet, IntParselet, NullParselet,
@@ -104,6 +104,7 @@ impl CalcParser<'_> {
             TokenType::MULTIPLICATION => Some(Box::from(MultParselet { is_right: false })),
             TokenType::DIVIDE => Some(Box::from(DivideParselet { is_right: false })),
             TokenType::EQUAL => Some(Box::from(AssignParselet {})),
+            TokenType::EXPO => Some(Box::from(ExpoParselet { is_right: false })),
             _ => Some(Box::from(NullParset {})),
         }
     }

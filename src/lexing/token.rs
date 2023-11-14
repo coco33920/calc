@@ -1,4 +1,4 @@
-use std::fmt::{Display, Formatter};
+use std::fmt::{write, Display, Formatter};
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Operator {
@@ -7,6 +7,11 @@ pub enum Operator {
     MULTIPLICATION,
     DIVIDE,
     EXPO,
+    EQUALITY,
+    GREATER_THAN,
+    LESSER_THAN,
+    GREATER_OR_EQUAL,
+    LESSER_OR_EQUAL,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -15,6 +20,7 @@ pub enum Token {
     IDENTIFIER(String),
     INT(i64),
     FLOAT(f64),
+    BOOL(bool),
     EQUAL,
     RPAR,
     LPAR,
@@ -32,6 +38,12 @@ pub enum TokenType {
     INT,
     FLOAT,
     EQUAL,
+    EQUALITY,
+    GREATER,
+    LESSER,
+    GREATEREQ,
+    LESSEREQ,
+    BOOL,
     RPAR,
     LPAR,
     Null,
@@ -41,7 +53,7 @@ pub enum TokenType {
 
 pub enum Precedence {
     ASSIGNMENT = 1,
-    //CONDITIONAL = 2,
+    CONDITIONAL = 2,
     SUM = 4,
     MINUS = 3,
     PRODUCT = 6,
@@ -60,6 +72,11 @@ impl Display for Operator {
             Operator::DIVIDE => write!(f, "/"),
             Operator::MULTIPLICATION => write!(f, "*"),
             Operator::EXPO => write!(f, "^"),
+            Operator::EQUALITY => write!(f, "=="),
+            Operator::GREATER_OR_EQUAL => write!(f, ">="),
+            Operator::GREATER_THAN => write!(f, ">"),
+            Operator::LESSER_OR_EQUAL => write!(f, "<="),
+            Operator::LESSER_THAN => write!(f, "<"),
         }
     }
 }
@@ -76,6 +93,7 @@ impl Display for Token {
             Token::OPE(s) => write!(f, "{}", s),
             Token::COMMA => write!(f, ","),
             Token::Null => write!(f, "Null"),
+            Token::BOOL(b) => write!(f, "{b}"),
         }
     }
 }
@@ -107,6 +125,11 @@ impl Token {
                 Operator::MULTIPLICATION => TokenType::MULTIPLICATION,
                 Operator::DIVIDE => TokenType::DIVIDE,
                 Operator::EXPO => TokenType::EXPO,
+                Operator::EQUALITY => TokenType::EQUAL,
+                Operator::GREATER_THAN => TokenType::GREATER,
+                Operator::GREATER_OR_EQUAL => TokenType::GREATEREQ,
+                Operator::LESSER_THAN => TokenType::LESSER,
+                Operator::LESSER_OR_EQUAL => TokenType::LESSEREQ,
             },
             Token::IDENTIFIER(_) => TokenType::IDENTIFIER,
             Token::INT(_) => TokenType::INT,
@@ -116,6 +139,7 @@ impl Token {
             Token::LPAR => TokenType::LPAR,
             Token::COMMA => TokenType::COMMA,
             Token::Null => TokenType::Null,
+            Token::BOOL(_) => TokenType::BOOL,
         }
     }
 }

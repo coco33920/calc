@@ -81,7 +81,7 @@ Check [the website](https://calc.nwa2coco.fr) for more informations.
     - [X] cosh/sinh/tanh
     - [X] atan/acos/asin
 - [ ] Add logic
-    - [ ] Add basic true/false
+    - [X] Add basic true/false
     - [ ] Add binary operator
     - [ ] Add unary operator
 - [ ] For later

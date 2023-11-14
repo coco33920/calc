@@ -6,6 +6,7 @@ pub enum Operator {
     MINUS,
     MULTIPLICATION,
     DIVIDE,
+    EXPO,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -33,6 +34,7 @@ pub enum TokenType {
     RPAR,
     LPAR,
     Null,
+    EXPO,
 }
 
 pub enum Precedence {
@@ -42,7 +44,7 @@ pub enum Precedence {
     MINUS = 3,
     PRODUCT = 6,
     DIVIDE = 5,
-    //EXPONENT = 7,
+    EXPONENT = 7,
     //PREFIX = 8,
     //POSTFIX = 9,
     //CALL = 10,
@@ -55,6 +57,7 @@ impl Display for Operator {
             Operator::MINUS => write!(f, "-"),
             Operator::DIVIDE => write!(f, "/"),
             Operator::MULTIPLICATION => write!(f, "*"),
+            Operator::EXPO => write!(f, "^"),
         }
     }
 }
@@ -100,6 +103,7 @@ impl Token {
                 Operator::MINUS => TokenType::MINUS,
                 Operator::MULTIPLICATION => TokenType::MULTIPLICATION,
                 Operator::DIVIDE => TokenType::DIVIDE,
+                Operator::EXPO => TokenType::EXPO,
             },
             Token::IDENTIFIER(_) => TokenType::IDENTIFIER,
             Token::INT(_) => TokenType::INT,

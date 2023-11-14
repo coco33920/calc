@@ -16,6 +16,7 @@ pub enum Parameters {
     DivideOperation,
     Assign,
     Null,
+    ExpoOperation,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -40,6 +41,7 @@ impl Display for Parameters {
             DivideOperation => write!(f, "/"),
             Assign => write!(f, "="),
             Null => write!(f, ""),
+            ExpoOperation => write!(f, "^"),
         }
     }
 }
@@ -71,6 +73,7 @@ pub fn token_to_parameter(token: Token) -> Parameters {
         Token::OPE(Operator::MINUS) => MinusOperation,
         Token::OPE(Operator::MULTIPLICATION) => MultiplicationOperation,
         Token::OPE(Operator::DIVIDE) => DivideOperation,
+        Token::OPE(Operator::EXPO) => ExpoOperation,
         Token::EQUAL => Assign,
         _ => Null,
     }

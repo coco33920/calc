@@ -26,6 +26,10 @@ pub struct DivideParselet {
 #[derive(Clone)]
 pub struct AssignParselet {}
 
+pub struct ExpoParselet {
+    pub is_right: bool,
+}
+
 pub struct NullParset {}
 
 impl InfixParselet for PlusParselet {
@@ -101,6 +105,25 @@ impl InfixParselet for DivideParselet {
 
     fn get_precedence(&self) -> i64 {
         Precedence::DIVIDE as i64
+    }
+}
+
+impl InfixParselet for ExpoParselet {
+    fn parse(&self, parser: &mut CalcParser, left: &Ast, _token: Token) -> Ast {
+        let right = parser.parse_expression(if self.is_right {
+            self.get_precedence() - 1
+        } else {
+            self.get_precedence()
+        });
+        Ast::Node {
+            value: Parameters::ExpoOperation,
+            left: Box::new(left.clone()),
+            right: Box::new(right),
+        }
+    }
+
+    fn get_precedence(&self) -> i64 {
+        Precedence::EXPONENT as i64
     }
 }
 

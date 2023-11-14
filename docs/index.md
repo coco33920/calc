@@ -1,13 +1,19 @@
 # Calc
+<div align="center">
 
-**Calc: a minimalistic calculator built for educational purpose only.**
+**Calc: a minimalistic calculator built in rust for educational purpose only.**
 
 [![Rust Test](https://github.com/coco33920/calc/actions/workflows/rust-test.yml/badge.svg)](https://github.com/coco33920/calc/actions/workflows/rust-test.yml)
 [![Release](https://img.shields.io/github/v/release/coco33920/calc.svg?include_prereleases=&sort=semver&color=f7a8d8)](https://github.com/coco33920/calc/releases/latest)
+[![](https://img.shields.io/crates/v/mini-calc?link=https%3A%2F%2Fcrates.io%2Fcrates%2Fmini-calc)](https://crates.io/crates/mini-calc)
+![](https://img.shields.io/crates/l/mini-calc?link=https%3A%2F%2Fgithub.com%2coco33920%2Fcalc%2Fblob%2Fmaster%2FLICENCE)
+
+</div>
 
 ## Install
 
 You can install the latest version from source
+
 ```bash 
 git clone https://github.com/coco33920/calc
 cd calc 
@@ -16,13 +22,15 @@ cargo build --release
 ```
 
 or install it via cargo
+
 ```bash 
 cargo install mini-calc
 ```
 
 ## Usage
 
-You can see an overview of the usage over at [the usage page](usage.md)
+You can see how the calculator works over at [the usage page](usage.md)
+
 
 ## TODO List
 
@@ -41,9 +49,13 @@ You can see an overview of the usage over at [the usage page](usage.md)
 - [X] Parsing advanced operations
   - [X] Parsing lpar,rpar
   - [X] mathematical priority
+    - [X] Left priority
+    - [X] Right priority
   - [X] parenthesis support
   - [X] Assignment
   - [X] associativity support
+    - [X] Left associativity
+    - [X] Right associativity
 - [X] Application REPL
   - [X] Add the REPL
     - [X] basic REPL
@@ -54,11 +66,14 @@ You can see an overview of the usage over at [the usage page](usage.md)
   - [X] Basic operation interpreter
   - [X] Advanced operation interpreter
   - [X] Identifiers (variable) interpreter
+- [X] Built-in
+  - [X] pi
+  - [X] e
 - [ ] Config
   - [ ] Config colours
   - [ ] Config prompt
-- [ ] Add operators
-  - [X] Add exponent operator
+- [ ] Add more operations
+  - [X] exponent
 - [ ] Add support for functions
   - [ ] exp
   - [ ] ln
@@ -74,14 +89,14 @@ You can see an overview of the usage over at [the usage page](usage.md)
 
 ### REPL with only Lexing (verbose mode: on by default)
 
-![](assets/test_lexing.png)
+![](docs/assets/test_lexing.png)
 
 ### REPL with lexing and basic operation parsing (verbose mode: on by default)
 
-![](assets/test_parsing_basic_operations.png)
+![](docs/assets/test_parsing_basic_operations.png)
 
 ### REPL and functionning interpreter (verbose mode: off by default)
 
-![](assets/test_interpreter.png)
+![](docs/assets/test_interpreter.png)
 
 ## Configuration

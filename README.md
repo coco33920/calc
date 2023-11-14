@@ -27,6 +27,11 @@ or install it via cargo
 cargo install mini-calc
 ```
 
+## Usage
+
+You can see how the calculator works over at [the usage page](docs/usage.md)
+
+
 ## TODO List
 
 - [X] Lexing of basic operations

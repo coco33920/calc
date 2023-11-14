@@ -14,7 +14,7 @@ mod lexing;
 mod parsing;
 
 fn main() {
-    let message = Color::Blue.paint("Welcome to calc v2.0.0-rc1 by Charlotte Thomas \ntype help for getting help for the commands\n");
+    let message = Color::Blue.paint("Welcome to calc v2.0.0 by Charlotte Thomas \ntype help for getting help for the commands\n");
     println!("{}", message.to_string());
 
     let interface = Interface::new("calc").unwrap();
@@ -34,18 +34,18 @@ fn main() {
     while let ReadResult::Input(line) = interface.read_line().unwrap() {
         match line.as_str().trim() {
             "info" => {
-                let message = Color::Purple.paint(" Calc v2.0.0-rc1 \n Author: Charlotte Thomas \n Written in Rust \n Repo: https://github.com/coco33920/calc\n");
+                let message = Color::Purple.paint(" Calc v2.0.0 \n Author: Charlotte Thomas \n Written in Rust \n Repo: https://github.com/coco33920/calc\n");
                 println!("{}", message)
             }
             "exit" => break,
             "help" => {
                 let message = Color::Purple.paint(
-                    " Calc v2.0.0-rc1 Help \n > info : show infos \n > exit : exit the program \n > help : print this help \n > verbose : toggle the verbose \n > version : prints the version \n"
+                    " Calc v2.0.0 Help \n > info : show infos \n > exit : exit the program \n > help : print this help \n > verbose : toggle the verbose \n > version : prints the version \n"
                 );
                 println!("{}", message)
             }
             "version" => {
-                let message = Color::Purple.paint(" Calc v2.0.0-rc1\n");
+                let message = Color::Purple.paint(" Calc v2.0.0\n");
                 println!("{}", message)
             }
             "verbose" => {

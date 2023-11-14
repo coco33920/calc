@@ -164,4 +164,5 @@ For trigonometry, the input are assumed to be in radian, if not, you have to put
 ### Exp/ln
 
 If you use the exp function you can pass a second argument for the base you are using, if no second arguments are passed this is assumed to be in natural base
+
 ![img.png](docs/assets/expln.png)

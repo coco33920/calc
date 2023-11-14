@@ -215,6 +215,23 @@ mod test {
     }
 
     #[test]
+    pub fn test_parse_mult_divide_operation() {
+        let b = lex("2*2/2".to_string());
+        let parser: &mut CalcParser = &mut init_calc_parser(&b);
+        let expected = Ast::Node {
+            value: Parameters::MultiplicationOperation,
+            left: Box::from(Ast::new(Parameters::Int(2))),
+            right: Box::from(Ast::Node {
+                value: Parameters::DivideOperation,
+                left: Box::new(Ast::new(Parameters::Int(2))),
+                right: Box::new(Ast::new(Parameters::Int(2))),
+            }),
+        };
+        let result = parser.parse();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
     pub fn test_parse_hard_mult_operation() {
         let b = lex("2*2*2".to_string());
         let parser: &mut CalcParser = &mut init_calc_parser(&b);

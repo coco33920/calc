@@ -63,6 +63,13 @@ pub fn add(i: Parameters, i2: Parameters, ram: Option<&HashMap<String, Parameter
         (Parameters::Int(v), Parameters::Float(f)) => Parameters::Float((v as f64) + f),
         (Parameters::Float(v), Parameters::Float(f)) => Parameters::Float(v + f),
         (Parameters::Float(v), Parameters::Int(i1)) => Parameters::Float(v + (i1 as f64)),
+        (Bool(b), Parameters::Int(i)) => Parameters::Int(i),
+        (Bool(b), Parameters::Float(i)) => Parameters::Float(i),
+        (Parameters::Int(i), Bool(_)) => Parameters::Int(i),
+        (Parameters::Float(i), Bool(_)) => Parameters::Float(i),
+        (Bool(b), Parameters::Null) => Bool(b),
+        (Parameters::Null, Bool(b)) => Bool(b),
+        (Bool(b), Bool(b2)) => Bool(b && b2),
         (Parameters::Identifier(s), Parameters::Identifier(s2)) => apply_operator(
             Parameters::Identifier(s),
             Parameters::Identifier(s2),
@@ -87,6 +94,12 @@ pub fn add(i: Parameters, i2: Parameters, ram: Option<&HashMap<String, Parameter
         (Parameters::Float(i), Parameters::Identifier(s)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Float(i), ram, add)
         }
+        (Bool(b), Parameters::Identifier(s)) => {
+            apply_operator_reverse(Bool(b), Parameters::Identifier(s), ram, add)
+        }
+        (Parameters::Identifier(s), Bool(b)) => {
+            apply_operator(Parameters::Identifier(s), Bool(b), ram, add)
+        }
         _ => Parameters::Null,
     }
 }
@@ -105,6 +118,13 @@ pub fn minus(
         (Parameters::Int(v), Parameters::Float(f)) => Parameters::Float((v as f64) - f),
         (Parameters::Float(v), Parameters::Float(f)) => Parameters::Float(v - f),
         (Parameters::Float(v), Parameters::Int(i1)) => Parameters::Float(v - (i1 as f64)),
+        (Bool(b), Parameters::Int(i)) => Parameters::Int(i),
+        (Bool(b), Parameters::Float(i)) => Parameters::Float(i),
+        (Parameters::Int(i), Bool(_)) => Parameters::Int(i),
+        (Parameters::Float(i), Bool(_)) => Parameters::Float(i),
+        (Bool(b), Parameters::Null) => Bool(b),
+        (Parameters::Null, Bool(b)) => Bool(b),
+        (Bool(b), Bool(b2)) => Bool(b && b2),
         (Parameters::Identifier(s), Parameters::Identifier(s2)) => apply_operator(
             Parameters::Identifier(s),
             Parameters::Identifier(s2),
@@ -137,6 +157,12 @@ pub fn minus(
                 _ => Parameters::Null,
             }
         }
+        (Bool(b), Parameters::Identifier(s)) => {
+            apply_operator_reverse(Bool(b), Parameters::Identifier(s), ram, minus)
+        }
+        (Parameters::Identifier(s), Bool(b)) => {
+            apply_operator(Parameters::Identifier(s), Bool(b), ram, minus)
+        }
         _ => Parameters::Null,
     }
 }
@@ -155,6 +181,13 @@ pub fn mult(
         (Parameters::Int(v), Parameters::Float(f)) => Parameters::Float((v as f64) * f),
         (Parameters::Float(v), Parameters::Float(f)) => Parameters::Float(v * f),
         (Parameters::Float(v), Parameters::Int(i1)) => Parameters::Float(v * (i1 as f64)),
+        (Bool(b), Parameters::Int(i)) => Parameters::Int(i),
+        (Bool(b), Parameters::Float(i)) => Parameters::Float(i),
+        (Parameters::Int(i), Bool(_)) => Parameters::Int(i),
+        (Parameters::Float(i), Bool(_)) => Parameters::Float(i),
+        (Bool(b), Parameters::Null) => Bool(b),
+        (Parameters::Null, Bool(b)) => Bool(b),
+        (Bool(b), Bool(b2)) => Bool(b && b2),
         (Parameters::Identifier(s), Parameters::Identifier(s2)) => apply_operator(
             Parameters::Identifier(s),
             Parameters::Identifier(s2),
@@ -179,6 +212,12 @@ pub fn mult(
         (Parameters::Float(i), Parameters::Identifier(s)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Float(i), ram, mult)
         }
+        (Bool(b), Parameters::Identifier(s)) => {
+            apply_operator_reverse(Bool(b), Parameters::Identifier(s), ram, mult)
+        }
+        (Parameters::Identifier(s), Bool(b)) => {
+            apply_operator(Parameters::Identifier(s), Bool(b), ram, mult)
+        }
         _ => Parameters::Null,
     }
 }
@@ -197,6 +236,13 @@ pub fn divide(
         (Parameters::Int(v), Parameters::Float(f)) => Parameters::Float((v as f64) / f),
         (Parameters::Float(v), Parameters::Float(f)) => Parameters::Float(v / f),
         (Parameters::Float(v), Parameters::Int(i1)) => Parameters::Float(v / (i1 as f64)),
+        (Bool(b), Parameters::Int(i)) => Parameters::Int(i),
+        (Bool(b), Parameters::Float(i)) => Parameters::Float(i),
+        (Parameters::Int(i), Bool(_)) => Parameters::Int(i),
+        (Parameters::Float(i), Bool(_)) => Parameters::Float(i),
+        (Bool(b), Parameters::Null) => Bool(b),
+        (Parameters::Null, Bool(b)) => Bool(b),
+        (Bool(b), Bool(b2)) => Bool(b && b2),
         (Parameters::Identifier(s), Parameters::Identifier(s2)) => apply_operator(
             Parameters::Identifier(s),
             Parameters::Identifier(s2),
@@ -229,6 +275,12 @@ pub fn divide(
                 _ => Parameters::Null,
             }
         }
+        (Bool(b), Parameters::Identifier(s)) => {
+            apply_operator_reverse(Bool(b), Parameters::Identifier(s), ram, divide)
+        }
+        (Parameters::Identifier(s), Bool(b)) => {
+            apply_operator(Parameters::Identifier(s), Bool(b), ram, divide)
+        }
         _ => Parameters::Null,
     }
 }
@@ -247,6 +299,13 @@ pub fn expo(
         (Parameters::Int(v), Parameters::Float(f)) => Parameters::Float((v as f64).powf(f)),
         (Parameters::Float(v), Parameters::Float(f)) => Parameters::Float(v.powf(f)),
         (Parameters::Float(v), Parameters::Int(i1)) => Parameters::Float(v.powf(i1 as f64)),
+        (Bool(b), Parameters::Int(i)) => Parameters::Int(i),
+        (Bool(b), Parameters::Float(i)) => Parameters::Float(i),
+        (Parameters::Int(i), Bool(_)) => Parameters::Int(i),
+        (Parameters::Float(i), Bool(_)) => Parameters::Float(i),
+        (Bool(b), Parameters::Null) => Bool(b),
+        (Parameters::Null, Bool(b)) => Bool(b),
+        (Bool(b), Bool(b2)) => Bool(b && b2),
         (Parameters::Identifier(s), Parameters::Identifier(s2)) => apply_operator(
             Parameters::Identifier(s),
             Parameters::Identifier(s2),
@@ -270,6 +329,12 @@ pub fn expo(
         }
         (Parameters::Float(i), Parameters::Identifier(s)) => {
             apply_operator_reverse(Parameters::Float(i), Parameters::Identifier(s), ram, expo)
+        }
+        (Bool(b), Parameters::Identifier(s)) => {
+            apply_operator_reverse(Bool(b), Parameters::Identifier(s), ram, expo)
+        }
+        (Parameters::Identifier(s), Bool(b)) => {
+            apply_operator(Parameters::Identifier(s), Bool(b), ram, expo)
         }
         _ => Parameters::Null,
     }
@@ -296,6 +361,13 @@ pub fn greater(
         (Parameters::Int(v), Parameters::Float(f)) => Bool((v as f64) > f),
         (Parameters::Float(v), Parameters::Float(f)) => Bool(v > f),
         (Parameters::Float(v), Parameters::Int(i1)) => Bool(v > (i1 as f64)),
+        (Bool(b), Parameters::Int(i)) => Parameters::Int(i),
+        (Bool(b), Parameters::Float(i)) => Parameters::Float(i),
+        (Parameters::Int(i), Bool(_)) => Parameters::Int(i),
+        (Parameters::Float(i), Bool(_)) => Parameters::Float(i),
+        (Bool(b), Parameters::Null) => Bool(b),
+        (Parameters::Null, Bool(b)) => Bool(b),
+        (Bool(b), Bool(b2)) => Bool(b && b2),
         (Parameters::Identifier(s), Parameters::Identifier(s2)) => apply_operator(
             Parameters::Identifier(s),
             Parameters::Identifier(s2),
@@ -326,6 +398,12 @@ pub fn greater(
             ram,
             greater,
         ),
+        (Bool(b), Parameters::Identifier(s)) => {
+            apply_operator_reverse(Bool(b), Parameters::Identifier(s), ram, greater)
+        }
+        (Parameters::Identifier(s), Bool(b)) => {
+            apply_operator(Parameters::Identifier(s), Bool(b), ram, greater)
+        }
         _ => Parameters::Null,
     }
 }
@@ -344,6 +422,13 @@ pub fn lesser(
         (Parameters::Int(v), Parameters::Float(f)) => Bool((v as f64) < f),
         (Parameters::Float(v), Parameters::Float(f)) => Bool(v < f),
         (Parameters::Float(v), Parameters::Int(i1)) => Bool(v < (i1 as f64)),
+        (Bool(b), Parameters::Int(i)) => Bool(b),
+        (Bool(b), Parameters::Float(i)) => Bool(b),
+        (Parameters::Int(i), Bool(b)) => Bool(b),
+        (Parameters::Float(i), Bool(b)) => Bool(b),
+        (Bool(b), Parameters::Null) => Bool(b),
+        (Parameters::Null, Bool(b)) => Bool(b),
+        (Bool(b), Bool(b2)) => Bool(b && b2),
         (Parameters::Identifier(s), Parameters::Identifier(s2)) => apply_operator(
             Parameters::Identifier(s),
             Parameters::Identifier(s2),
@@ -368,6 +453,12 @@ pub fn lesser(
         (Parameters::Float(i), Parameters::Identifier(s)) => {
             apply_operator_reverse(Parameters::Float(i), Parameters::Identifier(s), ram, lesser)
         }
+        (Bool(b), Parameters::Identifier(s)) => {
+            apply_operator_reverse(Bool(b), Parameters::Identifier(s), ram, lesser)
+        }
+        (Parameters::Identifier(s), Bool(b)) => {
+            apply_operator(Parameters::Identifier(s), Bool(b), ram, lesser)
+        }
         _ => Parameters::Null,
     }
 }
@@ -386,6 +477,13 @@ pub fn greater_or_equal(
         (Parameters::Int(v), Parameters::Float(f)) => Bool((v as f64) >= f),
         (Parameters::Float(v), Parameters::Float(f)) => Bool(v >= f),
         (Parameters::Float(v), Parameters::Int(i1)) => Bool(v >= (i1 as f64)),
+        (Bool(b), Parameters::Int(i)) => Bool(b),
+        (Bool(b), Parameters::Float(i)) => Bool(b),
+        (Parameters::Int(i), Bool(b)) => Bool(b),
+        (Parameters::Float(i), Bool(b)) => Bool(b),
+        (Bool(b), Parameters::Null) => Bool(b),
+        (Parameters::Null, Bool(b)) => Bool(b),
+        (Bool(b), Bool(b2)) => Bool(b == b2),
         (Parameters::Identifier(s), Parameters::Identifier(s2)) => apply_operator(
             Parameters::Identifier(s),
             Parameters::Identifier(s2),
@@ -428,6 +526,12 @@ pub fn greater_or_equal(
             ram,
             greater_or_equal,
         ),
+        (Bool(b), Parameters::Identifier(s)) => {
+            apply_operator_reverse(Bool(b), Parameters::Identifier(s), ram, greater_or_equal)
+        }
+        (Parameters::Identifier(s), Bool(b)) => {
+            apply_operator(Parameters::Identifier(s), Bool(b), ram, greater_or_equal)
+        }
         _ => Parameters::Null,
     }
 }
@@ -446,6 +550,14 @@ pub fn lesser_or_equal(
         (Parameters::Int(v), Parameters::Float(f)) => Bool((v as f64) <= f),
         (Parameters::Float(v), Parameters::Float(f)) => Bool(v <= f),
         (Parameters::Float(v), Parameters::Int(i1)) => Bool(v <= (i1 as f64)),
+        (Bool(b), Parameters::Int(i)) => Bool(b),
+        (Bool(b), Parameters::Float(i)) => Bool(b),
+        (Parameters::Int(i), Bool(b)) => Bool(b),
+        (Parameters::Float(i), Bool(b)) => Bool(b),
+        (Bool(b), Parameters::Null) => Bool(b),
+        (Parameters::Null, Bool(b)) => Bool(b),
+        (Bool(b), Bool(b2)) => Bool(b == b2),
+
         (Parameters::Identifier(s), Parameters::Identifier(s2)) => apply_operator(
             Parameters::Identifier(s),
             Parameters::Identifier(s2),
@@ -488,7 +600,82 @@ pub fn lesser_or_equal(
             ram,
             lesser_or_equal,
         ),
+        (Bool(b), Parameters::Identifier(s)) => {
+            apply_operator_reverse(Bool(b), Parameters::Identifier(s), ram, lesser_or_equal)
+        }
+        (Parameters::Identifier(s), Bool(b)) => {
+            apply_operator(Parameters::Identifier(s), Bool(b), ram, lesser_or_equal)
+        }
         _ => Parameters::Null,
+    }
+}
+
+pub fn equal(
+    i: Parameters,
+    i2: Parameters,
+    ram: Option<&HashMap<String, Parameters>>,
+) -> Parameters {
+    match (i, i2) {
+        (Parameters::Null, Parameters::Int(_)) => Bool(true),
+        (Parameters::Null, Parameters::Float(_)) => Bool(true),
+        (Parameters::Int(_), Parameters::Null) => Bool(true),
+        (Parameters::Float(_), Parameters::Null) => Bool(true),
+        (Parameters::Int(v), Parameters::Int(v2)) => Bool(v == v2),
+        (Parameters::Int(v), Parameters::Float(f)) => Bool((v as f64) == f),
+        (Parameters::Float(v), Parameters::Float(f)) => Bool(v == f),
+        (Parameters::Float(v), Parameters::Int(i1)) => Bool(v == (i1 as f64)),
+        (Bool(_), Parameters::Int(i)) => Bool(false),
+        (Bool(_), Parameters::Float(i)) => Bool(false),
+        (Parameters::Int(i), Bool(_)) => Bool(false),
+        (Parameters::Float(i), Bool(_)) => Bool(false),
+        (Bool(_), Parameters::Null) => Bool(false),
+        (Parameters::Null, Bool(_)) => Bool(false),
+        (Bool(b), Bool(b2)) => Bool(b == b2),
+        (Parameters::Identifier(s), Parameters::Identifier(s2)) => apply_operator(
+            Parameters::Identifier(s),
+            Parameters::Identifier(s2),
+            ram,
+            equal,
+        ),
+        (Parameters::Identifier(s), Parameters::Int(i)) => {
+            apply_operator(Parameters::Identifier(s), Parameters::Int(i), ram, equal)
+        }
+        (Parameters::Null, Parameters::Identifier(s)) => {
+            apply_operator(Parameters::Identifier(s), Parameters::Null, ram, equal)
+        }
+        (Parameters::Identifier(s), Parameters::Null) => {
+            apply_operator(Parameters::Identifier(s), Parameters::Null, ram, equal)
+        }
+        (Parameters::Int(i), Parameters::Identifier(s)) => {
+            apply_operator_reverse(Parameters::Int(i), Parameters::Identifier(s), ram, equal)
+        }
+        (Parameters::Identifier(s), Parameters::Float(i)) => {
+            apply_operator(Parameters::Identifier(s), Parameters::Float(i), ram, equal)
+        }
+        (Parameters::Float(i), Parameters::Identifier(s)) => {
+            apply_operator_reverse(Parameters::Float(i), Parameters::Identifier(s), ram, equal)
+        }
+        (Bool(b), Parameters::Identifier(s)) => {
+            apply_operator_reverse(Bool(b), Parameters::Identifier(s), ram, equal)
+        }
+        (Parameters::Identifier(s), Bool(b)) => {
+            apply_operator(Parameters::Identifier(s), Bool(b), ram, equal)
+        }
+        _ => Parameters::Null,
+    }
+}
+
+pub fn not(
+    i: Parameters,
+    _i2: Parameters,
+    ram: Option<&HashMap<String, Parameters>>,
+) -> Parameters {
+    match i {
+        Bool(b) => Bool(!b),
+        Parameters::Identifier(s) => {
+            apply_operator(Parameters::Identifier(s), Parameters::Null, ram, not)
+        }
+        _ => Bool(false),
     }
 }
 

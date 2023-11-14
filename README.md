@@ -37,11 +37,15 @@ cargo install mini-calc
     - [X] multiplication operation
     - [X] division operation
 - [ ] Parsing advanced operations
-    - [ ] Parsing lpar,rpar
-    - [X] mathematical priority
-    - [ ] parenthesis support
+    - [X] Parsing lpar,rpar
+    - [ ] mathematical priority
+      - [X] Left priority
+      - [ ] Right priority
+    - [X] parenthesis support
     - [X] Assignment
-    - [ ] associativity support
+    - [X] associativity support
+      - [X] Left associativity
+      - [X] Right associativity
 - [X] Application REPL
     - [X] Add the REPL
         - [X] basic REPL

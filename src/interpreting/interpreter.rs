@@ -20,6 +20,12 @@ pub fn interpret(ast: Ast, mut ram: &mut HashMap<String, Parameters>) -> Paramet
                 Parameters::MultiplicationOperation => mult(param1, param2, Some(&ram)),
                 Parameters::DivideOperation => divide(param1, param2, Some(&ram)),
                 Parameters::ExpoOperation => expo(param1, param2, Some(&ram)),
+                Parameters::Equal => Parameters::Null,
+                Parameters::Not => Parameters::Null,
+                Parameters::GreaterOperation => Parameters::Null,
+                Parameters::GreaterOrEqualOperation => Parameters::Null,
+                Parameters::LesserOperation => Parameters::Null,
+                Parameters::LesserOrEqualOperation => Parameters::Null,
                 Parameters::Assign => {
                     let (a, b) = assign(param1, param2);
                     if a != "".to_string() {

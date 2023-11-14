@@ -98,7 +98,7 @@ fn lex_float(
 }
 
 pub fn lex(input: String) -> Vec<Token> {
-    let mut vec: VecDeque<Token> = VecDeque::new();
+    let mut vec: Vec<Token> = Vec::new();
 
     let mut current_pos = 0;
 
@@ -114,70 +114,70 @@ pub fn lex(input: String) -> Vec<Token> {
 
         match current_character {
             '+' => {
-                vec.push_front(Token::OPE(PLUS));
+                vec.push(Token::OPE(PLUS));
                 current_pos += 1
             }
             '-' => {
-                vec.push_front(Token::OPE(MINUS));
+                vec.push(Token::OPE(MINUS));
                 current_pos += 1
             }
             '*' => {
-                vec.push_front(Token::OPE(MULTIPLICATION));
+                vec.push(Token::OPE(MULTIPLICATION));
                 current_pos += 1
             }
             '/' => {
-                vec.push_front(Token::OPE(DIVIDE));
+                vec.push(Token::OPE(DIVIDE));
                 current_pos += 1
             }
             ')' => {
-                vec.push_front(Token::RPAR);
+                vec.push(Token::RPAR);
                 current_pos += 1
             }
             '(' => {
-                vec.push_front(Token::LPAR);
+                vec.push(Token::LPAR);
                 current_pos += 1
             }
             '>' => {
-                vec.push_front(Token::OPE(GREATER_THAN));
+                vec.push(Token::OPE(GREATER_THAN));
                 current_pos += 1
             }
             '<' => {
-                vec.push_front(Token::OPE(LESSER_THAN));
+                vec.push(Token::OPE(LESSER_THAN));
                 current_pos += 1
             }
-            '=' => match vec.pop_front() {
+            '=' => match vec.pop() {
                 Some(Token::EQUAL) => {
-                    vec.push_front(Token::OPE(EQUALITY));
+                    vec.push(Token::OPE(EQUALITY));
                     current_pos += 1
                 }
                 Some(Token::OPE(LESSER_THAN)) => {
-                    vec.push_front(Token::OPE(LESSER_OR_EQUAL));
+                    vec.push(Token::OPE(LESSER_OR_EQUAL));
                     current_pos += 1;
                 }
                 Some(Token::OPE(GREATER_THAN)) => {
-                    vec.push_front(Token::OPE(GREATER_OR_EQUAL));
+                    vec.push(Token::OPE(GREATER_OR_EQUAL));
                     current_pos += 1;
                 }
                 Some(p) => {
-                    vec.push_front(p);
-                    vec.push_front(Token::EQUAL);
+                    vec.push(p);
+                    vec.push(Token::EQUAL);
                     current_pos += 1
                 }
                 None => {
-                    vec.push_front(Token::EQUAL);
+                    vec.push(Token::EQUAL);
                     current_pos += 1
                 }
             },
             '^' => {
-                vec.push_front(Token::OPE(EXPO));
+                vec.push(Token::OPE(EXPO));
                 current_pos += 1
             }
             ',' => {
-                vec.push_front(Token::COMMA);
+                vec.push(Token::COMMA);
                 current_pos += 1
             }
             '!' => {
-                vec.push_front(Token::OPE(NOT));
+                vec.push(Token::OPE(NOT));
                 current_pos += 1
             }
             ch => {
@@ -190,14 +190,14 @@ pub fn lex(input: String) -> Vec<Token> {
                             if *char == '.' {
                                 let (a1, b1) = lex_float(a, &mut chars, current_pos, length);
                                 current_pos = b1;
-                                vec.push_front(Token::FLOAT(a1))
+                                vec.push(Token::FLOAT(a1))
                             } else {
-                                vec.push_front(Token::INT(a));
+                                vec.push(Token::INT(a));
                                 current_pos = b;
                             }
                         }
                         None => {
-                            vec.push_front(Token::INT(a));
+                            vec.push(Token::INT(a));
                             current_pos = b;
                         }
                     }
@@ -206,22 +206,22 @@ pub fn lex(input: String) -> Vec<Token> {
                     let (a, b) = lex_string(current_character, &mut chars, current_pos, length);
                     current_pos = b;
                     if &a == "false" {
-                        vec.push_front(Token::BOOL(false))
+                        vec.push(Token::BOOL(false))
                     } else if &a == "true" {
-                        vec.push_front(Token::BOOL(true))
+                        vec.push(Token::BOOL(true))
                     } else {
-                        vec.push_front(Token::IDENTIFIER(a))
+                        vec.push(Token::IDENTIFIER(a))
                     }
                 }
                 if ch == '.' {
                     let (a, b) = lex_float(0, &mut chars, current_pos, length);
                     current_pos = b;
-                    vec.push_front(Token::FLOAT(a))
+                    vec.push(Token::FLOAT(a))
                 }
             }
         }
     }
-    Vec::from(vec)
+    vec
 }
 
 #[cfg(test)]

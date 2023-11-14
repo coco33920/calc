@@ -14,6 +14,12 @@ pub enum Parameters {
     MinusOperation,
     MultiplicationOperation,
     DivideOperation,
+    LesserOrEqualOperation,
+    LesserOperation,
+    GreaterOrEqualOperation,
+    GreaterOperation,
+    Equal,
+    Not,
     Assign,
     Null,
     ExpoOperation,
@@ -46,6 +52,12 @@ impl Display for Parameters {
             Assign => write!(f, "="),
             Null => write!(f, ""),
             ExpoOperation => write!(f, "^"),
+            GreaterOperation => write!(f, ">"),
+            LesserOperation => write!(f, "<"),
+            GreaterOrEqualOperation => write!(f, ">="),
+            LesserOrEqualOperation => write!(f, "<="),
+            Equal => write!(f, "=="),
+            Not => write!(f, "!"),
         }
     }
 }
@@ -78,6 +90,12 @@ pub fn token_to_parameter(token: Token) -> Parameters {
         Token::OPE(Operator::MULTIPLICATION) => MultiplicationOperation,
         Token::OPE(Operator::DIVIDE) => DivideOperation,
         Token::OPE(Operator::EXPO) => ExpoOperation,
+        Token::OPE(Operator::EQUALITY) => Equal,
+        Token::OPE(Operator::GREATER_OR_EQUAL) => GreaterOrEqualOperation,
+        Token::OPE(Operator::GREATER_THAN) => GreaterOperation,
+        Token::OPE(Operator::LESSER_THAN) => LesserOperation,
+        Token::OPE(Operator::LESSER_OR_EQUAL) => LesserOrEqualOperation,
+        Token::OPE(Operator::NOT) => Not,
         Token::EQUAL => Assign,
         _ => Null,
     }

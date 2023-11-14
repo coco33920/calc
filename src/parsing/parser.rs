@@ -1,11 +1,10 @@
 use core::slice::Iter;
 
 use crate::lexing::token::Token::*;
-use crate::lexing::token::{Token, TokenType};
+use crate::lexing::token::{Precedence, Token, TokenType};
 use crate::parsing::ast::Ast;
 use crate::parsing::parselets::infix_parselet::{
-    AssignParselet, CallParselet, DivideParselet, ExpoParselet, InfixParselet, MinusParselet,
-    MultParselet, NullParset, PlusParselet,
+    AssignParselet, CallParselet, InfixParselet, NullParset, OperatorInfixParselet,
 };
 use crate::parsing::parselets::prefix_parselet::{
     FloatParselet, GroupParselet, IdentifierParselet, IntParselet, NullParselet,
@@ -107,13 +106,52 @@ impl CalcParser<'_> {
 
     pub fn get_infix_parselet(self, token_type: TokenType) -> Option<Box<dyn InfixParselet>> {
         match token_type {
-            TokenType::PLUS => Some(Box::from(PlusParselet { is_right: false })),
-            TokenType::MINUS => Some(Box::from(MinusParselet { is_right: false })),
-            TokenType::MULTIPLICATION => Some(Box::from(MultParselet { is_right: false })),
-            TokenType::DIVIDE => Some(Box::from(DivideParselet { is_right: false })),
+            TokenType::PLUS => Some(Box::from(OperatorInfixParselet {
+                is_right: false,
+                precedence: (Precedence::SUM as i64),
+            })),
+            TokenType::MINUS => Some(Box::from(OperatorInfixParselet {
+                is_right: false,
+                precedence: (Precedence::MINUS as i64),
+            })),
+            TokenType::MULTIPLICATION => Some(Box::from(OperatorInfixParselet {
+                is_right: false,
+                precedence: (Precedence::PRODUCT as i64),
+            })),
+            TokenType::DIVIDE => Some(Box::from(OperatorInfixParselet {
+                is_right: false,
+                precedence: (Precedence::DIVIDE as i64),
+            })),
             TokenType::EQUAL => Some(Box::from(AssignParselet {})),
-            TokenType::EXPO => Some(Box::from(ExpoParselet { is_right: false })),
+            TokenType::EXPO => Some(Box::from(OperatorInfixParselet {
+                is_right: false,
+                precedence: (Precedence::EXPONENT as i64),
+            })),
             TokenType::LPAR => Some(Box::from(CallParselet {})),
+            TokenType::NOT => Some(Box::from(OperatorInfixParselet {
+                is_right: false,
+                precedence: (Precedence::CONDITIONAL as i64),
+            })),
+            TokenType::EQUALITY => Some(Box::from(OperatorInfixParselet {
+                is_right: false,
+                precedence: (Precedence::CONDITIONAL as i64),
+            })),
+            TokenType::LESSER => Some(Box::from(OperatorInfixParselet {
+                is_right: false,
+                precedence: (Precedence::CONDITIONAL as i64),
+            })),
+            TokenType::LESSEREQ => Some(Box::from(OperatorInfixParselet {
+                is_right: false,
+                precedence: (Precedence::CONDITIONAL as i64),
+            })),
+            TokenType::GREATER => Some(Box::from(OperatorInfixParselet {
+                is_right: false,
+                precedence: (Precedence::CONDITIONAL as i64),
+            })),
+            TokenType::GREATEREQ => Some(Box::from(OperatorInfixParselet {
+                is_right: false,
+                precedence: (Precedence::CONDITIONAL as i64),
+            })),
             _ => Some(Box::from(NullParset {})),
         }
     }
@@ -128,6 +166,12 @@ impl CalcParser<'_> {
             TokenType::INT => Some(Box::from(IntParselet {})),
             TokenType::FLOAT => Some(Box::from(FloatParselet {})),
             TokenType::LPAR => Some(Box::from(GroupParselet {})),
+            TokenType::NOT => Some(Box::from(OperatorPrefixParselet {})),
+            TokenType::EQUALITY => Some(Box::from(OperatorPrefixParselet {})),
+            TokenType::LESSER => Some(Box::from(OperatorPrefixParselet {})),
+            TokenType::LESSEREQ => Some(Box::from(OperatorPrefixParselet {})),
+            TokenType::GREATER => Some(Box::from(OperatorPrefixParselet {})),
+            TokenType::GREATEREQ => Some(Box::from(OperatorPrefixParselet {})),
             _ => Some(Box::from(NullParselet {})),
         }
     }

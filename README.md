@@ -67,14 +67,15 @@ cargo install mini-calc
 - [X] Config
     - [X] Config colours
     - [X] Config prompt
-- [ ] Add more operations
+- [X] Add more operations
   - [X] exponent
-- [ ] Add support for functions
-    - [ ] exp
-    - [ ] ln
-    - [ ] log base a
-    - [ ] cos/sin/tan
-    - [ ] cosh/sinh/tanh
+- [X] Add support for functions
+    - [X] exp
+    - [X] ln
+    - [X] log base a
+    - [X] cos/sin/tan
+    - [X] cosh/sinh/tanh
+    - [X] atan/acos/asin
 - [ ] For later
     - [ ] Defining your own functions
     - [ ] Add RPN mode
@@ -132,3 +133,30 @@ Configuration:
 It looks like: 
 
 ![img.png](docs/assets/config_looks.png)
+
+## Functions
+
+The following functions are available
+
+- sin
+- cos
+- tan
+- sinh
+- cosh
+- tanh
+- asin
+- acos
+- atan
+- exp
+- ln
+- log (alias of ln)
+
+### Trigonometry
+
+For trigonometry, the input are assumed to be in radian, if not, you have to put "false" or "true" as second argument, example shown bellow
+![img.png](docs/assets/trigo.png)
+
+### Exp/ln
+
+If you use the exp function you can pass a second argument for the base you are using, if no second arguments are passed this is assumed to be in natural base
+![img.png](docs/assets/expln.png)

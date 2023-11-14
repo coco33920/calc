@@ -71,6 +71,12 @@ pub fn add(i: Parameters, i2: Parameters, ram: Option<&HashMap<String, Parameter
         (Parameters::Identifier(s), Parameters::Int(i)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Int(i), ram, add)
         }
+        (Parameters::Null, Parameters::Identifier(s)) => {
+            apply_operator(Parameters::Identifier(s), Parameters::Null, ram, add)
+        }
+        (Parameters::Identifier(s), Parameters::Null) => {
+            apply_operator(Parameters::Identifier(s), Parameters::Null, ram, add)
+        }
         (Parameters::Int(i), Parameters::Identifier(s)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Int(i), ram, add)
         }
@@ -106,6 +112,12 @@ pub fn minus(
         ),
         (Parameters::Identifier(s), Parameters::Int(i)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Int(i), ram, minus)
+        }
+        (Parameters::Null, Parameters::Identifier(s)) => {
+            apply_operator(Parameters::Identifier(s), Parameters::Null, ram, minus)
+        }
+        (Parameters::Identifier(s), Parameters::Null) => {
+            apply_operator(Parameters::Identifier(s), Parameters::Null, ram, minus)
         }
         (Parameters::Int(i), Parameters::Identifier(s)) => {
             let v = apply_operator(Parameters::Identifier(s), Parameters::Int(i), ram, minus);
@@ -154,6 +166,12 @@ pub fn mult(
         (Parameters::Int(i), Parameters::Identifier(s)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Int(i), ram, mult)
         }
+        (Parameters::Null, Parameters::Identifier(s)) => {
+            apply_operator(Parameters::Identifier(s), Parameters::Null, ram, mult)
+        }
+        (Parameters::Identifier(s), Parameters::Null) => {
+            apply_operator(Parameters::Identifier(s), Parameters::Null, ram, mult)
+        }
         (Parameters::Identifier(s), Parameters::Float(i)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Float(i), ram, mult)
         }
@@ -193,6 +211,12 @@ pub fn divide(
                 Parameters::Float(i) => Parameters::Float(1.0 / i),
                 _ => Parameters::Null,
             }
+        }
+        (Parameters::Null, Parameters::Identifier(s)) => {
+            apply_operator(Parameters::Identifier(s), Parameters::Null, ram, divide)
+        }
+        (Parameters::Identifier(s), Parameters::Null) => {
+            apply_operator(Parameters::Identifier(s), Parameters::Null, ram, divide)
         }
         (Parameters::Identifier(s), Parameters::Float(i)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Float(i), ram, divide)
@@ -236,6 +260,12 @@ pub fn expo(
         }
         (Parameters::Identifier(s), Parameters::Float(i)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Float(i), ram, expo)
+        }
+        (Parameters::Identifier(s), Parameters::Null) => {
+            apply_operator(Parameters::Identifier(s), Parameters::Null, ram, expo)
+        }
+        (Parameters::Null, Parameters::Identifier(s)) => {
+            apply_operator(Parameters::Identifier(s), Parameters::Null, ram, expo)
         }
         (Parameters::Float(i), Parameters::Identifier(s)) => {
             apply_operator_reverse(Parameters::Float(i), Parameters::Identifier(s), ram, expo)

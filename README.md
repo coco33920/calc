@@ -65,7 +65,7 @@ cargo install mini-calc
     - [ ] Config colours
     - [ ] Config prompt
 - [ ] Add more operations
-  - [ ] exponent
+  - [X] exponent
 - [ ] Add support for functions
     - [ ] exp
     - [ ] ln

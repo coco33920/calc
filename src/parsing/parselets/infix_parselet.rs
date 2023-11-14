@@ -29,7 +29,7 @@ pub struct AssignParselet {}
 pub struct NullParset {}
 
 impl InfixParselet for PlusParselet {
-    fn parse(&self, parser: &mut CalcParser, left: &Ast, token: Token) -> Ast {
+    fn parse(&self, parser: &mut CalcParser, left: &Ast, _token: Token) -> Ast {
         let right = parser.parse_expression(if self.is_right {
             self.get_precedence() - 1
         } else {
@@ -48,7 +48,7 @@ impl InfixParselet for PlusParselet {
 }
 
 impl InfixParselet for MinusParselet {
-    fn parse(&self, parser: &mut CalcParser, left: &Ast, token: Token) -> Ast {
+    fn parse(&self, parser: &mut CalcParser, left: &Ast, _token: Token) -> Ast {
         let right = parser.parse_expression(if self.is_right {
             self.get_precedence() - 1
         } else {
@@ -67,7 +67,7 @@ impl InfixParselet for MinusParselet {
 }
 
 impl InfixParselet for MultParselet {
-    fn parse(&self, parser: &mut CalcParser, left: &Ast, token: Token) -> Ast {
+    fn parse(&self, parser: &mut CalcParser, left: &Ast, _token: Token) -> Ast {
         let right = parser.parse_expression(if self.is_right {
             self.get_precedence() - 1
         } else {
@@ -86,7 +86,7 @@ impl InfixParselet for MultParselet {
 }
 
 impl InfixParselet for DivideParselet {
-    fn parse(&self, parser: &mut CalcParser, left: &Ast, token: Token) -> Ast {
+    fn parse(&self, parser: &mut CalcParser, left: &Ast, _token: Token) -> Ast {
         let right = parser.parse_expression(if self.is_right {
             self.get_precedence() - 1
         } else {
@@ -105,7 +105,7 @@ impl InfixParselet for DivideParselet {
 }
 
 impl InfixParselet for AssignParselet {
-    fn parse(&self, parser: &mut CalcParser, left: &Ast, token: Token) -> Ast {
+    fn parse(&self, parser: &mut CalcParser, left: &Ast, _token: Token) -> Ast {
         let right = parser.parse_expression_empty();
         Ast::Node {
             value: Parameters::Assign,
@@ -120,7 +120,7 @@ impl InfixParselet for AssignParselet {
 }
 
 impl InfixParselet for NullParset {
-    fn parse(&self, parser: &mut CalcParser, left: &Ast, token: Token) -> Ast {
+    fn parse(&self, _parser: &mut CalcParser, left: &Ast, _token: Token) -> Ast {
         left.clone()
     }
 

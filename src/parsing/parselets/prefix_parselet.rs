@@ -1,5 +1,3 @@
-use std::borrow::Borrow;
-
 use crate::lexing::token::{Token, TokenType};
 use crate::parsing::ast::{token_to_parameter, Ast, Parameters};
 use crate::parsing::parser::CalcParser;
@@ -68,13 +66,13 @@ impl PrefixParselet for OperatorPrefixParselet {
 }
 
 impl PrefixParselet for NullParselet {
-    fn parse(&self, _parser: &mut CalcParser, token: Token) -> Ast {
+    fn parse(&self, _parser: &mut CalcParser, _token: Token) -> Ast {
         Ast::Nil
     }
 }
 
 impl PrefixParselet for GroupParselet {
-    fn parse(&self, parser: &mut CalcParser, token: Token) -> Ast {
+    fn parse(&self, parser: &mut CalcParser, _token: Token) -> Ast {
         let expression = parser.parse_expression_empty();
         parser.consume_expected(TokenType::RPAR);
         expression

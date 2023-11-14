@@ -10,7 +10,7 @@ Or situated in your operating system config folder.
 
 The default configuration looks like this
 
-![img.png](docs/assets/img.png)
+![img.png](assets/img.png)
 
 ### Colors
 Available colors are
@@ -31,8 +31,8 @@ Default colour (if the configuration fail to load) is Cyan.
 
 Configuration:
 
-![img.png](docs/assets/config_modified.png)
+![img.png](assets/config_modified.png)
 
 It looks like:
 
-![img.png](docs/assets/config_looks.png)
+![img.png](assets/config_looks.png)

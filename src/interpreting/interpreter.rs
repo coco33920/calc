@@ -31,8 +31,6 @@ pub fn interpret(ast: Ast, mut ram: &mut HashMap<String, Parameters>) -> Paramet
                 Parameters::Identifier(s) => Parameters::Identifier(s),
                 Parameters::Null => Parameters::Null,
             };
-            ram.remove("ans");
-            ram.insert("ans".to_string(),last.clone());
             last.clone()
         }
     }

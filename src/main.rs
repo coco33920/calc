@@ -34,22 +34,21 @@ fn main() {
     let mut ram: HashMap<String, Parameters> = HashMap::new();
     ram.insert("pi".to_string(),Parameters::Float(PI));
     ram.insert("e".to_string(), Parameters::Float(E));
-    ram.insert("ans".to_string(), Parameters::Null);
     while let ReadResult::Input(line) = interface.read_line().unwrap() {
         match line.as_str().trim() {
             "info" => {
-                let message = Color::Purple.paint(" Calc v2.0.0 \n Author: Charlotte Thomas \n Written in Rust \n Repo: https://github.com/coco33920/calc\n");
+                let message = Color::Purple.paint(" Calc v2.1.0 \n Author: Charlotte Thomas \n Written in Rust \n Repo: https://github.com/coco33920/calc\n");
                 println!("{}", message)
             }
             "exit" => break,
             "help" => {
                 let message = Color::Purple.paint(
-                    " Calc v2.0.0 Help \n > info : show infos \n > exit : exit the program \n > help : print this help \n > verbose : toggle the verbose \n > version : prints the version \n"
+                    " Calc v2.1.0 Help \n > info : show infos \n > exit : exit the program \n > help : print this help \n > verbose : toggle the verbose \n > version : prints the version \n"
                 );
                 println!("{}", message)
             }
             "version" => {
-                let message = Color::Purple.paint(" Calc v2.0.0\n");
+                let message = Color::Purple.paint(" Calc v2.1.0\n");
                 println!("{}", message)
             }
             "verbose" => {

@@ -24,7 +24,6 @@ cargo install mini-calc
 
 You can see an overview of the usage over at [the usage page](usage.md)
 
-
 ## TODO List
 
 - [X] Lexing of basic operations

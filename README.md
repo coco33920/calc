@@ -36,11 +36,11 @@ cargo install mini-calc
     - [X] minus operation
     - [X] multiplication operation
     - [X] division operation
-- [ ] Parsing advanced operations
+- [X] Parsing advanced operations
     - [X] Parsing lpar,rpar
-    - [ ] mathematical priority
+    - [X] mathematical priority
       - [X] Left priority
-      - [ ] Right priority
+      - [X] Right priority
     - [X] parenthesis support
     - [X] Assignment
     - [X] associativity support
@@ -59,6 +59,8 @@ cargo install mini-calc
 - [ ] Config
     - [ ] Config colours
     - [ ] Config prompt
+- [ ] Add more operations
+  - [ ] exponent
 - [ ] Add support for functions
     - [ ] exp
     - [ ] ln

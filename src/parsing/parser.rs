@@ -7,8 +7,7 @@ use crate::parsing::parselets::infix_parselet::{
     AssignParselet, CallParselet, InfixParselet, NullParset, OperatorInfixParselet,
 };
 use crate::parsing::parselets::prefix_parselet::{
-    FloatParselet, GroupParselet, IdentifierParselet, IntParselet, NullParselet,
-    OperatorPrefixParselet, PrefixParselet,
+    GroupParselet, NullParselet, OperatorPrefixParselet, PrefixParselet, ValueParselet,
 };
 
 #[derive(Clone)]
@@ -162,9 +161,10 @@ impl CalcParser<'_> {
             TokenType::MINUS => Some(Box::from(OperatorPrefixParselet {})),
             TokenType::MULTIPLICATION => Some(Box::from(OperatorPrefixParselet {})),
             TokenType::DIVIDE => Some(Box::from(OperatorPrefixParselet {})),
-            TokenType::IDENTIFIER => Some(Box::from(IdentifierParselet {})),
-            TokenType::INT => Some(Box::from(IntParselet {})),
-            TokenType::FLOAT => Some(Box::from(FloatParselet {})),
+            TokenType::IDENTIFIER => Some(Box::from(ValueParselet {})),
+            TokenType::INT => Some(Box::from(ValueParselet {})),
+            TokenType::FLOAT => Some(Box::from(ValueParselet {})),
+            TokenType::BOOL => Some(Box::from(ValueParselet {})),
             TokenType::LPAR => Some(Box::from(GroupParselet {})),
             TokenType::NOT => Some(Box::from(OperatorPrefixParselet {})),
             TokenType::EQUALITY => Some(Box::from(OperatorPrefixParselet {})),

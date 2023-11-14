@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use crate::interpreting::function::{add, assign, divide, expo, minus, mult};
+use crate::interpreting::function::{add, assign, divide, expo, greater, minus, mult};
 use crate::interpreting::stdlib::exec;
 use crate::parsing::ast::{Ast, Parameters};
 
@@ -22,7 +22,7 @@ pub fn interpret(ast: Ast, mut ram: &mut HashMap<String, Parameters>) -> Paramet
                 Parameters::ExpoOperation => expo(param1, param2, Some(&ram)),
                 Parameters::Equal => Parameters::Null,
                 Parameters::Not => Parameters::Null,
-                Parameters::GreaterOperation => Parameters::Null,
+                Parameters::GreaterOperation => greater(param1, param2, Some(&ram)),
                 Parameters::GreaterOrEqualOperation => Parameters::Null,
                 Parameters::LesserOperation => Parameters::Null,
                 Parameters::LesserOrEqualOperation => Parameters::Null,
@@ -36,6 +36,7 @@ pub fn interpret(ast: Ast, mut ram: &mut HashMap<String, Parameters>) -> Paramet
                 Parameters::Float(f) => Parameters::Float(f),
                 Parameters::Int(i) => Parameters::Int(i),
                 Parameters::Identifier(s) => Parameters::Identifier(s),
+                Parameters::Bool(b) => Parameters::Bool(b),
                 Parameters::Null => Parameters::Null,
             };
             last.clone()

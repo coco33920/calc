@@ -1,4 +1,4 @@
-use std::fmt::{write, Display, Formatter};
+use std::fmt::{Display, Formatter};
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Operator {
@@ -8,10 +8,10 @@ pub enum Operator {
     DIVIDE,
     EXPO,
     EQUALITY,
-    GREATER_THAN,
-    LESSER_THAN,
-    GREATER_OR_EQUAL,
-    LESSER_OR_EQUAL,
+    GreaterThan,
+    LesserThan,
+    GreaterOrEqual,
+    LesserOrEqual,
     NOT,
 }
 
@@ -75,10 +75,10 @@ impl Display for Operator {
             Operator::MULTIPLICATION => write!(f, "*"),
             Operator::EXPO => write!(f, "^"),
             Operator::EQUALITY => write!(f, "=="),
-            Operator::GREATER_OR_EQUAL => write!(f, ">="),
-            Operator::GREATER_THAN => write!(f, ">"),
-            Operator::LESSER_OR_EQUAL => write!(f, "<="),
-            Operator::LESSER_THAN => write!(f, "<"),
+            Operator::GreaterOrEqual => write!(f, ">="),
+            Operator::GreaterThan => write!(f, ">"),
+            Operator::LesserOrEqual => write!(f, "<="),
+            Operator::LesserThan => write!(f, "<"),
             Operator::NOT => write!(f, "!"),
         }
     }
@@ -102,24 +102,6 @@ impl Display for Token {
 }
 
 impl Token {
-    pub fn get_text(&self) -> String {
-        match &self {
-            Token::IDENTIFIER(s) => s.clone(),
-            _ => "".to_string(),
-        }
-    }
-    pub fn get_int(&self) -> i64 {
-        match &self {
-            Token::INT(i) => *i,
-            _ => 0,
-        }
-    }
-    pub fn get_float(&self) -> f64 {
-        match &self {
-            Token::FLOAT(f) => *f,
-            _ => 0.0,
-        }
-    }
     pub fn to_token_type(&self) -> TokenType {
         match &self {
             Token::OPE(p) => match p {
@@ -128,11 +110,11 @@ impl Token {
                 Operator::MULTIPLICATION => TokenType::MULTIPLICATION,
                 Operator::DIVIDE => TokenType::DIVIDE,
                 Operator::EXPO => TokenType::EXPO,
-                Operator::EQUALITY => TokenType::EQUAL,
-                Operator::GREATER_THAN => TokenType::GREATER,
-                Operator::GREATER_OR_EQUAL => TokenType::GREATEREQ,
-                Operator::LESSER_THAN => TokenType::LESSER,
-                Operator::LESSER_OR_EQUAL => TokenType::LESSEREQ,
+                Operator::EQUALITY => TokenType::EQUALITY,
+                Operator::GreaterThan => TokenType::GREATER,
+                Operator::GreaterOrEqual => TokenType::GREATEREQ,
+                Operator::LesserThan => TokenType::LESSER,
+                Operator::LesserOrEqual => TokenType::LESSEREQ,
                 Operator::NOT => TokenType::NOT,
             },
             Token::IDENTIFIER(_) => TokenType::IDENTIFIER,

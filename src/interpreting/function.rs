@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
 use crate::parsing::ast::Parameters;
+use crate::parsing::ast::Parameters::Bool;
 
 pub fn apply_operator(
     value: Parameters,
@@ -278,6 +279,54 @@ pub fn assign(s: Parameters, s2: Parameters) -> (String, Parameters) {
     match s {
         Parameters::Identifier(s) => (s, s2),
         _ => ("".to_string(), s2),
+    }
+}
+
+pub fn greater(
+    i: Parameters,
+    i2: Parameters,
+    ram: Option<&HashMap<String, Parameters>>,
+) -> Parameters {
+    match (i, i2) {
+        (Parameters::Null, Parameters::Int(_)) => Bool(true),
+        (Parameters::Null, Parameters::Float(_)) => Bool(true),
+        (Parameters::Int(_), Parameters::Null) => Bool(true),
+        (Parameters::Float(_), Parameters::Null) => Bool(true),
+        (Parameters::Int(v), Parameters::Int(v2)) => Bool(v > v2),
+        (Parameters::Int(v), Parameters::Float(f)) => Bool((v as f64) > f),
+        (Parameters::Float(v), Parameters::Float(f)) => Bool(v > f),
+        (Parameters::Float(v), Parameters::Int(i1)) => Bool(v > (i1 as f64)),
+        (Parameters::Identifier(s), Parameters::Identifier(s2)) => apply_operator(
+            Parameters::Identifier(s),
+            Parameters::Identifier(s2),
+            ram,
+            greater,
+        ),
+        (Parameters::Identifier(s), Parameters::Int(i)) => {
+            apply_operator(Parameters::Identifier(s), Parameters::Int(i), ram, greater)
+        }
+        (Parameters::Null, Parameters::Identifier(s)) => {
+            apply_operator(Parameters::Identifier(s), Parameters::Null, ram, greater)
+        }
+        (Parameters::Identifier(s), Parameters::Null) => {
+            apply_operator(Parameters::Identifier(s), Parameters::Null, ram, greater)
+        }
+        (Parameters::Int(i), Parameters::Identifier(s)) => {
+            apply_operator_reverse(Parameters::Int(i), Parameters::Identifier(s), ram, greater)
+        }
+        (Parameters::Identifier(s), Parameters::Float(i)) => apply_operator(
+            Parameters::Identifier(s),
+            Parameters::Float(i),
+            ram,
+            greater,
+        ),
+        (Parameters::Float(i), Parameters::Identifier(s)) => apply_operator_reverse(
+            Parameters::Float(i),
+            Parameters::Identifier(s),
+            ram,
+            greater,
+        ),
+        _ => Parameters::Null,
     }
 }
 

@@ -9,6 +9,7 @@ use crate::parsing::ast::Parameters::*;
 pub enum Parameters {
     Int(i64),
     Float(f64),
+    Bool(bool),
     Identifier(String),
     PlusOperation,
     MinusOperation,
@@ -58,6 +59,7 @@ impl Display for Parameters {
             LesserOrEqualOperation => write!(f, "<="),
             Equal => write!(f, "=="),
             Not => write!(f, "!"),
+            Bool(b) => write!(f, "{b}"),
         }
     }
 }
@@ -91,12 +93,13 @@ pub fn token_to_parameter(token: Token) -> Parameters {
         Token::OPE(Operator::DIVIDE) => DivideOperation,
         Token::OPE(Operator::EXPO) => ExpoOperation,
         Token::OPE(Operator::EQUALITY) => Equal,
-        Token::OPE(Operator::GREATER_OR_EQUAL) => GreaterOrEqualOperation,
-        Token::OPE(Operator::GREATER_THAN) => GreaterOperation,
-        Token::OPE(Operator::LESSER_THAN) => LesserOperation,
-        Token::OPE(Operator::LESSER_OR_EQUAL) => LesserOrEqualOperation,
+        Token::OPE(Operator::GreaterOrEqual) => GreaterOrEqualOperation,
+        Token::OPE(Operator::GreaterThan) => GreaterOperation,
+        Token::OPE(Operator::LesserThan) => LesserOperation,
+        Token::OPE(Operator::LesserOrEqual) => LesserOrEqualOperation,
         Token::OPE(Operator::NOT) => Not,
         Token::EQUAL => Assign,
+        Token::BOOL(b) => Bool(b),
         _ => Null,
     }
 }

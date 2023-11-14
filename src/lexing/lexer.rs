@@ -1,4 +1,3 @@
-use std::collections::VecDeque;
 use std::str::FromStr;
 
 use crate::lexing::token::Operator::*;
@@ -138,11 +137,11 @@ pub fn lex(input: String) -> Vec<Token> {
                 current_pos += 1
             }
             '>' => {
-                vec.push(Token::OPE(GREATER_THAN));
+                vec.push(Token::OPE(GreaterThan));
                 current_pos += 1
             }
             '<' => {
-                vec.push(Token::OPE(LESSER_THAN));
+                vec.push(Token::OPE(LesserThan));
                 current_pos += 1
             }
             '=' => match vec.pop() {
@@ -150,12 +149,12 @@ pub fn lex(input: String) -> Vec<Token> {
                     vec.push(Token::OPE(EQUALITY));
                     current_pos += 1
                 }
-                Some(Token::OPE(LESSER_THAN)) => {
-                    vec.push(Token::OPE(LESSER_OR_EQUAL));
+                Some(Token::OPE(LesserThan)) => {
+                    vec.push(Token::OPE(LesserOrEqual));
                     current_pos += 1;
                 }
-                Some(Token::OPE(GREATER_THAN)) => {
-                    vec.push(Token::OPE(GREATER_OR_EQUAL));
+                Some(Token::OPE(GreaterThan)) => {
+                    vec.push(Token::OPE(GreaterOrEqual));
                     current_pos += 1;
                 }
                 Some(p) => {

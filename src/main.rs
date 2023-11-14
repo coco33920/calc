@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::f64::consts::{E, PI};
 use std::process::exit;
 
 use ansi_term::Color;
@@ -31,6 +32,9 @@ fn main() {
         ))
         .unwrap();
     let mut ram: HashMap<String, Parameters> = HashMap::new();
+    ram.insert("pi".to_string(),Parameters::Float(PI));
+    ram.insert("e".to_string(), Parameters::Float(E));
+    ram.insert("ans".to_string(), Parameters::Null);
     while let ReadResult::Input(line) = interface.read_line().unwrap() {
         match line.as_str().trim() {
             "info" => {

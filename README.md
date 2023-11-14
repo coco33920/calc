@@ -61,6 +61,10 @@ cargo install mini-calc
     - [X] Basic operation interpreter
     - [X] Advanced operation interpreter
     - [X] Identifiers (variable) interpreter
+- [ ] Built-in
+    - [ ] ans
+    - [X] pi 
+    - [X] e
 - [ ] Config
     - [ ] Config colours
     - [ ] Config prompt

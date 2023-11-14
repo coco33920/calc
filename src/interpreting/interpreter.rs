@@ -13,7 +13,7 @@ pub fn interpret(ast: Ast, mut ram: &mut HashMap<String, Parameters>) -> Paramet
         } => {
             let param1 = interpret(*l, &mut ram);
             let param2 = interpret(*r, &mut ram);
-            match v {
+            let last = match v {
                 Parameters::PlusOperation => add(param1, param2, Some(&ram)),
                 Parameters::MinusOperation => minus(param1, param2, Some(&ram)),
                 Parameters::MultiplicationOperation => mult(param1, param2, Some(&ram)),
@@ -30,7 +30,10 @@ pub fn interpret(ast: Ast, mut ram: &mut HashMap<String, Parameters>) -> Paramet
                 Parameters::Int(i) => Parameters::Int(i),
                 Parameters::Identifier(s) => Parameters::Identifier(s),
                 Parameters::Null => Parameters::Null,
-            }
+            };
+            ram.remove("ans");
+            ram.insert("ans".to_string(),last.clone());
+            last.clone()
         }
     }
 }

@@ -21,6 +21,11 @@ pub fn exec(
         "atan" => atan(&lst, ram),
         "ln" => ln(&lst, ram),
         "log" => ln(&lst, ram),
+        "sqrt" => sqrt(&lst, ram),
+        "!" => factorial(&lst, ram),
+        "fact" => factorial(&lst, ram),
+        "factorial" => factorial(&lst, ram),
+        "abs" => abs(&lst, ram),
         _ => cos(&lst, ram),
     }
 }
@@ -384,8 +389,8 @@ pub fn exp(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> Pa
             Some(t) => {
                 plus = true;
                 match t {
-                    Parameters::Float(f) => ln = (*f),
-                    Parameters::Int(i) => ln = ((*i) as f64),
+                    Parameters::Float(f) => ln = *f,
+                    Parameters::Int(i) => ln = (*i) as f64,
                     _ => ln = 0.0,
                 }
             }
@@ -418,6 +423,7 @@ pub fn exp(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> Pa
         _ => Parameters::Null,
     }
 }
+
 pub fn ln(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> Parameters {
     if p.len() < 1 {
         return Parameters::Null;
@@ -432,8 +438,8 @@ pub fn ln(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> Par
             Some(t) => {
                 plus = true;
                 match t {
-                    Parameters::Float(f) => sln = (*f),
-                    Parameters::Int(i) => sln = ((*i) as f64),
+                    Parameters::Float(f) => sln = *f,
+                    Parameters::Int(i) => sln = (*i) as f64,
                     _ => sln = 0.0,
                 }
             }
@@ -461,6 +467,103 @@ pub fn ln(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> Par
             Some(t) => match t.get(s.as_str()) {
                 None => Parameters::Null,
                 Some(t) => ln(&vec![t.clone()], ram),
+            },
+        },
+        _ => Parameters::Null,
+    }
+}
+
+pub fn sqrt(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> Parameters {
+    if p.len() < 1 {
+        return Parameters::Null;
+    }
+
+    let mut plus = false;
+    let mut sln: f64 = 0.0;
+
+    if p.len() > 1 {
+        match p.get(1) {
+            None => plus = false,
+            Some(t) => {
+                plus = true;
+                match t {
+                    Parameters::Float(f) => sln = *f,
+                    Parameters::Int(i) => sln = (*i) as f64,
+                    _ => sln = 0.0,
+                }
+            }
+        }
+    }
+
+    match p.get(0).unwrap() {
+        Parameters::Int(i) => {
+            let fs: f64 = (*i) as f64;
+            if plus {
+                Parameters::Float(fs.powf(1.0 / sln))
+            } else {
+                Parameters::Float(fs.sqrt())
+            }
+        }
+        Parameters::Float(f) => {
+            if plus {
+                Parameters::Float((*f).powf(1.0 / sln))
+            } else {
+                Parameters::Float((*f).sqrt())
+            }
+        }
+        Parameters::Identifier(s) => match ram {
+            None => Parameters::Identifier("This variable is not initialized yet".to_string()),
+            Some(t) => match t.get(s.as_str()) {
+                None => Parameters::Null,
+                Some(t) => sqrt(&vec![t.clone()], ram),
+            },
+        },
+        _ => Parameters::Null,
+    }
+}
+
+pub fn fact(n: i64) -> i64 {
+    fn aux(n: i64, acc: i64) -> i64 {
+        match n {
+            0 => acc,
+            i => aux(i - 1, i * acc),
+        }
+    }
+    aux(n, 1)
+}
+
+pub fn factorial(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> Parameters {
+    if p.len() < 1 {
+        return Parameters::Null;
+    }
+
+    match p.get(0).unwrap() {
+        Parameters::Int(i) => Parameters::Int(fact(*i)),
+        Parameters::Float(f) => Parameters::Int(fact(*f as i64)),
+        Parameters::Identifier(s) => match ram {
+            None => Parameters::Identifier("This variable is not initialized yet".to_string()),
+            Some(t) => match t.get(s.as_str()) {
+                None => Parameters::Null,
+                Some(t) => factorial(&vec![t.clone()], ram),
+            },
+        },
+        _ => Parameters::Null,
+    }
+}
+
+pub fn abs(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> Parameters {
+    if p.len() < 1 {
+        return Parameters::Null;
+    }
+
+    match p.get(0).unwrap() {
+        Parameters::Int(i) => Parameters::Int(i.abs()),
+        Parameters::Float(f) => Parameters::Float(f.abs()),
+        Parameters::Identifier(s) => match ram {
+            None => Parameters::Identifier("This variable is not initialized yet".to_string()),
+            Some(t) => match t.get(s.as_str()) {
+                None => Parameters::Null,
+                Some(t) => abs(&vec![t.clone()], ram),
             },
         },
         _ => Parameters::Null,

@@ -30,7 +30,6 @@ pub fn interpret(ast: Ast, mut ram: &mut HashMap<String, Parameters>) -> Paramet
                 Parameters::Float(f) => Parameters::Float(f),
                 Parameters::Int(i) => Parameters::Int(i),
                 Parameters::Identifier(s) => Parameters::Identifier(s),
-                Parameters::Call(s) => Parameters::Identifier(s),
                 Parameters::Null => Parameters::Null,
             };
             last.clone()

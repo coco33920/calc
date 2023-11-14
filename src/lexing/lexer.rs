@@ -16,6 +16,7 @@ pub fn is_an_allowed_char(character: char) -> bool {
         || character == '='
         || character == '^'
         || character == ','
+        || character == '!'
 }
 
 fn lex_int(
@@ -143,6 +144,10 @@ pub fn lex(input: String) -> Vec<Token> {
             }
             ',' => {
                 vec.push(Token::COMMA);
+                current_pos += 1
+            }
+            '!' => {
+                vec.push(Token::IDENTIFIER("!".to_string()));
                 current_pos += 1
             }
             ch => {

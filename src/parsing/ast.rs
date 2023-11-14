@@ -2,6 +2,7 @@ use std::collections::HashMap;
 use std::fmt::{Display, Formatter};
 
 use crate::lexing::token::{Operator, Token};
+use crate::parsing::ast::Ast::{Nil, Node};
 use crate::parsing::ast::Parameters::*;
 
 #[derive(Debug, Clone, PartialEq)]
@@ -72,6 +73,44 @@ pub fn token_to_parameter(token: Token) -> Parameters {
         Token::OPE(Operator::DIVIDE) => DivideOperation,
         Token::EQUAL => Assign,
         _ => Null,
+    }
+}
+
+impl Ast {
+    pub fn new(p: Parameters) -> Self {
+        Node {
+            value: p,
+            left: Box::from(Nil),
+            right: Box::from(Nil),
+        }
+    }
+    pub fn insert_left(self, node: Ast) -> Self {
+        match &self {
+            Nil => node,
+            Node {
+                value,
+                left: _left,
+                right,
+            } => Node {
+                value: value.clone(),
+                left: Box::from(node),
+                right: right.clone(),
+            },
+        }
+    }
+    pub fn insert_right(self, node: Ast) -> Self {
+        match &self {
+            Nil => node,
+            Node {
+                value,
+                left,
+                right: _right,
+            } => Node {
+                value: value.clone(),
+                left: left.clone(),
+                right: Box::from(node),
+            },
+        }
     }
 }
 

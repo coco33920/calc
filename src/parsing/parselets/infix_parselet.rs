@@ -1,4 +1,4 @@
-use crate::lexing::token::{Precedence, Token};
+use crate::lexing::token::{Precedence, Token, TokenType};
 use crate::parsing::ast::{Ast, Parameters};
 use crate::parsing::parser::CalcParser;
 
@@ -29,6 +29,8 @@ pub struct AssignParselet {}
 pub struct ExpoParselet {
     pub is_right: bool,
 }
+
+pub struct CallParselet {}
 
 pub struct NullParset {}
 
@@ -139,6 +141,61 @@ impl InfixParselet for AssignParselet {
 
     fn get_precedence(&self) -> i64 {
         Precedence::ASSIGNMENT as i64
+    }
+}
+
+fn create_ast_from_lst(lst: &Vec<Ast>, name: String) -> Ast {
+    fn aux(lst: &[Ast], mut acc: Ast, name: String) -> Ast {
+        match lst {
+            [] => acc,
+            [h, q @ ..] => {
+                acc = Ast::Node {
+                    value: Parameters::Call(name.clone()),
+                    left: Box::from(h.clone()),
+                    right: Box::from(acc),
+                };
+                aux(q, acc, name.clone())
+            }
+        }
+    }
+
+    aux(lst.as_slice(), Ast::Nil, name)
+}
+
+impl InfixParselet for CallParselet {
+    fn parse(&self, parser: &mut CalcParser, left: &Ast, token: Token) -> Ast {
+        let name = match left {
+            Ast::Nil => "",
+            Ast::Node {
+                value: v,
+                left: _left,
+                right: _right,
+            } => match v {
+                Parameters::Identifier(s) => s.as_str(),
+                _ => "",
+            },
+        };
+
+        let mut lst: Vec<Ast> = Vec::new();
+        if !parser.match_token(TokenType::RPAR) {
+            lst.push(parser.parse_expression_empty());
+            while parser.match_token(TokenType::COMMA) {
+                parser.consume();
+                let ast = parser.parse_expression_empty();
+                lst.push(ast);
+            }
+            parser.consume_expected(TokenType::RPAR);
+        }
+        let l = create_ast_from_lst(&lst, name.clone().to_string());
+        Ast::Node {
+            value: Parameters::Call(name.to_string().clone()),
+            left: Box::new(Ast::Nil),
+            right: Box::new(Ast::Nil),
+        }
+    }
+
+    fn get_precedence(&self) -> i64 {
+        Precedence::CALL as i64
     }
 }
 

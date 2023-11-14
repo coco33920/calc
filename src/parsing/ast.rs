@@ -17,6 +17,7 @@ pub enum Parameters {
     Assign,
     Null,
     ExpoOperation,
+    Call(String),
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -42,6 +43,7 @@ impl Display for Parameters {
             Assign => write!(f, "="),
             Null => write!(f, ""),
             ExpoOperation => write!(f, "^"),
+            Call(s) => write!(f, "{s}"),
         }
     }
 }

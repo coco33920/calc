@@ -18,6 +18,7 @@ pub enum Token {
     EQUAL,
     RPAR,
     LPAR,
+    COMMA,
     Null,
 }
 
@@ -34,6 +35,7 @@ pub enum TokenType {
     RPAR,
     LPAR,
     Null,
+    COMMA,
     EXPO,
 }
 
@@ -47,7 +49,7 @@ pub enum Precedence {
     EXPONENT = 7,
     //PREFIX = 8,
     //POSTFIX = 9,
-    //CALL = 10,
+    CALL = 10,
 }
 
 impl Display for Operator {
@@ -72,6 +74,7 @@ impl Display for Token {
             Token::INT(i) => write!(f, "{}", i),
             Token::IDENTIFIER(s) => write!(f, "{}", s),
             Token::OPE(s) => write!(f, "{}", s),
+            Token::COMMA => write!(f, ","),
             Token::Null => write!(f, "Null"),
         }
     }
@@ -111,6 +114,7 @@ impl Token {
             Token::EQUAL => TokenType::EQUAL,
             Token::RPAR => TokenType::RPAR,
             Token::LPAR => TokenType::LPAR,
+            Token::COMMA => TokenType::COMMA,
             Token::Null => TokenType::Null,
         }
     }

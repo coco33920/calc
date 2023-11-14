@@ -28,6 +28,10 @@ pub enum Ast {
         left: Box<Ast>,
         right: Box<Ast>,
     },
+    Call {
+        name: String,
+        lst: Vec<Ast>,
+    },
 }
 
 impl Display for Parameters {
@@ -51,7 +55,7 @@ impl Display for Parameters {
 impl Parameters {
     pub fn pretty_print(&self, ram: Option<&HashMap<String, Parameters>>) {
         match self {
-            Parameters::Identifier(s) => {
+            Identifier(s) => {
                 if ram == None {
                     println!("{self}")
                 } else {
@@ -101,6 +105,7 @@ impl Ast {
                 left: Box::from(node),
                 right: right.clone(),
             },
+            _ => node,
         }
     }
     pub fn insert_right(self, node: Ast) -> Self {
@@ -115,6 +120,7 @@ impl Ast {
                 left: left.clone(),
                 right: Box::from(node),
             },
+            _ => node,
         }
     }
 }

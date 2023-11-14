@@ -30,10 +30,14 @@ pub fn interpret(ast: Ast, mut ram: &mut HashMap<String, Parameters>) -> Paramet
                 Parameters::Float(f) => Parameters::Float(f),
                 Parameters::Int(i) => Parameters::Int(i),
                 Parameters::Identifier(s) => Parameters::Identifier(s),
-                Parameters::Call(s) => exec(s, param1, Some(&ram)),
+                Parameters::Call(s) => Parameters::Identifier(s),
                 Parameters::Null => Parameters::Null,
             };
             last.clone()
+        }
+        Ast::Call { name: n, lst: list } => {
+            let v: Vec<Parameters> = list.iter().map(|x| interpret(x.clone(), ram)).collect();
+            exec(n, v, Some(&ram))
         }
     }
 }

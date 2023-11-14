@@ -1,4 +1,5 @@
 use crate::lexing::token::{Precedence, Token, TokenType};
+use crate::parsing::ast::Ast::Call;
 use crate::parsing::ast::{Ast, Parameters};
 use crate::parsing::parser::CalcParser;
 
@@ -144,26 +145,8 @@ impl InfixParselet for AssignParselet {
     }
 }
 
-fn create_ast_from_lst(lst: &Vec<Ast>, name: String) -> Ast {
-    fn aux(lst: &[Ast], mut acc: Ast, name: String) -> Ast {
-        match lst {
-            [] => acc,
-            [h, q @ ..] => {
-                acc = Ast::Node {
-                    value: Parameters::Call(name.clone()),
-                    left: Box::from(h.clone()),
-                    right: Box::from(acc),
-                };
-                aux(q, acc, name.clone())
-            }
-        }
-    }
-
-    aux(lst.as_slice(), Ast::Nil, name)
-}
-
 impl InfixParselet for CallParselet {
-    fn parse(&self, parser: &mut CalcParser, left: &Ast, token: Token) -> Ast {
+    fn parse(&self, parser: &mut CalcParser, left: &Ast, _token: Token) -> Ast {
         let name = match left {
             Ast::Nil => "",
             Ast::Node {
@@ -174,6 +157,7 @@ impl InfixParselet for CallParselet {
                 Parameters::Identifier(s) => s.as_str(),
                 _ => "",
             },
+            _ => "",
         };
 
         let mut lst: Vec<Ast> = Vec::new();
@@ -186,8 +170,10 @@ impl InfixParselet for CallParselet {
             }
             parser.consume_expected(TokenType::RPAR);
         }
-        let l = create_ast_from_lst(&lst, name.clone().to_string());
-        l
+        Call {
+            name: name.to_string(),
+            lst,
+        }
     }
 
     fn get_precedence(&self) -> i64 {

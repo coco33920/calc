@@ -1,21 +1,49 @@
-use crate::parsing::ast::{Ast, Parameters};
+use crate::parsing::ast::Parameters;
 use std::collections::HashMap;
+use std::f64::consts::PI;
 
-pub fn exec(s: String, p: Parameters, ram: Option<&HashMap<String, Parameters>>) -> Parameters {
+pub fn exec(
+    s: String,
+    lst: Vec<Parameters>,
+    ram: Option<&HashMap<String, Parameters>>,
+) -> Parameters {
     match s {
-        _ => cos(p, ram),
+        _ => cos(&lst, ram),
     }
 }
 
-pub fn cos(p: Parameters, ram: Option<&HashMap<String, Parameters>>) -> Parameters {
-    match p {
-        Parameters::Int(i) => Parameters::Float((i.clone() as f64).cos()),
-        Parameters::Float(f) => Parameters::Float(f.clone().cos()),
+pub fn cos(p: &Vec<Parameters>, ram: Option<&HashMap<String, Parameters>>) -> Parameters {
+    if p.len() < 1 {
+        return Parameters::Null;
+    }
+
+    let mut degrees = false;
+
+    if p.len() > 1 {
+        match p.get(1) {
+            None => degrees = false,
+            Some(_) => degrees = true,
+        }
+    }
+
+    match p.get(0).unwrap() {
+        Parameters::Int(i) => {
+            let fs: f64 = if degrees {
+                ((*i).clone() as f64) * (PI / 180.0)
+            } else {
+                (*i).clone() as f64
+            };
+            Parameters::Float(fs.cos())
+        }
+        Parameters::Float(f) => {
+            let fs: f64 = if degrees { (*f) * (PI / 180.0) } else { *f };
+            Parameters::Float(fs.cos())
+        }
         Parameters::Identifier(s) => match ram {
-            None => Parameters::Null,
-            Some(i_ram) => match i_ram.get(s.as_str()) {
+            None => Parameters::Identifier("This variable is not initialized yet".to_string()),
+            Some(t) => match t.get(s.as_str()) {
                 None => Parameters::Null,
-                Some(t) => cos(t.clone(), ram),
+                Some(t) => cos(&vec![t.clone()], ram),
             },
         },
         _ => Parameters::Null,

@@ -1,4 +1,5 @@
 # Calc
+
 <div align="center">
 
 **Calc: a minimalistic calculator built in rust for educational purpose only.**

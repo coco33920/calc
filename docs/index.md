@@ -88,6 +88,7 @@ An overview of the function of mini-calc can be found [here](function.md)
   - [X] log base a
   - [X] cos/sin/tan
   - [X] cosh/sinh/tanh
+  - [X] some more
 - [ ] For later
   - [ ] Defining your own functions
   - [ ] Add RPN mode

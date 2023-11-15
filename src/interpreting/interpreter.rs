@@ -1,8 +1,8 @@
 use std::collections::HashMap;
 
 use crate::interpreting::function::{
-    add, assign, divide, equal, expo, greater, greater_or_equal, lesser, lesser_or_equal, minus,
-    mult, not,
+    add, and, assign, divide, equal, expo, greater, greater_or_equal, lesser, lesser_or_equal,
+    minus, mult, not, or,
 };
 use crate::interpreting::stdlib::exec;
 use crate::parsing::ast::{Ast, Parameters};
@@ -29,8 +29,8 @@ pub fn interpret(ast: Ast, mut ram: &mut HashMap<String, Parameters>) -> Paramet
                 Parameters::GreaterOrEqualOperation => greater_or_equal(param1, param2, Some(&ram)),
                 Parameters::LesserOperation => lesser(param1, param2, Some(&ram)),
                 Parameters::LesserOrEqualOperation => lesser_or_equal(param1, param2, Some(&ram)),
-                Parameters::AndOperation => Parameters::Bool(false),
-                Parameters::OrOperation => Parameters::Bool(false),
+                Parameters::AndOperation => and(param1, param2, Some(&ram)),
+                Parameters::OrOperation => or(param1, param2, Some(&ram)),
                 Parameters::Assign => {
                     let (a, b) = assign(param1, param2);
                     if a != "".to_string() {

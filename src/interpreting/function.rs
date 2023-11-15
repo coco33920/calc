@@ -1,3 +1,4 @@
+use crate::lexing::token::Token;
 use std::collections::HashMap;
 
 use crate::parsing::ast::Parameters;
@@ -675,6 +676,48 @@ pub fn not(
         Parameters::Identifier(s) => {
             apply_operator(Parameters::Identifier(s), Parameters::Null, ram, not)
         }
+        _ => Bool(false),
+    }
+}
+
+pub fn and(i: Parameters, i2: Parameters, ram: Option<&HashMap<String, Parameters>>) -> Parameters {
+    match (i, i2) {
+        (Bool(b), Bool(b2)) => Bool(b && b2),
+        (Bool(b), Parameters::Null) => Bool(b),
+        (Parameters::Null, Bool(b)) => Bool(b),
+        (Parameters::Identifier(s), Bool(b)) => {
+            apply_operator(Parameters::Identifier(s), Bool(b), ram, and)
+        }
+        (Bool(b), Parameters::Identifier(s)) => {
+            apply_operator_reverse(Bool(b), Parameters::Identifier(s), ram, and)
+        }
+        (Parameters::Identifier(s), Parameters::Identifier(s2)) => apply_operator(
+            Parameters::Identifier(s),
+            Parameters::Identifier(s2),
+            ram,
+            and,
+        ),
+        _ => Bool(false),
+    }
+}
+
+pub fn or(i: Parameters, i2: Parameters, ram: Option<&HashMap<String, Parameters>>) -> Parameters {
+    match (i, i2) {
+        (Bool(b), Bool(b2)) => Bool(b || b2),
+        (Bool(b), Parameters::Null) => Bool(b),
+        (Parameters::Null, Bool(b)) => Bool(b),
+        (Parameters::Identifier(s), Bool(b)) => {
+            apply_operator(Parameters::Identifier(s), Bool(b), ram, or)
+        }
+        (Bool(b), Parameters::Identifier(s)) => {
+            apply_operator_reverse(Bool(b), Parameters::Identifier(s), ram, or)
+        }
+        (Parameters::Identifier(s), Parameters::Identifier(s2)) => apply_operator(
+            Parameters::Identifier(s),
+            Parameters::Identifier(s2),
+            ram,
+            or,
+        ),
         _ => Bool(false),
     }
 }

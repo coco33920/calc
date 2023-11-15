@@ -218,3 +218,9 @@ You can now use logic! I implemented the following functions:
 Example:
 
 ![img.png](docs/assets/logic.png)
+
+## User defined functions!
+
+You can define your own functions!
+
+![img.png](docs/assets/user_defined.png)

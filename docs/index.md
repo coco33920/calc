@@ -40,6 +40,10 @@ An overview of the configuration of mini-calc can be found [here](config.md)
 
 An overview of the function of mini-calc can be found [here](function.md) 
 
+## Logic
+
+To learn about the binary logic built in go to the [logic page](logic.md)
+
 ## TODO List
 
 - [X] Lexing of basic operations

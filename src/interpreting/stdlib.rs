@@ -1,4 +1,3 @@
-use crate::lexing::token::Token;
 use std::collections::HashMap;
 use std::f64::consts::PI;
 
@@ -23,7 +22,6 @@ pub fn exec(
         "ln" => ln(&lst, ram),
         "log" => ln(&lst, ram),
         "sqrt" => sqrt(&lst, ram),
-        "!" => factorial(&lst, ram),
         "fact" => factorial(&lst, ram),
         "factorial" => factorial(&lst, ram),
         "abs" => abs(&lst, ram),

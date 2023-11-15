@@ -44,6 +44,12 @@ An overview of the function of mini-calc can be found [here](function.md)
 
 To learn about the binary logic built in go to the [logic page](logic.md)
 
+## User defined functions
+
+You can define your own functions!
+
+![img.png](assets/user_defined.png)
+
 ## TODO List
 
 - [X] Lexing of basic operations

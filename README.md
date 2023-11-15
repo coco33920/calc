@@ -106,9 +106,9 @@ Check [the function page](docs/function.md) for more informations.
     - [X] Add unary operator
         - [X] not (!)
 - [ ] For later
-  - [ ] Defining your own functions
-  - [ ] Add RPN mode
-  - [ ] Hidden multiplication
+    - [X] Defining your own functions
+    - [ ] Add RPN mode
+    - [ ] Hidden multiplication
 
 ## Examples
 
@@ -122,9 +122,6 @@ Check [the function page](docs/function.md) for more informations.
 
 ### REPL and functionning interpreter (verbose mode: off by default)
 
-<<<<<<< HEAD
-![](docs/assets/test_interpreter.png)
-=======
 ![](docs/assets/test_interpreter.png)
 
 ## Configuration
@@ -184,10 +181,9 @@ The following functions are available
 - acos
 - atan
 - exp
-- ln
-- log (alias of ln)
+- ln (alias: log)
 - sqrt
-- factorial (aliases: fact)
+- factorial (alias: fact)
 - abs
 - ceil
 - floor
@@ -234,3 +230,9 @@ You can now use logic! I implemented the following functions:
 Example:
 
 ![img.png](docs/assets/logic.png)
+
+## User defined functions!
+
+You can define your own functions!
+
+![img.png](docs/assets/user_defined.png)

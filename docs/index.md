@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<span style="font-weight:bold">Calc: a minimalistic calculator built in rust for educational purpose only.</span>
+<span style="font-weight:bold">Calc: a fully-featured minimalistic calculator built in rust for educational purpose only.</span>
 <br/>
 <a href="https://github.com/coco33920/calc/actions/workflows/rust-test.yml"><img src="https://github.com/coco33920/calc/actions/workflows/rust-test.yml/badge.svg"></a>
 <a href="https://github.com/coco33920/calc/releases/latest"><img src="https://img.shields.io/github/v/release/coco33920/calc.svg?include_prereleases=&sort=semver&color=f7a8d8"></a>

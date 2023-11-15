@@ -245,6 +245,16 @@ pub fn lex(input: String) -> Vec<Token> {
                         vec.push(Token::OPE(Or))
                     } else if &a == "and" {
                         vec.push(Token::OPE(And))
+                    } else if &a == "geq" {
+                        vec.push(Token::OPE(GreaterOrEqual))
+                    } else if &a == "leq" {
+                        vec.push(Token::OPE(LesserOrEqual))
+                    } else if &a == "lt" {
+                        vec.push(Token::OPE(LesserThan))
+                    } else if &a == "gt" {
+                        vec.push(Token::OPE(GreaterThan))
+                    } else if &a == "eq" {
+                        vec.push(Token::OPE(EQUALITY))
                     } else {
                         vec.push(Token::IDENTIFIER(a))
                     }

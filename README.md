@@ -81,10 +81,18 @@ Check [the website](https://calc.nwa2coco.fr) for more informations.
     - [X] cos/sin/tan
     - [X] cosh/sinh/tanh
     - [X] atan/acos/asin
-- [ ] Add logic
+- [X] Add logic
     - [X] Add basic true/false
-    - [ ] Add binary operator
-    - [ ] Add unary operator
+    - [X] Add binary operator
+      - [X] or (&&)
+      - [X] and (||)
+      - [X] `>=`
+      - [X] `>`
+      - [X] `<=`
+      - [X] `<`
+      - [X] `==`
+    - [X] Add unary operator
+      - [X] not (!)
 - [ ] For later
     - [ ] Defining your own functions
     - [ ] Add RPN mode
@@ -195,3 +203,15 @@ You can take the nth root with the sqrt function, by default it takes the second
 You can round to the nth decimal with the round function, by default it round to the integer (floor)
 
 ![img.png](docs/assets/round.png)
+
+## Logic
+
+You can now use logic! I implemented the following functions:
+
+- or (alias : ||)
+- and (alias : &&)
+- `>=`
+- `>`
+- `<=`
+- `<`
+- `==`

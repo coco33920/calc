@@ -61,7 +61,7 @@ pub fn interpret(
         }
         Ast::Call { name: n, lst: list } => {
             let v: Vec<Parameters> = list.iter().map(|x| interpret(x, ram, function)).collect();
-            exec(n.to_string(), v, Some(&ram), Some(function))
+            exec(n.to_string(), v, Some(&mut ram), Some(&mut function))
         }
     }
 }

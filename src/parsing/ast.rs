@@ -68,6 +68,22 @@ impl Display for Parameters {
     }
 }
 
+impl Display for Ast {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Nil => write!(f,""),
+            Node { value: v, left: l, right: r } => {
+                write!(f,"({} {} {})",l,v,r)
+            }
+            Ast::Call { name: v, lst: s } => {
+                let mut vs = Vec::new();
+                s.iter().for_each(|x1| {vs.push(x1.to_string())});
+                write!(f,"{}({})",v,vs.join(",").to_string())
+            }
+        }
+    }
+}
+
 impl Parameters {
     pub fn pretty_print(&self, ram: Option<&HashMap<String, Parameters>>) {
         match self {
@@ -83,6 +99,9 @@ impl Parameters {
             }
             _ => println!("{self}"),
         }
+    }
+    pub fn print(&self){
+        println!("{self}");
     }
 }
 

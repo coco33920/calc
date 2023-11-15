@@ -43,7 +43,7 @@ pub fn interpret(
                         Parameters::Null
                     }
                     _ => {
-                        let (a, b) = assign(param1, param2);
+                        let (a, b) = assign(param1.clone(), param2.clone());
                         if a != "".to_string() {
                             (ram).insert(a, b);
                         }

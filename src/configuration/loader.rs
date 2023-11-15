@@ -20,6 +20,7 @@ pub struct Config {
     prompt: Prompt,
 }
 
+#[derive(Clone)]
 pub struct Loaded<'a> {
     pub general_color: Color,
     pub greeting_message: ANSIGenericString<'a, str>,

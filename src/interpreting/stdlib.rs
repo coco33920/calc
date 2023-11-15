@@ -1,6 +1,5 @@
 use std::collections::HashMap;
 use std::f64::consts::{E, PI};
-use std::ops::DerefMut;
 
 use crate::interpreting::interpreter::interpret;
 use crate::parsing::ast::{Ast, Parameters};
@@ -9,7 +8,7 @@ pub fn exec(
     s: String,
     lst: Vec<Parameters>,
     ram: Option<&HashMap<String, Parameters>>,
-    mut functions: Option<&mut HashMap<String, (Vec<Ast>, Ast)>>,
+    functions: Option<&mut HashMap<String, (Vec<Ast>, Ast)>>,
 ) -> Parameters {
     match s.as_str() {
         "cos" => cos(&lst, ram),

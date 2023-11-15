@@ -4,6 +4,8 @@ use std::f64::consts::{E, PI};
 use crate::interpreting::interpreter::interpret;
 use crate::parsing::ast::{Ast, Parameters};
 
+use super::function::{add, mult};
+
 pub fn exec(
     s: String,
     lst: Vec<Parameters>,
@@ -796,7 +798,18 @@ pub fn norm(
             lst.iter()
                 .map(|x| interpret(x, ram.as_mut().unwrap(), function.as_mut().unwrap()))
                 .for_each(|x| list.push(x));
-            Parameters::Float(1.0)
+
+            let mut sum = Parameters::Int(0);
+
+            list.iter()
+                .map(|x| mult(x.clone(), x.clone(), ram.as_deref()))
+                .for_each(|x| sum = add(sum.clone(), x.clone(), ram.as_deref()));
+
+            match sum {
+                Parameters::Int(i) => Parameters::Float((i as f64).sqrt()),
+                Parameters::Float(f) => Parameters::Float(f.sqrt()),
+                _ => Parameters::Float(0.0),
+            }
         }
         Parameters::Identifier(s) => match ram {
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),

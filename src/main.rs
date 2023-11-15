@@ -83,7 +83,7 @@ fn main() {
                 }
                 let result = interpret(&p, &mut ram, &mut functions);
                 if result != Parameters::Null {
-                    result.pretty_prt(Some(&ram))
+                    result.pretty_print(Some(&ram))
                 }
             }
         }

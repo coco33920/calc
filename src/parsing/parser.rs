@@ -151,6 +151,14 @@ impl CalcParser<'_> {
                 is_right: false,
                 precedence: (Precedence::CONDITIONAL as i64),
             })),
+            TokenType::OR => Some(Box::from(OperatorInfixParselet {
+                is_right: false,
+                precedence: (Precedence::CONDITIONAL as i64),
+            })),
+            TokenType::AND => Some(Box::from(OperatorInfixParselet {
+                is_right: false,
+                precedence: (Precedence::CONDITIONAL as i64),
+            })),
             _ => Some(Box::from(NullParset {})),
         }
     }

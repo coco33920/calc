@@ -12,6 +12,8 @@ pub enum Operator {
     LesserThan,
     GreaterOrEqual,
     LesserOrEqual,
+    And,
+    Or,
     NOT,
 }
 
@@ -27,6 +29,8 @@ pub enum Token {
     LPAR,
     COMMA,
     Null,
+    PreAnd,
+    PreOr,
 }
 
 #[derive(Debug, Clone, PartialEq, Hash, Eq)]
@@ -43,6 +47,8 @@ pub enum TokenType {
     GREATER,
     LESSER,
     GREATEREQ,
+    OR,
+    AND,
     LESSEREQ,
     NOT,
     BOOL,
@@ -80,6 +86,8 @@ impl Display for Operator {
             Operator::LesserOrEqual => write!(f, "<="),
             Operator::LesserThan => write!(f, "<"),
             Operator::NOT => write!(f, "!"),
+            Operator::Or => write!(f, "||"),
+            Operator::And => write!(f, "&&"),
         }
     }
 }
@@ -97,6 +105,8 @@ impl Display for Token {
             Token::COMMA => write!(f, ","),
             Token::Null => write!(f, "Null"),
             Token::BOOL(b) => write!(f, "{b}"),
+            Token::PreAnd => write!(f, ""),
+            Token::PreOr => write!(f, ""),
         }
     }
 }
@@ -116,6 +126,8 @@ impl Token {
                 Operator::LesserThan => TokenType::LESSER,
                 Operator::LesserOrEqual => TokenType::LESSEREQ,
                 Operator::NOT => TokenType::NOT,
+                Operator::And => TokenType::AND,
+                Operator::Or => TokenType::OR,
             },
             Token::IDENTIFIER(_) => TokenType::IDENTIFIER,
             Token::INT(_) => TokenType::INT,
@@ -126,6 +138,7 @@ impl Token {
             Token::COMMA => TokenType::COMMA,
             Token::Null => TokenType::Null,
             Token::BOOL(_) => TokenType::BOOL,
+            _ => TokenType::Null,
         }
     }
 }

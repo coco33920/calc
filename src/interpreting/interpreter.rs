@@ -29,6 +29,8 @@ pub fn interpret(ast: Ast, mut ram: &mut HashMap<String, Parameters>) -> Paramet
                 Parameters::GreaterOrEqualOperation => greater_or_equal(param1, param2, Some(&ram)),
                 Parameters::LesserOperation => lesser(param1, param2, Some(&ram)),
                 Parameters::LesserOrEqualOperation => lesser_or_equal(param1, param2, Some(&ram)),
+                Parameters::AndOperation => Parameters::Bool(false),
+                Parameters::OrOperation => Parameters::Bool(false),
                 Parameters::Assign => {
                     let (a, b) = assign(param1, param2);
                     if a != "".to_string() {

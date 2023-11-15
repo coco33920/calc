@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-use std::fmt::{Display, Formatter};
+use std::fmt::{write, Display, Formatter};
 
 use crate::lexing::token::{Operator, Token};
 use crate::parsing::ast::Ast::{Nil, Node};
@@ -19,6 +19,8 @@ pub enum Parameters {
     LesserOperation,
     GreaterOrEqualOperation,
     GreaterOperation,
+    OrOperation,
+    AndOperation,
     Equal,
     Not,
     Assign,
@@ -60,6 +62,8 @@ impl Display for Parameters {
             Equal => write!(f, "=="),
             Not => write!(f, "!"),
             Bool(b) => write!(f, "{b}"),
+            AndOperation => write!(f, "&&"),
+            OrOperation => write!(f, "||"),
         }
     }
 }
@@ -98,6 +102,8 @@ pub fn token_to_parameter(token: Token) -> Parameters {
         Token::OPE(Operator::LesserThan) => LesserOperation,
         Token::OPE(Operator::LesserOrEqual) => LesserOrEqualOperation,
         Token::OPE(Operator::NOT) => Not,
+        Token::OPE(Operator::Or) => OrOperation,
+        Token::OPE(Operator::And) => AndOperation,
         Token::EQUAL => Assign,
         Token::BOOL(b) => Bool(b),
         _ => Null,

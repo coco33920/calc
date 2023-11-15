@@ -109,10 +109,29 @@ Check [the website](https://calc.nwa2coco.fr) for more informations.
       - [ ] Matrix addition
       - [ ] Matrix multiplication 
       - [ ] Calculate the reverse matrix
-- [ ] For later
-    - [X] Defining your own functions
-    - [ ] Add RPN mode
-    - [ ] Hidden multiplication
+
+## Evolution
+
+### Exact math calculator
+
+As this project provides a frontend with a parser we could plug an exact math engine in the backend to transform `calc` into a 
+real exact math calculator.
+TODO List for the Exact Math Engine
+
+- [ ] Rational calculation
+  - [ ] Implement rational numbers operations 
+  - [ ] Rational reduction
+- [ ] Irrational calculation 
+  - [ ] Implement irrational numbers operations
+  - [ ] Irrational reduction
+- [ ] Literal calculation
+  - [ ] Computes literal expression with uninitialized operators
+  - [ ] Literal reduction
+
+### CAS
+
+If we ever go to this step, yes, I will remove the "minimalistic" from the description
+- [ ] It's hard.
 
 ## Examples
 

@@ -7,7 +7,11 @@ use crate::interpreting::function::{
 use crate::interpreting::stdlib::exec;
 use crate::parsing::ast::{Ast, Parameters};
 
-pub fn interpret(ast: Ast, mut ram: &mut HashMap<String, Parameters>) -> Parameters {
+pub fn interpret(
+    ast: &Ast,
+    mut ram: &mut HashMap<String, Parameters>,
+    mut function: &mut HashMap<String, (Vec<Ast>, Ast)>,
+) -> Parameters {
     match ast {
         Ast::Nil => Parameters::Null,
         Ast::Node {
@@ -15,8 +19,8 @@ pub fn interpret(ast: Ast, mut ram: &mut HashMap<String, Parameters>) -> Paramet
             left: l,
             right: r,
         } => {
-            let param1 = interpret(*l, &mut ram);
-            let param2 = interpret(*r, &mut ram);
+            let param1 = interpret(l, &mut ram, &mut function);
+            let param2 = interpret(r, &mut ram, &mut function);
             let last = match v {
                 Parameters::PlusOperation => add(param1, param2, Some(&ram)),
                 Parameters::MinusOperation => minus(param1, param2, Some(&ram)),
@@ -31,24 +35,32 @@ pub fn interpret(ast: Ast, mut ram: &mut HashMap<String, Parameters>) -> Paramet
                 Parameters::LesserOrEqualOperation => lesser_or_equal(param1, param2, Some(&ram)),
                 Parameters::AndOperation => and(param1, param2, Some(&ram)),
                 Parameters::OrOperation => or(param1, param2, Some(&ram)),
-                Parameters::Assign => {
-                    let (a, b) = assign(param1, param2);
-                    if a != "".to_string() {
-                        (ram).insert(a, b);
+                Parameters::Assign => match *(l.clone()) {
+                    Ast::Call { name: n, lst: list } => {
+                        if n.as_str() != "" {
+                            (function).insert(n.to_string(), (list, *r.clone()));
+                        }
+                        Parameters::Null
                     }
-                    Parameters::Null
-                }
-                Parameters::Float(f) => Parameters::Float(f),
-                Parameters::Int(i) => Parameters::Int(i),
-                Parameters::Identifier(s) => Parameters::Identifier(s),
-                Parameters::Bool(b) => Parameters::Bool(b),
+                    _ => {
+                        let (a, b) = assign(param1, param2);
+                        if a != "".to_string() {
+                            (ram).insert(a, b);
+                        }
+                        Parameters::Null
+                    }
+                },
+                Parameters::Float(f) => Parameters::Float(*f),
+                Parameters::Int(i) => Parameters::Int(*i),
+                Parameters::Identifier(s) => Parameters::Identifier(s.clone()),
+                Parameters::Bool(b) => Parameters::Bool(*b),
                 Parameters::Null => Parameters::Null,
             };
             last.clone()
         }
         Ast::Call { name: n, lst: list } => {
-            let v: Vec<Parameters> = list.iter().map(|x| interpret(x.clone(), ram)).collect();
-            exec(n, v, Some(&ram))
+            let v: Vec<Parameters> = list.iter().map(|x| interpret(x, ram, function)).collect();
+            exec(n.to_string(), v, Some(&ram), Some(function))
         }
     }
 }
@@ -63,78 +75,84 @@ mod test {
     #[test]
     fn test_interpreter_int() {
         let mut ram: HashMap<String, Parameters> = HashMap::new();
+        let mut function: HashMap<String,(Vec<Ast>,Ast)> = HashMap::new();
         let expected = Parameters::Int(2);
         let ast = Ast::Node {
             value: Parameters::Int(2),
             left: Box::from(Ast::Nil),
             right: Box::from(Ast::Nil),
         };
-        let result = interpret(ast, &mut ram);
+        let result = interpret(&ast, &mut ram,&mut function);
         assert_eq!(result, expected)
     }
 
     #[test]
     fn test_interpreter_float() {
         let mut ram: HashMap<String, Parameters> = HashMap::new();
+        let mut function: HashMap<String,(Vec<Ast>,Ast)> = HashMap::new();
         let expected = Parameters::Float(2.0);
         let ast = Ast::Node {
             value: Parameters::Float(2.0),
             left: Box::from(Ast::Nil),
             right: Box::from(Ast::Nil),
         };
-        let result = interpret(ast, &mut ram);
+        let result = interpret(&ast, &mut ram,&mut function);
         assert_eq!(result, expected)
     }
 
     #[test]
     fn test_interpreter_plus_operation() {
         let mut ram: HashMap<String, Parameters> = HashMap::new();
+        let mut function: HashMap<String,(Vec<Ast>,Ast)> = HashMap::new();
         let expected = Parameters::Int(2);
         let ast = Ast::Node {
             value: Parameters::PlusOperation,
             left: Box::from(Ast::new(Parameters::Int(1))),
             right: Box::from(Ast::new(Parameters::Int(1))),
         };
-        let result = interpret(ast, &mut ram);
+        let result = interpret(&ast, &mut ram,&mut function);
         assert_eq!(result, expected)
     }
 
     #[test]
     fn test_interpreter_minus_operation() {
         let mut ram: HashMap<String, Parameters> = HashMap::new();
+        let mut function: HashMap<String,(Vec<Ast>,Ast)> = HashMap::new();
         let expected = Parameters::Int(0);
         let ast = Ast::Node {
             value: Parameters::MinusOperation,
             left: Box::from(Ast::new(Parameters::Int(1))),
             right: Box::from(Ast::new(Parameters::Int(1))),
         };
-        let result = interpret(ast, &mut ram);
+        let result = interpret(&ast, &mut ram,&mut function);
         assert_eq!(result, expected)
     }
 
     #[test]
     fn test_interpreter_mult_operation() {
         let mut ram: HashMap<String, Parameters> = HashMap::new();
+        let mut function: HashMap<String,(Vec<Ast>,Ast)> = HashMap::new();
         let expected = Parameters::Int(1);
         let ast = Ast::Node {
             value: Parameters::MultiplicationOperation,
             left: Box::from(Ast::new(Parameters::Int(1))),
             right: Box::from(Ast::new(Parameters::Int(1))),
         };
-        let result = interpret(ast, &mut ram);
+        let result = interpret(&ast, &mut ram,&mut function);
         assert_eq!(result, expected)
     }
 
     #[test]
     fn test_interpreter_divide_operation() {
         let mut ram: HashMap<String, Parameters> = HashMap::new();
+        let mut function: HashMap<String,(Vec<Ast>,Ast)> = HashMap::new();
         let expected = Parameters::Float(1.0);
         let ast = Ast::Node {
             value: Parameters::DivideOperation,
             left: Box::from(Ast::new(Parameters::Int(1))),
             right: Box::from(Ast::new(Parameters::Int(1))),
         };
-        let result = interpret(ast, &mut ram);
+        let result = interpret(&ast, &mut ram,&mut function);
         assert_eq!(result, expected)
     }
 }

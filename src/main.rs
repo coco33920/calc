@@ -8,7 +8,7 @@ use linefeed::{Interface, ReadResult};
 use crate::configuration::loader::{load, load_config, Loaded};
 use crate::interpreting::interpreter::interpret;
 use crate::lexing::lexer::lex;
-use crate::parsing::ast::Parameters;
+use crate::parsing::ast::{Ast, Parameters};
 use crate::parsing::parser::CalcParser;
 
 mod configuration;
@@ -34,7 +34,7 @@ fn main() {
     let style = loaded.prompt_style;
     let text = loaded.prompt;
     let mut verbose = false;
-    let version: String = "v2.4.0".to_string();
+    let version: String = "v2.5.0".to_string();
     interface
         .set_prompt(&format!(
             "\x01{prefix}\x02{text}\x01{suffix}\x02",
@@ -44,6 +44,7 @@ fn main() {
         ))
         .unwrap();
     let mut ram: HashMap<String, Parameters> = HashMap::new();
+    let mut functions: HashMap<String, (Vec<Ast>, Ast)> = HashMap::new();
     ram.insert("pi".to_string(), Parameters::Float(PI));
     ram.insert("e".to_string(), Parameters::Float(E));
     while let ReadResult::Input(line) = interface.read_line().unwrap() {
@@ -80,7 +81,7 @@ fn main() {
                     println!("{:#?}", p);
                     println!()
                 }
-                let result = interpret(p.clone(), &mut ram);
+                let result = interpret(&p, &mut ram, &mut functions);
                 if result != Parameters::Null {
                     result.pretty_print(Some(&ram))
                 }

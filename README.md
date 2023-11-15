@@ -94,7 +94,7 @@ Check [the website](https://calc.nwa2coco.fr) for more informations.
     - [X] Add unary operator
         - [X] not (!)
 - [ ] For later
-    - [ ] Defining your own functions
+    - [X] Defining your own functions
     - [ ] Add RPN mode
     - [ ] Hidden multiplication
 
@@ -218,3 +218,9 @@ You can now use logic! I implemented the following functions:
 Example:
 
 ![img.png](docs/assets/logic.png)
+
+## User defined functions!
+
+You can define your own functions!
+
+![img.png](docs/assets/user_defined.png)

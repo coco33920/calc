@@ -169,7 +169,7 @@ The following functions are available
 - acos
 - atan
 - exp
-- ln (alias: ln)
+- ln (alias: log)
 - sqrt
 - factorial (alias: fact)
 - abs

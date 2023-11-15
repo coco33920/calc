@@ -84,15 +84,15 @@ Check [the website](https://calc.nwa2coco.fr) for more informations.
 - [X] Add logic
     - [X] Add basic true/false
     - [X] Add binary operator
-      - [X] or (&&)
-      - [X] and (||)
-      - [X] `>=`
-      - [X] `>`
-      - [X] `<=`
-      - [X] `<`
-      - [X] `==`
+        - [X] or (&&)
+        - [X] and (||)
+        - [X] `>=`
+        - [X] `>`
+        - [X] `<=`
+        - [X] `<`
+        - [X] `==`
     - [X] Add unary operator
-      - [X] not (!)
+        - [X] not (!)
 - [ ] For later
     - [ ] Defining your own functions
     - [ ] Add RPN mode
@@ -216,6 +216,6 @@ You can now use logic! I implemented the following functions:
 - lt (alias :`<`)
 - eq (alias : `==`)
 
-Example: 
+Example:
 
 ![img.png](docs/assets/logic.png)

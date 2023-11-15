@@ -169,10 +169,9 @@ The following functions are available
 - acos
 - atan
 - exp
-- ln
-- log (alias of ln)
+- ln (alias: ln)
 - sqrt
-- factorial (aliases: fact)
+- factorial (alias: fact)
 - abs
 - ceil
 - floor

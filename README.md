@@ -93,6 +93,22 @@ Check [the website](https://calc.nwa2coco.fr) for more informations.
         - [X] `==`
     - [X] Add unary operator
         - [X] not (!)
+- [ ] Vector calculation
+    - [ ] Add vectors to the datatypes
+    - [ ] Lex vectors
+    - [ ] Parse vectors
+    - [ ] Add vector operations
+      - [ ] Dot product
+      - [ ] Vector norm
+      - [ ] Vector addition
+- [ ] Matrix calculation
+    - [ ] Add matrix to the datatypes
+    - [ ] Lex matrices
+    - [ ] Parse matrices
+    - [ ] Add matrices operation
+      - [ ] Matrix addition
+      - [ ] Matrix multiplication 
+      - [ ] Calculate the reverse matrix
 - [ ] For later
     - [X] Defining your own functions
     - [ ] Add RPN mode

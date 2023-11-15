@@ -94,9 +94,9 @@ Check [the website](https://calc.nwa2coco.fr) for more informations.
     - [X] Add unary operator
         - [X] not (!)
 - [ ] Vector calculation
-    - [ ] Add vectors to the datatypes
-    - [ ] Lex vectors
-    - [ ] Parse vectors
+    - [X] Add vectors to the datatypes
+    - [X] Lex vectors
+    - [X] Parse vectors
     - [ ] Add vector operations
       - [ ] Dot product
       - [ ] Vector norm

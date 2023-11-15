@@ -1,12 +1,15 @@
 use std::collections::HashMap;
-use std::f64::consts::PI;
+use std::f64::consts::{E, PI};
+use std::ops::DerefMut;
 
-use crate::parsing::ast::Parameters;
+use crate::interpreting::interpreter::interpret;
+use crate::parsing::ast::{Ast, Parameters};
 
 pub fn exec(
     s: String,
     lst: Vec<Parameters>,
     ram: Option<&HashMap<String, Parameters>>,
+    mut functions: Option<&mut HashMap<String, (Vec<Ast>, Ast)>>,
 ) -> Parameters {
     match s.as_str() {
         "cos" => cos(&lst, ram),
@@ -28,7 +31,42 @@ pub fn exec(
         "ceil" => ceil(&lst, ram),
         "floor" => floor(&lst, ram),
         "round" => round(&lst, ram),
-        _ => cos(&lst, ram),
+        s => {
+            let mut sram: HashMap<String, Parameters> = HashMap::new();
+            sram.insert("pi".to_string(), Parameters::Float(PI));
+            sram.insert("e".to_string(), Parameters::Float(E));
+            match functions.cloned() {
+                None => Parameters::Identifier("This function is unknown".to_string()),
+                Some(mut f) => {
+                    let fs = f.get_mut(s);
+                    let (vec, ast): (&mut Vec<Ast>, &mut Ast) = match fs {
+                        None => {
+                            return Parameters::Identifier("This function is unknown".to_string());
+                        }
+                        Some((a, b)) => (a, b),
+                    };
+                    let mut names = Vec::new();
+                    for v in vec {
+                        match v {
+                            Ast::Nil => (),
+                            Ast::Call { .. } => (),
+                            Ast::Node {
+                                value: v,
+                                left: _l,
+                                right: _r,
+                            } => match v {
+                                Parameters::Identifier(s) => names.push(s.clone()),
+                                _ => (),
+                            },
+                        }
+                    }
+                    names.iter().zip(lst).for_each(|(name, param)| {
+                        sram.insert(name.to_string(), param);
+                    });
+                    interpret(ast, &mut sram, &mut HashMap::new())
+                }
+            }
+        }
     }
 }
 

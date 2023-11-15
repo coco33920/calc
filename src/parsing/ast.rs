@@ -102,9 +102,12 @@ impl Parameters {
                 if ram == None {
                     println!("{self}")
                 } else {
-                    match ram.unwrap().get(s) {
+                    match ram.as_mut().unwrap().get(s) {
                         None => println!("This variable is not initialized yet"),
-                        Some(t) => println!("{t}"),
+                        Some(t) => t.clone().pretty_print(
+                            Some(ram.as_mut().unwrap()),
+                            Some(function.as_mut().unwrap()),
+                        ),
                     }
                 }
             }
@@ -118,9 +121,6 @@ impl Parameters {
             }
             _ => println!("{self}"),
         }
-    }
-    pub fn print(&self) {
-        println!("{self}");
     }
 }
 

@@ -99,7 +99,7 @@ Check [the website](https://calc.nwa2coco.fr) for more informations.
     - [X] Parse vectors
     - [ ] Add vector operations
       - [ ] Dot product
-      - [ ] Vector norm
+      - [X] Vector norm
       - [ ] Vector addition
 - [ ] Matrix calculation
     - [ ] Add matrix to the datatypes

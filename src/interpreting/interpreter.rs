@@ -7,7 +7,11 @@ use crate::interpreting::function::{
 use crate::interpreting::stdlib::exec;
 use crate::parsing::ast::{Ast, Parameters};
 
-pub fn interpret(ast: Ast, mut ram: &mut HashMap<String, Parameters>) -> Parameters {
+pub fn interpret(
+    ast: &Ast,
+    mut ram: &mut HashMap<String, Parameters>,
+    mut function: &mut HashMap<String, (Vec<Ast>, Ast)>,
+) -> Parameters {
     match ast {
         Ast::Nil => Parameters::Null,
         Ast::Node {
@@ -15,8 +19,8 @@ pub fn interpret(ast: Ast, mut ram: &mut HashMap<String, Parameters>) -> Paramet
             left: l,
             right: r,
         } => {
-            let param1 = interpret(*l, &mut ram);
-            let param2 = interpret(*r, &mut ram);
+            let param1 = interpret(l, &mut ram, &mut function);
+            let param2 = interpret(r, &mut ram, &mut function);
             let last = match v {
                 Parameters::PlusOperation => add(param1, param2, Some(&ram)),
                 Parameters::MinusOperation => minus(param1, param2, Some(&ram)),
@@ -31,24 +35,33 @@ pub fn interpret(ast: Ast, mut ram: &mut HashMap<String, Parameters>) -> Paramet
                 Parameters::LesserOrEqualOperation => lesser_or_equal(param1, param2, Some(&ram)),
                 Parameters::AndOperation => and(param1, param2, Some(&ram)),
                 Parameters::OrOperation => or(param1, param2, Some(&ram)),
-                Parameters::Assign => {
-                    let (a, b) = assign(param1, param2);
-                    if a != "".to_string() {
-                        (ram).insert(a, b);
+                Parameters::Assign => match *(l.clone()) {
+                    Ast::Call { name: n, lst: list } => {
+                        if n.as_str() != "" {
+                            (function).insert(n.to_string(), (list, *r.clone()));
+                        }
+                        println!("{:?}", function);
+                        Parameters::Null
                     }
-                    Parameters::Null
-                }
-                Parameters::Float(f) => Parameters::Float(f),
-                Parameters::Int(i) => Parameters::Int(i),
-                Parameters::Identifier(s) => Parameters::Identifier(s),
-                Parameters::Bool(b) => Parameters::Bool(b),
+                    _ => {
+                        let (a, b) = assign(param1, param2);
+                        if a != "".to_string() {
+                            (ram).insert(a, b);
+                        }
+                        Parameters::Null
+                    }
+                },
+                Parameters::Float(f) => Parameters::Float(*f),
+                Parameters::Int(i) => Parameters::Int(*i),
+                Parameters::Identifier(s) => Parameters::Identifier(s.clone()),
+                Parameters::Bool(b) => Parameters::Bool(*b),
                 Parameters::Null => Parameters::Null,
             };
             last.clone()
         }
         Ast::Call { name: n, lst: list } => {
-            let v: Vec<Parameters> = list.iter().map(|x| interpret(x.clone(), ram)).collect();
-            exec(n, v, Some(&ram))
+            let v: Vec<Parameters> = list.iter().map(|x| interpret(x, ram, function)).collect();
+            exec(n.to_string(), v, Some(&ram))
         }
     }
 }

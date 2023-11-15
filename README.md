@@ -1,4 +1,5 @@
 # Calc
+
 <div align="center">
 
 **Calc: a minimalistic calculator built in rust for educational purpose only.**
@@ -48,13 +49,13 @@ Check [the website](https://calc.nwa2coco.fr) for more informations.
 - [X] Parsing advanced operations
     - [X] Parsing lpar,rpar
     - [X] mathematical priority
-      - [X] Left priority
-      - [X] Right priority
+        - [X] Left priority
+        - [X] Right priority
     - [X] parenthesis support
     - [X] Assignment
     - [X] associativity support
-      - [X] Left associativity
-      - [X] Right associativity
+        - [X] Left associativity
+        - [X] Right associativity
 - [X] Application REPL
     - [X] Add the REPL
         - [X] basic REPL
@@ -66,13 +67,13 @@ Check [the website](https://calc.nwa2coco.fr) for more informations.
     - [X] Advanced operation interpreter
     - [X] Identifiers (variable) interpreter
 - [X] Built-in
-    - [X] pi 
+    - [X] pi
     - [X] e
 - [X] Config
     - [X] Config colours
     - [X] Config prompt
 - [X] Add more operations
-  - [X] exponent
+    - [X] exponent
 - [X] Add support for functions
     - [X] exp
     - [X] ln
@@ -80,10 +81,18 @@ Check [the website](https://calc.nwa2coco.fr) for more informations.
     - [X] cos/sin/tan
     - [X] cosh/sinh/tanh
     - [X] atan/acos/asin
-- [ ] Add logic
-    - [ ] Add basic true/false
-    - [ ] Add binary operator
-    - [ ] Add unary operator
+- [X] Add logic
+    - [X] Add basic true/false
+    - [X] Add binary operator
+        - [X] or (&&)
+        - [X] and (||)
+        - [X] `>=`
+        - [X] `>`
+        - [X] `<=`
+        - [X] `<`
+        - [X] `==`
+    - [X] Add unary operator
+        - [X] not (!)
 - [ ] For later
     - [ ] Defining your own functions
     - [ ] Add RPN mode
@@ -105,10 +114,13 @@ Check [the website](https://calc.nwa2coco.fr) for more informations.
 
 ## Configuration
 
-You can configure the general color, greeting message, greeting color, prompt and prompt color from the file for example in (for linux)
+You can configure the general color, greeting message, greeting color, prompt and prompt color from the file for example
+in (for linux)
+
 ```
 ~/.config/mini-calc/mini-calc.toml
 ```
+
 Or situated in your operating system config folder.
 
 ### What the configuration looks like
@@ -118,6 +130,7 @@ The default configuration looks like this
 ![img.png](docs/assets/img.png)
 
 ### Colors
+
 Available colors are
 
 - purple
@@ -138,7 +151,7 @@ Configuration:
 
 ![img.png](docs/assets/config_modified.png)
 
-It looks like: 
+It looks like:
 
 ![img.png](docs/assets/config_looks.png)
 
@@ -159,7 +172,7 @@ The following functions are available
 - ln
 - log (alias of ln)
 - sqrt
-- factorial (aliases: fact or !)
+- factorial (aliases: fact)
 - abs
 - ceil
 - floor
@@ -167,13 +180,15 @@ The following functions are available
 
 ### Trigonometry
 
-For trigonometry, the input are assumed to be in radian, if not, you have to put "false" or "true" as second argument, example shown bellow
+For trigonometry, the input are assumed to be in radian, if not, you have to put "false" or "true" as second argument,
+example shown bellow
 
 ![img.png](docs/assets/trigo.png)
 
 ### Exp/ln
 
-If you use the exp function you can pass a second argument for the base you are using, if no second arguments are passed this is assumed to be in natural base
+If you use the exp function you can pass a second argument for the base you are using, if no second arguments are passed
+this is assumed to be in natural base
 
 ![img.png](docs/assets/expln.png)
 
@@ -188,3 +203,19 @@ You can take the nth root with the sqrt function, by default it takes the second
 You can round to the nth decimal with the round function, by default it round to the integer (floor)
 
 ![img.png](docs/assets/round.png)
+
+## Logic
+
+You can now use logic! I implemented the following functions:
+
+- or (alias : ||)
+- and (alias : &&)
+- geq (alias : `>=`)
+- gt (alias : `>`)
+- leq (alias : `<=`)
+- lt (alias :`<`)
+- eq (alias : `==`)
+
+Example:
+
+![img.png](docs/assets/logic.png)

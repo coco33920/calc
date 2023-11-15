@@ -2,6 +2,7 @@ use std::str::FromStr;
 
 use crate::lexing::token::Operator::*;
 use crate::lexing::token::Token;
+use crate::lexing::token::Token::PreAnd;
 
 pub fn is_an_allowed_char(character: char) -> bool {
     character.is_alphanumeric()
@@ -17,6 +18,10 @@ pub fn is_an_allowed_char(character: char) -> bool {
         || character == '^'
         || character == ','
         || character == '!'
+        || character == '<'
+        || character == '>'
+        || character == '|'
+        || character == '&'
 }
 
 fn lex_int(
@@ -134,10 +139,67 @@ pub fn lex(input: String) -> Vec<Token> {
                 vec.push(Token::LPAR);
                 current_pos += 1
             }
-            '=' => {
-                vec.push(Token::EQUAL);
+            '>' => {
+                vec.push(Token::OPE(GreaterThan));
                 current_pos += 1
             }
+            '<' => {
+                vec.push(Token::OPE(LesserThan));
+                current_pos += 1
+            }
+            '=' => match vec.pop() {
+                Some(Token::EQUAL) => {
+                    vec.push(Token::OPE(EQUALITY));
+                    current_pos += 1
+                }
+                Some(Token::OPE(LesserThan)) => {
+                    vec.push(Token::OPE(LesserOrEqual));
+                    current_pos += 1;
+                }
+                Some(Token::OPE(GreaterThan)) => {
+                    vec.push(Token::OPE(GreaterOrEqual));
+                    current_pos += 1;
+                }
+                Some(p) => {
+                    vec.push(p);
+                    vec.push(Token::EQUAL);
+                    current_pos += 1
+                }
+                None => {
+                    vec.push(Token::EQUAL);
+                    current_pos += 1
+                }
+            },
+            '&' => match vec.pop() {
+                Some(Token::PreAnd) => {
+                    vec.push(Token::OPE(And));
+                    current_pos += 1;
+                }
+                Some(p) => {
+                    vec.push(p);
+                    vec.push(Token::PreAnd);
+                    current_pos += 1;
+                }
+                _ => {
+                    vec.push(Token::PreAnd);
+                    current_pos += 1;
+                }
+            },
+            '|' => match vec.pop() {
+                Some(Token::PreOr) => {
+                    vec.push(Token::OPE(Or));
+                    current_pos += 1;
+                }
+                Some(p) => {
+                    vec.push(p);
+                    vec.push(Token::PreOr);
+                    current_pos += 1;
+                }
+                _ => {
+                    vec.push(Token::PreOr);
+                    current_pos += 1;
+                }
+            },
             '^' => {
                 vec.push(Token::OPE(EXPO));
                 current_pos += 1
@@ -147,7 +209,7 @@ pub fn lex(input: String) -> Vec<Token> {
                 current_pos += 1
             }
             '!' => {
-                vec.push(Token::IDENTIFIER("!".to_string()));
+                vec.push(Token::OPE(NOT));
                 current_pos += 1
             }
             ch => {
@@ -175,7 +237,27 @@ pub fn lex(input: String) -> Vec<Token> {
                 if ch.is_alphabetic() {
                     let (a, b) = lex_string(current_character, &mut chars, current_pos, length);
                     current_pos = b;
-                    vec.push(Token::IDENTIFIER(a))
+                    if &a == "false" {
+                        vec.push(Token::BOOL(false))
+                    } else if &a == "true" {
+                        vec.push(Token::BOOL(true))
+                    } else if &a == "or" {
+                        vec.push(Token::OPE(Or))
+                    } else if &a == "and" {
+                        vec.push(Token::OPE(And))
+                    } else if &a == "geq" {
+                        vec.push(Token::OPE(GreaterOrEqual))
+                    } else if &a == "leq" {
+                        vec.push(Token::OPE(LesserOrEqual))
+                    } else if &a == "lt" {
+                        vec.push(Token::OPE(LesserThan))
+                    } else if &a == "gt" {
+                        vec.push(Token::OPE(GreaterThan))
+                    } else if &a == "eq" {
+                        vec.push(Token::OPE(EQUALITY))
+                    } else {
+                        vec.push(Token::IDENTIFIER(a))
+                    }
                 }
                 if ch == '.' {
                     let (a, b) = lex_float(0, &mut chars, current_pos, length);
@@ -185,8 +267,11 @@ pub fn lex(input: String) -> Vec<Token> {
             }
         }
     }
-
-    vec
+    let mut result = Vec::new();
+    vec.iter()
+        .filter(|x| x != &&Token::PreOr && x != &&PreAnd)
+        .for_each(|x1| result.push(x1.clone()));
+    result
 }
 
 #[cfg(test)]

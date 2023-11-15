@@ -7,6 +7,14 @@ pub enum Operator {
     MULTIPLICATION,
     DIVIDE,
     EXPO,
+    EQUALITY,
+    GreaterThan,
+    LesserThan,
+    GreaterOrEqual,
+    LesserOrEqual,
+    And,
+    Or,
+    NOT,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -15,11 +23,14 @@ pub enum Token {
     IDENTIFIER(String),
     INT(i64),
     FLOAT(f64),
+    BOOL(bool),
     EQUAL,
     RPAR,
     LPAR,
     COMMA,
     Null,
+    PreAnd,
+    PreOr,
 }
 
 #[derive(Debug, Clone, PartialEq, Hash, Eq)]
@@ -32,6 +43,15 @@ pub enum TokenType {
     INT,
     FLOAT,
     EQUAL,
+    EQUALITY,
+    GREATER,
+    LESSER,
+    GREATEREQ,
+    OR,
+    AND,
+    LESSEREQ,
+    NOT,
+    BOOL,
     RPAR,
     LPAR,
     Null,
@@ -41,7 +61,7 @@ pub enum TokenType {
 
 pub enum Precedence {
     ASSIGNMENT = 1,
-    //CONDITIONAL = 2,
+    CONDITIONAL = 2,
     SUM = 4,
     MINUS = 3,
     PRODUCT = 6,
@@ -60,6 +80,14 @@ impl Display for Operator {
             Operator::DIVIDE => write!(f, "/"),
             Operator::MULTIPLICATION => write!(f, "*"),
             Operator::EXPO => write!(f, "^"),
+            Operator::EQUALITY => write!(f, "=="),
+            Operator::GreaterOrEqual => write!(f, ">="),
+            Operator::GreaterThan => write!(f, ">"),
+            Operator::LesserOrEqual => write!(f, "<="),
+            Operator::LesserThan => write!(f, "<"),
+            Operator::NOT => write!(f, "!"),
+            Operator::Or => write!(f, "||"),
+            Operator::And => write!(f, "&&"),
         }
     }
 }
@@ -76,29 +104,14 @@ impl Display for Token {
             Token::OPE(s) => write!(f, "{}", s),
             Token::COMMA => write!(f, ","),
             Token::Null => write!(f, "Null"),
+            Token::BOOL(b) => write!(f, "{b}"),
+            Token::PreAnd => write!(f, ""),
+            Token::PreOr => write!(f, ""),
         }
     }
 }
 
 impl Token {
-    pub fn get_text(&self) -> String {
-        match &self {
-            Token::IDENTIFIER(s) => s.clone(),
-            _ => "".to_string(),
-        }
-    }
-    pub fn get_int(&self) -> i64 {
-        match &self {
-            Token::INT(i) => *i,
-            _ => 0,
-        }
-    }
-    pub fn get_float(&self) -> f64 {
-        match &self {
-            Token::FLOAT(f) => *f,
-            _ => 0.0,
-        }
-    }
     pub fn to_token_type(&self) -> TokenType {
         match &self {
             Token::OPE(p) => match p {
@@ -107,6 +120,14 @@ impl Token {
                 Operator::MULTIPLICATION => TokenType::MULTIPLICATION,
                 Operator::DIVIDE => TokenType::DIVIDE,
                 Operator::EXPO => TokenType::EXPO,
+                Operator::EQUALITY => TokenType::EQUALITY,
+                Operator::GreaterThan => TokenType::GREATER,
+                Operator::GreaterOrEqual => TokenType::GREATEREQ,
+                Operator::LesserThan => TokenType::LESSER,
+                Operator::LesserOrEqual => TokenType::LESSEREQ,
+                Operator::NOT => TokenType::NOT,
+                Operator::And => TokenType::AND,
+                Operator::Or => TokenType::OR,
             },
             Token::IDENTIFIER(_) => TokenType::IDENTIFIER,
             Token::INT(_) => TokenType::INT,
@@ -116,6 +137,8 @@ impl Token {
             Token::LPAR => TokenType::LPAR,
             Token::COMMA => TokenType::COMMA,
             Token::Null => TokenType::Null,
+            Token::BOOL(_) => TokenType::BOOL,
+            _ => TokenType::Null,
         }
     }
 }

@@ -1,6 +1,9 @@
 use std::collections::HashMap;
 
-use crate::interpreting::function::{add, assign, divide, expo, minus, mult};
+use crate::interpreting::function::{
+    add, and, assign, divide, equal, expo, greater, greater_or_equal, lesser, lesser_or_equal,
+    minus, mult, not, or,
+};
 use crate::interpreting::stdlib::exec;
 use crate::parsing::ast::{Ast, Parameters};
 
@@ -20,6 +23,14 @@ pub fn interpret(ast: Ast, mut ram: &mut HashMap<String, Parameters>) -> Paramet
                 Parameters::MultiplicationOperation => mult(param1, param2, Some(&ram)),
                 Parameters::DivideOperation => divide(param1, param2, Some(&ram)),
                 Parameters::ExpoOperation => expo(param1, param2, Some(&ram)),
+                Parameters::Equal => equal(param1, param2, Some(&ram)),
+                Parameters::Not => not(param1, param2, Some(&ram)),
+                Parameters::GreaterOperation => greater(param1, param2, Some(&ram)),
+                Parameters::GreaterOrEqualOperation => greater_or_equal(param1, param2, Some(&ram)),
+                Parameters::LesserOperation => lesser(param1, param2, Some(&ram)),
+                Parameters::LesserOrEqualOperation => lesser_or_equal(param1, param2, Some(&ram)),
+                Parameters::AndOperation => and(param1, param2, Some(&ram)),
+                Parameters::OrOperation => or(param1, param2, Some(&ram)),
                 Parameters::Assign => {
                     let (a, b) = assign(param1, param2);
                     if a != "".to_string() {
@@ -30,6 +41,7 @@ pub fn interpret(ast: Ast, mut ram: &mut HashMap<String, Parameters>) -> Paramet
                 Parameters::Float(f) => Parameters::Float(f),
                 Parameters::Int(i) => Parameters::Int(i),
                 Parameters::Identifier(s) => Parameters::Identifier(s),
+                Parameters::Bool(b) => Parameters::Bool(b),
                 Parameters::Null => Parameters::Null,
             };
             last.clone()

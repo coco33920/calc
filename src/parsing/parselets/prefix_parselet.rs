@@ -1,5 +1,5 @@
 use crate::lexing::token::{Token, TokenType};
-use crate::parsing::ast::{token_to_parameter, Ast, Parameters};
+use crate::parsing::ast::{token_to_parameter, Ast};
 use crate::parsing::parser::CalcParser;
 
 pub trait PrefixParselet {
@@ -7,16 +7,10 @@ pub trait PrefixParselet {
 }
 
 #[derive(Clone)]
-pub struct IdentifierParselet {}
+pub struct ValueParselet {}
 
 #[derive(Clone)]
 pub struct OperatorPrefixParselet {}
-
-#[derive(Clone)]
-pub struct IntParselet {}
-
-#[derive(Clone)]
-pub struct FloatParselet {}
 
 #[derive(Clone)]
 pub struct NullParselet {}
@@ -24,30 +18,10 @@ pub struct NullParselet {}
 #[derive(Clone)]
 pub struct GroupParselet {}
 
-impl PrefixParselet for IdentifierParselet {
+impl PrefixParselet for ValueParselet {
     fn parse(&self, _parser: &mut CalcParser, token: Token) -> Ast {
         Ast::Node {
-            value: Parameters::Identifier(token.get_text()),
-            left: Box::from(Ast::Nil),
-            right: Box::from(Ast::Nil),
-        }
-    }
-}
-
-impl PrefixParselet for IntParselet {
-    fn parse(&self, _parser: &mut CalcParser, token: Token) -> Ast {
-        Ast::Node {
-            value: Parameters::Int(token.get_int()),
-            left: Box::from(Ast::Nil),
-            right: Box::from(Ast::Nil),
-        }
-    }
-}
-
-impl PrefixParselet for FloatParselet {
-    fn parse(&self, _parser: &mut CalcParser, token: Token) -> Ast {
-        Ast::Node {
-            value: Parameters::Float(token.get_float()),
+            value: token_to_parameter(token),
             left: Box::from(Ast::Nil),
             right: Box::from(Ast::Nil),
         }

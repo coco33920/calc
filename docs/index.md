@@ -102,12 +102,12 @@ To learn about the binary logic built in go to the [logic page](logic.md)
 
 ### REPL with only Lexing (verbose mode: on by default)
 
-![](docs/assets/test_lexing.png)
+![](assets/test_lexing.png)
 
 ### REPL with lexing and basic operation parsing (verbose mode: on by default)
 
-![](docs/assets/test_parsing_basic_operations.png)
+![](assets/test_parsing_basic_operations.png)
 
 ### REPL and functionning interpreter (verbose mode: off by default)
 
-![](docs/assets/test_interpreter.png)
+![](assets/test_interpreter.png)

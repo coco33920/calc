@@ -94,7 +94,7 @@ Check [the website](https://calc.nwa2coco.fr) for more informations.
     - [X] Add unary operator
         - [X] not (!)
 - [ ] For later
-    - [ ] Defining your own functions
+    - [X] Defining your own functions
     - [ ] Add RPN mode
     - [ ] Hidden multiplication
 

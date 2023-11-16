@@ -50,6 +50,16 @@ You can define your own functions!
 
 ![img.png](assets/user_defined.png)
 
+## Vector calculation 
+
+You can compute using vectors!
+
+- add vectors
+- dot product (* operator)
+- norm function
+
+![](assets/vector.png)
+
 ## TODO List
 
 - [X] Lexing of basic operations

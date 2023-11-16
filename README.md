@@ -2,7 +2,7 @@
 
 <div align="center">
 
-**Calc: a minimalistic calculator built in rust for educational purpose only.**
+**Calc: A fully-featured minimalistic configurable rust calculator**
 
 [![Rust Test](https://github.com/coco33920/calc/actions/workflows/rust-test.yml/badge.svg)](https://github.com/coco33920/calc/actions/workflows/rust-test.yml)
 [![Release](https://img.shields.io/github/v/release/coco33920/calc.svg?include_prereleases=&sort=semver&color=f7a8d8)](https://github.com/coco33920/calc/releases/latest)
@@ -105,10 +105,45 @@ Check [the function page](docs/function.md) for more informations.
         - [X] `==`
     - [X] Add unary operator
         - [X] not (!)
-- [ ] For later
-    - [X] Defining your own functions
-    - [ ] Add RPN mode
-    - [ ] Hidden multiplication
+- [X] Vector calculation
+    - [X] Add vectors to the datatypes
+    - [X] Lex vectors
+    - [X] Parse vectors
+    - [X] Add vector operations
+      - [X] Dot product
+      - [X] Vector norm
+      - [X] Vector addition
+- [ ] Matrix calculation
+    - [ ] Add matrix to the datatypes
+    - [ ] Lex matrices
+    - [ ] Parse matrices
+    - [ ] Add matrices operation
+      - [ ] Matrix addition
+      - [ ] Matrix multiplication 
+      - [ ] Calculate the reverse matrix
+
+## Evolution
+
+### Exact math calculator
+
+As this project provides a frontend with a parser we could plug an exact math engine in the backend to transform `calc` into a 
+real exact math calculator.
+TODO List for the Exact Math Engine
+
+- [ ] Rational calculation
+  - [ ] Implement rational numbers operations 
+  - [ ] Rational reduction
+- [ ] Irrational calculation 
+  - [ ] Implement irrational numbers operations
+  - [ ] Irrational reduction
+- [ ] Literal calculation
+  - [ ] Computes literal expression with uninitialized operators
+  - [ ] Literal reduction
+
+### CAS
+
+If we ever go to this step, yes, I will remove the "minimalistic" from the description
+- [ ] It's hard.
 
 ## Examples
 
@@ -236,3 +271,13 @@ Example:
 You can define your own functions!
 
 ![img.png](docs/assets/user_defined.png)
+
+## Vector calculation !
+
+You can use vectors! 
+
+- add vector to each others
+- added the `norm` function to compute the norm
+- dot product between two vectors ( * operator)
+
+![](docs/assets/vector.png)

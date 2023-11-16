@@ -1,8 +1,8 @@
 [package]
 name = "mini-calc"
-version = "2.5.0"
+version = "2.6.0"
 license = "GPL-3.0-or-later"
-description = "A minimalistic configurable rust calculator"
+description = "A fully-featured minimalistic configurable rust calculator"
 homepage = "https://calc.nwa2coco.fr"
 repository = "https://github.com/coco33920/calc"
 readme = "README.md"

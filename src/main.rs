@@ -27,14 +27,14 @@ fn main() {
 
     let loaded: Loaded = load_config(config);
 
-    let message = loaded.greeting_message;
+    let message = &loaded.greeting_message;
     println!("{}", message.to_string());
 
     let interface = Interface::new("calc").unwrap();
-    let style = loaded.prompt_style;
-    let text = loaded.prompt;
+    let style = &loaded.clone().prompt_style;
+    let text = &loaded.clone().prompt;
     let mut verbose = false;
-    let version: String = "v2.5.0".to_string();
+    let version: String = "v2.6.0".to_string();
     interface
         .set_prompt(&format!(
             "\x01{prefix}\x02{text}\x01{suffix}\x02",
@@ -83,7 +83,7 @@ fn main() {
                 }
                 let result = interpret(&p, &mut ram, &mut functions);
                 if result != Parameters::Null {
-                    result.pretty_print(Some(&ram))
+                    result.pretty_print(Some(&mut ram), Some(&mut functions))
                 }
             }
         }

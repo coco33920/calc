@@ -10,6 +10,8 @@ use crate::parsing::parselets::prefix_parselet::{
     GroupParselet, NullParselet, OperatorPrefixParselet, PrefixParselet, ValueParselet,
 };
 
+use super::parselets::prefix_parselet::VecParselet;
+
 #[derive(Clone)]
 pub struct CalcParser<'a> {
     tokens: Iter<'a, Token>,
@@ -180,6 +182,7 @@ impl CalcParser<'_> {
             TokenType::LESSEREQ => Some(Box::from(OperatorPrefixParselet {})),
             TokenType::GREATER => Some(Box::from(OperatorPrefixParselet {})),
             TokenType::GREATEREQ => Some(Box::from(OperatorPrefixParselet {})),
+            TokenType::LBRACKET => Some(Box::from(VecParselet {})),
             _ => Some(Box::from(NullParselet {})),
         }
     }

@@ -27,6 +27,8 @@ pub enum Token {
     EQUAL,
     RPAR,
     LPAR,
+    RBRACKET,
+    LBRACKET,
     COMMA,
     Null,
     PreAnd,
@@ -54,6 +56,8 @@ pub enum TokenType {
     BOOL,
     RPAR,
     LPAR,
+    RBRACKET,
+    LBRACKET,
     Null,
     COMMA,
     EXPO,
@@ -107,6 +111,8 @@ impl Display for Token {
             Token::BOOL(b) => write!(f, "{b}"),
             Token::PreAnd => write!(f, ""),
             Token::PreOr => write!(f, ""),
+            Token::RBRACKET => write!(f, "]"),
+            Token::LBRACKET => write!(f, "["),
         }
     }
 }
@@ -138,6 +144,8 @@ impl Token {
             Token::COMMA => TokenType::COMMA,
             Token::Null => TokenType::Null,
             Token::BOOL(_) => TokenType::BOOL,
+            Token::LBRACKET => TokenType::LBRACKET,
+            Token::RBRACKET => TokenType::RBRACKET,
             _ => TokenType::Null,
         }
     }

@@ -27,7 +27,7 @@ pub enum Parameters {
     Null,
     ExpoOperation,
     Vector(Box<Vec<Ast>>),
-    InterpreterVector(Box<Vec<Parameters>>),
+    InterpreterVector(Box<[Parameters]>),
 }
 
 #[derive(Debug, Clone, PartialEq)]

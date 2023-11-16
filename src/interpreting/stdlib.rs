@@ -3,7 +3,6 @@ use std::f64::consts::{E, PI};
 
 use crate::interpreting::interpreter::interpret;
 use crate::parsing::ast::{Ast, Parameters};
-use crate::utils::matrix_utils::{transpose, transpose_vector};
 
 use super::function::{add as other_add, mult};
 
@@ -831,15 +830,7 @@ pub fn transpose_vectors(
     match p.get(0).unwrap() {
         Parameters::Int(i) => Parameters::Int((*i).abs()),
         Parameters::Float(f) => Parameters::Float((*f).abs()),
-        Parameters::InterpreterVector(lst) => {
-            let a = transpose_vector(lst.to_vec());
-            let mut result = Vec::new();
-
-            (*a).into_iter()
-                .for_each(|x| result.push(Parameters::InterpreterVector(Box::new(x.clone()))));
-
-            Parameters::InterpreterVector(Box::from(result))
-        }
+        Parameters::InterpreterVector(lst) => Parameters::Null,
         Parameters::Identifier(s) => match ram {
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(ref t) => match t.get(s.as_str()) {
@@ -862,30 +853,8 @@ pub fn transpose_matrices(
     match p.get(0).unwrap() {
         Parameters::Int(i) => Parameters::Int((*i).abs()),
         Parameters::Float(f) => Parameters::Float((*f).abs()),
-        Parameters::InterpreterVector(lst) => {
-            let mut res1 = Vec::new();
-            let mut is_matrix = true;
-            let mut res = Vec::new();
-            lst.clone().into_iter().for_each(|x| match x {
-                Parameters::InterpreterVector(l) => res.push(l.to_vec()),
-                p => {
-                    is_matrix = false;
-                    res1.push(p);
-                }
-            });
+        Parameters::InterpreterVector(lst) => Parameters::Null,
 
-            if !is_matrix {
-                return transpose_vectors(p, ram);
-            }
-
-            let matrix_result = transpose(res);
-            let mut result = Vec::new();
-
-            matrix_result
-                .into_iter()
-                .for_each(|x| result.push(Parameters::InterpreterVector(Box::from(x))));
-            Parameters::InterpreterVector(Box::from(result))
-        }
         Parameters::Identifier(s) => match ram {
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(ref t) => match t.get(s.as_str()) {

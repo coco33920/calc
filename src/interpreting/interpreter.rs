@@ -61,7 +61,7 @@ pub fn interpret(
                         .into_iter()
                         .map(|a| interpret(&a, ram, function))
                         .for_each(|s| vec.push(s));
-                    Parameters::InterpreterVector(Box::from(vec))
+                    Parameters::InterpreterVector(vec.as_slice().into())
                 }
                 Parameters::InterpreterVector(a) => Parameters::InterpreterVector(a.clone()),
             };

@@ -1,7 +1,6 @@
 use std::collections::HashMap;
 use std::fmt::{Display, Formatter};
 
-use crate::interpreting::interpreter::interpret;
 use crate::lexing::token::{Operator, Token};
 use crate::parsing::ast::Ast::{Nil, Node};
 use crate::parsing::ast::Parameters::*;
@@ -28,6 +27,7 @@ pub enum Parameters {
     Null,
     ExpoOperation,
     Vector(Box<Vec<Ast>>),
+    InterpreterVector(Box<Vec<Parameters>>),
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -67,6 +67,7 @@ impl Display for Parameters {
             AndOperation => write!(f, "&&"),
             OrOperation => write!(f, "||"),
             Vector(a) => write!(f, "{:?}", a),
+            InterpreterVector(a) => write!(f, "{:?}", a),
         }
     }
 }
@@ -111,12 +112,9 @@ impl Parameters {
                     }
                 }
             }
-            Vector(lst) => {
+            InterpreterVector(lst) => {
                 let mut vec = Vec::new();
-                lst.iter()
-                    .map(|x| interpret(x, ram.as_mut().unwrap(), function.as_mut().unwrap()))
-                    .map(|x| x.to_string())
-                    .for_each(|s| vec.push(s));
+                lst.iter().map(|x| x.to_string()).for_each(|x| vec.push(x));
                 println!("[{}]", vec.join(","));
             }
             _ => println!("{self}"),

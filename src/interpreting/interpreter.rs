@@ -55,7 +55,15 @@ pub fn interpret(
                 Parameters::Identifier(s) => Parameters::Identifier(s.clone()),
                 Parameters::Bool(b) => Parameters::Bool(*b),
                 Parameters::Null => Parameters::Null,
-                Parameters::Vector(a) => Parameters::Vector(a.clone()),
+                Parameters::Vector(a) => {
+                    let mut vec = Vec::new();
+                    (*a).clone()
+                        .into_iter()
+                        .map(|a| interpret(&a, ram, function))
+                        .for_each(|s| vec.push(s));
+                    Parameters::InterpreterVector(Box::from(vec))
+                }
+                Parameters::InterpreterVector(a) => Parameters::InterpreterVector(a.clone()),
             };
             last.clone()
         }

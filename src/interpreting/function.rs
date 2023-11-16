@@ -63,6 +63,14 @@ pub fn add(i: Parameters, i2: Parameters, ram: Option<&HashMap<String, Parameter
         (Parameters::Int(v), Parameters::Float(f)) => Parameters::Float((v as f64) + f),
         (Parameters::Float(v), Parameters::Float(f)) => Parameters::Float(v + f),
         (Parameters::Float(v), Parameters::Int(i1)) => Parameters::Float(v + (i1 as f64)),
+        (Parameters::InterpreterVector(vec), Parameters::InterpreterVector(vec2)) => {
+            let mut res = Vec::new();
+            vec.into_iter()
+                .zip(vec2.into_iter())
+                .map(|(x, y)| add(x, y, ram))
+                .for_each(|s| res.push(s));
+            Parameters::InterpreterVector(Box::from(res))
+        }
         (Bool(_), Parameters::Int(i)) => Parameters::Int(i),
         (Bool(_), Parameters::Float(i)) => Parameters::Float(i),
         (Parameters::Int(i), Bool(_)) => Parameters::Int(i),
@@ -94,6 +102,18 @@ pub fn add(i: Parameters, i2: Parameters, ram: Option<&HashMap<String, Parameter
         (Parameters::Float(i), Parameters::Identifier(s)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Float(i), ram, add)
         }
+        (Parameters::Identifier(s), Parameters::InterpreterVector(vec)) => apply_operator(
+            Parameters::Identifier(s),
+            Parameters::InterpreterVector(vec.clone()),
+            ram,
+            add,
+        ),
+        (Parameters::InterpreterVector(vec), Parameters::Identifier(s)) => apply_operator(
+            Parameters::Identifier(s),
+            Parameters::InterpreterVector(vec.clone()),
+            ram,
+            add,
+        ),
         (Bool(b), Parameters::Identifier(s)) => {
             apply_operator_reverse(Bool(b), Parameters::Identifier(s), ram, add)
         }

@@ -18,6 +18,9 @@ pub struct NullParselet {}
 #[derive(Clone)]
 pub struct GroupParselet {}
 
+#[derive(Clone)]
+pub struct VecParselet {}
+
 impl PrefixParselet for ValueParselet {
     fn parse(&self, _parser: &mut CalcParser, token: Token) -> Ast {
         Ast::Node {
@@ -50,5 +53,26 @@ impl PrefixParselet for GroupParselet {
         let expression = parser.parse_expression_empty();
         parser.consume_expected(TokenType::RPAR);
         expression
+    }
+}
+
+impl PrefixParselet for VecParselet {
+    fn parse(&self, parser: &mut CalcParser, _token: Token) -> Ast {
+        let mut vec: Vec<Ast> = Vec::new();
+
+        if !parser.match_token(TokenType::RBRACKET) {
+            vec.push(parser.parse_expression_empty());
+            while parser.match_token(TokenType::COMMA) {
+                parser.consume();
+                vec.push(parser.parse_expression_empty());
+            }
+            parser.consume_expected(TokenType::RBRACKET);
+        }
+
+        Ast::Node {
+            value: crate::parsing::ast::Parameters::Vector(Box::from(vec)),
+            left: Box::new(Ast::Nil),
+            right: Box::new(Ast::Nil),
+        }
     }
 }

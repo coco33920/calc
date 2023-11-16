@@ -26,6 +26,8 @@ pub enum Parameters {
     Assign,
     Null,
     ExpoOperation,
+    Vector(Box<Vec<Ast>>),
+    InterpreterVector(Box<Vec<Parameters>>),
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -64,6 +66,8 @@ impl Display for Parameters {
             Bool(b) => write!(f, "{b}"),
             AndOperation => write!(f, "&&"),
             OrOperation => write!(f, "||"),
+            Vector(a) => write!(f, "{:?}", a),
+            InterpreterVector(a) => write!(f, "{:?}", a),
         }
     }
 }
@@ -71,37 +75,50 @@ impl Display for Parameters {
 impl Display for Ast {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
-            Nil => write!(f,""),
-            Node { value: v, left: l, right: r } => {
-                write!(f,"({} {} {})",l,v,r)
+            Nil => write!(f, ""),
+            Node {
+                value: v,
+                left: l,
+                right: r,
+            } => {
+                write!(f, "({} {} {})", l, v, r)
             }
             Ast::Call { name: v, lst: s } => {
                 let mut vs = Vec::new();
-                s.iter().for_each(|x1| {vs.push(x1.to_string())});
-                write!(f,"{}({})",v,vs.join(",").to_string())
+                s.iter().for_each(|x1| vs.push(x1.to_string()));
+                write!(f, "{}({})", v, vs.join(",").to_string())
             }
         }
     }
 }
 
 impl Parameters {
-    pub fn pretty_print(&self, ram: Option<&HashMap<String, Parameters>>) {
+    pub fn pretty_print(
+        &self,
+        mut ram: Option<&mut HashMap<String, Parameters>>,
+        mut function: Option<&mut HashMap<String, (Vec<Ast>, Ast)>>,
+    ) {
         match self {
             Identifier(s) => {
                 if ram == None {
                     println!("{self}")
                 } else {
-                    match ram.unwrap().get(s) {
+                    match ram.as_mut().unwrap().get(s) {
                         None => println!("This variable is not initialized yet"),
-                        Some(t) => println!("{t}"),
+                        Some(t) => t.clone().pretty_print(
+                            Some(ram.as_mut().unwrap()),
+                            Some(function.as_mut().unwrap()),
+                        ),
                     }
                 }
             }
+            InterpreterVector(lst) => {
+                let mut vec = Vec::new();
+                lst.iter().map(|x| x.to_string()).for_each(|x| vec.push(x));
+                println!("[{}]", vec.join(","));
+            }
             _ => println!("{self}"),
         }
-    }
-    pub fn print(&self){
-        println!("{self}");
     }
 }
 
@@ -125,6 +142,7 @@ pub fn token_to_parameter(token: Token) -> Parameters {
         Token::OPE(Operator::And) => AndOperation,
         Token::EQUAL => Assign,
         Token::BOOL(b) => Bool(b),
+        Token::RBRACKET => Vector(Box::from(Vec::new())),
         _ => Null,
     }
 }

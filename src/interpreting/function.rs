@@ -57,12 +57,26 @@ pub fn add(i: Parameters, i2: Parameters, ram: Option<&HashMap<String, Parameter
     match (i, i2) {
         (Parameters::Null, Parameters::Int(v)) => Parameters::Int(v),
         (Parameters::Null, Parameters::Float(f)) => Parameters::Float(f),
+        (Parameters::Null, Parameters::InterpreterVector(vec)) => {
+            Parameters::InterpreterVector(vec.clone())
+        }
+        (Parameters::InterpreterVector(vec), Parameters::Null) => {
+            Parameters::InterpreterVector(vec.clone())
+        }
         (Parameters::Int(v), Parameters::Null) => Parameters::Int(v),
         (Parameters::Float(f), Parameters::Null) => Parameters::Float(f),
         (Parameters::Int(v), Parameters::Int(v2)) => Parameters::Int(v + v2),
         (Parameters::Int(v), Parameters::Float(f)) => Parameters::Float((v as f64) + f),
         (Parameters::Float(v), Parameters::Float(f)) => Parameters::Float(v + f),
         (Parameters::Float(v), Parameters::Int(i1)) => Parameters::Float(v + (i1 as f64)),
+        (Parameters::InterpreterVector(vec), Parameters::InterpreterVector(vec2)) => {
+            let mut res = Vec::new();
+            vec.into_iter()
+                .zip(vec2.into_iter())
+                .map(|(x, y)| add(x, y, ram))
+                .for_each(|s| res.push(s));
+            Parameters::InterpreterVector(Box::from(res))
+        }
         (Bool(_), Parameters::Int(i)) => Parameters::Int(i),
         (Bool(_), Parameters::Float(i)) => Parameters::Float(i),
         (Parameters::Int(i), Bool(_)) => Parameters::Int(i),
@@ -94,6 +108,18 @@ pub fn add(i: Parameters, i2: Parameters, ram: Option<&HashMap<String, Parameter
         (Parameters::Float(i), Parameters::Identifier(s)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Float(i), ram, add)
         }
+        (Parameters::Identifier(s), Parameters::InterpreterVector(vec)) => apply_operator(
+            Parameters::Identifier(s),
+            Parameters::InterpreterVector(vec.clone()),
+            ram,
+            add,
+        ),
+        (Parameters::InterpreterVector(vec), Parameters::Identifier(s)) => apply_operator(
+            Parameters::Identifier(s),
+            Parameters::InterpreterVector(vec.clone()),
+            ram,
+            add,
+        ),
         (Bool(b), Parameters::Identifier(s)) => {
             apply_operator_reverse(Bool(b), Parameters::Identifier(s), ram, add)
         }
@@ -115,9 +141,35 @@ pub fn minus(
         (Parameters::Int(v), Parameters::Null) => Parameters::Int(-v),
         (Parameters::Float(f), Parameters::Null) => Parameters::Float(-f),
         (Parameters::Int(v), Parameters::Int(v2)) => Parameters::Int(v - v2),
+
+        (Parameters::InterpreterVector(vec), Parameters::Null) => {
+            let mut res = Vec::new();
+            vec.into_iter()
+                .map(|x| minus(Parameters::Null, x, ram))
+                .for_each(|z| res.push(z));
+            Parameters::InterpreterVector(Box::from(res))
+        }
+
+        (Parameters::Null, Parameters::InterpreterVector(vec)) => {
+            let mut res = Vec::new();
+            vec.into_iter()
+                .map(|x| minus(Parameters::Null, x, ram))
+                .for_each(|z| res.push(z));
+            Parameters::InterpreterVector(Box::from(res))
+        }
+
+        (Parameters::InterpreterVector(vec), Parameters::InterpreterVector(vec2)) => {
+            let mut res = Vec::new();
+            vec.into_iter()
+                .zip(vec2.into_iter())
+                .map(|(x, y)| minus(x, y, ram))
+                .for_each(|z| res.push(z));
+            Parameters::InterpreterVector(Box::from(res))
+        }
         (Parameters::Int(v), Parameters::Float(f)) => Parameters::Float((v as f64) - f),
         (Parameters::Float(v), Parameters::Float(f)) => Parameters::Float(v - f),
         (Parameters::Float(v), Parameters::Int(i1)) => Parameters::Float(v - (i1 as f64)),
+
         (Bool(_), Parameters::Int(i)) => Parameters::Int(i),
         (Bool(_), Parameters::Float(i)) => Parameters::Float(i),
         (Parameters::Int(i), Bool(_)) => Parameters::Int(i),
@@ -157,6 +209,19 @@ pub fn minus(
                 _ => Parameters::Null,
             }
         }
+
+        (Parameters::InterpreterVector(vec), Parameters::Identifier(s)) => apply_operator_reverse(
+            Parameters::InterpreterVector(vec.clone()),
+            Parameters::Identifier(s),
+            ram,
+            minus,
+        ),
+        (Parameters::Identifier(s), Parameters::InterpreterVector(vec)) => apply_operator(
+            Parameters::Identifier(s),
+            Parameters::InterpreterVector(vec.clone()),
+            ram,
+            minus,
+        ),
         (Bool(b), Parameters::Identifier(s)) => {
             apply_operator_reverse(Bool(b), Parameters::Identifier(s), ram, minus)
         }
@@ -181,6 +246,57 @@ pub fn mult(
         (Parameters::Int(v), Parameters::Float(f)) => Parameters::Float((v as f64) * f),
         (Parameters::Float(v), Parameters::Float(f)) => Parameters::Float(v * f),
         (Parameters::Float(v), Parameters::Int(i1)) => Parameters::Float(v * (i1 as f64)),
+
+        (Parameters::Null, Parameters::InterpreterVector(vec)) => {
+            Parameters::InterpreterVector(vec.clone())
+        }
+        (Parameters::InterpreterVector(vec), Parameters::Null) => {
+            Parameters::InterpreterVector(vec.clone())
+        }
+        (Parameters::InterpreterVector(vec), Parameters::Int(v)) => {
+            let mut result = Vec::new();
+            vec.into_iter()
+                .map(|x| mult(x, Parameters::Int(v), ram))
+                .for_each(|x| result.push(x));
+            Parameters::InterpreterVector(Box::from(result))
+        }
+        (Parameters::Int(v), Parameters::InterpreterVector(vec)) => {
+            let mut result = Vec::new();
+            vec.into_iter()
+                .map(|x| mult(x, Parameters::Int(v), ram))
+                .for_each(|x| result.push(x));
+            Parameters::InterpreterVector(Box::from(result))
+        }
+        (Parameters::InterpreterVector(vec), Parameters::Float(v)) => {
+            let mut result = Vec::new();
+            vec.into_iter()
+                .map(|x| mult(x, Parameters::Float(v), ram))
+                .for_each(|x| result.push(x));
+            Parameters::InterpreterVector(Box::from(result))
+        }
+        (Parameters::Float(v), Parameters::InterpreterVector(vec)) => {
+            let mut result = Vec::new();
+            vec.into_iter()
+                .map(|x| mult(x, Parameters::Float(v), ram))
+                .for_each(|x| result.push(x));
+            Parameters::InterpreterVector(Box::from(result))
+        }
+
+        (Parameters::InterpreterVector(vec), Parameters::InterpreterVector(vec2)) => {
+            let mut sum = Parameters::Null;
+            (*vec)
+                .into_iter()
+                .zip(vec2.into_iter())
+                .map(|(a, b)| mult(a.clone(), b.clone(), ram))
+                .for_each(|x| sum = add(sum.clone(), x, ram));
+
+            match sum {
+                Parameters::Int(i) => Parameters::Int(i),
+                Parameters::Float(f) => Parameters::Float(f),
+                _ => Parameters::Float(f64::NAN),
+            }
+        }
+
         (Bool(_), Parameters::Int(i)) => Parameters::Int(i),
         (Bool(_), Parameters::Float(i)) => Parameters::Float(i),
         (Parameters::Int(i), Bool(_)) => Parameters::Int(i),
@@ -200,6 +316,18 @@ pub fn mult(
         (Parameters::Int(i), Parameters::Identifier(s)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Int(i), ram, mult)
         }
+        (Parameters::Identifier(s), Parameters::InterpreterVector(vec)) => apply_operator(
+            Parameters::Identifier(s),
+            Parameters::InterpreterVector(vec.clone()),
+            ram,
+            mult,
+        ),
+        (Parameters::InterpreterVector(vec), Parameters::Identifier(s)) => apply_operator_reverse(
+            Parameters::InterpreterVector(vec.clone()),
+            Parameters::Identifier(s),
+            ram,
+            mult,
+        ),
         (Parameters::Null, Parameters::Identifier(s)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Null, ram, mult)
         }
@@ -236,6 +364,12 @@ pub fn divide(
         (Parameters::Int(v), Parameters::Float(f)) => Parameters::Float((v as f64) / f),
         (Parameters::Float(v), Parameters::Float(f)) => Parameters::Float(v / f),
         (Parameters::Float(v), Parameters::Int(i1)) => Parameters::Float(v / (i1 as f64)),
+        (Parameters::Null, Parameters::InterpreterVector(vec)) => {
+            Parameters::InterpreterVector(vec.clone())
+        }
+        (Parameters::InterpreterVector(vec), Parameters::Null) => {
+            Parameters::InterpreterVector(vec.clone())
+        }
         (Bool(_), Parameters::Int(i)) => Parameters::Int(i),
         (Bool(_), Parameters::Float(i)) => Parameters::Float(i),
         (Parameters::Int(i), Bool(_)) => Parameters::Int(i),

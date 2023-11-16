@@ -246,6 +246,41 @@ pub fn mult(
         (Parameters::Int(v), Parameters::Float(f)) => Parameters::Float((v as f64) * f),
         (Parameters::Float(v), Parameters::Float(f)) => Parameters::Float(v * f),
         (Parameters::Float(v), Parameters::Int(i1)) => Parameters::Float(v * (i1 as f64)),
+        (Parameters::Null, Parameters::InterpreterVector(vec)) => {
+            Parameters::InterpreterVector(vec.clone())
+        }
+        (Parameters::InterpreterVector(vec), Parameters::Null) => {
+            Parameters::InterpreterVector(vec.clone())
+        }
+
+        (Parameters::InterpreterVector(vec), Parameters::Int(v)) => {
+            let mut result = Vec::new();
+            vec.into_iter()
+                .map(|x| mult(x, Parameters::Int(v), ram))
+                .for_each(|x| result.push(x));
+            Parameters::InterpreterVector(Box::from(result))
+        }
+        (Parameters::Int(v), Parameters::InterpreterVector(vec)) => {
+            let mut result = Vec::new();
+            vec.into_iter()
+                .map(|x| mult(x, Parameters::Int(v), ram))
+                .for_each(|x| result.push(x));
+            Parameters::InterpreterVector(Box::from(result))
+        }
+        (Parameters::InterpreterVector(vec), Parameters::Float(v)) => {
+            let mut result = Vec::new();
+            vec.into_iter()
+                .map(|x| mult(x, Parameters::Float(v), ram))
+                .for_each(|x| result.push(x));
+            Parameters::InterpreterVector(Box::from(result))
+        }
+        (Parameters::Float(v), Parameters::InterpreterVector(vec)) => {
+            let mut result = Vec::new();
+            vec.into_iter()
+                .map(|x| mult(x, Parameters::Float(v), ram))
+                .for_each(|x| result.push(x));
+            Parameters::InterpreterVector(Box::from(result))
+        }
         (Bool(_), Parameters::Int(i)) => Parameters::Int(i),
         (Bool(_), Parameters::Float(i)) => Parameters::Float(i),
         (Parameters::Int(i), Bool(_)) => Parameters::Int(i),
@@ -265,6 +300,18 @@ pub fn mult(
         (Parameters::Int(i), Parameters::Identifier(s)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Int(i), ram, mult)
         }
+        (Parameters::Identifier(s), Parameters::InterpreterVector(vec)) => apply_operator(
+            Parameters::Identifier(s),
+            Parameters::InterpreterVector(vec.clone()),
+            ram,
+            mult,
+        ),
+        (Parameters::InterpreterVector(vec), Parameters::Identifier(s)) => apply_operator_reverse(
+            Parameters::InterpreterVector(vec.clone()),
+            Parameters::Identifier(s),
+            ram,
+            mult,
+        ),
         (Parameters::Null, Parameters::Identifier(s)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Null, ram, mult)
         }

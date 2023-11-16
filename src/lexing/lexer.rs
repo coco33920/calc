@@ -245,7 +245,7 @@ pub fn lex(input: String) -> Vec<Token> {
                         }
                     }
                 }
-                if ch.is_alphabetic() {
+                if ch.is_alphabetic() || ch == '_' {
                     let (a, b) = lex_string(current_character, &mut chars, current_pos, length);
                     current_pos = b;
                     if &a == "false" {

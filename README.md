@@ -259,3 +259,13 @@ Example:
 You can define your own functions!
 
 ![img.png](docs/assets/user_defined.png)
+
+## Vector calculation !
+
+You can use vectors! 
+
+- add vector to each others
+- added the `norm` function to compute the norm
+- dot product between two vectors ( * operator)
+
+![](docs/assets/vector.png)

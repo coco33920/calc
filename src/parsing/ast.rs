@@ -97,14 +97,14 @@ impl Parameters {
         &self,
         mut ram: Option<&mut HashMap<String, Parameters>>,
         mut function: Option<&mut HashMap<String, (Vec<Ast>, Ast)>>,
-    ) {
+    ) -> String {
         match self {
             Identifier(s) => {
                 if ram == None {
-                    println!("{self}")
+                    return self.to_string();
                 } else {
                     match ram.as_mut().unwrap().get(s) {
-                        None => println!("This variable is not initialized yet"),
+                        None => "This variable is not initialized yet".to_string(),
                         Some(t) => t.clone().pretty_print(
                             Some(ram.as_mut().unwrap()),
                             Some(function.as_mut().unwrap()),
@@ -114,10 +114,17 @@ impl Parameters {
             }
             InterpreterVector(lst) => {
                 let mut vec = Vec::new();
-                lst.iter().map(|x| x.to_string()).for_each(|x| vec.push(x));
-                println!("[{}]", vec.join(","));
+                lst.iter()
+                    .map(|x| {
+                        x.pretty_print(
+                            Some(&mut ram.as_deref().unwrap().clone()),
+                            Some(&mut function.as_deref().unwrap().clone()),
+                        )
+                    })
+                    .for_each(|x| vec.push(x));
+                format!("[{}]", vec.join(","))
             }
-            _ => println!("{self}"),
+            _ => format!("{self}"),
         }
     }
 }

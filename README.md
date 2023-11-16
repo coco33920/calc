@@ -102,11 +102,11 @@ Check [the website](https://calc.nwa2coco.fr) for more informations.
       - [X] Vector norm
       - [X] Vector addition
 - [ ] Matrix calculation
-    - [ ] Add matrix to the datatypes
-    - [ ] Lex matrices
-    - [ ] Parse matrices
+    - [X] Add matrix to the datatypes
+    - [X] Lex matrices
+    - [X] Parse matrices
     - [ ] Add matrices operation
-      - [ ] Matrix addition
+      - [X] Matrix addition
       - [ ] Matrix multiplication 
       - [ ] Calculate the reverse matrix
 

@@ -4,7 +4,7 @@ use std::f64::consts::{E, PI};
 use crate::interpreting::interpreter::interpret;
 use crate::parsing::ast::{Ast, Parameters};
 
-use super::function::{add as other_add, minus, mult};
+use super::function::{add as other_add, mult};
 
 pub fn exec(
     s: String,
@@ -33,7 +33,6 @@ pub fn exec(
         "floor" => floor(&lst, ram),
         "round" => round(&lst, ram),
         "norm" => norm(&lst, ram, functions),
-        "op" => op(&lst, ram, functions),
         s => {
             let mut sram: HashMap<String, Parameters> = HashMap::new();
             sram.insert("pi".to_string(), Parameters::Float(PI));
@@ -783,8 +782,8 @@ pub fn round(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>)
 
 pub fn norm(
     p: &Vec<Parameters>,
-    mut ram: Option<&mut HashMap<String, Parameters>>,
-    mut function: Option<&mut HashMap<String, (Vec<Ast>, Ast)>>,
+    ram: Option<&mut HashMap<String, Parameters>>,
+    function: Option<&mut HashMap<String, (Vec<Ast>, Ast)>>,
 ) -> Parameters {
     if p.len() < 1 {
         return Parameters::Null;
@@ -793,16 +792,11 @@ pub fn norm(
     match p.get(0).unwrap() {
         Parameters::Int(i) => Parameters::Int((*i).abs()),
         Parameters::Float(f) => Parameters::Float((*f).abs()),
-        Parameters::Vector(lst) => {
-            let mut list = Vec::new();
-
-            lst.iter()
-                .map(|x| interpret(x, ram.as_mut().unwrap(), function.as_mut().unwrap()))
-                .for_each(|x| list.push(x));
-
+        Parameters::InterpreterVector(lst) => {
             let mut sum = Parameters::Int(0);
 
-            list.iter()
+            (*lst)
+                .iter()
                 .map(|x| mult(x.clone(), x.clone(), ram.as_deref()))
                 .for_each(|x| sum = other_add(sum.clone(), x.clone(), ram.as_deref()));
 
@@ -817,48 +811,6 @@ pub fn norm(
             Some(ref t) => match t.get(s.as_str()) {
                 None => Parameters::Null,
                 Some(t) => norm(&vec![t.clone()], ram, function),
-            },
-        },
-        _ => Parameters::Null,
-    }
-}
-
-pub fn op(
-    p: &Vec<Parameters>,
-    mut ram: Option<&mut HashMap<String, Parameters>>,
-    mut function: Option<&mut HashMap<String, (Vec<Ast>, Ast)>>,
-) -> Parameters {
-    if p.len() < 1 {
-        return Parameters::Null;
-    }
-
-    match p.get(0).unwrap() {
-        Parameters::Int(i) => Parameters::Int((*i).abs()),
-        Parameters::Float(f) => Parameters::Float((*f).abs()),
-        Parameters::Vector(lst) => {
-            let mut list = Vec::new();
-
-            lst.iter()
-                .map(|x| interpret(x, ram.as_mut().unwrap(), function.as_mut().unwrap()))
-                .for_each(|x| list.push(x));
-
-            let mut res = Vec::new();
-
-            list.iter()
-                .map(|x| minus(Parameters::Null, x.clone(), ram.as_deref()))
-                .for_each(|x| res.push(x));
-
-            let mut result = Vec::new();
-            res.iter()
-                .map(|x| Ast::new(x.clone()))
-                .for_each(|x| result.push(x.clone()));
-            Parameters::Vector(Box::from(result.clone()))
-        }
-        Parameters::Identifier(s) => match ram {
-            None => Parameters::Identifier("This variable is not initialized yet".to_string()),
-            Some(ref t) => match t.get(s.as_str()) {
-                None => Parameters::Null,
-                Some(t) => op(&vec![t.clone()], ram, function),
             },
         },
         _ => Parameters::Null,

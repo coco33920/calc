@@ -75,7 +75,7 @@ pub fn add(i: Parameters, i2: Parameters, ram: Option<&HashMap<String, Parameter
                 .zip(vec2.into_iter())
                 .map(|(x, y)| add(x.clone(), y.clone(), ram))
                 .for_each(|s| res.push(s));
-            Parameters::InterpreterVector(res.as_slice().into())
+            Parameters::InterpreterVector(Box::from(res))
         }
         (Bool(_), Parameters::Int(i)) => Parameters::Int(i),
         (Bool(_), Parameters::Float(i)) => Parameters::Float(i),
@@ -147,7 +147,7 @@ pub fn minus(
             vec.into_iter()
                 .map(|x| minus(Parameters::Null, x.clone(), ram))
                 .for_each(|z| res.push(z));
-            Parameters::InterpreterVector(res.as_slice().into())
+            Parameters::InterpreterVector(Box::from(res))
         }
 
         (Parameters::Null, Parameters::InterpreterVector(vec)) => {
@@ -155,7 +155,7 @@ pub fn minus(
             vec.into_iter()
                 .map(|x| minus(Parameters::Null, x.clone(), ram))
                 .for_each(|z| res.push(z));
-            Parameters::InterpreterVector(res.as_slice().into())
+            Parameters::InterpreterVector(Box::from(res))
         }
 
         (Parameters::InterpreterVector(vec), Parameters::InterpreterVector(vec2)) => {
@@ -164,7 +164,7 @@ pub fn minus(
                 .zip(vec2.into_iter())
                 .map(|(x, y)| minus(x.clone(), y.clone(), ram))
                 .for_each(|z| res.push(z));
-            Parameters::InterpreterVector(res.as_slice().into())
+            Parameters::InterpreterVector(Box::from(res))
         }
         (Parameters::Int(v), Parameters::Float(f)) => Parameters::Float((v as f64) - f),
         (Parameters::Float(v), Parameters::Float(f)) => Parameters::Float(v - f),
@@ -258,28 +258,28 @@ pub fn mult(
             vec.into_iter()
                 .map(|x| mult(x.clone(), Parameters::Int(v), ram))
                 .for_each(|x| result.push(x));
-            Parameters::InterpreterVector(result.as_slice().into())
+            Parameters::InterpreterVector(Box::from(result))
         }
         (Parameters::Int(v), Parameters::InterpreterVector(vec)) => {
             let mut result = Vec::new();
             vec.into_iter()
                 .map(|x| mult(x.clone(), Parameters::Int(v), ram))
                 .for_each(|x| result.push(x));
-            Parameters::InterpreterVector(result.as_slice().into())
+            Parameters::InterpreterVector(Box::from(result))
         }
         (Parameters::InterpreterVector(vec), Parameters::Float(v)) => {
             let mut result = Vec::new();
             vec.into_iter()
                 .map(|x| mult(x.clone(), Parameters::Float(v), ram))
                 .for_each(|x| result.push(x));
-            Parameters::InterpreterVector(result.as_slice().into())
+            Parameters::InterpreterVector(Box::from(result))
         }
         (Parameters::Float(v), Parameters::InterpreterVector(vec)) => {
             let mut result = Vec::new();
             vec.into_iter()
                 .map(|x| mult(x.clone(), Parameters::Float(v), ram))
                 .for_each(|x| result.push(x));
-            Parameters::InterpreterVector(result.as_slice().into())
+            Parameters::InterpreterVector(Box::from(result))
         }
 
         (Parameters::InterpreterVector(vec), Parameters::InterpreterVector(vec2)) => {

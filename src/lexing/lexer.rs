@@ -24,6 +24,7 @@ pub fn is_an_allowed_char(character: char) -> bool {
         || character == '&'
         || character == '['
         || character == ']'
+        || character == '_'
 }
 
 fn lex_int(
@@ -68,7 +69,7 @@ fn lex_string(
     len: usize,
 ) -> (String, usize) {
     let mut str: String = String::new();
-    while current_pos < len && current_char.is_alphanumeric() {
+    while current_pos < len && (current_char.is_alphanumeric() || current_char == '_') {
         str += &*current_char.to_string();
 
         current_pos += 1;

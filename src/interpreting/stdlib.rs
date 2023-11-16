@@ -3,6 +3,7 @@ use std::f64::consts::{E, PI};
 
 use crate::interpreting::interpreter::interpret;
 use crate::parsing::ast::{Ast, Parameters};
+use crate::utils::matrix_utils::transpose_vector;
 
 use super::function::{add as other_add, mult};
 
@@ -33,6 +34,7 @@ pub fn exec(
         "floor" => floor(&lst, ram),
         "round" => round(&lst, ram),
         "norm" => norm(&lst, ram, functions),
+        "transpose_vector" => transpose_vectors(&lst, ram),
         s => {
             let mut sram: HashMap<String, Parameters> = HashMap::new();
             sram.insert("pi".to_string(), Parameters::Float(PI));
@@ -811,6 +813,37 @@ pub fn norm(
             Some(ref t) => match t.get(s.as_str()) {
                 None => Parameters::Null,
                 Some(t) => norm(&vec![t.clone()], ram, function),
+            },
+        },
+        _ => Parameters::Null,
+    }
+}
+
+pub fn transpose_vectors(
+    p: &Vec<Parameters>,
+    ram: Option<&mut HashMap<String, Parameters>>,
+) -> Parameters {
+    if p.len() < 1 {
+        return Parameters::Null;
+    }
+
+    match p.get(0).unwrap() {
+        Parameters::Int(i) => Parameters::Int((*i).abs()),
+        Parameters::Float(f) => Parameters::Float((*f).abs()),
+        Parameters::InterpreterVector(lst) => {
+            let a = transpose_vector(lst.to_vec());
+            let mut result = Vec::new();
+
+            (*a).into_iter()
+                .for_each(|x| result.push(Parameters::InterpreterVector(Box::new(x.clone()))));
+
+            Parameters::InterpreterVector(Box::from(result))
+        }
+        Parameters::Identifier(s) => match ram {
+            None => Parameters::Identifier("This variable is not initialized yet".to_string()),
+            Some(ref t) => match t.get(s.as_str()) {
+                None => Parameters::Null,
+                Some(t) => transpose_vectors(&vec![t.clone()], ram),
             },
         },
         _ => Parameters::Null,

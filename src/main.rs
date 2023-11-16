@@ -15,6 +15,7 @@ mod configuration;
 mod interpreting;
 mod lexing;
 mod parsing;
+mod utils;
 
 fn main() {
     let config = match load() {

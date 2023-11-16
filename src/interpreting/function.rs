@@ -281,6 +281,22 @@ pub fn mult(
                 .for_each(|x| result.push(x));
             Parameters::InterpreterVector(Box::from(result))
         }
+
+        (Parameters::InterpreterVector(vec), Parameters::InterpreterVector(vec2)) => {
+            let mut sum = Parameters::Null;
+            (*vec)
+                .into_iter()
+                .zip(vec2.into_iter())
+                .map(|(a, b)| mult(a.clone(), b.clone(), ram))
+                .for_each(|x| sum = add(sum.clone(), x, ram));
+
+            match sum {
+                Parameters::Int(i) => Parameters::Int(i),
+                Parameters::Float(f) => Parameters::Float(f),
+                _ => Parameters::Float(f64::NAN),
+            }
+        }
+
         (Bool(_), Parameters::Int(i)) => Parameters::Int(i),
         (Bool(_), Parameters::Float(i)) => Parameters::Float(i),
         (Parameters::Int(i), Bool(_)) => Parameters::Int(i),

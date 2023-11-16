@@ -93,14 +93,14 @@ Check [the website](https://calc.nwa2coco.fr) for more informations.
         - [X] `==`
     - [X] Add unary operator
         - [X] not (!)
-- [ ] Vector calculation
+- [X] Vector calculation
     - [X] Add vectors to the datatypes
     - [X] Lex vectors
     - [X] Parse vectors
-    - [ ] Add vector operations
-      - [ ] Dot product
+    - [X] Add vector operations
+      - [X] Dot product
       - [X] Vector norm
-      - [ ] Vector addition
+      - [X] Vector addition
 - [ ] Matrix calculation
     - [ ] Add matrix to the datatypes
     - [ ] Lex matrices

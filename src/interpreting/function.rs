@@ -246,13 +246,13 @@ pub fn mult(
         (Parameters::Int(v), Parameters::Float(f)) => Parameters::Float((v as f64) * f),
         (Parameters::Float(v), Parameters::Float(f)) => Parameters::Float(v * f),
         (Parameters::Float(v), Parameters::Int(i1)) => Parameters::Float(v * (i1 as f64)),
+
         (Parameters::Null, Parameters::InterpreterVector(vec)) => {
             Parameters::InterpreterVector(vec.clone())
         }
         (Parameters::InterpreterVector(vec), Parameters::Null) => {
             Parameters::InterpreterVector(vec.clone())
         }
-
         (Parameters::InterpreterVector(vec), Parameters::Int(v)) => {
             let mut result = Vec::new();
             vec.into_iter()
@@ -348,6 +348,12 @@ pub fn divide(
         (Parameters::Int(v), Parameters::Float(f)) => Parameters::Float((v as f64) / f),
         (Parameters::Float(v), Parameters::Float(f)) => Parameters::Float(v / f),
         (Parameters::Float(v), Parameters::Int(i1)) => Parameters::Float(v / (i1 as f64)),
+        (Parameters::Null, Parameters::InterpreterVector(vec)) => {
+            Parameters::InterpreterVector(vec.clone())
+        }
+        (Parameters::InterpreterVector(vec), Parameters::Null) => {
+            Parameters::InterpreterVector(vec.clone())
+        }
         (Bool(_), Parameters::Int(i)) => Parameters::Int(i),
         (Bool(_), Parameters::Float(i)) => Parameters::Float(i),
         (Parameters::Int(i), Bool(_)) => Parameters::Int(i),

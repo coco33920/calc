@@ -3,7 +3,7 @@ use std::f64::consts::{E, PI};
 
 use crate::interpreting::interpreter::interpret;
 use crate::parsing::ast::{Ast, Parameters};
-use crate::utils::transpose;
+use crate::utils::matrix_utils::transpose;
 
 use super::function::{add as other_add, mult};
 

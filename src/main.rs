@@ -5,7 +5,7 @@ use std::process::exit;
 use ansi_term::Color;
 use linefeed::{Interface, ReadResult};
 
-use crate::configuration::loader::{load, load_config, Loaded};
+use crate::configuration::loader::{load, load_config, write_default_config, Loaded};
 use crate::interpreting::interpreter::interpret;
 use crate::lexing::lexer::lex;
 use crate::parsing::ast::{Ast, Parameters};
@@ -20,9 +20,15 @@ mod utils;
 fn main() {
     let config = match load() {
         Ok(config) => config,
-        Err(e) => {
-            println!("{e}");
-            exit(1)
+        Err(_) => {
+            let _ = write_default_config();
+            match load() {
+                Ok(cfg) => cfg,
+                Err(_) => {
+                    println!("fatal error please remove your config file");
+                    exit(1);
+                }
+            }
         }
     };
 

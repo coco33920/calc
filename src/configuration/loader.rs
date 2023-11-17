@@ -1,4 +1,5 @@
 use ansi_term::{ANSIGenericString, Color};
+use confy::ConfyError;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
@@ -60,6 +61,15 @@ impl Default for Config {
 pub fn load() -> Result<Config, confy::ConfyError> {
     let cfg: Config = confy::load("mini-calc", Some("mini-calc"))?;
     Ok(cfg)
+}
+
+pub fn write_config(c: &Config) -> Result<(), ConfyError> {
+    confy::store("mini-calc", Some("mini-calc"), c)?;
+    Ok(())
+}
+
+pub fn write_default_config() -> Result<(), ConfyError> {
+    write_config(&Config::default())
 }
 
 pub fn load_rgb_color(str: &str) -> (u8, u8, u8) {

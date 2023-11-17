@@ -60,6 +60,22 @@ You can compute using vectors!
 
 ![](assets/vector.png)
 
+
+## Matrices !
+
+As of 2.7.0 matrix algebra is implemented (using lup reduction)
+
+- you can add matrices 
+- multiply compatible matrices
+
+functions added
+- transpose
+- invert
+- det 
+
+![](assets/matrix.png)
+
+
 ## TODO List
 
 - [X] Lexing of basic operations

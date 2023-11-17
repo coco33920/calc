@@ -21,6 +21,13 @@ Exponentiation
 - exp
 - ln (alias: log)
 
+Vectors
+- norm
+
+Matrices
+- det 
+- invert
+
 Other
 - sqrt
 - factorial (aliases: fact or !)
@@ -51,3 +58,8 @@ You can round to the nth decimal with the round function, by default it round to
 
 ![img.png](assets/round.png)
 
+## Partial function
+
+The language supports partial function
+
+![img.png](assets/function.png)

@@ -288,4 +288,21 @@ You can use vectors!
 - added the `norm` function to compute the norm
 - dot product between two vectors ( * operator)
 
+Functions added: 
+- norm
+
 ![](docs/assets/vector.png)
+
+## Matrices !
+
+As of 2.7.0 matrix algebra is implemented (using lup reduction)
+
+- you can add matrices 
+- multiply compatible matrices
+
+functions added
+- transpose
+- invert
+- det 
+
+![](docs/assets/matrix.png)

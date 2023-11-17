@@ -951,7 +951,7 @@ pub fn det_matrix(
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(ref t) => match t.get(s.as_str()) {
                 None => Parameters::Null,
-                Some(t) => transpose_matrices(&vec![t.clone()], ram),
+                Some(t) => det_matrix(&vec![t.clone()], ram),
             },
         },
         _ => Parameters::Null,
@@ -1017,7 +1017,7 @@ pub fn inverse_matrix(
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(ref t) => match t.get(s.as_str()) {
                 None => Parameters::Null,
-                Some(t) => transpose_matrices(&vec![t.clone()], ram),
+                Some(t) => inverse_matrix(&vec![t.clone()], ram),
             },
         },
         _ => Parameters::Null,

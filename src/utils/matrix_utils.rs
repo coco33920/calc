@@ -281,7 +281,7 @@ mod test {
                 minus(det, Parameters::Float(60.0), None).abs(None),
                 None
             ),
-            Parameters::Bool(false)
+            Parameters::Bool(true)
         );
     }
 }

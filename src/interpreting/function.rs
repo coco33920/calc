@@ -320,6 +320,11 @@ pub fn mult(
                 let matrix_result = mult_matrix(res, res2, ram);
 
                 let mut res = Vec::new();
+
+                if matrix_result.len() == 0 {
+                    return Parameters::Null;
+                }
+
                 matrix_result
                     .into_iter()
                     .for_each(|x| res.push(Parameters::InterpreterVector(Box::from(x))));

@@ -194,6 +194,26 @@ impl Ast {
     }
 }
 
+impl Parameters {
+    pub fn abs(self, ram: Option<&HashMap<String, Parameters>>) -> Parameters {
+        match self {
+            Parameters::Int(i) => Parameters::Int(i.abs()),
+            Parameters::Float(f) => Parameters::Float(f.abs()),
+            Parameters::Identifier(s) => match ram {
+                None => Parameters::Null,
+                Some(t) => {
+                    let param = t.get(&s);
+                    match param {
+                        None => Parameters::Null,
+                        Some(t) => t.clone().abs(ram.as_deref()),
+                    }
+                }
+            },
+            _ => Parameters::Null,
+        }
+    }
+}
+
 #[cfg(test)]
 mod test {
     use crate::parsing::ast::{Ast, Parameters};

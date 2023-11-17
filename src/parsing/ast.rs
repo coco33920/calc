@@ -48,7 +48,7 @@ impl Display for Parameters {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
             Int(i) => write!(f, "{}", i),
-            Float(fl) => write!(f, "{}", fl),
+            Float(fl) => write!(f, "{:.5}", fl),
             Identifier(s) => write!(f, "{}", s),
             PlusOperation => write!(f, "+"),
             MinusOperation => write!(f, "-"),
@@ -97,14 +97,14 @@ impl Parameters {
         &self,
         mut ram: Option<&mut HashMap<String, Parameters>>,
         mut function: Option<&mut HashMap<String, (Vec<Ast>, Ast)>>,
-    ) {
+    ) -> String {
         match self {
             Identifier(s) => {
                 if ram == None {
-                    println!("{self}")
+                    return self.to_string();
                 } else {
                     match ram.as_mut().unwrap().get(s) {
-                        None => println!("This variable is not initialized yet"),
+                        None => "This variable is not initialized yet".to_string(),
                         Some(t) => t.clone().pretty_print(
                             Some(ram.as_mut().unwrap()),
                             Some(function.as_mut().unwrap()),
@@ -114,10 +114,17 @@ impl Parameters {
             }
             InterpreterVector(lst) => {
                 let mut vec = Vec::new();
-                lst.iter().map(|x| x.to_string()).for_each(|x| vec.push(x));
-                println!("[{}]", vec.join(","));
+                lst.iter()
+                    .map(|x| {
+                        x.pretty_print(
+                            Some(&mut ram.as_deref().unwrap().clone()),
+                            Some(&mut function.as_deref().unwrap().clone()),
+                        )
+                    })
+                    .for_each(|x| vec.push(x));
+                format!("[{}]", vec.join(","))
             }
-            _ => println!("{self}"),
+            _ => format!("{self}"),
         }
     }
 }
@@ -183,6 +190,26 @@ impl Ast {
                 right: Box::from(node),
             },
             _ => node,
+        }
+    }
+}
+
+impl Parameters {
+    pub fn abs(self, ram: Option<&HashMap<String, Parameters>>) -> Parameters {
+        match self {
+            Parameters::Int(i) => Parameters::Int(i.abs()),
+            Parameters::Float(f) => Parameters::Float(f.abs()),
+            Parameters::Identifier(s) => match ram {
+                None => Parameters::Null,
+                Some(t) => {
+                    let param = t.get(&s);
+                    match param {
+                        None => Parameters::Null,
+                        Some(t) => t.clone().abs(ram.as_deref()),
+                    }
+                }
+            },
+            _ => Parameters::Null,
         }
     }
 }

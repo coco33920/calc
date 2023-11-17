@@ -2,6 +2,7 @@ use std::collections::HashMap;
 
 use crate::parsing::ast::Parameters;
 use crate::parsing::ast::Parameters::Bool;
+use crate::utils::matrix_utils::mult_matrix;
 
 pub fn apply_operator(
     value: Parameters,
@@ -73,7 +74,7 @@ pub fn add(i: Parameters, i2: Parameters, ram: Option<&HashMap<String, Parameter
             let mut res = Vec::new();
             vec.into_iter()
                 .zip(vec2.into_iter())
-                .map(|(x, y)| add(x, y, ram))
+                .map(|(x, y)| add(x.clone(), y.clone(), ram))
                 .for_each(|s| res.push(s));
             Parameters::InterpreterVector(Box::from(res))
         }
@@ -145,7 +146,7 @@ pub fn minus(
         (Parameters::InterpreterVector(vec), Parameters::Null) => {
             let mut res = Vec::new();
             vec.into_iter()
-                .map(|x| minus(Parameters::Null, x, ram))
+                .map(|x| minus(Parameters::Null, x.clone(), ram))
                 .for_each(|z| res.push(z));
             Parameters::InterpreterVector(Box::from(res))
         }
@@ -153,7 +154,7 @@ pub fn minus(
         (Parameters::Null, Parameters::InterpreterVector(vec)) => {
             let mut res = Vec::new();
             vec.into_iter()
-                .map(|x| minus(Parameters::Null, x, ram))
+                .map(|x| minus(Parameters::Null, x.clone(), ram))
                 .for_each(|z| res.push(z));
             Parameters::InterpreterVector(Box::from(res))
         }
@@ -162,7 +163,7 @@ pub fn minus(
             let mut res = Vec::new();
             vec.into_iter()
                 .zip(vec2.into_iter())
-                .map(|(x, y)| minus(x, y, ram))
+                .map(|(x, y)| minus(x.clone(), y.clone(), ram))
                 .for_each(|z| res.push(z));
             Parameters::InterpreterVector(Box::from(res))
         }
@@ -256,44 +257,79 @@ pub fn mult(
         (Parameters::InterpreterVector(vec), Parameters::Int(v)) => {
             let mut result = Vec::new();
             vec.into_iter()
-                .map(|x| mult(x, Parameters::Int(v), ram))
+                .map(|x| mult(x.clone(), Parameters::Int(v), ram))
                 .for_each(|x| result.push(x));
             Parameters::InterpreterVector(Box::from(result))
         }
         (Parameters::Int(v), Parameters::InterpreterVector(vec)) => {
             let mut result = Vec::new();
             vec.into_iter()
-                .map(|x| mult(x, Parameters::Int(v), ram))
+                .map(|x| mult(x.clone(), Parameters::Int(v), ram))
                 .for_each(|x| result.push(x));
             Parameters::InterpreterVector(Box::from(result))
         }
         (Parameters::InterpreterVector(vec), Parameters::Float(v)) => {
             let mut result = Vec::new();
             vec.into_iter()
-                .map(|x| mult(x, Parameters::Float(v), ram))
+                .map(|x| mult(x.clone(), Parameters::Float(v), ram))
                 .for_each(|x| result.push(x));
             Parameters::InterpreterVector(Box::from(result))
         }
         (Parameters::Float(v), Parameters::InterpreterVector(vec)) => {
             let mut result = Vec::new();
             vec.into_iter()
-                .map(|x| mult(x, Parameters::Float(v), ram))
+                .map(|x| mult(x.clone(), Parameters::Float(v), ram))
                 .for_each(|x| result.push(x));
             Parameters::InterpreterVector(Box::from(result))
         }
 
         (Parameters::InterpreterVector(vec), Parameters::InterpreterVector(vec2)) => {
-            let mut sum = Parameters::Null;
-            (*vec)
-                .into_iter()
-                .zip(vec2.into_iter())
-                .map(|(a, b)| mult(a.clone(), b.clone(), ram))
-                .for_each(|x| sum = add(sum.clone(), x, ram));
+            let mut res1 = Vec::new();
+            let mut is_matrix = true;
+            let mut res = Vec::new();
+            let mut res2 = Vec::new();
 
-            match sum {
-                Parameters::Int(i) => Parameters::Int(i),
-                Parameters::Float(f) => Parameters::Float(f),
-                _ => Parameters::Float(f64::NAN),
+            vec.clone().into_iter().for_each(|x| match x {
+                Parameters::InterpreterVector(l) => res.push(l.to_vec()),
+                p => {
+                    is_matrix = false;
+                    res1.push(p);
+                }
+            });
+            vec2.clone().into_iter().for_each(|x| match x {
+                Parameters::InterpreterVector(l) => res2.push(l.to_vec()),
+                _ => {
+                    is_matrix = false;
+                }
+            });
+
+            if !is_matrix {
+                let mut sum = Parameters::Null;
+                (*vec)
+                    .into_iter()
+                    .zip(vec2.into_iter())
+                    .map(|(a, b)| mult(a.clone(), b.clone(), ram))
+                    .for_each(|x| sum = add(sum.clone(), x, ram));
+
+                match sum {
+                    Parameters::Int(i) => Parameters::Int(i),
+                    Parameters::Float(f) => Parameters::Float(f),
+                    _ => Parameters::Float(f64::NAN),
+                }
+            } else {
+                let matrix_result = mult_matrix(res, res2, ram);
+
+                let mut res = Vec::new();
+
+                if matrix_result.len() == 0 {
+                    return Parameters::Null;
+                }
+
+                matrix_result
+                    .into_iter()
+                    .for_each(|x| res.push(Parameters::InterpreterVector(Box::from(x))));
+
+                Parameters::InterpreterVector(Box::from(res))
             }
         }
 

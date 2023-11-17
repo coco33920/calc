@@ -15,6 +15,7 @@ mod configuration;
 mod interpreting;
 mod lexing;
 mod parsing;
+mod utils;
 
 fn main() {
     let config = match load() {
@@ -34,7 +35,7 @@ fn main() {
     let style = &loaded.clone().prompt_style;
     let text = &loaded.clone().prompt;
     let mut verbose = false;
-    let version: String = "v2.6.0".to_string();
+    let version: String = "v2.7.0".to_string();
     interface
         .set_prompt(&format!(
             "\x01{prefix}\x02{text}\x01{suffix}\x02",
@@ -83,7 +84,10 @@ fn main() {
                 }
                 let result = interpret(&p, &mut ram, &mut functions);
                 if result != Parameters::Null {
-                    result.pretty_print(Some(&mut ram), Some(&mut functions))
+                    println!(
+                        "{}",
+                        result.pretty_print(Some(&mut ram), Some(&mut functions))
+                    )
                 }
             }
         }

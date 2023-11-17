@@ -80,9 +80,10 @@ Check [the function page](docs/function.md) for more informations.
 - [X] Built-in
   - [X] pi
   - [X] e
-- [X] Config
+- [ ] Config
     - [X] Config colours
     - [X] Config prompt
+    - [ ] Config floating point accuracy
 - [X] Add more operations
     - [X] exponent
 - [X] Add support for functions
@@ -113,16 +114,35 @@ Check [the function page](docs/function.md) for more informations.
       - [X] Dot product
       - [X] Vector norm
       - [X] Vector addition
-- [ ] Matrix calculation
-    - [ ] Add matrix to the datatypes
-    - [ ] Lex matrices
-    - [ ] Parse matrices
-    - [ ] Add matrices operation
-      - [ ] Matrix addition
-      - [ ] Matrix multiplication 
-      - [ ] Calculate the reverse matrix
+- [X] Matrix calculation
+    - [X] Add matrix to the datatypes
+    - [X] Lex matrices
+    - [X] Parse matrices
+    - [X] Add matrices operation
+      - [X] Matrix addition
+      - [X] Matrix multiplication
+      - [X] Calculate the matrix determinant
+      - [X] Calculate the reverse matrix
+- [ ] Interact with the configuration
+    - [ ] Print current config
+    - [ ] Reset config to default
+    - [ ] Set config
+      - [ ] Set main color
+      - [ ] Set prompt color
+      - [ ] Set prompt 
+      - [ ] Set greeting message
+      - [ ] Set greeting color 
+    - [ ] Reload config
 
 ## Evolution
+
+### Ploting
+
+Plot functions (both stdlib, and runtime) would be useful and appreciated.
+
+- [ ] Plot stdlib functions
+- [ ] Plot runtime functions
+- [ ] Save plot to png/svg/pdf
 
 ### Exact math calculator
 
@@ -280,4 +300,21 @@ You can use vectors!
 - added the `norm` function to compute the norm
 - dot product between two vectors ( * operator)
 
+Functions added: 
+- norm
+
 ![](docs/assets/vector.png)
+
+## Matrices !
+
+As of 2.7.0 matrix algebra is implemented (using lup reduction)
+
+- you can add matrices 
+- multiply compatible matrices
+
+functions added
+- transpose
+- invert
+- det 
+
+![](docs/assets/matrix.png)

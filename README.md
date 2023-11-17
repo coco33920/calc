@@ -108,8 +108,7 @@ Check [the website](https://calc.nwa2coco.fr) for more informations.
     - [ ] Add matrices operation
       - [X] Matrix addition
       - [X] Matrix multiplication
-      - [ ] Calculate the matrix determinant
-      - [ ] Calculate the co-matrix
+      - [X] Calculate the matrix determinant
       - [ ] Calculate the reverse matrix
 - [ ] Interact with the configuration
     - [ ] Print current config

@@ -2,6 +2,7 @@ use std::collections::HashMap;
 
 use crate::parsing::ast::Parameters;
 use crate::parsing::ast::Parameters::Bool;
+use crate::utils::matrix_utils::mult_matrix;
 
 pub fn apply_operator(
     value: Parameters,
@@ -283,17 +284,47 @@ pub fn mult(
         }
 
         (Parameters::InterpreterVector(vec), Parameters::InterpreterVector(vec2)) => {
-            let mut sum = Parameters::Null;
-            (*vec)
-                .into_iter()
-                .zip(vec2.into_iter())
-                .map(|(a, b)| mult(a.clone(), b.clone(), ram))
-                .for_each(|x| sum = add(sum.clone(), x, ram));
+            let mut res1 = Vec::new();
+            let mut is_matrix = true;
+            let mut res = Vec::new();
+            let mut res2 = Vec::new();
 
-            match sum {
-                Parameters::Int(i) => Parameters::Int(i),
-                Parameters::Float(f) => Parameters::Float(f),
-                _ => Parameters::Float(f64::NAN),
+            vec.clone().into_iter().for_each(|x| match x {
+                Parameters::InterpreterVector(l) => res.push(l.to_vec()),
+                p => {
+                    is_matrix = false;
+                    res1.push(p);
+                }
+            });
+            vec2.clone().into_iter().for_each(|x| match x {
+                Parameters::InterpreterVector(l) => res2.push(l.to_vec()),
+                _ => {
+                    is_matrix = false;
+                }
+            });
+
+            if !is_matrix {
+                let mut sum = Parameters::Null;
+                (*vec)
+                    .into_iter()
+                    .zip(vec2.into_iter())
+                    .map(|(a, b)| mult(a.clone(), b.clone(), ram))
+                    .for_each(|x| sum = add(sum.clone(), x, ram));
+
+                match sum {
+                    Parameters::Int(i) => Parameters::Int(i),
+                    Parameters::Float(f) => Parameters::Float(f),
+                    _ => Parameters::Float(f64::NAN),
+                }
+            } else {
+                let matrix_result = mult_matrix(res, res2, ram);
+
+                let mut res = Vec::new();
+                matrix_result
+                    .into_iter()
+                    .for_each(|x| res.push(Parameters::InterpreterVector(Box::from(x))));
+
+                Parameters::InterpreterVector(Box::from(res))
             }
         }
 

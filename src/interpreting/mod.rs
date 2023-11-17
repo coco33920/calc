@@ -1,3 +1,3 @@
-mod function;
+pub mod function;
 pub(crate) mod interpreter;
-mod stdlib;
+pub mod stdlib;

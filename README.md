@@ -107,7 +107,7 @@ Check [the website](https://calc.nwa2coco.fr) for more informations.
     - [X] Parse matrices
     - [ ] Add matrices operation
       - [X] Matrix addition
-      - [ ] Matrix multiplication 
+      - [X] Matrix multiplication 
       - [ ] Calculate the reverse matrix
 
 ## Evolution

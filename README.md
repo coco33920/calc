@@ -69,9 +69,10 @@ Check [the website](https://calc.nwa2coco.fr) for more informations.
 - [X] Built-in
     - [X] pi
     - [X] e
-- [X] Config
+- [ ] Config
     - [X] Config colours
     - [X] Config prompt
+    - [ ] Config floating point accuracy
 - [X] Add more operations
     - [X] exponent
 - [X] Add support for functions
@@ -101,15 +102,15 @@ Check [the website](https://calc.nwa2coco.fr) for more informations.
       - [X] Dot product
       - [X] Vector norm
       - [X] Vector addition
-- [ ] Matrix calculation
+- [X] Matrix calculation
     - [X] Add matrix to the datatypes
     - [X] Lex matrices
     - [X] Parse matrices
-    - [ ] Add matrices operation
+    - [X] Add matrices operation
       - [X] Matrix addition
       - [X] Matrix multiplication
       - [X] Calculate the matrix determinant
-      - [ ] Calculate the reverse matrix
+      - [X] Calculate the reverse matrix
 - [ ] Interact with the configuration
     - [ ] Print current config
     - [ ] Reset config to default

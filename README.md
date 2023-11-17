@@ -111,6 +111,16 @@ Check [the website](https://calc.nwa2coco.fr) for more informations.
       - [ ] Calculate the matrix determinant
       - [ ] Calculate the co-matrix
       - [ ] Calculate the reverse matrix
+- [ ] Interact with the configuration
+    - [ ] Print current config
+    - [ ] Reset config to default
+    - [ ] Set config
+      - [ ] Set main color
+      - [ ] Set prompt color
+      - [ ] Set prompt 
+      - [ ] Set greeting message
+      - [ ] Set greeting color 
+    - [ ] Reload config
 
 ## Evolution
 

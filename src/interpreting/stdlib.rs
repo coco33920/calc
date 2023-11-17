@@ -3,7 +3,7 @@ use std::f64::consts::{E, PI};
 
 use crate::interpreting::interpreter::interpret;
 use crate::parsing::ast::{Ast, Parameters};
-use crate::utils::matrix_utils::{lup_decompose, lup_determinant, transpose};
+use crate::utils::matrix_utils::{lup_decompose, lup_determinant, lup_invert, transpose};
 
 use super::function::{add as other_add, mult};
 
@@ -37,6 +37,7 @@ pub fn exec(
         "transpose_vector" => transpose_vectors(&lst, ram),
         "transpose" => transpose_matrices(&lst, ram),
         "det" => det_matrix(&lst, ram),
+        "invert" => inverse_matrix(&lst, ram),
         s => {
             let mut sram: HashMap<String, Parameters> = HashMap::new();
             sram.insert("pi".to_string(), Parameters::Float(PI));
@@ -942,6 +943,72 @@ pub fn det_matrix(
                 _ => {
                     let det = lup_determinant(&mut res, &mut p, n, ram.as_deref());
                     det
+                }
+            }
+        }
+
+        Parameters::Identifier(s) => match ram {
+            None => Parameters::Identifier("This variable is not initialized yet".to_string()),
+            Some(ref t) => match t.get(s.as_str()) {
+                None => Parameters::Null,
+                Some(t) => transpose_matrices(&vec![t.clone()], ram),
+            },
+        },
+        _ => Parameters::Null,
+    }
+}
+
+pub fn inverse_matrix(
+    p: &Vec<Parameters>,
+    ram: Option<&mut HashMap<String, Parameters>>,
+) -> Parameters {
+    if p.len() < 1 {
+        return Parameters::Null;
+    }
+
+    match p.get(0).unwrap() {
+        Parameters::Int(i) => Parameters::Int((*i).abs()),
+        Parameters::Float(f) => Parameters::Float((*f).abs()),
+        Parameters::InterpreterVector(lst) => {
+            let mut res1 = Vec::new();
+            let mut is_matrix = true;
+            let mut res = Vec::new();
+            lst.clone().into_iter().for_each(|x| match x {
+                Parameters::InterpreterVector(l) => res.push(l.to_vec()),
+                p => {
+                    is_matrix = false;
+                    res1.push(p);
+                }
+            });
+
+            if !is_matrix {
+                return Parameters::InterpreterVector(Box::from(res1));
+            }
+
+            let mut p = Vec::new();
+            for _ in 0..(res.len() + 1) {
+                p.push(Parameters::Int(0));
+            }
+            let n = res.len();
+            let r = lup_decompose(&mut res, &mut p, n, ram.as_deref());
+
+            match r {
+                0 => Parameters::Null,
+                _ => {
+                    let mut vec_ia = Vec::new();
+                    for _ in 0..n {
+                        let mut vec = Vec::new();
+                        for _ in 0..n {
+                            vec.push(Parameters::Int(0));
+                        }
+                        vec_ia.push(vec);
+                    }
+                    lup_invert(&mut res, &mut p, n, &mut vec_ia, ram.as_deref());
+                    let mut resd = Vec::new();
+                    for i in 0..n {
+                        resd.push(Parameters::InterpreterVector(Box::new(vec_ia[i].clone())));
+                    }
+                    Parameters::InterpreterVector(Box::new(resd))
                 }
             }
         }

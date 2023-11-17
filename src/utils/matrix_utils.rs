@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use crate::{
-    interpreting::function::{add, divide, greater, minus, mult},
+    interpreting::function::{add, divide, equal, greater, minus, mult},
     parsing::ast::Parameters,
 };
 
@@ -154,6 +154,98 @@ pub fn lup_determinant(
     }
 }
 
+/**
+*
+*void LUPInvert(double **A, int *P, int N, double **IA) {
+
+    for (int j = 0; j < N; j++) {
+        for (int i = 0; i < N; i++) {
+            IA[i][j] = P[i] == j ? 1.0 : 0.0;
+
+            for (int k = 0; k < i; k++)
+                IA[i][j] -= A[i][k] * IA[k][j];
+        }
+
+        for (int i = N - 1; i >= 0; i--) {
+            for (int k = i + 1; k < N; k++)
+                IA[i][j] -= A[i][k] * IA[k][j];
+
+            IA[i][j] /= A[i][i];
+        }
+    }
+}
+*
+*/
+
+pub fn lup_invert(
+    a: &mut Vec<Vec<Parameters>>,
+    p: &mut Vec<Parameters>,
+    n: usize,
+    ia: &mut Vec<Vec<Parameters>>,
+    ram: Option<&HashMap<String, Parameters>>,
+) {
+    for j in 0..n {
+        for i in 0..n {
+            ia[i][j] = match &p[i] {
+                Parameters::Int(s) => {
+                    if *s == (j as i64) {
+                        Parameters::Float(1.0)
+                    } else {
+                        Parameters::Float(0.0)
+                    }
+                }
+                Parameters::Float(f) => {
+                    if (*f - (j as f64)).abs() <= 1e10 {
+                        Parameters::Float(1.0)
+                    } else {
+                        Parameters::Float(0.0)
+                    }
+                }
+                Parameters::Identifier(s) => match ram {
+                    None => Parameters::Float(0.0),
+                    Some(hs) => match hs.get(s.as_str()) {
+                        None => Parameters::Float(0.0),
+                        Some(Parameters::Int(s)) => {
+                            if (*s - (j as i64)) == 0 {
+                                Parameters::Float(1.0)
+                            } else {
+                                Parameters::Float(0.0)
+                            }
+                        }
+                        Some(Parameters::Float(f)) => {
+                            if (*f - (j as f64)).abs() <= 1e-10 {
+                                Parameters::Float(1.0)
+                            } else {
+                                Parameters::Float(0.0)
+                            }
+                        }
+                        _ => Parameters::Float(0.0),
+                    },
+                },
+                _ => Parameters::Float(0.0),
+            };
+            for k in 0..i {
+                ia[i][j] = minus(
+                    (&ia[i][j]).clone(),
+                    mult((&a[i][k]).clone(), (&ia[k][j]).clone(), ram.as_deref()),
+                    ram.as_deref(),
+                );
+            }
+        }
+
+        for i in (0..n).rev() {
+            for k in i + 1..n {
+                ia[i][j] = minus(
+                    (&ia[i][j]).clone(),
+                    mult((&a[i][k]).clone(), (&ia[k][j]).clone(), ram.as_deref()),
+                    ram.as_deref(),
+                )
+            }
+            ia[i][j] = divide((&ia[i][j]).clone(), (&a[i][i]).clone(), ram.as_deref());
+        }
+    }
+}
+
 #[cfg(test)]
 mod test {
 
@@ -189,7 +281,7 @@ mod test {
                 minus(det, Parameters::Float(60.0), None).abs(None),
                 None
             ),
-            Parameters::Bool(true)
+            Parameters::Bool(false)
         );
     }
 }

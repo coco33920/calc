@@ -154,29 +154,6 @@ pub fn lup_determinant(
     }
 }
 
-/**
-*
-*void LUPInvert(double **A, int *P, int N, double **IA) {
-
-    for (int j = 0; j < N; j++) {
-        for (int i = 0; i < N; i++) {
-            IA[i][j] = P[i] == j ? 1.0 : 0.0;
-
-            for (int k = 0; k < i; k++)
-                IA[i][j] -= A[i][k] * IA[k][j];
-        }
-
-        for (int i = N - 1; i >= 0; i--) {
-            for (int k = i + 1; k < N; k++)
-                IA[i][j] -= A[i][k] * IA[k][j];
-
-            IA[i][j] /= A[i][i];
-        }
-    }
-}
-*
-*/
-
 pub fn lup_invert(
     a: &mut Vec<Vec<Parameters>>,
     p: &mut Vec<Parameters>,

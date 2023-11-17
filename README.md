@@ -114,6 +114,14 @@ Check [the website](https://calc.nwa2coco.fr) for more informations.
 
 ## Evolution
 
+### Ploting
+
+Plot functions (both stdlib, and runtime) would be useful and appreciated.
+
+- [ ] Plot stdlib functions
+- [ ] Plot runtime functions
+- [ ] Save plot to png/svg/pdf
+
 ### Exact math calculator
 
 As this project provides a frontend with a parser we could plug an exact math engine in the backend to transform `calc` into a 

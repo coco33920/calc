@@ -1,29 +1,31 @@
 use ansi_term::{ANSIGenericString, Color};
+use confy::ConfyError;
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct Greeting {
-    greeting_message: String,
-    greeting_color: String,
+    pub greeting_message: String,
+    pub greeting_color: String,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct Prompt {
-    prompt: String,
-    prompt_color: String,
+    pub prompt: String,
+    pub prompt_color: String,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct Config {
-    general_color: String,
-    greeting: Greeting,
-    prompt: Prompt,
+    pub general_color: String,
+    pub greeting: Greeting,
+    pub prompt: Prompt,
 }
 
 #[derive(Clone)]
 pub struct Loaded<'a> {
     pub general_color: Color,
     pub greeting_message: ANSIGenericString<'a, str>,
+    pub greeting_color: Color,
     pub prompt: String,
     pub prompt_style: Color,
 }
@@ -60,6 +62,15 @@ impl Default for Config {
 pub fn load() -> Result<Config, confy::ConfyError> {
     let cfg: Config = confy::load("mini-calc", Some("mini-calc"))?;
     Ok(cfg)
+}
+
+pub fn write_config(c: &Config) -> Result<(), ConfyError> {
+    confy::store("mini-calc", Some("mini-calc"), c)?;
+    Ok(())
+}
+
+pub fn write_default_config() -> Result<(), ConfyError> {
+    write_config(&Config::default())
 }
 
 pub fn load_rgb_color(str: &str) -> (u8, u8, u8) {
@@ -120,12 +131,13 @@ pub fn load_color(string: String) -> Color {
 
 pub fn replace_variable(str: String) -> String {
     str.replace("%author%", "Charlotte Thomas")
-        .replace("%version%", "v2.7.0")
+        .replace("%version%", "v2.8.0")
         .to_string()
 }
 
 pub fn load_config<'a>(config: Config) -> Loaded<'a> {
     Loaded {
+        greeting_color: load_color(config.clone().greeting.greeting_color),
         general_color: load_color(config.general_color),
         greeting_message: load_color(config.greeting.greeting_color)
             .paint(replace_variable(config.greeting.greeting_message)),

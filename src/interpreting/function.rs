@@ -127,7 +127,9 @@ pub fn add(i: Parameters, i2: Parameters, ram: Option<&HashMap<String, Parameter
         (Parameters::Identifier(s), Bool(b)) => {
             apply_operator(Parameters::Identifier(s), Bool(b), ram, add)
         }
-        _ => Parameters::Null,
+        _ => Parameters::Identifier(
+            "@Those two values are incompatible with the + operator".to_string(),
+        ),
     }
 }
 
@@ -229,7 +231,9 @@ pub fn minus(
         (Parameters::Identifier(s), Bool(b)) => {
             apply_operator(Parameters::Identifier(s), Bool(b), ram, minus)
         }
-        _ => Parameters::Null,
+        _ => Parameters::Identifier(
+            "Those two values are incompatible with the - operator".to_string(),
+        ),
     }
 }
 
@@ -382,7 +386,9 @@ pub fn mult(
         (Parameters::Identifier(s), Bool(b)) => {
             apply_operator(Parameters::Identifier(s), Bool(b), ram, mult)
         }
-        _ => Parameters::Null,
+        _ => Parameters::Identifier(
+            "@Those two values are incompatible with the * operator".to_string(),
+        ),
     }
 }
 
@@ -451,7 +457,9 @@ pub fn divide(
         (Parameters::Identifier(s), Bool(b)) => {
             apply_operator(Parameters::Identifier(s), Bool(b), ram, divide)
         }
-        _ => Parameters::Null,
+        _ => Parameters::Identifier(
+            "@Those two values are incompatible with the / operator".to_string(),
+        ),
     }
 }
 
@@ -506,7 +514,10 @@ pub fn expo(
         (Parameters::Identifier(s), Bool(b)) => {
             apply_operator(Parameters::Identifier(s), Bool(b), ram, expo)
         }
-        _ => Parameters::Null,
+
+        _ => Parameters::Identifier(
+            "@Those two values are incompatible with the ^ operator".to_string(),
+        ),
     }
 }
 
@@ -574,7 +585,10 @@ pub fn greater(
         (Parameters::Identifier(s), Bool(b)) => {
             apply_operator(Parameters::Identifier(s), Bool(b), ram, greater)
         }
-        _ => Parameters::Null,
+
+        _ => Parameters::Identifier(
+            "@Those two values are incompatible with the > operator".to_string(),
+        ),
     }
 }
 
@@ -629,7 +643,10 @@ pub fn lesser(
         (Parameters::Identifier(s), Bool(b)) => {
             apply_operator(Parameters::Identifier(s), Bool(b), ram, lesser)
         }
-        _ => Parameters::Null,
+
+        _ => Parameters::Identifier(
+            "@Those two values are incompatible with the < operator".to_string(),
+        ),
     }
 }
 
@@ -702,7 +719,10 @@ pub fn greater_or_equal(
         (Parameters::Identifier(s), Bool(b)) => {
             apply_operator(Parameters::Identifier(s), Bool(b), ram, greater_or_equal)
         }
-        _ => Parameters::Null,
+
+        _ => Parameters::Identifier(
+            "@Those two values are incompatible with the >= operator".to_string(),
+        ),
     }
 }
 
@@ -776,7 +796,10 @@ pub fn lesser_or_equal(
         (Parameters::Identifier(s), Bool(b)) => {
             apply_operator(Parameters::Identifier(s), Bool(b), ram, lesser_or_equal)
         }
-        _ => Parameters::Null,
+
+        _ => Parameters::Identifier(
+            "@Those two values are incompatible with the <= operator".to_string(),
+        ),
     }
 }
 
@@ -831,7 +854,10 @@ pub fn equal(
         (Parameters::Identifier(s), Bool(b)) => {
             apply_operator(Parameters::Identifier(s), Bool(b), ram, equal)
         }
-        _ => Parameters::Null,
+
+        _ => Parameters::Identifier(
+            "@Those two values are incompatible with the == operator".to_string(),
+        ),
     }
 }
 

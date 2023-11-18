@@ -131,6 +131,12 @@ Plot functions (both stdlib, and runtime) would be useful and appreciated.
 - [ ] Plot runtime functions
 - [ ] Save plot to png/svg/pdf
 
+- [ ] Add terminal ploting
+    - [ ] Calculate ploting height and width
+    - [ ] Computes individual points
+    - [ ] Generate each line
+    - [ ] Prints each line
+
 ### Exact math calculator
 
 As this project provides a frontend with a parser we could plug an exact math engine in the backend to transform `calc` into a 

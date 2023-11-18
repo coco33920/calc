@@ -18,4 +18,5 @@ exclude = [
 ansi_term = "0.12.1"
 linefeed = "0.6"
 confy = "0.5.1"
+plotly = { version = "0.8.4", features = ["kaleido"] }
 serde = { version = "1.0.192", features = ["derive"] }

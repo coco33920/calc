@@ -1,6 +1,9 @@
 use std::collections::HashMap;
 use std::f64::consts::{E, PI};
 
+use plotly::color::Color;
+
+use crate::configuration::loader::{load, load_config, Config, Loaded};
 use crate::interpreting::interpreter::interpret;
 use crate::parsing::ast::{Ast, Parameters};
 use crate::utils::matrix_utils::{lup_decompose, lup_determinant, lup_invert, transpose};
@@ -38,6 +41,7 @@ pub fn exec(
         "transpose" => transpose_matrices(&lst, ram),
         "det" => det_matrix(&lst, ram),
         "invert" => inverse_matrix(&lst, ram),
+        "plot" => plot_fn(&lst, ram, functions),
         s => {
             let mut sram: HashMap<String, Parameters> = HashMap::new();
             sram.insert("pi".to_string(), Parameters::Float(PI));
@@ -1022,4 +1026,41 @@ pub fn inverse_matrix(
         },
         _ => Parameters::Null,
     }
+}
+
+/*
+*
+*
+* plot() => displays help
+* plot(f) => if f is a function: display a graph of f as line between 0 and 100
+* plot(f,title,xlabel,ylabel) => if f is a function: display a graph as line between 0 and 100,
+* with title, xlabel, ylabel.
+* plot(VEC,VEC) => scatter vec1 as x scatter vec2 as y
+* plot(VEC,VEC,title,xlabel,ylabel) => scatter vec1 as x scatter vec2 as y with title title, xlabel
+* xlabel and ylabel ylabel.
+* plot(VEC,VEC,title,xlabel,ylabel,mode) => scatter vec1,vec2 as x,y with title xlabel ylabel and
+* mode (MODE = LINE | MARKERS | LINEMARKERS ) (default: MARKERS)
+* plot(VEC,VEC,mode) => scatter vec1,vec2 as x,y with mode LINE/MARKERS/LINEMARKERS.
+* saveplot() => displays help
+* saveplot(pdf/svg/jpeg/png,VEC,VEC,title,xlabel,ylabel,mode) => save a plot
+*
+*
+*/
+
+pub fn plot_fn(
+    p: &Vec<Parameters>,
+    ram: Option<&mut HashMap<String, Parameters>>,
+    functions: Option<&mut HashMap<String, (Vec<Ast>, Ast)>>,
+) -> Parameters {
+    let color = match load() {
+        Ok(cfg) => load_config(cfg).general_color,
+        Err(_) => load_config(Config::default()).general_color,
+    };
+
+    if p.len() == 0 {
+        let m = color.paint(" > plot(): displays help\n > plot(f): plot f\n > plot(f,title,xlabel,ylabel): plot f with title,xlabel,ylabel\n > plot(VEC,VEC): scatter vec1,vec2 as x,y\n > plot(VEC,VEC,title,xlabel,ylabel): scatter vec1,vec2 as x,y with title,xlabel,ylabel\n > plot(VEC,VEC,mode): scatters vec,vec2 as x,y with mode = LINE | MARKERS | LINEMARKERS\n > plot(VEC,VEC,title,xlabel,ylabel,mode): scatters vec1,vec2 as x,y with title,xlabel,ylabel,mode\n");
+        println!("{m}")
+    }
+
+    Parameters::Null
 }

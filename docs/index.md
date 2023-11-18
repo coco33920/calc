@@ -125,10 +125,6 @@ functions added
   - [X] cos/sin/tan
   - [X] cosh/sinh/tanh
   - [X] some more
-- [ ] For later
-  - [ ] Defining your own functions
-  - [ ] Add RPN mode
-  - [ ] Hidden multiplication
 
 ## Examples
 

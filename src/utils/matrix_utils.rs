@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use crate::{
-    interpreting::function::{add, divide, equal, greater, minus, mult},
+    interpreting::function::{add, divide, greater, minus, mult},
     parsing::ast::Parameters,
 };
 

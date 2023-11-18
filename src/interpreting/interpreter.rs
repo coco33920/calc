@@ -40,14 +40,18 @@ pub fn interpret(
                         if n.as_str() != "" {
                             (function).insert(n.to_string(), (list, *r.clone()));
                         }
-                        Parameters::Null
+                        Parameters::Identifier(format!("@The function {} has been set", n.clone()))
                     }
                     _ => {
                         let (a, b) = assign(param1.clone(), param2.clone());
                         if a != "".to_string() {
-                            (ram).insert(a, b);
+                            (ram).insert(a.clone(), b.clone());
                         }
-                        Parameters::Null
+                        Parameters::Identifier(format!(
+                            "@ {} = {}",
+                            a.clone(),
+                            b.clone().pretty_print(Some(ram), Some(function))
+                        ))
                     }
                 },
                 Parameters::Float(f) => Parameters::Float(*f),

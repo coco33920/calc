@@ -36,3 +36,20 @@ Configuration:
 It looks like:
 
 ![img.png](assets/config_looks.png)
+
+## Interact in the command line
+
+You can interact and modify the config from the command line the commands are
+- config: show the current config
+- config reload: reload the config
+- config reset: reset the config to default parameters
+- config set <category> <value>
+
+categories are :
+- `greeting_message`
+- `greeting_color`
+- `prompt_color`
+- `prompt`
+- `general_color`
+
+![](assets/config.png)

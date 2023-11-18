@@ -273,7 +273,7 @@ fn main() {
     let style = &loaded.clone().prompt_style;
     let mut text = &loaded.clone().prompt;
     let mut verbose = false;
-    let version: String = "v2.7.0".to_string();
+    let version: String = "v2.8.0".to_string();
     interface
         .set_prompt(&format!(
             "\x01{prefix}\x02{text}\x01{suffix}\x02",

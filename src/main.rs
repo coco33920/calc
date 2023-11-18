@@ -36,7 +36,7 @@ fn show_config(config: Config) -> (String, Option<Config>) {
     ("".to_string(), None)
 }
 
-fn reset_config(color: Color) -> (String, Option<Config>) {
+fn reset_config() -> (String, Option<Config>) {
     let _ = write_default_config();
     match load() {
         Ok(cfg) => (
@@ -50,7 +50,7 @@ fn reset_config(color: Color) -> (String, Option<Config>) {
     }
 }
 
-fn set_config(config: Config, args: &SplitWhitespace, color: Color) -> (String, Option<Config>) {
+fn set_config(config: Config, args: &SplitWhitespace) -> (String, Option<Config>) {
     ("".to_string(), None)
 }
 
@@ -67,16 +67,16 @@ fn reload_config() -> (String, Option<Config>) {
     }
 }
 
-fn handle_config(line: &str, config: Config, color: Color) -> (String, Option<Config>) {
+fn handle_config(line: &str, config: Config) -> (String, Option<Config>) {
     match line.strip_prefix("config") {
         None => show_config(config.clone()),
         Some(t) => {
             let mut w = t.split_whitespace();
             match w.nth(0) {
                 None => show_config(config.clone()),
-                Some("set") => set_config(config, &w.clone(), color),
+                Some("set") => set_config(config, &w.clone()),
                 Some("reload") => reload_config(),
-                Some("reset") => reset_config(color),
+                Some("reset") => reset_config(),
                 _ => show_config(config.clone()),
             }
         }
@@ -145,7 +145,7 @@ fn main() {
             }
             str => {
                 if str.starts_with("config") {
-                    let (s, q) = handle_config(&line, config.clone(), loaded.general_color);
+                    let (s, q) = handle_config(&line, config.clone());
                     match q {
                         Some(q) => {
                             loaded = load_config(q);

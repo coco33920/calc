@@ -69,10 +69,9 @@ Check [the website](https://calc.nwa2coco.fr) for more informations.
 - [X] Built-in
     - [X] pi
     - [X] e
-- [ ] Config
+- [X] Config
     - [X] Config colours
     - [X] Config prompt
-    - [ ] Config floating point accuracy
 - [X] Add more operations
     - [X] exponent
 - [X] Add support for functions
@@ -111,15 +110,15 @@ Check [the website](https://calc.nwa2coco.fr) for more informations.
       - [X] Matrix multiplication
       - [X] Calculate the matrix determinant
       - [X] Calculate the reverse matrix
-- [ ] Interact with the configuration
+- [X] Interact with the configuration
     - [X] Print current config
     - [X] Reset config to default
-    - [ ] Set config
-      - [ ] Set main color
-      - [ ] Set prompt color
-      - [ ] Set prompt 
-      - [ ] Set greeting message
-      - [ ] Set greeting color 
+    - [X] Set config
+      - [X] Set main color
+      - [X] Set prompt color
+      - [X] Set prompt 
+      - [X] Set greeting message
+      - [X] Set greeting color 
     - [X] Reload config
 
 ## Evolution
@@ -177,6 +176,10 @@ in (for linux)
 ```
 
 Or situated in your operating system config folder.
+
+
+You can interact with the configuration with the command line, more info in [the web page](https://calc.nwa2coco.fr/config.html)
+
 
 ### What the configuration looks like
 

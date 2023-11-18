@@ -64,131 +64,152 @@ fn set_config(config: Config, args: &mut SplitWhitespace) -> (String, Option<Con
                 None,
             ),
             Some("general_color") => {
-                match args.nth(0) {
-                    None => (
+                let mut st = "".to_string();
+                args.into_iter().for_each(|x| st = st.clone() + x + " ");
+
+                match st.as_str() {
+                    s if s.trim() == "" => (
                         "You need more argument for this command\n".to_string(),
                         None,
                     ),
-                    Some(s) => {
+                    s => {
                         let cfg = Config {
                             general_color: (s.to_string()),
                             greeting: (config.greeting),
                             prompt: (config.prompt),
                         };
                         match write_config(&cfg) {
-                            Ok(_) => (format!("Greeting color has been set to {}, reload for this to take effect",&s).to_string(),None),
-                            _ => ("An error occured while writing the config".to_string(),None)
+                            Ok(_) => (format!("Greeting color has been set to {}, reload for this to take effect\n",&s).to_string(),None),
+                            _ => ("An error occured while writing the config\n".to_string(),None)
                         }
                     }
                 }
             }
-            Some("prompt") => match args.nth(0) {
-                None => (
-                    "You need more argument for this command\n".to_string(),
-                    None,
-                ),
-                Some(s) => {
-                    let cfg = Config {
-                        general_color: config.general_color,
-                        greeting: (config.greeting),
-                        prompt: Prompt {
-                            prompt: s.to_string(),
-                            prompt_color: config.prompt.prompt_color,
-                        },
-                    };
+            Some("prompt") => {
+                let mut st = "".to_string();
+                args.into_iter().for_each(|x| st = st.clone() + x + " ");
+                match st.as_str() {
+                    s if s.trim() == "" => (
+                        "You need more argument for this command\n".to_string(),
+                        None,
+                    ),
+                    s => {
+                        let cfg = Config {
+                            general_color: config.general_color,
+                            greeting: (config.greeting),
+                            prompt: Prompt {
+                                prompt: s.to_string(),
+                                prompt_color: config.prompt.prompt_color,
+                            },
+                        };
 
-                    match write_config(&cfg) {
-                        Ok(_) => (
-                            format!(
-                                "Prompt has been updated to {}, reload for this to take effect",
+                        match write_config(&cfg) {
+                            Ok(_) => (
+                                format!(
+                                "Prompt has been updated to {}, reload for this to take effect\n",
                                 &s
                             )
-                            .to_string(),
-                            None,
-                        ),
-                        _ => (
-                            "An error occured while writing the config".to_string(),
-                            None,
-                        ),
+                                .to_string(),
+                                None,
+                            ),
+                            _ => (
+                                "An error occured while writing the config\n".to_string(),
+                                None,
+                            ),
+                        }
                     }
                 }
-            },
-            Some("prompt_color") => match args.nth(0) {
-                None => (
-                    "You need more argument for this command\n".to_string(),
-                    None,
-                ),
-                Some(s) => {
-                    let cfg = Config {
-                        general_color: config.general_color,
-                        greeting: (config.greeting),
-                        prompt: Prompt {
-                            prompt: config.prompt.prompt,
-                            prompt_color: s.to_string(),
-                        },
-                    };
+            }
+            Some("prompt_color") => {
+                let mut st = "".to_string();
+                args.into_iter().for_each(|x| st = st.clone() + x + " ");
 
-                    match write_config(&cfg) {                            
-                            Ok(_) => (format!("Prompt color has been updated to {}, reload for this to take effect",&s).to_string(),None),
-                            _ => ("An error occured while writing the config".to_string(),None)
+                match st {
+                    s if s.trim() == "" => (
+                        "You need more argument for this command\n".to_string(),
+                        None,
+                    ),
+                    s => {
+                        let cfg = Config {
+                            general_color: config.general_color,
+                            greeting: (config.greeting),
+                            prompt: Prompt {
+                                prompt: config.prompt.prompt,
+                                prompt_color: s.to_string(),
+                            },
+                        };
 
-                        }
-                }
-            },
-            Some("greeting_color") => match args.nth(0) {
-                None => (
-                    "You need more argument for this command\n".to_string(),
-                    None,
-                ),
-                Some(s) => {
-                    let cfg = Config {
-                        general_color: config.general_color,
-                        greeting: Greeting {
-                            greeting_color: s.to_string(),
-                            greeting_message: config.greeting.greeting_message,
-                        },
-                        prompt: config.prompt,
-                    };
-
-                    match write_config(&cfg) {
-                            
-                            Ok(_) => (format!("Greeting color has been updated to {}, reload for this to take effect",&s).to_string(),None),
-                            _ => ("An error occured while writing the config".to_string(),None)
+                        match write_config(&cfg) {
+                            Ok(_) => (format!("Prompt color has been updated to {}, reload for this to take effect\n",&s).to_string(),None),
+                            _ => ("An error occured while writing the config\n".to_string(),None)
 
                         }
+                    }
                 }
-            },
-            Some("greeting_message") => match args.nth(0) {
-                None => (
-                    "You need more argument for this command\n".to_string(),
-                    None,
-                ),
-                Some(s) => {
-                    let cfg = Config {
-                        general_color: config.general_color,
-                        greeting: Greeting {
-                            greeting_message: s.to_string(),
-                            greeting_color: config.greeting.greeting_color,
-                        },
-                        prompt: config.prompt,
-                    };
+            }
+            Some("greeting_color") => {
+                let mut st = "".to_string();
+                args.into_iter().for_each(|x| st = st.clone() + x + " ");
 
-                    match write_config(&cfg) {
-                        Ok(_) => (
-                            format!(
-                                "Prompt has been updated to {}, reload for this to take effect",
+                match st {
+                    s if s.trim() == "" => (
+                        "You need more argument for this command\n".to_string(),
+                        None,
+                    ),
+                    s => {
+                        let cfg = Config {
+                            general_color: config.general_color,
+                            greeting: Greeting {
+                                greeting_color: s.to_string(),
+                                greeting_message: config.greeting.greeting_message,
+                            },
+                            prompt: config.prompt,
+                        };
+
+                        match write_config(&cfg) {
+                            Ok(_) => (format!("Greeting color has been updated to {}, reload for this to take effect\n",&s).to_string(),None),
+                            _ => ("An error occured while writing the config\n".to_string(),None)
+
+                        }
+                    }
+                }
+            }
+            Some("greeting_message") => {
+                let mut st = "".to_string();
+                args.into_iter().for_each(|x| st = st.clone() + x + " ");
+
+                match st {
+                    s if s.trim() == "" => (
+                        "You need more argument for this command\n".to_string(),
+                        None,
+                    ),
+                    s => {
+                        let cfg = Config {
+                            general_color: config.general_color,
+                            greeting: Greeting {
+                                greeting_message: s.to_string(),
+                                greeting_color: config.greeting.greeting_color,
+                            },
+                            prompt: config.prompt,
+                        };
+
+                        match write_config(&cfg) {
+                            Ok(_) => (
+                                format!(
+                                "Prompt has been updated to {}, reload for this to take effect\n",
                                 &s
                             )
-                            .to_string(),
-                            None,
-                        ),
-                        _ => (
-                            "An error occured while writing the config".to_string(),
-                            None,
-                        ),
+                                .to_string(),
+                                None,
+                            ),
+                            _ => (
+                                "An error occured while writing the config\n".to_string(),
+                                None,
+                            ),
+                        }
                     }
                 }
-            },
+            }
             _ => (
                 "You need more argument for this command\n".to_string(),
                 None,
@@ -229,7 +250,7 @@ fn handle_config(line: &str, config: Config) -> (String, Option<Config>) {
 }
 
 fn main() {
-    let config = match load() {
+    let mut config = match load() {
         Ok(config) => config,
         Err(_) => {
             let _ = write_default_config();
@@ -250,7 +271,7 @@ fn main() {
 
     let interface = Interface::new("calc").unwrap();
     let style = &loaded.clone().prompt_style;
-    let text = &loaded.clone().prompt;
+    let mut text = &loaded.clone().prompt;
     let mut verbose = false;
     let version: String = "v2.7.0".to_string();
     interface
@@ -293,7 +314,17 @@ fn main() {
                     let (s, q) = handle_config(&line, config.clone());
                     match q {
                         Some(q) => {
+                            config = q.clone();
                             loaded = load_config(q);
+                            text = &loaded.prompt;
+                            interface
+                                .set_prompt(&format!(
+                                    "\x01{prefix}\x02{text}\x01{suffix}\x02",
+                                    prefix = style.prefix(),
+                                    text = text,
+                                    suffix = style.suffix()
+                                ))
+                                .unwrap();
                             print!("{}", loaded.general_color.paint(s));
                         }
                         _ => {

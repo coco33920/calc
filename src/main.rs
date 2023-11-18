@@ -234,13 +234,17 @@ fn reload_config() -> (String, Option<Config>) {
     }
 }
 
+fn show_help_config() -> (String, Option<Config>) {
+    (format!("Config help, \n > config show: show config \n > config set: set config \n > config reload: reload config \n > config reset: reset config\n\n"),None)
+}
+
 fn handle_config(line: &str, config: Config) -> (String, Option<Config>) {
     match line.strip_prefix("config") {
-        None => show_config(config.clone()),
+        None => show_help_config(),
         Some(t) => {
             let mut w = t.split_whitespace();
             match w.nth(0) {
-                None => show_config(config.clone()),
+                None => show_help_config(),
                 Some("set") => set_config(config, &mut w.clone()),
                 Some("reload") => reload_config(),
                 Some("reset") => reset_config(),

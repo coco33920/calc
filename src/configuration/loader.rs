@@ -2,29 +2,30 @@ use ansi_term::{ANSIGenericString, Color};
 use confy::ConfyError;
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct Greeting {
-    greeting_message: String,
-    greeting_color: String,
+    pub greeting_message: String,
+    pub greeting_color: String,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct Prompt {
-    prompt: String,
-    prompt_color: String,
+    pub prompt: String,
+    pub prompt_color: String,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct Config {
-    general_color: String,
-    greeting: Greeting,
-    prompt: Prompt,
+    pub general_color: String,
+    pub greeting: Greeting,
+    pub prompt: Prompt,
 }
 
 #[derive(Clone)]
 pub struct Loaded<'a> {
     pub general_color: Color,
     pub greeting_message: ANSIGenericString<'a, str>,
+    pub greeting_color: Color,
     pub prompt: String,
     pub prompt_style: Color,
 }
@@ -136,6 +137,7 @@ pub fn replace_variable(str: String) -> String {
 
 pub fn load_config<'a>(config: Config) -> Loaded<'a> {
     Loaded {
+        greeting_color: load_color(config.clone().greeting.greeting_color),
         general_color: load_color(config.general_color),
         greeting_message: load_color(config.greeting.greeting_color)
             .paint(replace_variable(config.greeting.greeting_message)),

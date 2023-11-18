@@ -1,8 +1,10 @@
 use std::collections::HashMap;
 use std::f64::consts::{E, PI};
 use std::process::exit;
+use std::str::SplitWhitespace;
 
 use ansi_term::Color;
+use configuration::loader::Config;
 use linefeed::{Interface, ReadResult};
 
 use crate::configuration::loader::{load, load_config, write_default_config, Loaded};
@@ -16,6 +18,46 @@ mod interpreting;
 mod lexing;
 mod parsing;
 mod utils;
+
+fn show_config(config: Config) -> Option<Config> {
+    let loaded = load_config(config.clone());
+
+    let color_message = loaded.greeting_color.paint(&config.greeting.greeting_color);
+
+    let show_message = loaded
+        .greeting_color
+        .paint(config.greeting.greeting_message);
+    let prompt = loaded.prompt_style.paint(loaded.prompt);
+    let prompt_color_message = loaded.prompt_style.paint(config.prompt.prompt_color);
+    let general_message_color = loaded.general_color.paint(config.general_color);
+    let general_message = loaded.general_color.paint("This is the general colour");
+    println!(" The greeting colour is set to {} which prints \n {} \n The prompt is {} in {} \n Main color is {} which looks like \n {} \n If you've modified your config and it doesn't look good, the author (Charlotte Thomas) declines any responsabilities.\n",color_message,
+    show_message,prompt,prompt_color_message,general_message_color,general_message);
+    None
+}
+
+fn set_config(config: Config, args: &SplitWhitespace) -> Option<Config> {
+    None
+}
+
+fn reload_config() -> Option<Config> {
+    None
+}
+
+fn handle_config(line: &str, config: Config) -> Option<Config> {
+    match line.strip_prefix("config") {
+        None => show_config(config.clone()),
+        Some(t) => {
+            let mut w = t.split_whitespace();
+            match w.nth(0) {
+                None => show_config(config.clone()),
+                Some("set") => set_config(config, &w.clone()),
+                Some("reload") => reload_config(),
+                _ => show_config(config.clone()),
+            }
+        }
+    }
+}
 
 fn main() {
     let config = match load() {
@@ -32,7 +74,7 @@ fn main() {
         }
     };
 
-    let loaded: Loaded = load_config(config);
+    let mut loaded: Loaded = load_config(config.clone());
 
     let message = &loaded.greeting_message;
     println!("{}", message.to_string());
@@ -78,22 +120,30 @@ fn main() {
                 println!("{}{}", message, message2)
             }
             str => {
-                let a = lex(str.to_string());
-                let parser: &mut CalcParser = &mut parsing::parser::init_calc_parser(&a);
-                let p = parser.parse();
-                if verbose {
-                    println!("Lexing of line: {str}");
-                    println!("{:?}", &a);
-                    println!("Parsing of line: {str}");
-                    println!("{:#?}", p);
-                    println!()
-                }
-                let result = interpret(&p, &mut ram, &mut functions);
-                if result != Parameters::Null {
-                    println!(
-                        "{}",
-                        result.pretty_print(Some(&mut ram), Some(&mut functions))
-                    )
+                if str.starts_with("config") {
+                    let q = handle_config(&line, config.clone());
+                    match q {
+                        Some(q) => loaded = load_config(q),
+                        _ => (),
+                    }
+                } else {
+                    let a = lex(str.to_string());
+                    let parser: &mut CalcParser = &mut parsing::parser::init_calc_parser(&a);
+                    let p = parser.parse();
+                    if verbose {
+                        println!("Lexing of line: {str}");
+                        println!("{:?}", &a);
+                        println!("Parsing of line: {str}");
+                        println!("{:#?}", p);
+                        println!()
+                    }
+                    let result = interpret(&p, &mut ram, &mut functions);
+                    if result != Parameters::Null {
+                        println!(
+                            "{}",
+                            result.pretty_print(Some(&mut ram), Some(&mut functions))
+                        )
+                    }
                 }
             }
         }

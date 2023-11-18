@@ -7,7 +7,9 @@ use ansi_term::Color;
 use configuration::loader::Config;
 use linefeed::{Interface, ReadResult};
 
-use crate::configuration::loader::{load, load_config, write_default_config, Loaded};
+use crate::configuration::loader::{
+    load, load_config, write_config, write_default_config, Greeting, Loaded, Prompt,
+};
 use crate::interpreting::interpreter::interpret;
 use crate::lexing::lexer::lex;
 use crate::parsing::ast::{Ast, Parameters};
@@ -50,8 +52,151 @@ fn reset_config() -> (String, Option<Config>) {
     }
 }
 
-fn set_config(config: Config, args: &SplitWhitespace) -> (String, Option<Config>) {
-    ("".to_string(), None)
+fn set_config(config: Config, args: &mut SplitWhitespace) -> (String, Option<Config>) {
+    fn handle_second_argument(
+        config: Config,
+        s: Option<&str>,
+        args: &mut SplitWhitespace,
+    ) -> (String, Option<Config>) {
+        match s {
+            None => (
+                "You need more argument for this command\n".to_string(),
+                None,
+            ),
+            Some("general_color") => {
+                match args.nth(0) {
+                    None => (
+                        "You need more argument for this command\n".to_string(),
+                        None,
+                    ),
+                    Some(s) => {
+                        let cfg = Config {
+                            general_color: (s.to_string()),
+                            greeting: (config.greeting),
+                            prompt: (config.prompt),
+                        };
+                        match write_config(&cfg) {
+                            Ok(_) => (format!("Greeting color has been set to {}, reload for this to take effect",&s).to_string(),None),
+                            _ => ("An error occured while writing the config".to_string(),None)
+                        }
+                    }
+                }
+            }
+            Some("prompt") => match args.nth(0) {
+                None => (
+                    "You need more argument for this command\n".to_string(),
+                    None,
+                ),
+                Some(s) => {
+                    let cfg = Config {
+                        general_color: config.general_color,
+                        greeting: (config.greeting),
+                        prompt: Prompt {
+                            prompt: s.to_string(),
+                            prompt_color: config.prompt.prompt_color,
+                        },
+                    };
+
+                    match write_config(&cfg) {
+                        Ok(_) => (
+                            format!(
+                                "Prompt has been updated to {}, reload for this to take effect",
+                                &s
+                            )
+                            .to_string(),
+                            None,
+                        ),
+                        _ => (
+                            "An error occured while writing the config".to_string(),
+                            None,
+                        ),
+                    }
+                }
+            },
+            Some("prompt_color") => match args.nth(0) {
+                None => (
+                    "You need more argument for this command\n".to_string(),
+                    None,
+                ),
+                Some(s) => {
+                    let cfg = Config {
+                        general_color: config.general_color,
+                        greeting: (config.greeting),
+                        prompt: Prompt {
+                            prompt: config.prompt.prompt,
+                            prompt_color: s.to_string(),
+                        },
+                    };
+
+                    match write_config(&cfg) {                            
+                            Ok(_) => (format!("Prompt color has been updated to {}, reload for this to take effect",&s).to_string(),None),
+                            _ => ("An error occured while writing the config".to_string(),None)
+
+                        }
+                }
+            },
+            Some("greeting_color") => match args.nth(0) {
+                None => (
+                    "You need more argument for this command\n".to_string(),
+                    None,
+                ),
+                Some(s) => {
+                    let cfg = Config {
+                        general_color: config.general_color,
+                        greeting: Greeting {
+                            greeting_color: s.to_string(),
+                            greeting_message: config.greeting.greeting_message,
+                        },
+                        prompt: config.prompt,
+                    };
+
+                    match write_config(&cfg) {
+                            
+                            Ok(_) => (format!("Greeting color has been updated to {}, reload for this to take effect",&s).to_string(),None),
+                            _ => ("An error occured while writing the config".to_string(),None)
+
+                        }
+                }
+            },
+            Some("greeting_message") => match args.nth(0) {
+                None => (
+                    "You need more argument for this command\n".to_string(),
+                    None,
+                ),
+                Some(s) => {
+                    let cfg = Config {
+                        general_color: config.general_color,
+                        greeting: Greeting {
+                            greeting_message: s.to_string(),
+                            greeting_color: config.greeting.greeting_color,
+                        },
+                        prompt: config.prompt,
+                    };
+
+                    match write_config(&cfg) {
+                        Ok(_) => (
+                            format!(
+                                "Prompt has been updated to {}, reload for this to take effect",
+                                &s
+                            )
+                            .to_string(),
+                            None,
+                        ),
+                        _ => (
+                            "An error occured while writing the config".to_string(),
+                            None,
+                        ),
+                    }
+                }
+            },
+            _ => (
+                "You need more argument for this command\n".to_string(),
+                None,
+            ),
+        }
+    }
+
+    handle_second_argument(config, args.nth(0), args)
 }
 
 fn reload_config() -> (String, Option<Config>) {
@@ -74,7 +219,7 @@ fn handle_config(line: &str, config: Config) -> (String, Option<Config>) {
             let mut w = t.split_whitespace();
             match w.nth(0) {
                 None => show_config(config.clone()),
-                Some("set") => set_config(config, &w.clone()),
+                Some("set") => set_config(config, &mut w.clone()),
                 Some("reload") => reload_config(),
                 Some("reset") => reset_config(),
                 _ => show_config(config.clone()),

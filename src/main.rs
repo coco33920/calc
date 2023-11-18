@@ -19,7 +19,7 @@ mod lexing;
 mod parsing;
 mod utils;
 
-fn show_config(config: Config) -> Option<Config> {
+fn show_config(config: Config) -> (String, Option<Config>) {
     let loaded = load_config(config.clone());
 
     let color_message = loaded.greeting_color.paint(&config.greeting.greeting_color);
@@ -33,26 +33,50 @@ fn show_config(config: Config) -> Option<Config> {
     let general_message = loaded.general_color.paint("This is the general colour");
     println!(" The greeting colour is set to {} which prints \n {} \n The prompt is {} in {} \n Main color is {} which looks like \n {} \n If you've modified your config and it doesn't look good, the author (Charlotte Thomas) declines any responsabilities.\n",color_message,
     show_message,prompt,prompt_color_message,general_message_color,general_message);
-    None
+    ("".to_string(), None)
 }
 
-fn set_config(config: Config, args: &SplitWhitespace) -> Option<Config> {
-    None
+fn reset_config(color: Color) -> (String, Option<Config>) {
+    let _ = write_default_config();
+    match load() {
+        Ok(cfg) => (
+            "Your config has been reseted to default settings\n".to_string(),
+            Some(cfg),
+        ),
+        Err(_) => (
+            "An error occured while parsing the config file\n".to_string(),
+            None,
+        ),
+    }
 }
 
-fn reload_config() -> Option<Config> {
-    None
+fn set_config(config: Config, args: &SplitWhitespace, color: Color) -> (String, Option<Config>) {
+    ("".to_string(), None)
 }
 
-fn handle_config(line: &str, config: Config) -> Option<Config> {
+fn reload_config() -> (String, Option<Config>) {
+    match load() {
+        Ok(cfg) => (
+            "Your configuration has been reloaded\n".to_string(),
+            Some(cfg),
+        ),
+        Err(_) => (
+            "An error occured while parsing the config file\n".to_string(),
+            None,
+        ),
+    }
+}
+
+fn handle_config(line: &str, config: Config, color: Color) -> (String, Option<Config>) {
     match line.strip_prefix("config") {
         None => show_config(config.clone()),
         Some(t) => {
             let mut w = t.split_whitespace();
             match w.nth(0) {
                 None => show_config(config.clone()),
-                Some("set") => set_config(config, &w.clone()),
+                Some("set") => set_config(config, &w.clone(), color),
                 Some("reload") => reload_config(),
+                Some("reset") => reset_config(color),
                 _ => show_config(config.clone()),
             }
         }
@@ -121,10 +145,16 @@ fn main() {
             }
             str => {
                 if str.starts_with("config") {
-                    let q = handle_config(&line, config.clone());
+                    let (s, q) = handle_config(&line, config.clone(), loaded.general_color);
                     match q {
-                        Some(q) => loaded = load_config(q),
-                        _ => (),
+                        Some(q) => {
+                            loaded = load_config(q);
+                            print!("{}", loaded.general_color.paint(s));
+                        }
+                        _ => {
+                            let m = loaded.general_color.paint(s);
+                            print!("{m}");
+                        }
                     }
                 } else {
                     let a = lex(str.to_string());

@@ -12,7 +12,7 @@ You can now use logic! I implemented the following functions:
 
 ## Example:
 
-![img.png](assets/logic.png)
+[![img.png](assets/logic.png)](assets/logic.png)
 
 
 [LINK TO HOMEPAGE](index.md)

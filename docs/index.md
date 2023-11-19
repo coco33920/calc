@@ -44,11 +44,15 @@ An overview of the function of mini-calc can be found [here](function.md)
 
 To learn about the binary logic built in go to the [logic page](logic.md)
 
+## Plot !
+
+You can plot more information in [the plot page](plot.md)
+
 ## User defined functions
 
 You can define your own functions!
 
-![img.png](assets/user_defined.png)
+[![img.png](assets/user_defined.png)](assets/user_defined.png)
 
 ## Vector calculation 
 
@@ -58,11 +62,7 @@ You can compute using vectors!
 - dot product (* operator)
 - norm function
 
-![](assets/vector.png)
-
-## Plot !
-
-You can plot more information in [the plot page](plot.md)
+[![](assets/vector.png)](assets/vector.png)
 
 ## Matrices !
 
@@ -76,7 +76,7 @@ functions added
 - invert
 - det 
 
-![](assets/matrix.png)
+[![](assets/matrix.png)](assets/matrix.png)
 
 
 ## TODO List

@@ -20,7 +20,7 @@ example:
 myvar = (2+2)
 ```
 
-![](assets/image.png)
+[![](assets/image.png)](assets/image.png)
 
 ## Built-in variable
 

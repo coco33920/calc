@@ -10,7 +10,7 @@ Or situated in your operating system config folder.
 
 The default configuration looks like this
 
-![img.png](assets/img.png)
+[![img.png](assets/img.png)](assets/img.png)
 
 ### Colors
 Available colors are
@@ -31,11 +31,11 @@ Default colour (if the configuration fail to load) is Cyan.
 
 Configuration:
 
-![img.png](assets/config_modified.png)
+[![img.png](assets/config_modified.png)](assets/config_modified.png)
 
 It looks like:
 
-![img.png](assets/config_looks.png)
+[![img.png](assets/config_looks.png)](assets/config_looks.png)
 
 ## Interact in the command line
 
@@ -52,7 +52,7 @@ categories are :
 - `prompt`
 - `general_color`
 
-![](assets/config.png)
+[![](assets/config.png)](assets/config.png)
 
 
 [LINK TO HOMEPAGE](index.md)

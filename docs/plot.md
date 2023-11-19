@@ -27,4 +27,20 @@ You can plot your function!
 
 ![](assets/plot_f.png)
 
+## Terminal plotting
+
+You can plot *right into* the terminal! 
+
+### Default
+
+The best example to show it is the square function between -5 and 5 with a 0.1 step. The x axis is automatically scaled but not the y axis for now.
+
+![](assets/plot_term_x_squared.png)
+
+### With option
+
+The terminal supports options!
+
+[![](assets/plot_term_x_squared_labels.png)](assets/plot_term_x_squared_labels.png)
+
 [LINK TO HOMEPAGE](index.md)

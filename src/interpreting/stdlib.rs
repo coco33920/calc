@@ -1107,11 +1107,23 @@ pub fn plot_fn(
     let mut ylabel = "".to_string();
     let mut mode = "marks";
 
+    if rad {
+        end = 3.0 * PI;
+        steps = 0.01 * PI;
+    }
     match p.get(1) {
         None => (),
         Some(p) => match p {
             Parameters::Float(f) => start = *f,
             Parameters::Int(i) => start = *i as f64,
+
+            Parameters::Identifier(s) if ram.as_ref().unwrap().contains_key(s) => {
+                match ram.as_ref().unwrap().get(s) {
+                    Some(Parameters::Float(f)) => start = *f,
+                    Some(Parameters::Int(i)) => start = *i as f64,
+                    _ => (),
+                }
+            }
             Parameters::Identifier(s) => match s.to_lowercase().as_str() {
                 "marks" => mode = "marks",
                 "line" => mode = "line",
@@ -1127,6 +1139,16 @@ pub fn plot_fn(
         Some(p) => match p {
             Parameters::Float(f) => end = *f,
             Parameters::Int(i) => end = *i as f64,
+
+            Parameters::Identifier(s) if ram.as_ref().unwrap().contains_key(s) => {
+                match ram.as_ref().unwrap().get(s) {
+                    Some(Parameters::Float(f)) => {
+                        end = *f;
+                    }
+                    Some(Parameters::Int(i)) => end = *i as f64,
+                    _ => (),
+                }
+            }
             Parameters::Identifier(s) => match s.to_lowercase().as_str() {
                 "marks" => mode = "marks",
                 "line" => mode = "line",
@@ -1148,6 +1170,14 @@ pub fn plot_fn(
         Some(p) => match p {
             Parameters::Float(f) => steps = *f,
             Parameters::Int(i) => steps = *i as f64,
+
+            Parameters::Identifier(s) if ram.as_ref().unwrap().contains_key(s) => {
+                match ram.as_ref().unwrap().get(s) {
+                    Some(Parameters::Float(f)) => steps = *f,
+                    Some(Parameters::Int(i)) => steps = *i as f64,
+                    _ => (),
+                }
+            }
             Parameters::Identifier(s) => match s.to_lowercase().as_str() {
                 "marks" => mode = "marks",
                 "line" => mode = "line",
@@ -1248,11 +1278,6 @@ pub fn plot_fn(
             },
             _ => (),
         },
-    }
-
-    if rad {
-        end = 3.0 * PI;
-        steps = 0.01 * PI;
     }
 
     let mut x = Vec::new();

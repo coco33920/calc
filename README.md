@@ -137,6 +137,26 @@ Plot functions (both stdlib, and runtime) would be useful and appreciated.
     - [ ] Generate each line
     - [ ] Prints each line
 
+#### Example of plotting
+
+You can plot function defined in the standard library of calc or user defined functions, to display the help just type `plot()`
+
+![](docs/assets/plot_help.png)
+
+You can then plot for example
+
+Plotting cos with the default values (from 0 to 3pi, with a step of 0.01pi)
+
+![](docs/assets/plot_cos_default.png)
+
+Plotting sin with custom values (from -pi to pi, with a step of 0.01rad, with line)
+
+![](docs/assets/plot_sin_custom.png)
+
+Defining f(x) = x² and plotting it with custom values (from -10 to 10, with a step of 0.01, with linespoint)
+
+![](docs/assets/plot_f.png)
+
 ### Exact math calculator
 
 As this project provides a frontend with a parser we could plug an exact math engine in the backend to transform `calc` into a 

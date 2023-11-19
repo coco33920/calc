@@ -87,9 +87,9 @@ impl PrefixParselet for QuoteParselet {
         if !parser.match_token(TokenType::QUOTE) {
             while !parser.match_token(TokenType::QUOTE) {
                 match parser.consume() {
-                    Token::IDENTIFIER(s) => str = str + &" ".to_string() + &s.to_string(),
+                    Token::IDENTIFIER(s) => str = str + &s.to_string(),
 
-                    t => str = str + &" ".to_string() + &t.to_string(),
+                    t => str = str + &t.to_string(),
                 }
             }
             parser.consume_expected(TokenType::QUOTE);

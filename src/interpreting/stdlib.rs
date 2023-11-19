@@ -1131,7 +1131,51 @@ pub fn plot_fn(
                 "marks" => mode = "marks",
                 "line" => mode = "line",
                 "linemarks" => mode = "linemarks",
-                s => title = s.to_string(),
+                _ => title = s.to_string(),
+            },
+            _ => (),
+        },
+    };
+
+    match p.get(2) {
+        None => (),
+        Some(p) => match p {
+            Parameters::Float(f) => end = *f,
+            Parameters::Int(i) => end = *i as f64,
+            Parameters::Identifier(s) => match s.to_lowercase().as_str() {
+                "marks" => mode = "marks",
+                "line" => mode = "line",
+                "linemarks" => mode = "linemarks",
+                _ => {
+                    if title == "".to_string() {
+                        title = s.to_string()
+                    } else {
+                        xlabel = s.to_string()
+                    }
+                }
+            },
+            _ => (),
+        },
+    }
+
+    match p.get(3) {
+        None => (),
+        Some(p) => match p {
+            Parameters::Float(f) => end = *f,
+            Parameters::Int(i) => end = *i as f64,
+            Parameters::Identifier(s) => match s.to_lowercase().as_str() {
+                "marks" => mode = "marks",
+                "line" => mode = "line",
+                "linemarks" => mode = "linemarks",
+                _ => {
+                    if title == "".to_string() {
+                        title = s.to_string()
+                    } else if xlabel == "".to_string() {
+                        xlabel = s.to_string()
+                    } else {
+                        ylabel = s.to_string()
+                    }
+                }
             },
             _ => (),
         },

@@ -111,6 +111,8 @@ pub fn lex(input: String) -> Vec<Token> {
 
     let mut chars = input.as_str().chars().collect::<Vec<char>>();
 
+    let mut quote_i = 0;
+
     let length = input.len();
     while current_pos < input.len() {
         let current_character: char = chars.get(current_pos).unwrap().to_ascii_lowercase();
@@ -154,6 +156,7 @@ pub fn lex(input: String) -> Vec<Token> {
             }
             '"' => {
                 vec.push(Token::QUOTE);
+                quote_i += 1;
                 current_pos += 1
             }
             '=' => match vec.pop() {
@@ -230,7 +233,9 @@ pub fn lex(input: String) -> Vec<Token> {
                 current_pos += 1
             }
             ' ' => {
-                vec.push(Token::WHITESPACE);
+                if quote_i % 2 == 1 {
+                    vec.push(Token::WHITESPACE);
+                }
                 current_pos += 1
             }
             ch => {

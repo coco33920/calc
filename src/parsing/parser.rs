@@ -2,7 +2,7 @@ use core::slice::Iter;
 
 use crate::lexing::token::Token::*;
 use crate::lexing::token::{Precedence, Token, TokenType};
-use crate::parsing::ast::{Ast};
+use crate::parsing::ast::Ast;
 use crate::parsing::parselets::infix_parselet::{
     AssignParselet, CallParselet, InfixParselet, NullParset, OperatorInfixParselet,
 };

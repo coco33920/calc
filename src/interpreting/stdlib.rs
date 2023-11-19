@@ -1032,21 +1032,6 @@ pub fn inverse_matrix(
     }
 }
 
-/*
-*
-*
-* plot() => displays help
-* plot(f) => if f is a function: display a graph of f as line between 0 and 100
-* plot(f,mode) => mode = LINE | LINEMARKS | MARKS
-* plot(f,title,xlabel,ylabel) => if f is a function: display a graph as line between 0 and 100,
-* with title, xlabel, ylabel.
-* plot(f,title,xlabel,ylabel,mode) => '
-* saveplot() => displays help
-* saveplot(pdf/svg/jpeg/png,VEC,VEC,title,xlabel,ylabel,mode) => save a plot
-*
-*
-*/
-
 pub fn plot_fn(
     p: &Vec<Parameters>,
     ram: &Option<&mut HashMap<String, Parameters>>,

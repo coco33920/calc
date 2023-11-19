@@ -1,6 +1,9 @@
 use std::collections::HashMap;
 use std::f64::consts::{E, PI};
 
+use gnuplot::{AxesCommon, Figure};
+
+use crate::configuration::loader::{load, load_config, Config};
 use crate::interpreting::interpreter::interpret;
 use crate::parsing::ast::{Ast, Parameters};
 use crate::utils::matrix_utils::{lup_decompose, lup_determinant, lup_invert, transpose};
@@ -14,30 +17,31 @@ pub fn exec(
     functions: Option<&mut HashMap<String, (Vec<Ast>, Ast)>>,
 ) -> Parameters {
     match s.as_str() {
-        "cos" => cos(&lst, ram),
-        "sin" => sin(&lst, ram),
-        "tan" => tan(&lst, ram),
-        "cosh" => cosh(&lst, ram),
-        "sinh" => sinh(&lst, ram),
-        "tanh" => tanh(&lst, ram),
-        "exp" => exp(&lst, ram),
-        "acos" => acos(&lst, ram),
-        "asin" => asin(&lst, ram),
-        "atan" => atan(&lst, ram),
-        "ln" => ln(&lst, ram),
-        "log" => ln(&lst, ram),
-        "sqrt" => sqrt(&lst, ram),
-        "fact" => factorial(&lst, ram),
-        "factorial" => factorial(&lst, ram),
-        "abs" => abs(&lst, ram),
-        "ceil" => ceil(&lst, ram),
-        "floor" => floor(&lst, ram),
-        "round" => round(&lst, ram),
-        "norm" => norm(&lst, ram, functions),
-        "transpose_vector" => transpose_vectors(&lst, ram),
-        "transpose" => transpose_matrices(&lst, ram),
-        "det" => det_matrix(&lst, ram),
-        "invert" => inverse_matrix(&lst, ram),
+        "cos" => cos(&lst, &ram),
+        "sin" => sin(&lst, &ram),
+        "tan" => tan(&lst, &ram),
+        "cosh" => cosh(&lst, &ram),
+        "sinh" => sinh(&lst, &ram),
+        "tanh" => tanh(&lst, &ram),
+        "exp" => exp(&lst, &ram),
+        "acos" => acos(&lst, &ram),
+        "asin" => asin(&lst, &ram),
+        "atan" => atan(&lst, &ram),
+        "ln" => ln(&lst, &ram),
+        "log" => ln(&lst, &ram),
+        "sqrt" => sqrt(&lst, &ram),
+        "fact" => factorial(&lst, &ram),
+        "factorial" => factorial(&lst, &ram),
+        "abs" => abs(&lst, &ram),
+        "ceil" => ceil(&lst, &ram),
+        "floor" => floor(&lst, &ram),
+        "round" => round(&lst, &ram),
+        "norm" => norm(&lst, &ram, functions),
+        "transpose_vector" => transpose_vectors(&lst, &ram),
+        "transpose" => transpose_matrices(&lst, &ram),
+        "det" => det_matrix(&lst, &ram),
+        "invert" => inverse_matrix(&lst, &ram),
+        "plot" => plot_fn(&lst, &ram, functions),
         s => {
             let mut sram: HashMap<String, Parameters> = HashMap::new();
             sram.insert("pi".to_string(), Parameters::Float(PI));
@@ -52,6 +56,7 @@ pub fn exec(
                         }
                         Some((a, b)) => (a, b),
                     };
+
                     let mut names = Vec::new();
                     for v in vec {
                         match v {
@@ -77,7 +82,7 @@ pub fn exec(
     }
 }
 
-pub fn cos(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) -> Parameters {
+pub fn cos(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) -> Parameters {
     if p.len() < 1 {
         return Parameters::Null;
     }
@@ -124,7 +129,7 @@ pub fn cos(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) -
     }
 }
 
-pub fn sin(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) -> Parameters {
+pub fn sin(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) -> Parameters {
     if p.len() < 1 {
         return Parameters::Null;
     }
@@ -171,7 +176,7 @@ pub fn sin(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) -
     }
 }
 
-pub fn tan(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) -> Parameters {
+pub fn tan(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) -> Parameters {
     if p.len() < 1 {
         return Parameters::Null;
     }
@@ -218,7 +223,7 @@ pub fn tan(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) -
     }
 }
 
-pub fn cosh(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) -> Parameters {
+pub fn cosh(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) -> Parameters {
     if p.len() < 1 {
         return Parameters::Null;
     }
@@ -265,7 +270,7 @@ pub fn cosh(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) 
     }
 }
 
-pub fn sinh(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) -> Parameters {
+pub fn sinh(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) -> Parameters {
     if p.len() < 1 {
         return Parameters::Null;
     }
@@ -312,7 +317,7 @@ pub fn sinh(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) 
     }
 }
 
-pub fn tanh(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) -> Parameters {
+pub fn tanh(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) -> Parameters {
     if p.len() < 1 {
         return Parameters::Null;
     }
@@ -359,7 +364,7 @@ pub fn tanh(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) 
     }
 }
 
-pub fn acos(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) -> Parameters {
+pub fn acos(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) -> Parameters {
     if p.len() < 1 {
         return Parameters::Null;
     }
@@ -407,7 +412,7 @@ pub fn acos(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) 
     }
 }
 
-pub fn asin(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) -> Parameters {
+pub fn asin(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) -> Parameters {
     if p.len() < 1 {
         return Parameters::Null;
     }
@@ -455,7 +460,7 @@ pub fn asin(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) 
     }
 }
 
-pub fn atan(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) -> Parameters {
+pub fn atan(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) -> Parameters {
     if p.len() < 1 {
         return Parameters::Null;
     }
@@ -503,7 +508,7 @@ pub fn atan(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) 
     }
 }
 
-pub fn exp(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) -> Parameters {
+pub fn exp(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) -> Parameters {
     if p.len() < 1 {
         return Parameters::Null;
     }
@@ -552,7 +557,7 @@ pub fn exp(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) -
     }
 }
 
-pub fn ln(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) -> Parameters {
+pub fn ln(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) -> Parameters {
     if p.len() < 1 {
         return Parameters::Null;
     }
@@ -601,7 +606,7 @@ pub fn ln(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) ->
     }
 }
 
-pub fn sqrt(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) -> Parameters {
+pub fn sqrt(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) -> Parameters {
     if p.len() < 1 {
         return Parameters::Null;
     }
@@ -660,7 +665,10 @@ pub fn fact(n: i64) -> i64 {
     aux(n, 1)
 }
 
-pub fn factorial(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) -> Parameters {
+pub fn factorial(
+    p: &Vec<Parameters>,
+    ram: &Option<&mut HashMap<String, Parameters>>,
+) -> Parameters {
     if p.len() < 1 {
         return Parameters::Null;
     }
@@ -679,7 +687,7 @@ pub fn factorial(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameter
     }
 }
 
-pub fn abs(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) -> Parameters {
+pub fn abs(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) -> Parameters {
     if p.len() < 1 {
         return Parameters::Null;
     }
@@ -698,7 +706,7 @@ pub fn abs(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) -
     }
 }
 
-pub fn ceil(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) -> Parameters {
+pub fn ceil(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) -> Parameters {
     if p.len() < 1 {
         return Parameters::Null;
     }
@@ -717,7 +725,7 @@ pub fn ceil(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) 
     }
 }
 
-pub fn floor(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) -> Parameters {
+pub fn floor(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) -> Parameters {
     if p.len() < 1 {
         return Parameters::Null;
     }
@@ -736,7 +744,7 @@ pub fn floor(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>)
     }
 }
 
-pub fn round(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>) -> Parameters {
+pub fn round(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) -> Parameters {
     if p.len() < 1 {
         return Parameters::Null;
     }
@@ -787,7 +795,7 @@ pub fn round(p: &Vec<Parameters>, ram: Option<&mut HashMap<String, Parameters>>)
 
 pub fn norm(
     p: &Vec<Parameters>,
-    ram: Option<&mut HashMap<String, Parameters>>,
+    ram: &Option<&mut HashMap<String, Parameters>>,
     function: Option<&mut HashMap<String, (Vec<Ast>, Ast)>>,
 ) -> Parameters {
     if p.len() < 1 {
@@ -824,7 +832,7 @@ pub fn norm(
 
 pub fn transpose_vectors(
     p: &Vec<Parameters>,
-    ram: Option<&mut HashMap<String, Parameters>>,
+    ram: &Option<&mut HashMap<String, Parameters>>,
 ) -> Parameters {
     if p.len() < 1 {
         return Parameters::Null;
@@ -859,7 +867,7 @@ pub fn transpose_vectors(
 
 pub fn transpose_matrices(
     p: &Vec<Parameters>,
-    ram: Option<&mut HashMap<String, Parameters>>,
+    ram: &Option<&mut HashMap<String, Parameters>>,
 ) -> Parameters {
     if p.len() < 1 {
         return Parameters::Null;
@@ -906,7 +914,7 @@ pub fn transpose_matrices(
 
 pub fn det_matrix(
     p: &Vec<Parameters>,
-    ram: Option<&mut HashMap<String, Parameters>>,
+    ram: &Option<&mut HashMap<String, Parameters>>,
 ) -> Parameters {
     if p.len() < 1 {
         return Parameters::Null;
@@ -960,7 +968,7 @@ pub fn det_matrix(
 
 pub fn inverse_matrix(
     p: &Vec<Parameters>,
-    ram: Option<&mut HashMap<String, Parameters>>,
+    ram: &Option<&mut HashMap<String, Parameters>>,
 ) -> Parameters {
     if p.len() < 1 {
         return Parameters::Null;
@@ -1022,4 +1030,337 @@ pub fn inverse_matrix(
         },
         _ => Parameters::Null,
     }
+}
+
+pub fn plot_fn(
+    p: &Vec<Parameters>,
+    ram: &Option<&mut HashMap<String, Parameters>>,
+    functions: Option<&mut HashMap<String, (Vec<Ast>, Ast)>>,
+) -> Parameters {
+    let color = match load() {
+        Ok(cfg) => load_config(cfg).general_color,
+        Err(_) => load_config(Config::default()).general_color,
+    };
+
+    if p.len() == 0 {
+        let m = color.paint(" > plot(): displays help\n > plot(f): plot f\n > plot(f,title,xlabel,ylabel): plot f with title,xlabel,ylabel\n > plot(f,mode): plot f with the mode=LINE|LINEMARKS|MARKS(default)\n > plot(f,title,xlabel,ylabel,mode): plot f with title,xlabel,ylabel and mode\n > plot(f,start,end,step,mode): plot f between start and end with steps and mode\n > plot(f,start,end,step,title,xlabel,ylabel,mode): combines\n");
+        println!("{m}");
+        return Parameters::Null;
+    }
+
+    let fs = p.first().unwrap();
+    let mut f: fn(&Vec<Parameters>, &Option<&mut HashMap<String, Parameters>>) -> Parameters = cos;
+    let mut fd: String = "".to_string();
+    let mut rad: bool = false;
+    match fs {
+        Parameters::Identifier(s) => match s.as_str() {
+            "cos" => {
+                f = cos;
+                rad = true
+            }
+            "sin" => {
+                f = sin;
+                rad = true
+            }
+            "tan" => {
+                f = tan;
+                rad = true
+            }
+            "cosh" => {
+                f = cosh;
+                rad = true
+            }
+            "sinh" => {
+                f = sinh;
+                rad = true
+            }
+            "tanh" => {
+                f = tanh;
+                rad = true
+            }
+            "exp" => f = exp,
+            "acos" => f = acos,
+            "asin" => f = asin,
+            "atan" => f = atan,
+            "ln" => f = ln,
+            "log" => f = ln,
+            "sqrt" => f = sqrt,
+            s => match functions {
+                None => (),
+                Some(ref t) => {
+                    if t.contains_key(s) {
+                        fd = s.to_string();
+                    } else {
+                        return Parameters::Null;
+                    }
+                }
+            },
+        },
+        _ => return Parameters::Null,
+    }
+
+    let mut start = 0.0;
+    let mut end = 10.0;
+    let mut steps = 0.01;
+    let mut title = "".to_string();
+    let mut xlabel = "".to_string();
+    let mut ylabel = "".to_string();
+    let mut mode = "marks";
+
+    if rad {
+        end = 3.0 * PI;
+        steps = 0.01 * PI;
+    }
+    match p.get(1) {
+        None => (),
+        Some(p) => match p {
+            Parameters::Float(f) => start = *f,
+            Parameters::Int(i) => start = *i as f64,
+
+            Parameters::Identifier(s) if ram.as_ref().unwrap().contains_key(s) => {
+                match ram.as_ref().unwrap().get(s) {
+                    Some(Parameters::Float(f)) => start = *f,
+                    Some(Parameters::Int(i)) => start = *i as f64,
+                    _ => (),
+                }
+            }
+            Parameters::Str(s) => match s.to_lowercase().as_str() {
+                "marks" => mode = "marks",
+                "line" => mode = "line",
+                "linemarks" => mode = "linemarks",
+                _ => title = s.to_string(),
+            },
+            _ => (),
+        },
+    };
+
+    match p.get(2) {
+        None => (),
+        Some(p) => match p {
+            Parameters::Float(f) => end = *f,
+            Parameters::Int(i) => end = *i as f64,
+
+            Parameters::Identifier(s) if ram.as_ref().unwrap().contains_key(s) => {
+                match ram.as_ref().unwrap().get(s) {
+                    Some(Parameters::Float(f)) => {
+                        end = *f;
+                    }
+                    Some(Parameters::Int(i)) => end = *i as f64,
+                    _ => (),
+                }
+            }
+            Parameters::Str(s) => match s.to_lowercase().as_str() {
+                "marks" => mode = "marks",
+                "line" => mode = "line",
+                "linemarks" => mode = "linemarks",
+                _ => {
+                    if title == "".to_string() {
+                        title = s.to_string()
+                    } else {
+                        xlabel = s.to_string()
+                    }
+                }
+            },
+            _ => (),
+        },
+    }
+
+    match p.get(3) {
+        None => (),
+        Some(p) => match p {
+            Parameters::Float(f) => steps = *f,
+            Parameters::Int(i) => steps = *i as f64,
+
+            Parameters::Identifier(s) if ram.as_ref().unwrap().contains_key(s) => {
+                match ram.as_ref().unwrap().get(s) {
+                    Some(Parameters::Float(f)) => steps = *f,
+                    Some(Parameters::Int(i)) => steps = *i as f64,
+                    _ => (),
+                }
+            }
+            Parameters::Str(s) => match s.to_lowercase().as_str() {
+                "marks" => mode = "marks",
+                "line" => mode = "line",
+                "linemarks" => mode = "linemarks",
+                _ => {
+                    if title == "".to_string() {
+                        title = s.to_string()
+                    } else if xlabel == "".to_string() {
+                        xlabel = s.to_string()
+                    } else {
+                        ylabel = s.to_string()
+                    }
+                }
+            },
+            _ => (),
+        },
+    }
+
+    match p.get(4) {
+        None => (),
+        Some(p) => match p {
+            Parameters::Str(s) => match s.to_lowercase().as_str() {
+                "marks" => mode = "marks",
+                "line" => mode = "line",
+                "linemarks" => mode = "linemarks",
+                _ => {
+                    if title == "".to_string() {
+                        title = s.to_string()
+                    } else if xlabel == "".to_string() {
+                        xlabel = s.to_string()
+                    } else {
+                        ylabel = s.to_string()
+                    }
+                }
+            },
+            _ => (),
+        },
+    }
+
+    match p.get(5) {
+        None => (),
+        Some(p) => match p {
+            Parameters::Str(s) => match s.to_lowercase().as_str() {
+                "marks" => mode = "marks",
+                "line" => mode = "line",
+                "linemarks" => mode = "linemarks",
+                _ => {
+                    if title == "".to_string() {
+                        title = s.to_string()
+                    } else if xlabel == "".to_string() {
+                        xlabel = s.to_string()
+                    } else {
+                        ylabel = s.to_string()
+                    }
+                }
+            },
+            _ => (),
+        },
+    }
+
+    match p.get(6) {
+        None => (),
+        Some(p) => match p {
+            Parameters::Str(s) => match s.to_lowercase().as_str() {
+                "marks" => mode = "marks",
+                "line" => mode = "line",
+                "linemarks" => mode = "linemarks",
+                _ => {
+                    if title == "".to_string() {
+                        title = s.to_string()
+                    } else if xlabel == "".to_string() {
+                        xlabel = s.to_string()
+                    } else {
+                        ylabel = s.to_string()
+                    }
+                }
+            },
+            _ => (),
+        },
+    }
+
+    match p.get(7) {
+        None => (),
+        Some(p) => match p {
+            Parameters::Str(s) => match s.to_lowercase().as_str() {
+                "marks" => mode = "marks",
+                "line" => mode = "line",
+                "linemarks" => mode = "linemarks",
+                _ => {
+                    if title == "".to_string() {
+                        title = s.to_string()
+                    } else if xlabel == "".to_string() {
+                        xlabel = s.to_string()
+                    } else if ylabel == "".to_string() {
+                        ylabel = s.to_string()
+                    }
+                }
+            },
+            _ => (),
+        },
+    }
+
+    let mut x = Vec::new();
+    let mut y = Vec::new();
+
+    let (mut vec, mut ast): (Vec<Ast>, Ast) = (Vec::new(), Ast::Nil);
+    match functions {
+        None => (),
+        Some(ref s) => {
+            if s.contains_key(&fd) {
+                (vec, ast) = s.get(&fd).unwrap().clone();
+            }
+        }
+    }
+
+    let mut sram: HashMap<String, Parameters> = HashMap::new();
+    sram.insert("pi".to_string(), Parameters::Float(PI));
+    sram.insert("e".to_string(), Parameters::Float(E));
+
+    while start <= end {
+        x.push(start);
+        if &fd == "" {
+            let p = f(&vec![Parameters::Float(start)], ram);
+            y.push(match p {
+                Parameters::Float(f) => f,
+                Parameters::Int(i) => i as f64,
+                _ => f64::NAN,
+            });
+        } else {
+            let mut names = Vec::new();
+            for v in vec.clone() {
+                match v {
+                    Ast::Nil => (),
+                    Ast::Call { .. } => (),
+                    Ast::Node {
+                        value: v,
+                        left: _l,
+                        right: _r,
+                    } => match v {
+                        Parameters::Identifier(s) => names.push(s.clone()),
+                        _ => (),
+                    },
+                }
+            }
+            names
+                .iter()
+                .zip(vec![Parameters::Float(start)])
+                .for_each(|(name, param)| {
+                    sram.insert(name.to_string(), param.clone());
+                });
+            y.push(match interpret(&ast, &mut sram, &mut HashMap::new()) {
+                Parameters::Float(p) => p,
+                Parameters::Int(i) => i as f64,
+                _ => f64::NAN,
+            });
+        }
+        start += steps;
+    }
+
+    let mut f: Figure = Figure::new();
+    let _ = match mode.to_lowercase().as_str() {
+        "marks" => f
+            .axes2d()
+            .set_x_label(&xlabel, &[])
+            .set_y_label(&ylabel, &[])
+            .set_title(&title, &[])
+            .points(&x, &y, &[]),
+        "line" => f
+            .axes2d()
+            .set_x_label(&xlabel, &[])
+            .set_y_label(&ylabel, &[])
+            .set_title(&title, &[])
+            .lines(&x, &y, &[]),
+        "linemarks" => f
+            .axes2d()
+            .set_x_label(&xlabel, &[])
+            .set_y_label(&ylabel, &[])
+            .set_title(&title, &[])
+            .lines_points(&x, &y, &[]),
+        _ => f.axes2d().points(&x, &y, &[]),
+    };
+
+    f.show().unwrap();
+
+    Parameters::Null
 }

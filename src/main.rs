@@ -2,10 +2,11 @@ use std::collections::HashMap;
 use std::f64::consts::{E, PI};
 use std::process::exit;
 use std::str::SplitWhitespace;
+use std::sync::Arc;
 
 use ansi_term::Color;
 use configuration::loader::Config;
-use linefeed::{Interface, ReadResult};
+use linefeed::{Completer, Completion, Interface, ReadResult, Terminal};
 
 use crate::configuration::loader::{
     load, load_config, write_config, write_default_config, Greeting, Loaded, Prompt,
@@ -233,13 +234,17 @@ fn reload_config() -> (String, Option<Config>) {
     }
 }
 
+fn show_help_config() -> (String, Option<Config>) {
+    (format!("Config help, \n > config show: show config \n > config set: set config \n > config reload: reload config \n > config reset: reset config\n\n"),None)
+}
+
 fn handle_config(line: &str, config: Config) -> (String, Option<Config>) {
     match line.strip_prefix("config") {
-        None => show_config(config.clone()),
+        None => show_help_config(),
         Some(t) => {
             let mut w = t.split_whitespace();
             match w.nth(0) {
-                None => show_config(config.clone()),
+                None => show_help_config(),
                 Some("set") => set_config(config, &mut w.clone()),
                 Some("reload") => reload_config(),
                 Some("reset") => reset_config(),
@@ -273,7 +278,8 @@ fn main() {
     let style = &loaded.clone().prompt_style;
     let mut text = &loaded.clone().prompt;
     let mut verbose = false;
-    let version: String = "v2.8.0".to_string();
+    let version: String = "v2.9.0".to_string();
+    interface.set_completer(Arc::new(CalcCompleter));
     interface
         .set_prompt(&format!(
             "\x01{prefix}\x02{text}\x01{suffix}\x02",
@@ -295,7 +301,7 @@ fn main() {
             "exit" => break,
             "help" => {
                 let message = loaded.general_color.paint(format!(
-                    " Calc {version} Help \n > info : show infos \n > exit : exit the program \n > help : print this help \n > verbose : toggle the verbose \n > version : prints the version \n"
+                    " Calc {version} Help \n > info : show infos \n > exit : exit the program \n > help : print this help \n > verbose : toggle the verbose \n > version : prints the version \n > config : root of the config \n"
                 ));
                 println!("{}", message)
             }
@@ -356,4 +362,87 @@ fn main() {
         interface.add_history_unique(line);
     }
     exit(0);
+}
+
+struct CalcCompleter;
+
+static CMD: &[&str] = &["config", "exit", "verbose", "version", "help", "info"];
+static CONFIG_CMD: &[&str] = &["reload", "reset", "set", "show"];
+static SET_CMD: &[&str] = &[
+    "general_color",
+    "greeting_color",
+    "greeting_message",
+    "prompt",
+    "prompt_color",
+];
+static CMD_COLOR: &[&str] = &[
+    "black", "purple", "cyan", "blue", "red", "yellow", "green", "white",
+];
+
+impl<Term: Terminal> Completer<Term> for CalcCompleter {
+    fn complete(
+        &self,
+        word: &str,
+        prompter: &linefeed::Prompter<Term>,
+        start: usize,
+        end: usize,
+    ) -> Option<Vec<linefeed::Completion>> {
+        let line = prompter.buffer();
+        let mut words = line[..start].split_whitespace();
+
+        match words.next() {
+            None => {
+                let mut co = Vec::new();
+
+                for cmd in CMD {
+                    if cmd.starts_with(word) {
+                        co.push(Completion::simple(cmd.to_string()));
+                    }
+                }
+
+                Some(co)
+            }
+            Some("config") => match words.next() {
+                None => {
+                    let mut co = Vec::new();
+
+                    for cmd in CONFIG_CMD {
+                        if cmd.starts_with(word) {
+                            co.push(Completion::simple(cmd.to_string()))
+                        }
+                    }
+
+                    Some(co)
+                }
+                Some("set") => match words.next() {
+                    None => {
+                        let mut co: Vec<Completion> = Vec::new();
+
+                        for cmd in SET_CMD {
+                            if cmd.starts_with(word) {
+                                co.push(Completion::simple(cmd.to_string()))
+                            }
+                        }
+
+                        Some(co)
+                    }
+                    Some(c) => {
+                        if SET_CMD.contains(&c) {
+                            let mut co = Vec::new();
+                            for cmd in CMD_COLOR {
+                                if cmd.starts_with(word) {
+                                    co.push(Completion::simple(cmd.to_string()))
+                                }
+                            }
+                            Some(co)
+                        } else {
+                            None
+                        }
+                    }
+                },
+                _ => None,
+            },
+            _ => None,
+        }
+    }
 }

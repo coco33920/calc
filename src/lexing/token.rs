@@ -31,6 +31,8 @@ pub enum Token {
     LBRACKET,
     COMMA,
     Null,
+    QUOTE,
+    WHITESPACE,
     PreAnd,
     PreOr,
 }
@@ -60,7 +62,9 @@ pub enum TokenType {
     LBRACKET,
     Null,
     COMMA,
+    WHITESPACE,
     EXPO,
+    QUOTE,
 }
 
 pub enum Precedence {
@@ -113,6 +117,8 @@ impl Display for Token {
             Token::PreOr => write!(f, ""),
             Token::RBRACKET => write!(f, "]"),
             Token::LBRACKET => write!(f, "["),
+            Token::QUOTE => write!(f, "\""),
+            Token::WHITESPACE => write!(f, " "),
         }
     }
 }
@@ -146,6 +152,8 @@ impl Token {
             Token::BOOL(_) => TokenType::BOOL,
             Token::LBRACKET => TokenType::LBRACKET,
             Token::RBRACKET => TokenType::RBRACKET,
+            Token::QUOTE => TokenType::QUOTE,
+            Token::WHITESPACE => TokenType::WHITESPACE,
             _ => TokenType::Null,
         }
     }

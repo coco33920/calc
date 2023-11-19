@@ -138,10 +138,37 @@ Check [the function page](docs/function.md) for more informations.
 ### Ploting
 
 Plot functions (both stdlib, and runtime) would be useful and appreciated.
+Plotting is powered by gnuplot, it will works on Unix-like (MacOS, Linux) but I don't have any idea about Windows
 
-- [ ] Plot stdlib functions
-- [ ] Plot runtime functions
-- [ ] Save plot to png/svg/pdf
+- [X] Plot stdlib functions
+- [X] Plot runtime functions
+- [X] Save plot to png/svg/pdf
+
+- [ ] Add terminal ploting
+    - [ ] Calculate ploting height and width
+    - [ ] Computes individual points
+    - [ ] Generate each line
+    - [ ] Prints each line
+
+#### Example of plotting
+
+You can plot function defined in the standard library of calc or user defined functions, to display the help just type `plot()`
+
+![](docs/assets/plot_help.png)
+
+You can then plot for example
+
+Plotting cos with the default values (from 0 to 3pi, with a step of 0.01pi)
+
+![](docs/assets/plot_cos_default.png)
+
+Plotting sin with custom values (from -pi to pi, with a step of 0.01rad, with line, title, x label, y label)
+
+![](docs/assets/plot_sin_custom.png)
+
+Defining f(x) = x² and plotting it with custom values (from -10 to 10, with a step of 0.1, with linespoint)
+
+![](docs/assets/plot_f.png)
 
 ### Exact math calculator
 

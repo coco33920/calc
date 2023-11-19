@@ -26,3 +26,6 @@ myvar = (2+2)
 
 - `pi` is pi as a double precision float
 - `e` is e as a double precision float
+
+
+[LINK TO HOMEPAGE](index.md)

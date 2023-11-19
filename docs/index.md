@@ -60,6 +60,9 @@ You can compute using vectors!
 
 ![](assets/vector.png)
 
+## Plot !
+
+You can plot more information in [the plot page](plot.md)
 
 ## Matrices !
 

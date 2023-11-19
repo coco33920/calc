@@ -63,3 +63,6 @@ You can round to the nth decimal with the round function, by default it round to
 The language supports partial function
 
 ![img.png](assets/function.png)
+
+
+[LINK TO HOMEPAGE](index.md)

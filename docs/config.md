@@ -53,3 +53,6 @@ categories are :
 - `general_color`
 
 ![](assets/config.png)
+
+
+[LINK TO HOMEPAGE](index.md)

@@ -1058,7 +1058,7 @@ pub fn plot_fn(
     };
 
     if p.len() == 0 {
-        let m = color.paint(" > plot(): displays help\n > plot(f): plot f\n > plot(f,title,xlabel,ylabel): plot f with title,xlabel,ylabel\n > plot(f,mode): plot f with the mode=LINE|LINEMARKS|MARKS(default)\n > plot(f,title,xlabel,ylabel,mode): plot f with title,xlabel,ylabel and mode\n > plot(f,start,end,step,mode): plot f between start and end with steps and mode");
+        let m = color.paint(" > plot(): displays help\n > plot(f): plot f\n > plot(f,title,xlabel,ylabel): plot f with title,xlabel,ylabel\n > plot(f,mode): plot f with the mode=LINE|LINEMARKS|MARKS(default)\n > plot(f,title,xlabel,ylabel,mode): plot f with title,xlabel,ylabel and mode\n > plot(f,start,end,step,mode): plot f between start and end with steps and mode\n > plot(f,start,end,step,title,xlabel,ylabel,mode): combines\n");
         println!("{m}");
         return Parameters::Null;
     }
@@ -1161,8 +1161,8 @@ pub fn plot_fn(
     match p.get(3) {
         None => (),
         Some(p) => match p {
-            Parameters::Float(f) => end = *f,
-            Parameters::Int(i) => end = *i as f64,
+            Parameters::Float(f) => steps = *f,
+            Parameters::Int(i) => steps = *i as f64,
             Parameters::Identifier(s) => match s.to_lowercase().as_str() {
                 "marks" => mode = "marks",
                 "line" => mode = "line",
@@ -1173,6 +1173,90 @@ pub fn plot_fn(
                     } else if xlabel == "".to_string() {
                         xlabel = s.to_string()
                     } else {
+                        ylabel = s.to_string()
+                    }
+                }
+            },
+            _ => (),
+        },
+    }
+
+    match p.get(4) {
+        None => (),
+        Some(p) => match p {
+            Parameters::Identifier(s) => match s.to_lowercase().as_str() {
+                "marks" => mode = "marks",
+                "line" => mode = "line",
+                "linemarks" => mode = "linemarks",
+                _ => {
+                    if title == "".to_string() {
+                        title = s.to_string()
+                    } else if xlabel == "".to_string() {
+                        xlabel = s.to_string()
+                    } else {
+                        ylabel = s.to_string()
+                    }
+                }
+            },
+            _ => (),
+        },
+    }
+
+    match p.get(5) {
+        None => (),
+        Some(p) => match p {
+            Parameters::Identifier(s) => match s.to_lowercase().as_str() {
+                "marks" => mode = "marks",
+                "line" => mode = "line",
+                "linemarks" => mode = "linemarks",
+                _ => {
+                    if title == "".to_string() {
+                        title = s.to_string()
+                    } else if xlabel == "".to_string() {
+                        xlabel = s.to_string()
+                    } else {
+                        ylabel = s.to_string()
+                    }
+                }
+            },
+            _ => (),
+        },
+    }
+
+    match p.get(6) {
+        None => (),
+        Some(p) => match p {
+            Parameters::Identifier(s) => match s.to_lowercase().as_str() {
+                "marks" => mode = "marks",
+                "line" => mode = "line",
+                "linemarks" => mode = "linemarks",
+                _ => {
+                    if title == "".to_string() {
+                        title = s.to_string()
+                    } else if xlabel == "".to_string() {
+                        xlabel = s.to_string()
+                    } else {
+                        ylabel = s.to_string()
+                    }
+                }
+            },
+            _ => (),
+        },
+    }
+
+    match p.get(7) {
+        None => (),
+        Some(p) => match p {
+            Parameters::Identifier(s) => match s.to_lowercase().as_str() {
+                "marks" => mode = "marks",
+                "line" => mode = "line",
+                "linemarks" => mode = "linemarks",
+                _ => {
+                    if title == "".to_string() {
+                        title = s.to_string()
+                    } else if xlabel == "".to_string() {
+                        xlabel = s.to_string()
+                    } else if ylabel == "".to_string() {
                         ylabel = s.to_string()
                     }
                 }

@@ -35,8 +35,8 @@ pub fn computes_lines(
     });
 
     let first_line = vec!['*'; 103];
-
     let last_line = vec!['*'; 103];
+
     let x_line = vec!['-'; 100];
     for char in first_line {
         print!("{char}");
@@ -54,8 +54,8 @@ pub fn computes_lines(
         for _ in 0..right_padding {
             print!("*")
         }
-        println!("")
     }
+    println!("");
 
     for x in (0..(bitmap.len())).rev() {
         print!("*|");
@@ -87,8 +87,21 @@ pub fn computes_lines(
     }
     println!("{end} *");
 
-    for char in last_line {
-        print!("{char}");
+    if &xlabel != "" {
+        let first = 103 / 2 - xlabel.len();
+        let last = 103 - first - xlabel.len();
+        for _ in 0..first {
+            print!("*")
+        }
+        print!("{xlabel}");
+        for _ in 0..last {
+            print!("*")
+        }
+    } else {
+        for char in last_line {
+            print!("{char}");
+        }
     }
+
     println!("");
 }

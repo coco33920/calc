@@ -1124,7 +1124,7 @@ pub fn plot_fn(
                     _ => (),
                 }
             }
-            Parameters::Identifier(s) => match s.to_lowercase().as_str() {
+            Parameters::Str(s) => match s.to_lowercase().as_str() {
                 "marks" => mode = "marks",
                 "line" => mode = "line",
                 "linemarks" => mode = "linemarks",
@@ -1149,7 +1149,7 @@ pub fn plot_fn(
                     _ => (),
                 }
             }
-            Parameters::Identifier(s) => match s.to_lowercase().as_str() {
+            Parameters::Str(s) => match s.to_lowercase().as_str() {
                 "marks" => mode = "marks",
                 "line" => mode = "line",
                 "linemarks" => mode = "linemarks",
@@ -1178,7 +1178,7 @@ pub fn plot_fn(
                     _ => (),
                 }
             }
-            Parameters::Identifier(s) => match s.to_lowercase().as_str() {
+            Parameters::Str(s) => match s.to_lowercase().as_str() {
                 "marks" => mode = "marks",
                 "line" => mode = "line",
                 "linemarks" => mode = "linemarks",
@@ -1199,7 +1199,7 @@ pub fn plot_fn(
     match p.get(4) {
         None => (),
         Some(p) => match p {
-            Parameters::Identifier(s) => match s.to_lowercase().as_str() {
+            Parameters::Str(s) => match s.to_lowercase().as_str() {
                 "marks" => mode = "marks",
                 "line" => mode = "line",
                 "linemarks" => mode = "linemarks",
@@ -1220,7 +1220,7 @@ pub fn plot_fn(
     match p.get(5) {
         None => (),
         Some(p) => match p {
-            Parameters::Identifier(s) => match s.to_lowercase().as_str() {
+            Parameters::Str(s) => match s.to_lowercase().as_str() {
                 "marks" => mode = "marks",
                 "line" => mode = "line",
                 "linemarks" => mode = "linemarks",
@@ -1241,7 +1241,7 @@ pub fn plot_fn(
     match p.get(6) {
         None => (),
         Some(p) => match p {
-            Parameters::Identifier(s) => match s.to_lowercase().as_str() {
+            Parameters::Str(s) => match s.to_lowercase().as_str() {
                 "marks" => mode = "marks",
                 "line" => mode = "line",
                 "linemarks" => mode = "linemarks",
@@ -1262,7 +1262,7 @@ pub fn plot_fn(
     match p.get(7) {
         None => (),
         Some(p) => match p {
-            Parameters::Identifier(s) => match s.to_lowercase().as_str() {
+            Parameters::Str(s) => match s.to_lowercase().as_str() {
                 "marks" => mode = "marks",
                 "line" => mode = "line",
                 "linemarks" => mode = "linemarks",

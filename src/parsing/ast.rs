@@ -10,6 +10,7 @@ pub enum Parameters {
     Int(i64),
     Float(f64),
     Bool(bool),
+    Str(String),
     Identifier(String),
     PlusOperation,
     MinusOperation,
@@ -68,6 +69,7 @@ impl Display for Parameters {
             OrOperation => write!(f, "||"),
             Vector(a) => write!(f, "{:?}", a),
             InterpreterVector(a) => write!(f, "{:?}", a),
+            Str(s) => write!(f, "{s}"),
         }
     }
 }

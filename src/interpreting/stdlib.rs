@@ -1122,6 +1122,21 @@ pub fn plot_fn(
     let mut ylabel = "".to_string();
     let mut mode = "marks";
 
+    match p.get(1) {
+        None => (),
+        Some(p) => match p {
+            Parameters::Float(f) => start = *f,
+            Parameters::Int(i) => start = *i as f64,
+            Parameters::Identifier(s) => match s.to_lowercase().as_str() {
+                "marks" => mode = "marks",
+                "line" => mode = "line",
+                "linemarks" => mode = "linemarks",
+                s => title = s.to_string(),
+            },
+            _ => (),
+        },
+    }
+
     if rad {
         end = 3.0 * PI;
         steps = 0.01 * PI;

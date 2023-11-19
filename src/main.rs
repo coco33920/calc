@@ -385,7 +385,7 @@ impl<Term: Terminal> Completer<Term> for CalcCompleter {
         word: &str,
         prompter: &linefeed::Prompter<Term>,
         start: usize,
-        end: usize,
+        _end: usize,
     ) -> Option<Vec<linefeed::Completion>> {
         let line = prompter.buffer();
         let mut words = line[..start].split_whitespace();

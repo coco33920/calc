@@ -21,6 +21,9 @@ pub struct GroupParselet {}
 #[derive(Clone)]
 pub struct VecParselet {}
 
+#[derive(Clone)]
+pub struct QuoteParselet {}
+
 impl PrefixParselet for ValueParselet {
     fn parse(&self, _parser: &mut CalcParser, token: Token) -> Ast {
         Ast::Node {
@@ -71,6 +74,28 @@ impl PrefixParselet for VecParselet {
 
         Ast::Node {
             value: crate::parsing::ast::Parameters::Vector(Box::from(vec)),
+            left: Box::new(Ast::Nil),
+            right: Box::new(Ast::Nil),
+        }
+    }
+}
+
+impl PrefixParselet for QuoteParselet {
+    fn parse(&self, parser: &mut CalcParser, _token: Token) -> Ast {
+        let mut str: String = String::new();
+
+        if !parser.match_token(TokenType::QUOTE) {
+            while !parser.match_token(TokenType::QUOTE) {
+                match parser.consume() {
+                    Token::IDENTIFIER(s) => str = str + &" ".to_string() + &s.to_string(),
+                    _ => (),
+                }
+            }
+            parser.consume_expected(TokenType::QUOTE);
+        }
+
+        Ast::Node {
+            value: crate::parsing::ast::Parameters::Str(str.trim().to_string()),
             left: Box::new(Ast::Nil),
             right: Box::new(Ast::Nil),
         }

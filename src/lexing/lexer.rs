@@ -25,6 +25,7 @@ pub fn is_an_allowed_char(character: char) -> bool {
         || character == '['
         || character == ']'
         || character == '_'
+        || character == '"'
 }
 
 fn lex_int(
@@ -148,6 +149,10 @@ pub fn lex(input: String) -> Vec<Token> {
             }
             '<' => {
                 vec.push(Token::OPE(LesserThan));
+                current_pos += 1
+            }
+            '"' => {
+                vec.push(Token::QUOTE);
                 current_pos += 1
             }
             '=' => match vec.pop() {

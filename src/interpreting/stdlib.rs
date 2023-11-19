@@ -7,6 +7,7 @@ use crate::configuration::loader::{load, load_config, Config};
 use crate::interpreting::interpreter::interpret;
 use crate::parsing::ast::{Ast, Parameters};
 use crate::utils::matrix_utils::{lup_decompose, lup_determinant, lup_invert, transpose};
+use crate::utils::plot_utils::computes_lines;
 
 use super::function::{add as other_add, mult};
 
@@ -41,7 +42,8 @@ pub fn exec(
         "transpose" => transpose_matrices(&lst, &ram),
         "det" => det_matrix(&lst, &ram),
         "invert" => inverse_matrix(&lst, &ram),
-        "plot" => plot_fn(&lst, &ram, functions),
+        "plot" => plot_fn(&lst, &ram, functions, false),
+        "termplot" => plot_fn(&lst, &ram, functions, true),
         s => {
             let mut sram: HashMap<String, Parameters> = HashMap::new();
             sram.insert("pi".to_string(), Parameters::Float(PI));
@@ -1036,6 +1038,7 @@ pub fn plot_fn(
     p: &Vec<Parameters>,
     ram: &Option<&mut HashMap<String, Parameters>>,
     functions: Option<&mut HashMap<String, (Vec<Ast>, Ast)>>,
+    terminal: bool,
 ) -> Parameters {
     let color = match load() {
         Ok(cfg) => load_config(cfg).general_color,
@@ -1296,7 +1299,7 @@ pub fn plot_fn(
     let mut sram: HashMap<String, Parameters> = HashMap::new();
     sram.insert("pi".to_string(), Parameters::Float(PI));
     sram.insert("e".to_string(), Parameters::Float(E));
-
+    let st = start;
     while start <= end {
         x.push(start);
         if &fd == "" {
@@ -1359,8 +1362,10 @@ pub fn plot_fn(
             .lines_points(&x, &y, &[]),
         _ => f.axes2d().points(&x, &y, &[]),
     };
-
-    f.show().unwrap();
-
+    if !terminal {
+        f.show().unwrap();
+    } else {
+        computes_lines(&x, &y, st, end, steps, title, xlabel, ylabel);
+    }
     Parameters::Null
 }

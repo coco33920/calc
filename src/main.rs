@@ -278,7 +278,7 @@ fn main() {
     let style = &loaded.clone().prompt_style;
     let mut text = &loaded.clone().prompt;
     let mut verbose = false;
-    let version: String = "v2.9.0".to_string();
+    let version: String = "v2.9.1".to_string();
     interface.set_completer(Arc::new(CalcCompleter));
     interface
         .set_prompt(&format!(
@@ -385,7 +385,7 @@ impl<Term: Terminal> Completer<Term> for CalcCompleter {
         word: &str,
         prompter: &linefeed::Prompter<Term>,
         start: usize,
-        end: usize,
+        _end: usize,
     ) -> Option<Vec<linefeed::Completion>> {
         let line = prompter.buffer();
         let mut words = line[..start].split_whitespace();

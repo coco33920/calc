@@ -1299,7 +1299,7 @@ pub fn plot_fn(
     let mut sram: HashMap<String, Parameters> = HashMap::new();
     sram.insert("pi".to_string(), Parameters::Float(PI));
     sram.insert("e".to_string(), Parameters::Float(E));
-
+    let st = start;
     while start <= end {
         x.push(start);
         if &fd == "" {
@@ -1365,7 +1365,7 @@ pub fn plot_fn(
     if !terminal {
         f.show().unwrap();
     } else {
-        computes_lines(&x, &y, start, end, steps);
+        computes_lines(&x, &y, st, end, steps, title, xlabel, ylabel);
     }
     Parameters::Null
 }

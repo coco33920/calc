@@ -14,12 +14,15 @@
 */
 pub fn computes_lines(x: &Vec<f64>, y: &Vec<f64>, start: f64, end: f64, steps: f64) -> () {
     let mut bitmap = vec![vec![' '; 100]; 30];
-    let z = x
-        .into_iter()
-        .zip(y)
-        .map(|(x, y)| ((*x * 10.0) as usize, (*y * 10.0) as usize));
+    let z = x.into_iter().zip(y).map(|(x, y)| {
+        (
+            ((*x / steps) - start) as usize,
+            ((*y / steps) - start) as usize,
+        )
+    });
 
     z.for_each(|(x, y)| {
+        println!("x: {x}; y: {y}");
         if x < 100 && y < 30 {
             bitmap[x][y] = '+'
         }

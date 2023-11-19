@@ -126,6 +126,7 @@ Check [the website](https://calc.nwa2coco.fr) for more informations.
 ### Ploting
 
 Plot functions (both stdlib, and runtime) would be useful and appreciated.
+Plotting is powered by gnuplot, it will works on Unix-like (MacOS, Linux) but I don't have any idea about Windows
 
 - [X] Plot stdlib functions
 - [X] Plot runtime functions

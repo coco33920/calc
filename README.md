@@ -153,7 +153,7 @@ Plotting sin with custom values (from -pi to pi, with a step of 0.01rad, with li
 
 ![](docs/assets/plot_sin_custom.png)
 
-Defining f(x) = x² and plotting it with custom values (from -10 to 10, with a step of 0.01, with linespoint)
+Defining f(x) = x² and plotting it with custom values (from -10 to 10, with a step of 0.1, with linespoint)
 
 ![](docs/assets/plot_f.png)
 

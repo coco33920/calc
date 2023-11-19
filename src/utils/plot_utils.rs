@@ -54,11 +54,27 @@ pub fn computes_lines(
         for _ in 0..right_padding {
             print!("*")
         }
+
+        println!("");
     }
-    println!("");
+
+    let size = ylabel.len();
+    let i = ylabel.chars();
+    let mut label = Vec::new();
+    let f = 30 / 2 - size;
+    let e = 30 - f - size;
+    for _ in 0..f {
+        label.push('*')
+    }
+    i.for_each(|x| label.push(x));
+    for _ in 0..e {
+        label.push('*')
+    }
+    let mut iter_label = label.into_iter();
 
     for x in (0..(bitmap.len())).rev() {
-        print!("*|");
+        print!("{}", iter_label.next().unwrap());
+        print!("|");
         let xs = &bitmap[x];
         for y in 0..xs.len() {
             print!("{}", xs[y]);

@@ -127,9 +127,9 @@ Check [the website](https://calc.nwa2coco.fr) for more informations.
 
 Plot functions (both stdlib, and runtime) would be useful and appreciated.
 
-- [ ] Plot stdlib functions
-- [ ] Plot runtime functions
-- [ ] Save plot to png/svg/pdf
+- [X] Plot stdlib functions
+- [X] Plot runtime functions
+- [X] Save plot to png/svg/pdf
 
 - [ ] Add terminal ploting
     - [ ] Calculate ploting height and width

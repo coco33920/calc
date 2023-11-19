@@ -138,6 +138,9 @@ Plotting is powered by gnuplot, it will works on Unix-like (MacOS, Linux) but I 
     - [X] Generate each line
     - [X] Prints each line
 
+- [X] Auto level x axis in termplot
+- [ ] Auto level y axis in termplot
+
 #### Example of plotting
 
 You can plot function defined in the standard library of calc or user defined functions, to display the help just type `plot()`

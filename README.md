@@ -132,11 +132,11 @@ Plotting is powered by gnuplot, it will works on Unix-like (MacOS, Linux) but I 
 - [X] Plot runtime functions
 - [X] Save plot to png/svg/pdf
 
-- [ ] Add terminal ploting
-    - [ ] Calculate ploting height and width
-    - [ ] Computes individual points
-    - [ ] Generate each line
-    - [ ] Prints each line
+- [X] Add terminal ploting
+    - [X] Calculate ploting height and width
+    - [X] Computes individual points
+    - [X] Generate each line
+    - [X] Prints each line
 
 #### Example of plotting
 
@@ -157,6 +157,17 @@ Plotting sin with custom values (from -pi to pi, with a step of 0.01rad, with li
 Defining f(x) = x² and plotting it with custom values (from -10 to 10, with a step of 0.1, with linespoint)
 
 ![](docs/assets/plot_f.png)
+
+#### Example of terminal plotting
+
+You can plot in the terminal, for example 
+
+![](docs/assets/plot_term_x_squared.png)
+
+And it supports the labels too
+
+![](docs/assets/plot_term_x_squared_labels.png)
+
 
 ### Exact math calculator
 

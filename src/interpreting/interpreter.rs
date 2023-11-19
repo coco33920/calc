@@ -35,12 +35,20 @@ pub fn interpret(
                 Parameters::LesserOrEqualOperation => lesser_or_equal(param1, param2, Some(&ram)),
                 Parameters::AndOperation => and(param1, param2, Some(&ram)),
                 Parameters::OrOperation => or(param1, param2, Some(&ram)),
+                Parameters::Str(s) => Parameters::Str(s.to_string()),
                 Parameters::Assign => match *(l.clone()) {
                     Ast::Call { name: n, lst: list } => {
-                        if n.as_str() != "" {
-                            (function).insert(n.to_string(), (list, *r.clone()));
+                        if function.contains_key(&n) {
+                            Parameters::Str("This function has already been set".to_string())
+                        } else {
+                            if n.as_str() != "" {
+                                (function).insert(n.to_string(), (list, *r.clone()));
+                            }
+                            Parameters::Identifier(format!(
+                                "@The function {} has been set",
+                                n.clone()
+                            ))
                         }
-                        Parameters::Identifier(format!("@The function {} has been set", n.clone()))
                     }
                     _ => {
                         let (a, b) = assign(param1.clone(), param2.clone());

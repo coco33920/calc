@@ -149,7 +149,7 @@ Plotting cos with the default values (from 0 to 3pi, with a step of 0.01pi)
 
 ![](docs/assets/plot_cos_default.png)
 
-Plotting sin with custom values (from -pi to pi, with a step of 0.01rad, with line)
+Plotting sin with custom values (from -pi to pi, with a step of 0.01rad, with line, title, x label, y label)
 
 ![](docs/assets/plot_sin_custom.png)
 

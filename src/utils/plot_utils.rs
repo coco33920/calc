@@ -22,8 +22,15 @@ pub fn computes_lines(
         }
     });
 
-    let x_scale = (end - start) / 100.0;
-    let y_scale = (ymax - ymin) / 30.0;
+    let mut x_scale = (end - start) / 100.0;
+    let mut y_scale = (ymax - ymin) / 30.0;
+
+    if x_scale == 0.0 {
+        x_scale = 1.0;
+    }
+    if y_scale == 0.0 {
+        y_scale = 1.0;
+    }
 
     let z = x.into_iter().zip(y).map(|(x, y)| {
         (

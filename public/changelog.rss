@@ -1,5 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>mini-calc Changelog</title><link>http://127.0.0.1:7979/changelog</link><description>Changelog information for mini-calc</description><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><atom:link href="http://127.0.0.1:7979/changelog.rss" rel="self"/><item><title>2.9.8</title><link>http://127.0.0.1:7979/changelog/2.9.8</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.9.8</guid><content:encoded><![CDATA[<ul>
 <li>Test</li>
 </ul>
-]]></content:encoded></item><item><title>2.9.6</title><link>http://127.0.0.1:7979/changelog/2.9.6</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.9.6</guid><content:encoded><![CDATA[<p>Adds supports for dist-upgrade</p>
-]]></content:encoded></item><item><title>v2.9.4 Terminal plot</title><link>http://127.0.0.1:7979/changelog/2.9.4</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.9.4</guid><content:encoded><![CDATA[]]></content:encoded></item><item><title>v2.9.3 Terminal plot</title><link>http://127.0.0.1:7979/changelog/2.9.3</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.9.3</guid><content:encoded><![CDATA[]]></content:encoded></item><item><title>v2.9.2 Terminal plot</title><link>http://127.0.0.1:7979/changelog/2.9.2</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.9.2</guid><content:encoded><![CDATA[]]></content:encoded></item><item><title>v2.9.1 Terminal Plot!</title><link>http://127.0.0.1:7979/changelog/2.9.1</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.9.1</guid><content:encoded><![CDATA[]]></content:encoded></item><item><title>v2.9.0 Plot!</title><link>http://127.0.0.1:7979/changelog/2.9.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.9.0</guid><content:encoded><![CDATA[]]></content:encoded></item><item><title>v2.8.1 Auto-completion</title><link>http://127.0.0.1:7979/changelog/2.8.1</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.8.1</guid><content:encoded><![CDATA[]]></content:encoded></item><item><title>v2.8.0 Interactive config!</title><link>http://127.0.0.1:7979/changelog/2.8.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.8.0</guid><content:encoded><![CDATA[]]></content:encoded></item><item><title>v2.7.0 Matrix algebra</title><link>http://127.0.0.1:7979/changelog/2.7.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.7.0</guid><content:encoded><![CDATA[]]></content:encoded></item><item><title>v2.6.0 Add vector calculation !</title><link>http://127.0.0.1:7979/changelog/2.6.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.6.0</guid><content:encoded><![CDATA[]]></content:encoded></item><item><title>v2.5.1 Bug fix</title><link>http://127.0.0.1:7979/changelog/2.5.1</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.5.1</guid><content:encoded><![CDATA[]]></content:encoded></item><item><title>v2.5.0 User defined function!</title><link>http://127.0.0.1:7979/changelog/2.5.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.5.0</guid><content:encoded><![CDATA[]]></content:encoded></item><item><title>v2.4.0 : Logic!</title><link>http://127.0.0.1:7979/changelog/2.4.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.4.0</guid><content:encoded><![CDATA[]]></content:encoded></item><item><title>v2.3.1 More function</title><link>http://127.0.0.1:7979/changelog/2.3.1</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.3.1</guid><content:encoded><![CDATA[]]></content:encoded></item><item><title>v2.3.0 Functions!</title><link>http://127.0.0.1:7979/changelog/2.3.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.3.0</guid><content:encoded><![CDATA[]]></content:encoded></item><item><title>v2.2.2 Config!</title><link>http://127.0.0.1:7979/changelog/2.2.2</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.2.2</guid><content:encoded><![CDATA[]]></content:encoded></item><item><title>v2.1.1 bug fix</title><link>http://127.0.0.1:7979/changelog/2.1.1</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.1.1</guid><content:encoded><![CDATA[]]></content:encoded></item><item><title>v2.1.0 : Builts in!</title><link>http://127.0.0.1:7979/changelog/2.1.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.1.0</guid><content:encoded><![CDATA[]]></content:encoded></item><item><title>v2.0.0 New Parser!</title><link>http://127.0.0.1:7979/changelog/2.0.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.0.0</guid><content:encoded><![CDATA[]]></content:encoded></item><item><title>v1.0.0 : Functionning interpreter</title><link>http://127.0.0.1:7979/changelog/1.0.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/1.0.0</guid><content:encoded><![CDATA[]]></content:encoded></item><item><title>v.0.3.0-alpha Parsing of advanced operation</title><link>http://127.0.0.1:7979/changelog/alpha-0.3.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/alpha-0.3.0</guid><content:encoded><![CDATA[]]></content:encoded></item><item><title>v.0.2.0-alpha Parsing of basic operation</title><link>http://127.0.0.1:7979/changelog/alpha-0.2.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/alpha-0.2.0</guid><content:encoded><![CDATA[]]></content:encoded></item><item><title>v.0.1.0-alpha Lexing and REPL</title><link>http://127.0.0.1:7979/changelog/alpha-0.1.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/alpha-0.1.0</guid><content:encoded><![CDATA[]]></content:encoded></item></channel></rss>
+]]></content:encoded></item><item><title>2.9.6</title><link>http://127.0.0.1:7979/changelog/2.9.6</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.9.6</guid><content:encoded><![CDATA[<ul>
+<li>Adds supports for dist-upgrade</li>
+</ul>
+]]></content:encoded></item><item><title>v2.9.4 Terminal plot</title><link>http://127.0.0.1:7979/changelog/2.9.4</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.9.4</guid><content:encoded><![CDATA[<h2>Terminal plot</h2>
+<ul>
+<li>fix bug while updating ymax and ymin</li>
+</ul>
+]]></content:encoded></item><item><title>v2.9.3 Terminal plot</title><link>http://127.0.0.1:7979/changelog/2.9.3</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.9.3</guid><content:encoded><![CDATA[<h2>Terminal plot</h2>
+<ul>
+<li>fix bug with the x axis row</li>
+</ul>
+]]></content:encoded></item><item><title>v2.9.2 Terminal plot</title><link>http://127.0.0.1:7979/changelog/2.9.2</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.9.2</guid><content:encoded><![CDATA[<h2>Terminal plot</h2>
+<p>See #25</p>
+<ul>
+<li>fix f(x) = x bug</li>
+<li>add auto scaling on y axis when termplot</li>
+<li>add labels on y axis</li>
+</ul>
+]]></content:encoded></item><item><title>v2.9.1 Terminal Plot!</title><link>http://127.0.0.1:7979/changelog/2.9.1</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.9.1</guid><content:encoded><![CDATA[<h2>Terminal plot</h2>
+<ul>
+<li> Add terminal ploting
+<ul>
+<li> Calculate ploting height and width</li>
+<li> Computes individual points</li>
+<li> Generate each line</li>
+<li> Prints each line</li>
+</ul>
+</li>
+</ul>
+]]></content:encoded></item><item><title>v2.9.0 Plot!</title><link>http://127.0.0.1:7979/changelog/2.9.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.9.0</guid><content:encoded><![CDATA[<h2>Plot!</h2>
+<ul>
+<li>
+<p>fix bug when re-defining functions</p>
+</li>
+<li>
+<p>added plot</p>
+</li>
+<li>
+<p>added string</p>
+</li>
+<li>
+<p>Plot functions (both stdlib, and runtime) would be useful and appreciated.
+Plotting is powered by gnuplot, it will works on Unix-like (MacOS, Linux) but I don't have any idea about Windows</p>
+</li>
+<li>
+<p> Plot stdlib functions</p>
+</li>
+<li>
+<p>[X]&nbsp;Plot runtime functions</p>
+</li>
+<li>
+<p> Save plot to png/svg/pdf</p>
+</li>
+</ul>
+]]></content:encoded></item><item><title>v2.8.1 Auto-completion</title><link>http://127.0.0.1:7979/changelog/2.8.1</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.8.1</guid><content:encoded><![CDATA[<ul>
+<li>Auto-completion</li>
+</ul>
+]]></content:encoded></item><item><title>v2.8.0 Interactive config!</title><link>http://127.0.0.1:7979/changelog/2.8.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.8.0</guid><content:encoded><![CDATA[<h2>Interactive config !</h2>
+<ul>
+<li> Interact with the configuration
+<ul>
+<li> Print current config</li>
+<li> Reset config to default</li>
+<li>[x]&nbsp;Set config
+<ul>
+<li> Set main color</li>
+<li> Set prompt color</li>
+<li>[x]&nbsp;Set prompt</li>
+<li> Set greeting message</li>
+<li>[x]&nbsp;Set greeting color</li>
+</ul>
+</li>
+<li>[X]&nbsp;Reload config</li>
+</ul>
+</li>
+</ul>
+]]></content:encoded></item><item><title>v2.7.0 Matrix algebra</title><link>http://127.0.0.1:7979/changelog/2.7.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.7.0</guid><content:encoded><![CDATA[<h2>Matrix algebra</h2>
+<ul>
+<li> Matrix calculation
+<ul>
+<li> Add matrix to the datatypes</li>
+<li> Lex matrices</li>
+<li> Parse matrices</li>
+<li> Add matrices operation
+<ul>
+<li> Matrix addition</li>
+<li> Matrix multiplication</li>
+<li> Calculate the matrix determinant</li>
+<li> Calculate the reverse matrix</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+]]></content:encoded></item><item><title>v2.6.0 Add vector calculation !</title><link>http://127.0.0.1:7979/changelog/2.6.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.6.0</guid><content:encoded><![CDATA[<h2>Vector algebra</h2>
+<ul>
+<li> Vector calculation
+<ul>
+<li> Add vectors to the datatypes</li>
+<li> Lex vectors</li>
+<li> Parse vectors</li>
+<li> Add vector operations
+<ul>
+<li> Dot product</li>
+<li> Vector norm</li>
+<li> Vector addition</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+]]></content:encoded></item><item><title>v2.5.1 Bug fix</title><link>http://127.0.0.1:7979/changelog/2.5.1</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.5.1</guid><content:encoded><![CDATA[<ul>
+<li>fix error</li>
+</ul>
+]]></content:encoded></item><item><title>v2.5.0 User defined function!</title><link>http://127.0.0.1:7979/changelog/2.5.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.5.0</guid><content:encoded><![CDATA[<h2>User defined function</h2>
+<p>You can define your own function</p>
+<p><a href="docs/assets/user_defined.png" rel="noopener noreferrer"><img src="docs/assets/user_defined.png" alt=""></a></p>
+]]></content:encoded></item><item><title>v2.4.0 : Logic!</title><link>http://127.0.0.1:7979/changelog/2.4.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.4.0</guid><content:encoded><![CDATA[<h2>Logic done</h2>
+<ul>
+<li> Add logic
+<ul>
+<li> Add basic true/false</li>
+<li> Add binary operator
+<ul>
+<li> or (&amp;&amp;)</li>
+<li> and (||)</li>
+<li> <code>&gt;=</code></li>
+<li> <code>&gt;</code></li>
+<li> <code>&lt;=</code></li>
+<li> <code>&lt;</code></li>
+<li> <code>==</code></li>
+</ul>
+</li>
+<li> Add unary operator
+<ul>
+<li> not (!)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+]]></content:encoded></item><item><title>v2.3.1 More function</title><link>http://127.0.0.1:7979/changelog/2.3.1</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.3.1</guid><content:encoded><![CDATA[<h2>More functions</h2>
+<ul>
+<li>sqrt</li>
+<li>factorial (aliases: fact or !)</li>
+<li>abs</li>
+<li>ceil</li>
+<li>floor</li>
+<li>round</li>
+</ul>
+]]></content:encoded></item><item><title>v2.3.0 Functions!</title><link>http://127.0.0.1:7979/changelog/2.3.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.3.0</guid><content:encoded><![CDATA[<h2>Functions!</h2>
+<ul>
+<li> Add support for functions
+<ul>
+<li> exp</li>
+<li> ln</li>
+<li> log base a</li>
+<li> cos/sin/tan</li>
+<li> cosh/sinh/tanh</li>
+<li> atan/acos/asin</li>
+</ul>
+</li>
+</ul>
+]]></content:encoded></item><item><title>v2.2.2 Config!</title><link>http://127.0.0.1:7979/changelog/2.2.2</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.2.2</guid><content:encoded><![CDATA[<p>Configuration update!</p>
+]]></content:encoded></item><item><title>v2.1.1 bug fix</title><link>http://127.0.0.1:7979/changelog/2.1.1</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.1.1</guid><content:encoded><![CDATA[<p>bug fix</p>
+<ul>
+<li>reverse operation doing math</li>
+</ul>
+]]></content:encoded></item><item><title>v2.1.0 : Builts in!</title><link>http://127.0.0.1:7979/changelog/2.1.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.1.0</guid><content:encoded><![CDATA[<p>Builts in!</p>
+<ul>
+<li>pi</li>
+<li>e</li>
+</ul>
+]]></content:encoded></item><item><title>v2.0.0 New Parser!</title><link>http://127.0.0.1:7979/changelog/2.0.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.0.0</guid><content:encoded><![CDATA[<p>New parser!
+No edge case</p>
+]]></content:encoded></item><item><title>v1.0.0 : Functionning interpreter</title><link>http://127.0.0.1:7979/changelog/1.0.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/1.0.0</guid><content:encoded><![CDATA[<p>Functionning interpreter</p>
+]]></content:encoded></item><item><title>v.0.3.0-alpha Parsing of advanced operation</title><link>http://127.0.0.1:7979/changelog/alpha-0.3.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/alpha-0.3.0</guid><content:encoded><![CDATA[]]></content:encoded></item><item><title>v.0.2.0-alpha Parsing of basic operation</title><link>http://127.0.0.1:7979/changelog/alpha-0.2.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/alpha-0.2.0</guid><content:encoded><![CDATA[]]></content:encoded></item><item><title>v.0.1.0-alpha Lexing and REPL</title><link>http://127.0.0.1:7979/changelog/alpha-0.1.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/alpha-0.1.0</guid><content:encoded><![CDATA[]]></content:encoded></item></channel></rss>

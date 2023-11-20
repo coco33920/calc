@@ -1,0 +1,5 @@
+{
+  "build": {
+    "static_dir": "docs/assets"
+  }
+}

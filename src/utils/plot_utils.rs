@@ -39,8 +39,8 @@ pub fn computes_lines(
         }
     });
 
-    let first_line = vec!['*'; 103];
-    let last_line = vec!['*'; 103];
+    let first_line = vec!['*'; 104];
+    let last_line = vec!['*'; 104];
 
     let x_line = vec!['-'; 100];
     for char in first_line {
@@ -50,8 +50,8 @@ pub fn computes_lines(
     println!("");
 
     if &title != "" {
-        let left_padding = (103 - title.len()) / 2;
-        let right_padding = (103 - title.len()) - left_padding;
+        let left_padding = (104 - title.len()) / 2;
+        let right_padding = (104 - title.len()) - left_padding;
         for _ in 0..left_padding {
             print!("*");
         }
@@ -77,8 +77,35 @@ pub fn computes_lines(
     }
     let mut iter_label = label.into_iter();
 
+    let lsize = format!("{:.2}", ymax).len();
+    let string_ymax = format!("{:.2}", ymax);
+    let mut y_sized = Vec::new();
+    let lminsize = format!("{:.2}", ymin).len();
+    let lmin_string = format!("{:.2}", ymin);
+    let ymiddle = format!("{:.2}", (ymax + ymin) / 2.0);
+    let ymiddle_size = ymiddle.len();
+
+    for s in string_ymax.replace("-", "|").chars().rev() {
+        y_sized.push(s);
+    }
+    for _ in (lsize)..(30 / 2) {
+        y_sized.push(' ');
+    }
+    for s in ymiddle.replace("-", "|").chars().rev() {
+        y_sized.push(s);
+    }
+    for _ in ymiddle_size..(30 / 2 - lminsize) {
+        y_sized.push(' ');
+    }
+    for s in lmin_string.replace("-", "|").chars().rev() {
+        y_sized.push(s);
+    }
+
+    let mut iter_y_sized = y_sized.into_iter();
+
     for x in (0..(bitmap.len())).rev() {
         print!("{}", iter_label.next().unwrap());
+        print!("{}", iter_y_sized.next().unwrap());
         print!("|");
         let xs = &bitmap[x];
         for y in 0..xs.len() {
@@ -87,7 +114,7 @@ pub fn computes_lines(
         print!("*\n");
     }
 
-    print!("*|");
+    print!("* |");
     for char in x_line {
         print!("{char}");
     }
@@ -106,7 +133,7 @@ pub fn computes_lines(
     for _ in (middle_string)..(100 / 2 - 1 - string_end) {
         print!(" ");
     }
-    println!("{end} *");
+    println!("{end}  *");
 
     if &xlabel != "" {
         let first = 103 / 2 - xlabel.len();

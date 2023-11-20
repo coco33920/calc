@@ -1,8 +1,5 @@
 
 {
-  "build": {
-    "path_prefix": "public"
-  },
   "styles": {
     "theme": "axodark",
     "favicon": "https://www.axo.dev/favicon.ico"
@@ -15,6 +12,12 @@
           "cargo": "cargo install mini-calc"
         }
       }
+    },
+    "mdbook": {
+      "path": "./mini-calc"
     }
-  }
+  },
+    "build": {
+    "static_dir": "mini-calc/assets"
+      }
 }

@@ -6,7 +6,7 @@
             <meta property="og:url" content="https://calc.nwa2coco.fr" />
         
         
-            <link rel="icon" href="/public/favicon.ico" />
+            <link rel="icon" href="/favicon.ico" />
         
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,7 +20,7 @@
         
         
         <meta http-equiv="Permissions-Policy" content="interest-cohort=()" />
-        <link rel="stylesheet" href="/public/oranda-v0.5.0.css" />
+        <link rel="stylesheet" href="/oranda-v0.5.0.css" />
         
         
     </head>
@@ -43,20 +43,22 @@
                         
     <nav class="nav">
         <ul>
-            <li><a href="/public/">Home</a></li>
+            <li><a href="/">Home</a></li>
 
             
 
             
-                <li><a href="/public/artifacts/">Install</a></li>
+                <li><a href="/artifacts/">Install</a></li>
+            
+
+            
+                <li><a href="/book/">Docs</a></li>
             
 
             
 
             
-
-            
-                <li><a href="/public/changelog/">Changelog</a></li>
+                <li><a href="/changelog/">Changelog</a></li>
             
         </ul>
     </nav>
@@ -122,7 +124,7 @@
         
             
         
-        <a class="button primary" href="/public/mini-calc-installer.sh.txt">Source</a>
+        <a class="button primary" href="/mini-calc-installer.sh.txt">Source</a>
     
 </div>
                                 
@@ -213,7 +215,7 @@
         
             
         
-        <a class="button primary" href="/public/mini-calc-installer.sh.txt">Source</a>
+        <a class="button primary" href="/mini-calc-installer.sh.txt">Source</a>
     
 </div>
                                 
@@ -364,7 +366,7 @@
         
             
         
-        <a class="button primary" href="/public/mini-calc-installer.sh.txt">Source</a>
+        <a class="button primary" href="/mini-calc-installer.sh.txt">Source</a>
     
 </div>
                                 
@@ -419,7 +421,7 @@
             <span class="no-autodetect-details">We weren't able to detect your OS.</span>
         </div>
         <noscript>
-            <a href="/public/artifacts/">View all installation options</a>
+            <a href="/artifacts/">View all installation options</a>
         </noscript>
     
     <div class="mac-switch hidden">This project doesn't offer Apple Silicon downloads, but you can run Intel macOS binaries via Rosetta 2.</div>
@@ -427,7 +429,7 @@
     
     
     <div class="bottom-options ">
-        <a href="/public/artifacts/" class="backup-download primary">View all installation options</a>
+        <a href="/artifacts/" class="backup-download primary">View all installation options</a>
         
             <div class="arch-select hidden">
                 <select id="install-arch-select">
@@ -447,7 +449,7 @@
     </div>
 </div>
 
-<a href="/public/artifacts/" class="button mobile-download primary">View all installation options</a>
+<a href="/artifacts/" class="button mobile-download primary">View all installation options</a>
 
 
     <h1>Calc</h1>
@@ -477,351 +479,6 @@
 <p>The page walking down the configuration of the project is available <a href="docs/config.md" rel="noopener noreferrer">here</a></p>
 <h2>Functions</h2>
 <p>Check <a href="docs/function.md" rel="noopener noreferrer">the function page</a> for more informations.</p>
-<h2>TODO List</h2>
-<ul>
-<li> Lexing of basic operations
-<ul>
-<li> Lexing operators</li>
-<li> Lexing lpar,rpar,quote</li>
-<li> Lexing int</li>
-<li> Lexing floats</li>
-<li> Lexing identifiers</li>
-</ul>
-</li>
-<li> Parsing of basic operations
-<ul>
-<li> Parsing int,floats,identifiers</li>
-<li> sum operation</li>
-<li> minus operation</li>
-<li> multiplication operation</li>
-<li> division operation</li>
-</ul>
-</li>
-<li> Parsing advanced operations
-<ul>
-<li> Parsing lpar,rpar</li>
-<li> mathematical priority
-<ul>
-<li> Left priority</li>
-<li> Right priority</li>
-</ul>
-</li>
-<li> parenthesis support</li>
-<li> Assignment</li>
-<li> associativity support
-<ul>
-<li> Left associativity</li>
-<li> Right associativity</li>
-</ul>
-</li>
-</ul>
-</li>
-<li> Application REPL
-<ul>
-<li> Add the REPL
-<ul>
-<li> basic REPL</li>
-<li> colour message</li>
-<li> colourised prompt</li>
-</ul>
-</li>
-<li> Add colour</li>
-</ul>
-</li>
-<li> Interpreter
-<ul>
-<li> Basic operation interpreter</li>
-<li> Advanced operation interpreter</li>
-<li> Identifiers (variable) interpreter</li>
-<li> Basic operation interpreter</li>
-<li> Advanced operation interpreter</li>
-<li> Identifiers (variable) interpreter</li>
-</ul>
-</li>
-<li> Built-in
-<ul>
-<li> pi</li>
-<li> e</li>
-</ul>
-</li>
-<li> Config
-<ul>
-<li> Config colours</li>
-<li> Config prompt</li>
-</ul>
-</li>
-<li> Add more operations
-<ul>
-<li> exponent</li>
-</ul>
-</li>
-<li> Add support for functions
-<ul>
-<li> exp</li>
-<li> ln</li>
-<li> log base a</li>
-<li> cos/sin/tan</li>
-<li> cosh/sinh/tanh</li>
-<li> atan/acos/asin</li>
-<li> some more</li>
-</ul>
-</li>
-<li> Add logic
-<ul>
-<li> Add basic true/false</li>
-<li> Add binary operator
-<ul>
-<li> or (&amp;&amp;)</li>
-<li> and (||)</li>
-<li> <code>&gt;=</code></li>
-<li> <code>&gt;</code></li>
-<li> <code>&lt;=</code></li>
-<li> <code>&lt;</code></li>
-<li> <code>==</code></li>
-</ul>
-</li>
-<li> Add unary operator
-<ul>
-<li> not (!)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li> Vector calculation
-<ul>
-<li> Add vectors to the datatypes</li>
-<li> Lex vectors</li>
-<li> Parse vectors</li>
-<li> Add vector operations
-<ul>
-<li> Dot product</li>
-<li> Vector norm</li>
-<li> Vector addition</li>
-</ul>
-</li>
-</ul>
-</li>
-<li> Matrix calculation
-<ul>
-<li> Add matrix to the datatypes</li>
-<li> Lex matrices</li>
-<li> Parse matrices</li>
-<li> Add matrices operation
-<ul>
-<li> Matrix addition</li>
-<li> Matrix multiplication</li>
-<li> Calculate the matrix determinant</li>
-<li> Calculate the reverse matrix</li>
-</ul>
-</li>
-</ul>
-</li>
-<li> Interact with the configuration
-<ul>
-<li> Print current config</li>
-<li> Reset config to default</li>
-<li>[X]&nbsp;Set config
-<ul>
-<li> Set main color</li>
-<li> Set prompt color</li>
-<li>[X]&nbsp;Set prompt</li>
-<li> Set greeting message</li>
-<li>[X]&nbsp;Set greeting color</li>
-</ul>
-</li>
-<li>[X]&nbsp;Reload config</li>
-</ul>
-</li>
-</ul>
-<h2>Evolution</h2>
-<h3>Ploting</h3>
-<p>Plot functions (both stdlib, and runtime) would be useful and appreciated.
-Plotting is powered by gnuplot, it will works on Unix-like (MacOS, Linux) but I don't have any idea about Windows</p>
-<ul>
-<li>
-<p> Plot stdlib functions</p>
-</li>
-<li>
-<p>[X]&nbsp;Plot runtime functions</p>
-</li>
-<li>
-<p> Save plot to png/svg/pdf</p>
-</li>
-<li>
-<p> Add terminal ploting</p>
-<ul>
-<li> Calculate ploting height and width</li>
-<li> Computes individual points</li>
-<li> Generate each line</li>
-<li> Prints each line</li>
-</ul>
-</li>
-<li>
-<p> Auto level x axis in termplot</p>
-</li>
-<li>
-<p> Auto level y axis in termplot</p>
-</li>
-</ul>
-<h4>Example of plotting</h4>
-<p>You can plot function defined in the standard library of calc or user defined functions, to display the help just type <code>plot()</code></p>
-<p><img src="docs/assets/plot_help.png" alt=""></p>
-<p>You can then plot for example</p>
-<p>Plotting cos with the default values (from 0 to 3pi, with a step of 0.01pi)</p>
-<p><img src="docs/assets/plot_cos_default.png" alt=""></p>
-<p>Plotting sin with custom values (from -pi to pi, with a step of 0.01rad, with line, title, x label, y label)</p>
-<p><img src="docs/assets/plot_sin_custom.png" alt=""></p>
-<p>Defining f(x) = x² and plotting it with custom values (from -10 to 10, with a step of 0.1, with linespoint)</p>
-<p><img src="docs/assets/plot_f.png" alt=""></p>
-<h4>Example of terminal plotting</h4>
-<p>You can plot in the terminal, for example</p>
-<p><img src="docs/assets/plot_term_x_squared.png" alt=""></p>
-<p>And it supports the labels too</p>
-<p><img src="docs/assets/plot_term_x_squared_labels.png" alt=""></p>
-<p>And now it auto scales on y!</p>
-<p><img src="docs/assets/termplot_cos.png" alt=""></p>
-<h3>Exact math calculator</h3>
-<p>As this project provides a frontend with a parser we could plug an exact math engine in the backend to transform <code>calc</code> into a
-real exact math calculator.
-TODO List for the Exact Math Engine</p>
-<ul>
-<li> Rational calculation
-<ul>
-<li> Implement rational numbers operations</li>
-<li> Rational reduction</li>
-</ul>
-</li>
-<li> Irrational calculation
-<ul>
-<li> Implement irrational numbers operations</li>
-<li> Irrational reduction</li>
-</ul>
-</li>
-<li> Literal calculation
-<ul>
-<li> Computes literal expression with uninitialized operators</li>
-<li> Literal reduction</li>
-</ul>
-</li>
-</ul>
-<h3>CAS</h3>
-<p>If we ever go to this step, yes, I will remove the "minimalistic" from the description</p>
-<ul>
-<li> It's hard.</li>
-</ul>
-<h2>Examples</h2>
-<h3>REPL with only Lexing (verbose mode: on by default)</h3>
-<p><img src="docs/assets/test_lexing.png" alt=""></p>
-<h3>REPL with lexing and basic operation parsing (verbose mode: on by default)</h3>
-<p><img src="docs/assets/test_parsing_basic_operations.png" alt=""></p>
-<h3>REPL and functionning interpreter (verbose mode: off by default)</h3>
-<p><img src="docs/assets/test_interpreter.png" alt=""></p>
-<h2>Configuration</h2>
-<p>You can configure the general color, greeting message, greeting color, prompt and prompt color from the file for example
-in (for linux)</p>
-<pre style="background-color:#263238;"><span style="color:#eeffff;">~/.config/mini-calc/mini-calc.toml
-</span></pre>
-
-<p>Or situated in your operating system config folder.</p>
-<p>You can interact with the configuration with the command line, more info in <a href="https://calc.nwa2coco.fr/config.html" rel="noopener noreferrer">the web page</a></p>
-<h3>What the configuration looks like</h3>
-<p>The default configuration looks like this</p>
-<p><img src="docs/assets/img.png" alt="img.png"></p>
-<h3>Colors</h3>
-<p>Available colors are</p>
-<ul>
-<li>purple</li>
-<li>cyan</li>
-<li>blue</li>
-<li>black</li>
-<li>red</li>
-<li>yellow</li>
-<li>green</li>
-<li>white</li>
-<li>an hexadecimal colour (ex: "#f7a8d8")</li>
-</ul>
-<p>Default colour (if the configuration fail to load) is Cyan.</p>
-<h3>Example of a modified configuration</h3>
-<p>Configuration:</p>
-<p><img src="docs/assets/config_modified.png" alt="img.png"></p>
-<p>It looks like:</p>
-<p><img src="docs/assets/config_looks.png" alt="img.png"></p>
-<h2>Functions</h2>
-<p>The following functions are available</p>
-<ul>
-<li>sin</li>
-<li>cos</li>
-<li>tan</li>
-<li>sinh</li>
-<li>cosh</li>
-<li>tanh</li>
-<li>asin</li>
-<li>acos</li>
-<li>atan</li>
-<li>exp</li>
-<li>ln (alias: log)</li>
-<li>sqrt</li>
-<li>factorial (alias: fact)</li>
-<li>abs</li>
-<li>ceil</li>
-<li>floor</li>
-<li>round</li>
-</ul>
-<h3>Trigonometry</h3>
-<p>For trigonometry, the input are assumed to be in radian, if not, you have to put "false" or "true" as second argument,
-example shown bellow</p>
-<p><img src="docs/assets/trigo.png" alt="img.png"></p>
-<h3>Exp/ln</h3>
-<p>If you use the exp function you can pass a second argument for the base you are using, if no second arguments are passed
-this is assumed to be in natural base</p>
-<p><img src="docs/assets/expln.png" alt="img.png"></p>
-<h3>Root</h3>
-<p>You can take the nth root with the sqrt function, by default it takes the second root.</p>
-<p><img src="docs/assets/nth_root.png" alt="img.png"></p>
-<h3>Round</h3>
-<p>You can round to the nth decimal with the round function, by default it round to the integer (floor)</p>
-<p><img src="docs/assets/round.png" alt="img.png"></p>
-<h2>Logic</h2>
-<p>You can now use logic! I implemented the following functions:</p>
-<ul>
-<li>or (alias : ||)</li>
-<li>and (alias : &amp;&amp;)</li>
-<li>geq (alias : <code>&gt;=</code>)</li>
-<li>gt (alias : <code>&gt;</code>)</li>
-<li>leq (alias : <code>&lt;=</code>)</li>
-<li>lt (alias :<code>&lt;</code>)</li>
-<li>eq (alias : <code>==</code>)</li>
-</ul>
-<p>Example:</p>
-<p><img src="docs/assets/logic.png" alt="img.png"></p>
-<h2>User defined functions!</h2>
-<p>You can define your own functions!</p>
-<p><img src="docs/assets/user_defined.png" alt="img.png"></p>
-<h2>Vector calculation !</h2>
-<p>You can use vectors!</p>
-<ul>
-<li>add vector to each others</li>
-<li>added the <code>norm</code> function to compute the norm</li>
-<li>dot product between two vectors ( * operator)</li>
-</ul>
-<p>Functions added:</p>
-<ul>
-<li>norm</li>
-</ul>
-<p><img src="docs/assets/vector.png" alt=""></p>
-<h2>Matrices !</h2>
-<p>As of 2.7.0 matrix algebra is implemented (using lup reduction)</p>
-<ul>
-<li>you can add matrices</li>
-<li>multiply compatible matrices</li>
-</ul>
-<p>functions added</p>
-<ul>
-<li>transpose</li>
-<li>invert</li>
-<li>det</li>
-</ul>
-<p><img src="docs/assets/matrix.png" alt=""></p>
 
 
 
@@ -843,7 +500,7 @@ this is assumed to be in natural base</p>
 
         
 
-    <script src="/public/artifacts.js"></script>
+    <script src="/artifacts.js"></script>
 
 
     </body>

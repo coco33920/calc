@@ -136,8 +136,8 @@ pub fn computes_lines(
     println!("{:.2}  *", end);
 
     if &xlabel != "" {
-        let first = 103 / 2 - xlabel.len();
-        let last = 103 - first - xlabel.len();
+        let first = 104 / 2 - xlabel.len();
+        let last = 104 - first - xlabel.len();
         for _ in 0..first {
             print!("*")
         }

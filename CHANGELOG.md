@@ -1,3 +1,7 @@
+# Version 2.9.9 : Terminal plot
+
+- fix bug if yscale or xscale is 0
+
 # Version 2.9.8
 
 - Test

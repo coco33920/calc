@@ -16,10 +16,9 @@ pub fn computes_lines(
     y.into_iter().for_each(|y| {
         if y > &ymax {
             ymax = *y
-        } else if y < &ymin {
+        }
+        if y < &ymin {
             ymin = *y
-        } else {
-            ()
         }
     });
 

@@ -121,19 +121,19 @@ pub fn computes_lines(
     println!("*");
 
     print!("* ");
-    let string_start = format!("{start}").len();
-    let string_end = format!("{end}").len();
-    let middle = ((end + start) / 2.0) as i32;
-    let middle_string = format!("{middle}").len();
-    print!("{start}");
+    let string_start = format!("{:.2}", start).len();
+    let string_end = format!("{:.2}", end).len();
+    let middle = ((end + start) / 2.0) as f32;
+    let middle_string = format!("{:.2}", middle).len();
+    print!("{:.2}", start);
     for _ in (string_start)..(100 / 2) {
         print!(" ");
     }
-    print!("{middle}");
+    print!("{:.2}", middle);
     for _ in (middle_string)..(100 / 2 - 1 - string_end) {
         print!(" ");
     }
-    println!("{end}  *");
+    println!("{:.2}  *", end);
 
     if &xlabel != "" {
         let first = 103 / 2 - xlabel.len();

@@ -1,5 +1,20 @@
+
 {
   "build": {
-    "static_dir": "docs/assets"
+    "path_prefix": "public"
+  },
+  "styles": {
+    "theme": "axodark",
+    "favicon": "https://www.axo.dev/favicon.ico"
+  },
+  "components": {
+    "changelog": true,
+    "artifacts": {
+      "package_managers": {
+        "preferred": {
+          "cargo": "cargo install mini-calc"
+        }
+      }
+    }
   }
 }

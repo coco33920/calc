@@ -1,32 +1,37 @@
-/*
-*
-*
-* **********
-* **title **
-* *|       *
-* *|+      *
-* *|+      *
-* *|       *
-* *--------*
-*
-*
-*
-*/
 pub fn computes_lines(
     x: &Vec<f64>,
     y: &Vec<f64>,
     start: f64,
     end: f64,
-    steps: f64,
+    _steps: f64,
     title: String,
     xlabel: String,
     ylabel: String,
 ) -> () {
     let mut bitmap = vec![vec![' '; 100]; 30];
-    let z = x
-        .into_iter()
-        .zip(y)
-        .map(|(x, y)| (((*x - start) / steps) as usize, *y as usize));
+
+    let mut ymin = f64::MAX;
+    let mut ymax = f64::MIN;
+
+    y.into_iter().for_each(|y| {
+        if y > &ymax {
+            ymax = *y
+        } else if y < &ymin {
+            ymin = *y
+        } else {
+            ()
+        }
+    });
+
+    let x_scale = (end - start) / 100.0;
+    let y_scale = (ymax - ymin) / 30.0;
+
+    let z = x.into_iter().zip(y).map(|(x, y)| {
+        (
+            ((*x - start) / x_scale) as usize,
+            ((*y - ymin) / y_scale) as usize,
+        )
+    });
 
     z.for_each(|(x, y)| {
         if x < 100 && y < 30 {
@@ -34,8 +39,8 @@ pub fn computes_lines(
         }
     });
 
-    let first_line = vec!['*'; 103];
-    let last_line = vec!['*'; 103];
+    let first_line = vec!['*'; 104];
+    let last_line = vec!['*'; 104];
 
     let x_line = vec!['-'; 100];
     for char in first_line {
@@ -45,8 +50,8 @@ pub fn computes_lines(
     println!("");
 
     if &title != "" {
-        let left_padding = (103 - title.len()) / 2;
-        let right_padding = (103 - title.len()) - left_padding;
+        let left_padding = (104 - title.len()) / 2;
+        let right_padding = (104 - title.len()) - left_padding;
         for _ in 0..left_padding {
             print!("*");
         }
@@ -72,8 +77,35 @@ pub fn computes_lines(
     }
     let mut iter_label = label.into_iter();
 
+    let lsize = format!("{:.2}", ymax).len();
+    let string_ymax = format!("{:.2}", ymax);
+    let mut y_sized = Vec::new();
+    let lminsize = format!("{:.2}", ymin).len();
+    let lmin_string = format!("{:.2}", ymin);
+    let ymiddle = format!("{:.2}", (ymax + ymin) / 2.0);
+    let ymiddle_size = ymiddle.len();
+
+    for s in string_ymax.replace("-", "|").chars().rev() {
+        y_sized.push(s);
+    }
+    for _ in (lsize)..(30 / 2) {
+        y_sized.push(' ');
+    }
+    for s in ymiddle.replace("-", "|").chars().rev() {
+        y_sized.push(s);
+    }
+    for _ in ymiddle_size..(30 / 2 - lminsize) {
+        y_sized.push(' ');
+    }
+    for s in lmin_string.replace("-", "|").chars().rev() {
+        y_sized.push(s);
+    }
+
+    let mut iter_y_sized = y_sized.into_iter();
+
     for x in (0..(bitmap.len())).rev() {
         print!("{}", iter_label.next().unwrap());
+        print!("{}", iter_y_sized.next().unwrap());
         print!("|");
         let xs = &bitmap[x];
         for y in 0..xs.len() {
@@ -82,26 +114,26 @@ pub fn computes_lines(
         print!("*\n");
     }
 
-    print!("*|");
+    print!("* |");
     for char in x_line {
         print!("{char}");
     }
     println!("*");
 
     print!("* ");
-    let string_start = format!("{start}").len();
-    let string_end = format!("{end}").len();
-    let middle = ((end + start) / 2.0) as i32;
-    let middle_string = format!("{middle}").len();
-    print!("{start}");
+    let string_start = format!("{:.2}", start).len();
+    let string_end = format!("{:.2}", end).len();
+    let middle = ((end + start) / 2.0) as f32;
+    let middle_string = format!("{:.2}", middle).len();
+    print!("{:.2}", start);
     for _ in (string_start)..(100 / 2) {
         print!(" ");
     }
-    print!("{middle}");
+    print!("{:.2}", middle);
     for _ in (middle_string)..(100 / 2 - 1 - string_end) {
         print!(" ");
     }
-    println!("{end} *");
+    println!("{:.2}  *", end);
 
     if &xlabel != "" {
         let first = 103 / 2 - xlabel.len();

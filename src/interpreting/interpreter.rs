@@ -64,7 +64,13 @@ pub fn interpret(
                 },
                 Parameters::Float(f) => Parameters::Float(*f),
                 Parameters::Int(i) => Parameters::Int(*i),
-                Parameters::Identifier(s) => Parameters::Identifier(s.clone()),
+                Parameters::Identifier(s) => {
+                    if ram.contains_key(s) {
+                        ram.get(s).unwrap().clone()
+                    } else {
+                        Parameters::Identifier(s.clone())
+                    }
+                }
                 Parameters::Bool(b) => Parameters::Bool(*b),
                 Parameters::Null => Parameters::Null,
                 Parameters::Vector(a) => {

@@ -28,3 +28,7 @@ or install it via cargo
 ```bash 
 cargo install mini-calc
 ```
+
+## Usage
+
+[![](assets/homepage.gif)](assets/homepage.gif)

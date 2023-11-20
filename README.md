@@ -139,7 +139,7 @@ Plotting is powered by gnuplot, it will works on Unix-like (MacOS, Linux) but I 
     - [X] Prints each line
 
 - [X] Auto level x axis in termplot
-- [ ] Auto level y axis in termplot
+- [X] Auto level y axis in termplot
 
 #### Example of plotting
 
@@ -171,6 +171,9 @@ And it supports the labels too
 
 ![](docs/assets/plot_term_x_squared_labels.png)
 
+And now it auto scales on y!
+
+![](docs/assets/termplot_cos.png)
 
 ### Exact math calculator
 

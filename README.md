@@ -28,15 +28,3 @@ or install it via cargo
 ```bash 
 cargo install mini-calc
 ```
-
-## Usage
-
-You can see how the calculator works over at [the usage page](docs/usage.md)
-
-## Configuration
-
-The page walking down the configuration of the project is available [here](docs/config.md)
-
-## Functions
-
-Check [the function page](docs/function.md) for more informations.

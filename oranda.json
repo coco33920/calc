@@ -18,6 +18,6 @@
     }
   },
     "build": {
-    "static_dir": "mini-calc/assets"
+    "static_dir": "docs/assets"
       }
 }

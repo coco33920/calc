@@ -31,4 +31,4 @@ cargo install mini-calc
 
 ## Usage
 
-[![](assets/homepage.gif)](assets/homepage.gif)
+[![](assets/homepage.mp4)](assets/homepage.mp4)

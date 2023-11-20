@@ -1,32 +1,37 @@
-/*
-*
-*
-* **********
-* **title **
-* *|       *
-* *|+      *
-* *|+      *
-* *|       *
-* *--------*
-*
-*
-*
-*/
 pub fn computes_lines(
     x: &Vec<f64>,
     y: &Vec<f64>,
     start: f64,
     end: f64,
-    steps: f64,
+    _steps: f64,
     title: String,
     xlabel: String,
     ylabel: String,
 ) -> () {
     let mut bitmap = vec![vec![' '; 100]; 30];
-    let z = x
-        .into_iter()
-        .zip(y)
-        .map(|(x, y)| (((*x - start) / steps) as usize, *y as usize));
+
+    let mut ymin = f64::MAX;
+    let mut ymax = f64::MIN;
+
+    y.into_iter().for_each(|y| {
+        if y > &ymax {
+            ymax = *y
+        } else if y < &ymin {
+            ymin = *y
+        } else {
+            ()
+        }
+    });
+
+    let x_scale = (end - start) / 100.0;
+    let y_scale = (ymax - ymin) / 30.0;
+
+    let z = x.into_iter().zip(y).map(|(x, y)| {
+        (
+            ((*x - start) / x_scale) as usize,
+            ((*y - ymin) / y_scale) as usize,
+        )
+    });
 
     z.for_each(|(x, y)| {
         if x < 100 && y < 30 {

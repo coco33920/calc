@@ -43,4 +43,10 @@ The terminal supports options!
 
 [![](assets/plot_term_x_squared_labels.png)](assets/plot_term_x_squared_labels.png)
 
+### Auto y scaling
+
+Now the y axis auto scales, and labels were added in 2.9.2 !
+
+[![](assets/termplot_cos.png)](assets/termplot_cos.png)
+
 [LINK TO HOMEPAGE](index.md)

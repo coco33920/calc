@@ -325,6 +325,18 @@ mod test {
     }
 
     #[test]
+    pub fn test_or_operation(){
+        let b = lex("false || true".to_string());
+        let parser = &mut init_calc_parser(&b);
+        let expected = Ast::Node {
+            value: Parameters::OrOperation,
+            left: Box::new(Ast::new(Parameters::Bool(false))),
+            right: Box::new(Ast::new(Parameters::Bool(true))),
+        };
+        assert_eq!(parser.parse(),expected);
+    }
+
+    #[test]
     pub fn test_assignment() {
         let b = lex("i=1".to_string());
         let parser: &mut CalcParser = &mut init_calc_parser(&b);
@@ -446,5 +458,25 @@ mod test {
         };
         let result = parser.parse();
         assert_eq!(result, expected)
+    }
+
+    #[test]
+    pub fn test_vector_parsing() {
+        let b = lex("[2,2,2,2]".to_string());
+        let parser = &mut init_calc_parser(&b);
+        let expected = Ast::Node { value: Parameters::Vector(Box::new(vec![Ast::new(Parameters::Int(2));4])), left: Box::new(Ast::Nil), right: Box::new(Ast::Nil) };
+        assert_eq!(parser.parse(),expected);
+    }
+
+    #[test]
+    pub fn test_string_parsing() {
+        let b = lex("\"test 1 2 1 2\"".to_string());
+        let parser = &mut init_calc_parser(&b);
+        let expected = Ast::Node {
+            value: Parameters::Str("test 1 2 1 2".to_string()),
+            left: Box::new(Ast::Nil),
+            right: Box::new(Ast::Nil),
+        };
+        assert_eq!(parser.parse(),expected);
     }
 }

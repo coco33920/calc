@@ -67,6 +67,7 @@ jobs:
       - name: Install and run oranda
         run: |
           curl --proto '=https' --tlsv1.2 -LsSf https://github.com/axodotdev/oranda/releases/latest/download/oranda-installer.sh | sh
+          cd public/
           oranda build
       
       - name: Prepare HTML for link checking

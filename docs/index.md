@@ -8,6 +8,7 @@
 <a href="https://github.com/coco33920/calc/releases/latest"><img src="https://img.shields.io/github/v/release/coco33920/calc.svg?include_prereleases=&sort=semver&color=f7a8d8"></a>
 <a href="https://crates.io/crates/mini-calc"><img src="https://img.shields.io/crates/v/mini-calc?link=https%3A%2F%2Fcrates.io%2Fcrates%2Fmini-calc"></a>
 <a href="https://github.com/coco33920/calc/blob/master/LICENSE"><img src="https://img.shields.io/crates/l/mini-calc?link=https%3A%2F%2Fgithub.com%2coco33920%2Fcalc%2Fblob%2Fmaster%2FLICENCE"></a>
+<a href="https://crates.io/crates/mini-calc"><img src="https://img.shields.io/crates/d/calc"/></a>
 
 </div>
 

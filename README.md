@@ -31,4 +31,4 @@ cargo install mini-calc
 
 ## Usage
 
-[![](assets/homepage.mp4)](assets/homepage.mp4)
+<video src="assets/homepage.mp4"/>

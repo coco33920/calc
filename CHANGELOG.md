@@ -1,3 +1,12 @@
+# Version 2.9.10 : Fix bug, vector plotting
+
+## Plot 
+- add vector plotting
+
+## Terminal plot
+- fix edge case by changing the coefficient a little bit 
+- add vector termploting
+
 # Version 2.9.9 : Terminal plot
 
 - fix bug if yscale or xscale is 0

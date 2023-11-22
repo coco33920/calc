@@ -1055,7 +1055,14 @@ pub fn plot_fn(
     let mut f: fn(&Vec<Parameters>, &Option<&mut HashMap<String, Parameters>>) -> Parameters = cos;
     let mut fd: String = "".to_string();
     let mut rad: bool = false;
+    let mut fun: bool = true;
+    let mut first_vector = None;
+    let mut second_vector = None;
     match fs {
+        Parameters::InterpreterVector(vec) => {
+            fun = false;
+            first_vector = Some(&**vec)
+        }
         Parameters::Identifier(s) => match s.as_str() {
             "cos" => {
                 f = cos;
@@ -1089,12 +1096,26 @@ pub fn plot_fn(
             "log" => f = ln,
             "sqrt" => f = sqrt,
             s => match functions {
-                None => (),
+                None => match ram.as_ref().unwrap().get(s) {
+                    None => return Parameters::Null,
+                    Some(Parameters::InterpreterVector(vec)) => {
+                        fun = false;
+                        first_vector = Some(&**vec);
+                    }
+                    _ => return Parameters::Null,
+                },
                 Some(ref t) => {
                     if t.contains_key(s) {
                         fd = s.to_string();
                     } else {
-                        return Parameters::Null;
+                        match ram.as_ref().unwrap().get(s) {
+                            None => return Parameters::Null,
+                            Some(Parameters::InterpreterVector(vec)) => {
+                                fun = false;
+                                first_vector = Some(&**vec)
+                            }
+                            _ => return Parameters::Null,
+                        }
                     }
                 }
             },
@@ -1119,11 +1140,14 @@ pub fn plot_fn(
         Some(p) => match p {
             Parameters::Float(f) => start = *f,
             Parameters::Int(i) => start = *i as f64,
+            Parameters::InterpreterVector(vec) => second_vector = Some(&**vec),
 
             Parameters::Identifier(s) if ram.as_ref().unwrap().contains_key(s) => {
                 match ram.as_ref().unwrap().get(s) {
                     Some(Parameters::Float(f)) => start = *f,
                     Some(Parameters::Int(i)) => start = *i as f64,
+                    Some(Parameters::InterpreterVector(vec)) => second_vector = Some(&**vec),
+
                     _ => (),
                 }
             }
@@ -1283,63 +1307,96 @@ pub fn plot_fn(
         },
     }
 
+    let st = start;
     let mut x = Vec::new();
     let mut y = Vec::new();
-
-    let (mut vec, mut ast): (Vec<Ast>, Ast) = (Vec::new(), Ast::Nil);
-    match functions {
-        None => (),
-        Some(ref s) => {
-            if s.contains_key(&fd) {
-                (vec, ast) = s.get(&fd).unwrap().clone();
-            }
-        }
-    }
-
-    let mut sram: HashMap<String, Parameters> = HashMap::new();
-    sram.insert("pi".to_string(), Parameters::Float(PI));
-    sram.insert("e".to_string(), Parameters::Float(E));
-    let st = start;
-    while start <= end {
-        x.push(start);
-        if &fd == "" {
-            let p = f(&vec![Parameters::Float(start)], ram);
-            y.push(match p {
-                Parameters::Float(f) => f,
-                Parameters::Int(i) => i as f64,
-                _ => f64::NAN,
-            });
-        } else {
-            let mut names = Vec::new();
-            for v in vec.clone() {
-                match v {
-                    Ast::Nil => (),
-                    Ast::Call { .. } => (),
-                    Ast::Node {
-                        value: v,
-                        left: _l,
-                        right: _r,
-                    } => match v {
-                        Parameters::Identifier(s) => names.push(s.clone()),
-                        _ => (),
-                    },
+    if fun {
+        let (mut vec, mut ast): (Vec<Ast>, Ast) = (Vec::new(), Ast::Nil);
+        match functions {
+            None => (),
+            Some(ref s) => {
+                if s.contains_key(&fd) {
+                    (vec, ast) = s.get(&fd).unwrap().clone();
                 }
             }
-            names
-                .iter()
-                .zip(vec![Parameters::Float(start)])
-                .for_each(|(name, param)| {
-                    sram.insert(name.to_string(), param.clone());
-                });
-            y.push(match interpret(&ast, &mut sram, &mut HashMap::new()) {
-                Parameters::Float(p) => p,
-                Parameters::Int(i) => i as f64,
-                _ => f64::NAN,
-            });
         }
-        start += steps;
-    }
 
+        let mut sram: HashMap<String, Parameters> = HashMap::new();
+        sram.insert("pi".to_string(), Parameters::Float(PI));
+        sram.insert("e".to_string(), Parameters::Float(E));
+        while start <= end {
+            x.push(start);
+            if &fd == "" {
+                let p = f(&vec![Parameters::Float(start)], ram);
+                y.push(match p {
+                    Parameters::Float(f) => f,
+                    Parameters::Int(i) => i as f64,
+                    _ => f64::NAN,
+                });
+            } else {
+                let mut names = Vec::new();
+                for v in vec.clone() {
+                    match v {
+                        Ast::Nil => (),
+                        Ast::Call { .. } => (),
+                        Ast::Node {
+                            value: v,
+                            left: _l,
+                            right: _r,
+                        } => match v {
+                            Parameters::Identifier(s) => names.push(s.clone()),
+                            _ => (),
+                        },
+                    }
+                }
+                names
+                    .iter()
+                    .zip(vec![Parameters::Float(start)])
+                    .for_each(|(name, param)| {
+                        sram.insert(name.to_string(), param.clone());
+                    });
+                y.push(match interpret(&ast, &mut sram, &mut HashMap::new()) {
+                    Parameters::Float(p) => p,
+                    Parameters::Int(i) => i as f64,
+                    _ => f64::NAN,
+                });
+            }
+            start += steps;
+        }
+    } else {
+        match first_vector {
+            Some(t) => {
+                t.into_iter().for_each(|j| match j {
+                    Parameters::Int(i) => x.push(*i as f64),
+                    Parameters::Float(f) => x.push(*f),
+                    Parameters::Identifier(s) => match ram.as_ref().unwrap().get(s) {
+                        Some(Parameters::Int(i)) => x.push(*i as f64),
+                        Some(Parameters::Float(f)) => x.push(*f),
+                        _ => (),
+                    },
+                    _ => (),
+                });
+            }
+            _ => return Parameters::Null,
+        }
+
+        match second_vector {
+            Some(t) => {
+                t.into_iter().for_each(|j| match j {
+                    Parameters::Int(i) => y.push(*i as f64),
+                    Parameters::Float(f) => y.push(*f),
+                    Parameters::Identifier(s) => match ram.as_ref().unwrap().get(s) {
+                        Some(Parameters::Int(i)) => y.push(*i as f64),
+                        Some(Parameters::Float(f)) => y.push(*f),
+                        _ => (),
+                    },
+                    _ => (),
+                });
+            }
+            _ => return Parameters::Null,
+        }
+    }
+    println!("{:?}/{:?}", &x, &y);
     let mut f: Figure = Figure::new();
     let _ = match mode.to_lowercase().as_str() {
         "marks" => f

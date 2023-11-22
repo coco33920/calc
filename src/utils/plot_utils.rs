@@ -22,8 +22,8 @@ pub fn computes_lines(
         }
     });
 
-    let mut x_scale = (end - start) / 100.0;
-    let mut y_scale = (ymax - ymin) / 30.0;
+    let mut x_scale = (end - start) / 99.0;
+    let mut y_scale = (ymax - ymin) / 29.0;
 
     if x_scale == 0.0 {
         x_scale = 1.0;
@@ -40,6 +40,7 @@ pub fn computes_lines(
     });
 
     z.for_each(|(x, y)| {
+        println!("x: {x}, y: {y}");
         if x < 100 && y < 30 {
             bitmap[y][x] = '+';
         }

@@ -325,7 +325,7 @@ mod test {
     }
 
     #[test]
-    pub fn test_or_operation(){
+    pub fn test_or_operation() {
         let b = lex("false || true".to_string());
         let parser = &mut init_calc_parser(&b);
         let expected = Ast::Node {
@@ -333,7 +333,7 @@ mod test {
             left: Box::new(Ast::new(Parameters::Bool(false))),
             right: Box::new(Ast::new(Parameters::Bool(true))),
         };
-        assert_eq!(parser.parse(),expected);
+        assert_eq!(parser.parse(), expected);
     }
 
     #[test]
@@ -464,8 +464,12 @@ mod test {
     pub fn test_vector_parsing() {
         let b = lex("[2,2,2,2]".to_string());
         let parser = &mut init_calc_parser(&b);
-        let expected = Ast::Node { value: Parameters::Vector(Box::new(vec![Ast::new(Parameters::Int(2));4])), left: Box::new(Ast::Nil), right: Box::new(Ast::Nil) };
-        assert_eq!(parser.parse(),expected);
+        let expected = Ast::Node {
+            value: Parameters::Vector(Box::new(vec![Ast::new(Parameters::Int(2)); 4])),
+            left: Box::new(Ast::Nil),
+            right: Box::new(Ast::Nil),
+        };
+        assert_eq!(parser.parse(), expected);
     }
 
     #[test]
@@ -477,6 +481,6 @@ mod test {
             left: Box::new(Ast::Nil),
             right: Box::new(Ast::Nil),
         };
-        assert_eq!(parser.parse(),expected);
+        assert_eq!(parser.parse(), expected);
     }
 }

@@ -843,9 +843,9 @@ pub fn exp(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) 
                         None => (),
                         Some(s) => {
                             if plus {
-                                res.push(cos(&vec![s.clone(), Parameters::Float(ln)], ram))
+                                res.push(exp(&vec![s.clone(), Parameters::Float(ln)], ram))
                             } else {
-                                res.push(cos(&vec![s.clone()], ram))
+                                res.push(exp(&vec![s.clone()], ram))
                             }
                         }
                     },
@@ -902,6 +902,35 @@ pub fn ln(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) -
             } else {
                 Parameters::Float((*f).ln())
             }
+        }
+
+        Parameters::InterpreterVector(vec) => {
+            let mut res = Vec::new();
+            vec.clone().into_iter().for_each(|x| match x {
+                Parameters::Int(i) => res.push(Parameters::Float(if plus {
+                    (i as f64).log(sln)
+                } else {
+                    (i as f64).ln()
+                })),
+                Parameters::Float(f) => {
+                    res.push(Parameters::Float(if plus { f.log(sln) } else { f.ln() }))
+                }
+                Parameters::Identifier(s) => match ram {
+                    None => (),
+                    Some(ref t) => match t.get(s.as_str()) {
+                        None => (),
+                        Some(s) => {
+                            if plus {
+                                res.push(ln(&vec![s.clone(), Parameters::Float(sln)], ram))
+                            } else {
+                                res.push(ln(&vec![s.clone()], ram))
+                            }
+                        }
+                    },
+                },
+                _ => (),
+            });
+            Parameters::InterpreterVector(Box::from(res))
         }
         Parameters::Identifier(s) => match ram {
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),

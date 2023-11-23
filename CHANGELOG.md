@@ -1,3 +1,20 @@
+# Version 2.10.0 : Add function vectorization
+
+## Function
+Add vectorization to 
+- cos
+- sin 
+- tan 
+- cosh
+- sinh
+- tanh
+- acos
+- asin
+- atan
+- exp
+- ln/log 
+- sqrt
+
 # Version 2.9.10 : Fix bug, vector plotting
 
 ## Plot 

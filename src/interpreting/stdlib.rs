@@ -192,14 +192,14 @@ pub fn sin(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) 
             let mut res = Vec::new();
             vec.clone().into_iter().for_each(|x| match x {
                 Parameters::Int(i) => res.push(Parameters::Float(if degrees {
-                    ((i as f64) * PI / 180.0).cos()
+                    ((i as f64) * PI / 180.0).sin()
                 } else {
-                    (i as f64).cos()
+                    (i as f64).sin()
                 })),
                 Parameters::Float(f) => res.push(Parameters::Float(if degrees {
-                    (f * PI / 180.0).cos()
+                    (f * PI / 180.0).sin()
                 } else {
-                    f.cos()
+                    f.sin()
                 })),
                 Parameters::Identifier(s) => match ram {
                     None => (),
@@ -207,9 +207,9 @@ pub fn sin(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) 
                         None => (),
                         Some(s) => {
                             if degrees {
-                                res.push(cos(&vec![s.clone(), Parameters::Bool(false)], ram))
+                                res.push(sin(&vec![s.clone(), Parameters::Bool(false)], ram))
                             } else {
-                                res.push(cos(&vec![s.clone()], ram))
+                                res.push(sin(&vec![s.clone()], ram))
                             }
                         }
                     },

@@ -2,7 +2,7 @@
 {
   "styles": {
     "theme": "axodark",
-    "favicon": "https://www.axo.dev/favicon.ico"
+    "favicon": "docs/assets/favicon.ico"
   },
   "components": {
     "changelog": true,

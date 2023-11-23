@@ -306,6 +306,12 @@ You can round to the nth decimal with the round function, by default it round to
 
 ![img.png](docs/assets/round.png)
 
+### Vectorization 
+
+Function are now vectorized! Just pass a vector as an argument!
+
+![](docs/assets/sqrt_vectorized.png)
+
 ## Logic
 
 You can now use logic! I implemented the following functions:

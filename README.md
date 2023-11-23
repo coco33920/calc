@@ -29,6 +29,7 @@ or install it via cargo
 cargo install mini-calc
 ```
 
+
 ## Contributors
 
 |                                                                                                                                               | Name    | Role                     | Website                                     |

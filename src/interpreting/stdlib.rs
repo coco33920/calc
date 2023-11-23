@@ -111,6 +111,36 @@ pub fn cos(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) 
             let fs: f64 = if degrees { (*f) * (PI / 180.0) } else { *f };
             Parameters::Float(fs.cos())
         }
+        Parameters::InterpreterVector(vec) => {
+            let mut res = Vec::new();
+            vec.clone().into_iter().for_each(|x| match x {
+                Parameters::Int(i) => res.push(Parameters::Float(if degrees {
+                    ((i as f64) * PI / 180.0).cos()
+                } else {
+                    (i as f64).cos()
+                })),
+                Parameters::Float(f) => res.push(Parameters::Float(if degrees {
+                    (f * PI / 180.0).cos()
+                } else {
+                    f.cos()
+                })),
+                Parameters::Identifier(s) => match ram {
+                    None => (),
+                    Some(ref t) => match t.get(s.as_str()) {
+                        None => (),
+                        Some(s) => {
+                            if degrees {
+                                res.push(cos(&vec![s.clone(), Parameters::Bool(false)], ram))
+                            } else {
+                                res.push(cos(&vec![s.clone()], ram))
+                            }
+                        }
+                    },
+                },
+                _ => (),
+            });
+            Parameters::InterpreterVector(Box::from(res))
+        }
         Parameters::Identifier(s) => match ram {
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(ref t) => match t.get(s.as_str()) {
@@ -157,6 +187,36 @@ pub fn sin(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) 
         Parameters::Float(f) => {
             let fs: f64 = if degrees { (*f) * (PI / 180.0) } else { *f };
             Parameters::Float(fs.sin())
+        }
+        Parameters::InterpreterVector(vec) => {
+            let mut res = Vec::new();
+            vec.clone().into_iter().for_each(|x| match x {
+                Parameters::Int(i) => res.push(Parameters::Float(if degrees {
+                    ((i as f64) * PI / 180.0).sin()
+                } else {
+                    (i as f64).sin()
+                })),
+                Parameters::Float(f) => res.push(Parameters::Float(if degrees {
+                    (f * PI / 180.0).sin()
+                } else {
+                    f.sin()
+                })),
+                Parameters::Identifier(s) => match ram {
+                    None => (),
+                    Some(ref t) => match t.get(s.as_str()) {
+                        None => (),
+                        Some(s) => {
+                            if degrees {
+                                res.push(sin(&vec![s.clone(), Parameters::Bool(false)], ram))
+                            } else {
+                                res.push(sin(&vec![s.clone()], ram))
+                            }
+                        }
+                    },
+                },
+                _ => (),
+            });
+            Parameters::InterpreterVector(Box::from(res))
         }
         Parameters::Identifier(s) => match ram {
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
@@ -205,6 +265,37 @@ pub fn tan(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) 
             let fs: f64 = if degrees { (*f) * (PI / 180.0) } else { *f };
             Parameters::Float(fs.tan())
         }
+
+        Parameters::InterpreterVector(vec) => {
+            let mut res = Vec::new();
+            vec.clone().into_iter().for_each(|x| match x {
+                Parameters::Int(i) => res.push(Parameters::Float(if degrees {
+                    ((i as f64) * PI / 180.0).tan()
+                } else {
+                    (i as f64).tan()
+                })),
+                Parameters::Float(f) => res.push(Parameters::Float(if degrees {
+                    (f * PI / 180.0).tan()
+                } else {
+                    f.tan()
+                })),
+                Parameters::Identifier(s) => match ram {
+                    None => (),
+                    Some(ref t) => match t.get(s.as_str()) {
+                        None => (),
+                        Some(s) => {
+                            if degrees {
+                                res.push(tan(&vec![s.clone(), Parameters::Bool(false)], ram))
+                            } else {
+                                res.push(tan(&vec![s.clone()], ram))
+                            }
+                        }
+                    },
+                },
+                _ => (),
+            });
+            Parameters::InterpreterVector(Box::from(res))
+        }
         Parameters::Identifier(s) => match ram {
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(ref t) => match t.get(s.as_str()) {
@@ -251,6 +342,37 @@ pub fn cosh(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>)
         Parameters::Float(f) => {
             let fs: f64 = if degrees { (*f) * (PI / 180.0) } else { *f };
             Parameters::Float(fs.cosh())
+        }
+
+        Parameters::InterpreterVector(vec) => {
+            let mut res = Vec::new();
+            vec.clone().into_iter().for_each(|x| match x {
+                Parameters::Int(i) => res.push(Parameters::Float(if degrees {
+                    ((i as f64) * PI / 180.0).cosh()
+                } else {
+                    (i as f64).cosh()
+                })),
+                Parameters::Float(f) => res.push(Parameters::Float(if degrees {
+                    (f * PI / 180.0).cosh()
+                } else {
+                    f.cosh()
+                })),
+                Parameters::Identifier(s) => match ram {
+                    None => (),
+                    Some(ref t) => match t.get(s.as_str()) {
+                        None => (),
+                        Some(s) => {
+                            if degrees {
+                                res.push(cosh(&vec![s.clone(), Parameters::Bool(false)], ram))
+                            } else {
+                                res.push(cosh(&vec![s.clone()], ram))
+                            }
+                        }
+                    },
+                },
+                _ => (),
+            });
+            Parameters::InterpreterVector(Box::from(res))
         }
         Parameters::Identifier(s) => match ram {
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
@@ -299,6 +421,37 @@ pub fn sinh(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>)
             let fs: f64 = if degrees { (*f) * (PI / 180.0) } else { *f };
             Parameters::Float(fs.sinh())
         }
+
+        Parameters::InterpreterVector(vec) => {
+            let mut res = Vec::new();
+            vec.clone().into_iter().for_each(|x| match x {
+                Parameters::Int(i) => res.push(Parameters::Float(if degrees {
+                    ((i as f64) * PI / 180.0).sinh()
+                } else {
+                    (i as f64).sinh()
+                })),
+                Parameters::Float(f) => res.push(Parameters::Float(if degrees {
+                    (f * PI / 180.0).sinh()
+                } else {
+                    f.sinh()
+                })),
+                Parameters::Identifier(s) => match ram {
+                    None => (),
+                    Some(ref t) => match t.get(s.as_str()) {
+                        None => (),
+                        Some(s) => {
+                            if degrees {
+                                res.push(sinh(&vec![s.clone(), Parameters::Bool(false)], ram))
+                            } else {
+                                res.push(sinh(&vec![s.clone()], ram))
+                            }
+                        }
+                    },
+                },
+                _ => (),
+            });
+            Parameters::InterpreterVector(Box::from(res))
+        }
         Parameters::Identifier(s) => match ram {
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(ref t) => match t.get(s.as_str()) {
@@ -345,6 +498,37 @@ pub fn tanh(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>)
         Parameters::Float(f) => {
             let fs: f64 = if degrees { (*f) * (PI / 180.0) } else { *f };
             Parameters::Float(fs.tanh())
+        }
+
+        Parameters::InterpreterVector(vec) => {
+            let mut res = Vec::new();
+            vec.clone().into_iter().for_each(|x| match x {
+                Parameters::Int(i) => res.push(Parameters::Float(if degrees {
+                    ((i as f64) * PI / 180.0).tanh()
+                } else {
+                    (i as f64).tanh()
+                })),
+                Parameters::Float(f) => res.push(Parameters::Float(if degrees {
+                    (f * PI / 180.0).tanh()
+                } else {
+                    f.tanh()
+                })),
+                Parameters::Identifier(s) => match ram {
+                    None => (),
+                    Some(ref t) => match t.get(s.as_str()) {
+                        None => (),
+                        Some(s) => {
+                            if degrees {
+                                res.push(tanh(&vec![s.clone(), Parameters::Bool(false)], ram))
+                            } else {
+                                res.push(tanh(&vec![s.clone()], ram))
+                            }
+                        }
+                    },
+                },
+                _ => (),
+            });
+            Parameters::InterpreterVector(Box::from(res))
         }
         Parameters::Identifier(s) => match ram {
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
@@ -394,6 +578,37 @@ pub fn acos(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>)
         } else {
             f.acos()
         }),
+
+        Parameters::InterpreterVector(vec) => {
+            let mut res = Vec::new();
+            vec.clone().into_iter().for_each(|x| match x {
+                Parameters::Int(i) => res.push(Parameters::Float(if degrees {
+                    ((i as f64) * PI / 180.0).acos()
+                } else {
+                    (i as f64).acos()
+                })),
+                Parameters::Float(f) => res.push(Parameters::Float(if degrees {
+                    (f * PI / 180.0).acos()
+                } else {
+                    f.acos()
+                })),
+                Parameters::Identifier(s) => match ram {
+                    None => (),
+                    Some(ref t) => match t.get(s.as_str()) {
+                        None => (),
+                        Some(s) => {
+                            if degrees {
+                                res.push(acos(&vec![s.clone(), Parameters::Bool(false)], ram))
+                            } else {
+                                res.push(acos(&vec![s.clone()], ram))
+                            }
+                        }
+                    },
+                },
+                _ => (),
+            });
+            Parameters::InterpreterVector(Box::from(res))
+        }
         Parameters::Identifier(s) => match ram {
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(ref t) => match t.get(s.as_str()) {
@@ -442,6 +657,37 @@ pub fn asin(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>)
         } else {
             f.asin()
         }),
+
+        Parameters::InterpreterVector(vec) => {
+            let mut res = Vec::new();
+            vec.clone().into_iter().for_each(|x| match x {
+                Parameters::Int(i) => res.push(Parameters::Float(if degrees {
+                    ((i as f64) * PI / 180.0).asin()
+                } else {
+                    (i as f64).asin()
+                })),
+                Parameters::Float(f) => res.push(Parameters::Float(if degrees {
+                    (f * PI / 180.0).asin()
+                } else {
+                    f.asin()
+                })),
+                Parameters::Identifier(s) => match ram {
+                    None => (),
+                    Some(ref t) => match t.get(s.as_str()) {
+                        None => (),
+                        Some(s) => {
+                            if degrees {
+                                res.push(asin(&vec![s.clone(), Parameters::Bool(false)], ram))
+                            } else {
+                                res.push(asin(&vec![s.clone()], ram))
+                            }
+                        }
+                    },
+                },
+                _ => (),
+            });
+            Parameters::InterpreterVector(Box::from(res))
+        }
         Parameters::Identifier(s) => match ram {
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(ref t) => match t.get(s.as_str()) {
@@ -490,6 +736,37 @@ pub fn atan(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>)
         } else {
             f.atan()
         }),
+
+        Parameters::InterpreterVector(vec) => {
+            let mut res = Vec::new();
+            vec.clone().into_iter().for_each(|x| match x {
+                Parameters::Int(i) => res.push(Parameters::Float(if degrees {
+                    ((i as f64) * PI / 180.0).atan()
+                } else {
+                    (i as f64).atan()
+                })),
+                Parameters::Float(f) => res.push(Parameters::Float(if degrees {
+                    (f * PI / 180.0).atan()
+                } else {
+                    f.atan()
+                })),
+                Parameters::Identifier(s) => match ram {
+                    None => (),
+                    Some(ref t) => match t.get(s.as_str()) {
+                        None => (),
+                        Some(s) => {
+                            if degrees {
+                                res.push(atan(&vec![s.clone(), Parameters::Bool(false)], ram))
+                            } else {
+                                res.push(atan(&vec![s.clone()], ram))
+                            }
+                        }
+                    },
+                },
+                _ => (),
+            });
+            Parameters::InterpreterVector(Box::from(res))
+        }
         Parameters::Identifier(s) => match ram {
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(ref t) => match t.get(s.as_str()) {
@@ -548,6 +825,35 @@ pub fn exp(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) 
                 Parameters::Float((*f).exp())
             }
         }
+
+        Parameters::InterpreterVector(vec) => {
+            let mut res = Vec::new();
+            vec.clone().into_iter().for_each(|x| match x {
+                Parameters::Int(i) => res.push(Parameters::Float(if plus {
+                    ln.powf(i as f64)
+                } else {
+                    (i as f64).exp()
+                })),
+                Parameters::Float(f) => {
+                    res.push(Parameters::Float(if plus { ln.powf(f) } else { f.exp() }))
+                }
+                Parameters::Identifier(s) => match ram {
+                    None => (),
+                    Some(ref t) => match t.get(s.as_str()) {
+                        None => (),
+                        Some(s) => {
+                            if plus {
+                                res.push(exp(&vec![s.clone(), Parameters::Float(ln)], ram))
+                            } else {
+                                res.push(exp(&vec![s.clone()], ram))
+                            }
+                        }
+                    },
+                },
+                _ => (),
+            });
+            Parameters::InterpreterVector(Box::from(res))
+        }
         Parameters::Identifier(s) => match ram {
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(ref t) => match t.get(s.as_str()) {
@@ -597,6 +903,35 @@ pub fn ln(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) -
                 Parameters::Float((*f).ln())
             }
         }
+
+        Parameters::InterpreterVector(vec) => {
+            let mut res = Vec::new();
+            vec.clone().into_iter().for_each(|x| match x {
+                Parameters::Int(i) => res.push(Parameters::Float(if plus {
+                    (i as f64).log(sln)
+                } else {
+                    (i as f64).ln()
+                })),
+                Parameters::Float(f) => {
+                    res.push(Parameters::Float(if plus { f.log(sln) } else { f.ln() }))
+                }
+                Parameters::Identifier(s) => match ram {
+                    None => (),
+                    Some(ref t) => match t.get(s.as_str()) {
+                        None => (),
+                        Some(s) => {
+                            if plus {
+                                res.push(ln(&vec![s.clone(), Parameters::Float(sln)], ram))
+                            } else {
+                                res.push(ln(&vec![s.clone()], ram))
+                            }
+                        }
+                    },
+                },
+                _ => (),
+            });
+            Parameters::InterpreterVector(Box::from(res))
+        }
         Parameters::Identifier(s) => match ram {
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(ref t) => match t.get(s.as_str()) {
@@ -645,6 +980,37 @@ pub fn sqrt(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>)
             } else {
                 Parameters::Float((*f).sqrt())
             }
+        }
+
+        Parameters::InterpreterVector(vec) => {
+            let mut res = Vec::new();
+            vec.clone().into_iter().for_each(|x| match x {
+                Parameters::Int(i) => res.push(Parameters::Float(if plus {
+                    (i as f64).powf(1.0 / sln)
+                } else {
+                    (i as f64).sqrt()
+                })),
+                Parameters::Float(f) => res.push(Parameters::Float(if plus {
+                    f.powf(1.0 / sln)
+                } else {
+                    f.sqrt()
+                })),
+                Parameters::Identifier(s) => match ram {
+                    None => (),
+                    Some(ref t) => match t.get(s.as_str()) {
+                        None => (),
+                        Some(s) => {
+                            if plus {
+                                res.push(sqrt(&vec![s.clone(), Parameters::Float(sln)], ram))
+                            } else {
+                                res.push(sqrt(&vec![s.clone()], ram))
+                            }
+                        }
+                    },
+                },
+                _ => (),
+            });
+            Parameters::InterpreterVector(Box::from(res))
         }
         Parameters::Identifier(s) => match ram {
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),

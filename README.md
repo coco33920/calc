@@ -28,11 +28,3 @@ or install it via cargo
 ```bash 
 cargo install mini-calc
 ```
-
-## Usage
-
-https://github.com/coco33920/calc/assets/17108449/1e35c8c8-02b4-46a5-b4e3-76a50ac4e344
-
-
-
-<video src="assets/homepage.mp4"/>

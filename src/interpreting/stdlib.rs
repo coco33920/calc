@@ -825,6 +825,35 @@ pub fn exp(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) 
                 Parameters::Float((*f).exp())
             }
         }
+
+        Parameters::InterpreterVector(vec) => {
+            let mut res = Vec::new();
+            vec.clone().into_iter().for_each(|x| match x {
+                Parameters::Int(i) => res.push(Parameters::Float(if plus {
+                    ln.powf(i as f64)
+                } else {
+                    (i as f64).exp()
+                })),
+                Parameters::Float(f) => {
+                    res.push(Parameters::Float(if plus { ln.powf(f) } else { f.exp() }))
+                }
+                Parameters::Identifier(s) => match ram {
+                    None => (),
+                    Some(ref t) => match t.get(s.as_str()) {
+                        None => (),
+                        Some(s) => {
+                            if plus {
+                                res.push(cos(&vec![s.clone(), Parameters::Float(ln)], ram))
+                            } else {
+                                res.push(cos(&vec![s.clone()], ram))
+                            }
+                        }
+                    },
+                },
+                _ => (),
+            });
+            Parameters::InterpreterVector(Box::from(res))
+        }
         Parameters::Identifier(s) => match ram {
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(ref t) => match t.get(s.as_str()) {

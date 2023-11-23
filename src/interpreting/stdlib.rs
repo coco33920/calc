@@ -265,6 +265,37 @@ pub fn tan(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) 
             let fs: f64 = if degrees { (*f) * (PI / 180.0) } else { *f };
             Parameters::Float(fs.tan())
         }
+
+        Parameters::InterpreterVector(vec) => {
+            let mut res = Vec::new();
+            vec.clone().into_iter().for_each(|x| match x {
+                Parameters::Int(i) => res.push(Parameters::Float(if degrees {
+                    ((i as f64) * PI / 180.0).tan()
+                } else {
+                    (i as f64).tan()
+                })),
+                Parameters::Float(f) => res.push(Parameters::Float(if degrees {
+                    (f * PI / 180.0).tan()
+                } else {
+                    f.tan()
+                })),
+                Parameters::Identifier(s) => match ram {
+                    None => (),
+                    Some(ref t) => match t.get(s.as_str()) {
+                        None => (),
+                        Some(s) => {
+                            if degrees {
+                                res.push(tan(&vec![s.clone(), Parameters::Bool(false)], ram))
+                            } else {
+                                res.push(tan(&vec![s.clone()], ram))
+                            }
+                        }
+                    },
+                },
+                _ => (),
+            });
+            Parameters::InterpreterVector(Box::from(res))
+        }
         Parameters::Identifier(s) => match ram {
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(ref t) => match t.get(s.as_str()) {

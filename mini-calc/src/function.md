@@ -3,23 +3,23 @@
 The following functions are available
 
 Trigonometry
-- sin
-- cos
-- tan
+- sin (vectorized)
+- cos (vectorized)
+- tan (vectorized)
 
 Hyperbolic trigonometry
-- sinh
-- cosh
-- tanh
+- sinh (vectorized)  
+- cosh (vectorized)
+- tanh (vectorized)
 
 Reverse trigonometry
-- asin
-- acos
-- atan
+- asin (vectorized)
+- acos (vectorized)
+- atan (vectorized)
 
 Exponentiation
-- exp
-- ln (alias: log)
+- exp (vectorized)
+- ln (alias: log) (vectorized)
 
 Vectors
 - norm
@@ -33,7 +33,7 @@ Plot
 - termplot
 
 Other
-- sqrt
+- sqrt (vectorized)
 - factorial (aliases: fact or !)
 - abs
 - ceil
@@ -67,3 +67,9 @@ You can round to the nth decimal with the round function, by default it round to
 The language supports partial function
 
 [![img.png](../assets/function.png)](../assets/function.png)
+
+## Vectorization
+
+Function has been vectorized, for example
+
+[![](../assets/sqrt_vectorized.png)](../sqrt_vectorized.png)

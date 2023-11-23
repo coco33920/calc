@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>mini-calc Changelog</title><link>http://127.0.0.1:7979/changelog</link><description>Changelog information for mini-calc</description><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><atom:link href="http://127.0.0.1:7979/changelog.rss" rel="self"/><item><title>Version 2.9.10 : Fix bug, vector plotting</title><link>http://127.0.0.1:7979/changelog/2.9.10</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.9.10</guid><content:encoded><![CDATA[<h2>Plot</h2>
+<?xml version="1.0" encoding="utf-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>mini-calc Changelog</title><link>http://127.0.0.1:7979/changelog</link><description>Changelog information for mini-calc</description><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><atom:link href="http://127.0.0.1:7979/changelog.rss" rel="self"/><item><title>Version 2.10.0 : Add function vectorization</title><link>http://127.0.0.1:7979/changelog/2.10.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.10.0</guid><content:encoded><![CDATA[<h2>Function</h2>
+<p>Add vectorization to</p>
+<ul>
+<li>cos</li>
+<li>sin</li>
+<li>tan</li>
+<li>cosh</li>
+<li>sinh</li>
+<li>tanh</li>
+<li>acos</li>
+<li>asin</li>
+<li>atan</li>
+<li>exp</li>
+<li>ln/log</li>
+<li>sqrt</li>
+</ul>
+]]></content:encoded></item><item><title>Version 2.9.10 : Fix bug, vector plotting</title><link>http://127.0.0.1:7979/changelog/2.9.10</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.9.10</guid><content:encoded><![CDATA[<h2>Plot</h2>
 <ul>
 <li>add vector plotting</li>
 </ul>

@@ -657,6 +657,37 @@ pub fn asin(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>)
         } else {
             f.asin()
         }),
+
+        Parameters::InterpreterVector(vec) => {
+            let mut res = Vec::new();
+            vec.clone().into_iter().for_each(|x| match x {
+                Parameters::Int(i) => res.push(Parameters::Float(if degrees {
+                    ((i as f64) * PI / 180.0).asin()
+                } else {
+                    (i as f64).asin()
+                })),
+                Parameters::Float(f) => res.push(Parameters::Float(if degrees {
+                    (f * PI / 180.0).asin()
+                } else {
+                    f.asin()
+                })),
+                Parameters::Identifier(s) => match ram {
+                    None => (),
+                    Some(ref t) => match t.get(s.as_str()) {
+                        None => (),
+                        Some(s) => {
+                            if degrees {
+                                res.push(asin(&vec![s.clone(), Parameters::Bool(false)], ram))
+                            } else {
+                                res.push(asin(&vec![s.clone()], ram))
+                            }
+                        }
+                    },
+                },
+                _ => (),
+            });
+            Parameters::InterpreterVector(Box::from(res))
+        }
         Parameters::Identifier(s) => match ram {
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(ref t) => match t.get(s.as_str()) {

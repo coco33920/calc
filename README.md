@@ -188,15 +188,21 @@ As this project provides a frontend with a parser we could plug an exact math en
 real exact math calculator.
 TODO List for the Exact Math Engine
 
-- [ ] Rational calculation
-  - [ ] Implement rational numbers operations 
-  - [ ] Rational reduction
+- [X] Rational calculation
+  - [X] Implement rational numbers operations 
+  - [X] Rational reduction
 - [ ] Irrational calculation 
   - [ ] Implement irrational numbers operations
   - [ ] Irrational reduction
 - [ ] Literal calculation
   - [ ] Computes literal expression with uninitialized operators
   - [ ] Literal reduction
+
+#### Example of rational computations
+
+As of 2.11.0 the support for rational exact math has been implemented
+
+![](docs/assets/exact_rationals.png)
 
 ### CAS
 

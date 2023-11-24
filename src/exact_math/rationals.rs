@@ -1,4 +1,4 @@
-use std::ops;
+use std::{fmt::Display, ops};
 
 use crate::utils::integer_utils::gcd;
 
@@ -18,8 +18,13 @@ impl Rationals {
     pub fn new(under: i64, over: i64) -> Self {
         Rationals { under, over }
     }
+
+    pub fn approx(self) -> f64 {
+        return self.over as f64 / self.under as f64;
+    }
+
     pub fn reduce(self) -> Self {
-        let mut minus = false;
+        let minus;
         let i1;
         let i2;
         if self.over < 0 && self.under > 0 {
@@ -57,6 +62,17 @@ impl Rationals {
                 under: new_under,
                 over: new_over,
             };
+        }
+    }
+}
+
+impl Display for Rationals {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let fs = self.clone().reduce();
+        if fs.under == 1 {
+            write!(f, "{}", fs.over)
+        } else {
+            write!(f, "{}/{}", fs.over, fs.under)
         }
     }
 }

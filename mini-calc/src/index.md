@@ -78,3 +78,7 @@ functions added
 - det 
 
 [![](../assets/matrix.png)](../assets/matrix.png)
+
+As of 2.11.2 the matrices are pretty-printed!
+
+[![](../assets/matrix_pretty_printed.png)](../assets/matrix_pretty_printed.png)

@@ -150,7 +150,27 @@ impl Parameters {
                 if !matrix {
                     format!("|{}|", vec.join(" "))
                 } else {
-                    format!("{}", vec.join("\n"))
+                    let mut vss = Vec::new();
+                    let mut vfinal = Vec::new();
+                    let mut max_size = 0;
+                    vec.clone()
+                        .into_iter()
+                        .for_each(|x| vss.push(x[1..(x.len() - 1)].to_string()));
+                    vec.into_iter().for_each(|x| {
+                        if x.len() > max_size {
+                            max_size = x.len()
+                        }
+                    });
+                    for ele in vss {
+                        if ele.len() < max_size - 2 {
+                            let v = vec![" "; max_size - 2 - ele.len()];
+                            vfinal.push(format!("{}{}", ele, v.join("")));
+                        } else {
+                            vfinal.push(format!("{ele}"));
+                        }
+                    }
+                    let s = format!("|{}|", vfinal.join("|\n|"));
+                    s
                 }
             }
             _ => format!("{self}"),

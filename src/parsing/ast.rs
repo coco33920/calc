@@ -150,9 +150,7 @@ impl Parameters {
                 if !matrix {
                     format!("|{}|", vec.join(" "))
                 } else {
-                    let f = format!("{}", vec.first().unwrap()).len();
-                    let vs = vec!["𝁇"; f];
-                    format!("{}\n{}\n{}", vs.join(""), vec.join("\n"), vs.join(""))
+                    format!("{}", vec.join("\n"))
                 }
             }
             _ => format!("{self}"),

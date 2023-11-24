@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::ptr::eq;
 
 use crate::exact_math::rationals::Rationals;
 use crate::parsing::ast::Parameters;
@@ -109,6 +110,18 @@ pub fn add(i: Parameters, i2: Parameters, ram: Option<&HashMap<String, Parameter
         (Parameters::Null, Parameters::Identifier(s)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Null, ram, add)
         }
+        (Parameters::Rational(s), Parameters::Identifier(ss)) => apply_operator_reverse(
+            Parameters::Rational(s.clone()),
+            Parameters::Identifier(ss.clone()),
+            ram,
+            add,
+        ),
+        (Parameters::Identifier(ss), Parameters::Rational(s)) => apply_operator(
+            Parameters::Identifier(ss),
+            Parameters::Rational(s),
+            ram,
+            add,
+        ),
         (Parameters::Identifier(s), Parameters::Null) => {
             apply_operator(Parameters::Identifier(s), Parameters::Null, ram, add)
         }
@@ -217,6 +230,19 @@ pub fn minus(
         (Parameters::Null, Parameters::Identifier(s)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Null, ram, minus)
         }
+
+        (Parameters::Rational(s), Parameters::Identifier(ss)) => apply_operator_reverse(
+            Parameters::Rational(s.clone()),
+            Parameters::Identifier(ss.clone()),
+            ram,
+            minus,
+        ),
+        (Parameters::Identifier(ss), Parameters::Rational(s)) => apply_operator(
+            Parameters::Identifier(ss),
+            Parameters::Rational(s),
+            ram,
+            minus,
+        ),
         (Parameters::Identifier(s), Parameters::Null) => {
             apply_operator(Parameters::Identifier(s), Parameters::Null, ram, minus)
         }
@@ -389,6 +415,19 @@ pub fn mult(
         (Parameters::Identifier(s), Parameters::Int(i)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Int(i), ram, mult)
         }
+
+        (Parameters::Rational(s), Parameters::Identifier(ss)) => apply_operator_reverse(
+            Parameters::Rational(s.clone()),
+            Parameters::Identifier(ss.clone()),
+            ram,
+            mult,
+        ),
+        (Parameters::Identifier(ss), Parameters::Rational(s)) => apply_operator(
+            Parameters::Identifier(ss),
+            Parameters::Rational(s),
+            ram,
+            mult,
+        ),
         (Parameters::Int(i), Parameters::Identifier(s)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Int(i), ram, mult)
         }
@@ -475,6 +514,20 @@ pub fn divide(
             ram,
             divide,
         ),
+
+        (Parameters::Rational(s), Parameters::Identifier(ss)) => apply_operator_reverse(
+            Parameters::Rational(s.clone()),
+            Parameters::Identifier(ss.clone()),
+            ram,
+            divide,
+        ),
+        (Parameters::Identifier(ss), Parameters::Rational(s)) => apply_operator(
+            Parameters::Identifier(ss),
+            Parameters::Rational(s),
+            ram,
+            divide,
+        ),
+
         (Parameters::Identifier(s), Parameters::Int(i)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Int(i), ram, divide)
         }
@@ -563,6 +616,19 @@ pub fn expo(
         (Parameters::Identifier(s), Parameters::Float(i)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Float(i), ram, expo)
         }
+
+        (Parameters::Rational(s), Parameters::Identifier(ss)) => apply_operator_reverse(
+            Parameters::Rational(s.clone()),
+            Parameters::Identifier(ss.clone()),
+            ram,
+            expo,
+        ),
+        (Parameters::Identifier(ss), Parameters::Rational(s)) => apply_operator(
+            Parameters::Identifier(ss),
+            Parameters::Rational(s),
+            ram,
+            expo,
+        ),
         (Parameters::Identifier(s), Parameters::Null) => {
             apply_operator(Parameters::Identifier(s), Parameters::Null, ram, expo)
         }
@@ -623,6 +689,19 @@ pub fn greater(
         (Parameters::Identifier(s), Parameters::Identifier(s2)) => apply_operator(
             Parameters::Identifier(s),
             Parameters::Identifier(s2),
+            ram,
+            greater,
+        ),
+
+        (Parameters::Rational(s), Parameters::Identifier(ss)) => apply_operator_reverse(
+            Parameters::Rational(s.clone()),
+            Parameters::Identifier(ss.clone()),
+            ram,
+            greater,
+        ),
+        (Parameters::Identifier(ss), Parameters::Rational(s)) => apply_operator(
+            Parameters::Identifier(ss),
+            Parameters::Rational(s),
             ram,
             greater,
         ),
@@ -703,6 +782,18 @@ pub fn lesser(
         (Parameters::Null, Parameters::Identifier(s)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Null, ram, lesser)
         }
+        (Parameters::Rational(s), Parameters::Identifier(ss)) => apply_operator_reverse(
+            Parameters::Rational(s.clone()),
+            Parameters::Identifier(ss.clone()),
+            ram,
+            lesser,
+        ),
+        (Parameters::Identifier(ss), Parameters::Rational(s)) => apply_operator(
+            Parameters::Identifier(ss),
+            Parameters::Rational(s),
+            ram,
+            lesser,
+        ),
         (Parameters::Identifier(s), Parameters::Null) => {
             apply_operator(Parameters::Identifier(s), Parameters::Null, ram, lesser)
         }
@@ -781,6 +872,19 @@ pub fn greater_or_equal(
             ram,
             greater_or_equal,
         ),
+
+        (Parameters::Rational(s), Parameters::Identifier(ss)) => apply_operator_reverse(
+            Parameters::Rational(s.clone()),
+            Parameters::Identifier(ss.clone()),
+            ram,
+            greater_or_equal,
+        ),
+        (Parameters::Identifier(ss), Parameters::Rational(s)) => apply_operator(
+            Parameters::Identifier(ss),
+            Parameters::Rational(s),
+            ram,
+            greater_or_equal,
+        ),
         (Parameters::Int(i), Parameters::Identifier(s)) => apply_operator_reverse(
             Parameters::Int(i),
             Parameters::Identifier(s),
@@ -850,6 +954,19 @@ pub fn lesser_or_equal(
         (Parameters::Identifier(s), Parameters::Int(i)) => apply_operator(
             Parameters::Identifier(s),
             Parameters::Int(i),
+            ram,
+            lesser_or_equal,
+        ),
+
+        (Parameters::Rational(s), Parameters::Identifier(ss)) => apply_operator_reverse(
+            Parameters::Rational(s.clone()),
+            Parameters::Identifier(ss.clone()),
+            ram,
+            lesser_or_equal,
+        ),
+        (Parameters::Identifier(ss), Parameters::Rational(s)) => apply_operator(
+            Parameters::Identifier(ss),
+            Parameters::Rational(s),
             ram,
             lesser_or_equal,
         ),
@@ -955,6 +1072,19 @@ pub fn equal(
         (Parameters::Identifier(s), Bool(b)) => {
             apply_operator(Parameters::Identifier(s), Bool(b), ram, equal)
         }
+
+        (Parameters::Rational(s), Parameters::Identifier(ss)) => apply_operator_reverse(
+            Parameters::Rational(s.clone()),
+            Parameters::Identifier(ss.clone()),
+            ram,
+            equal,
+        ),
+        (Parameters::Identifier(ss), Parameters::Rational(s)) => apply_operator(
+            Parameters::Identifier(ss),
+            Parameters::Rational(s),
+            ram,
+            equal,
+        ),
 
         _ => Parameters::Identifier(
             "@Those two values are incompatible with the == operator".to_string(),

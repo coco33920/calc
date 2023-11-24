@@ -1,4 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>mini-calc Changelog</title><link>http://127.0.0.1:7979/changelog</link><description>Changelog information for mini-calc</description><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><atom:link href="http://127.0.0.1:7979/changelog.rss" rel="self"/><item><title>Version 2.10.0 : Add function vectorization</title><link>http://127.0.0.1:7979/changelog/2.10.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.10.0</guid><content:encoded><![CDATA[<h2>Function</h2>
+<?xml version="1.0" encoding="utf-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>mini-calc Changelog</title><link>http://127.0.0.1:7979/changelog</link><description>Changelog information for mini-calc</description><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><atom:link href="http://127.0.0.1:7979/changelog.rss" rel="self"/><item><title>Version 2.11.0 : Exact rational math</title><link>http://127.0.0.1:7979/changelog/2.11.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.11.0</guid><content:encoded><![CDATA[<h2>Exact math</h2>
+<ul>
+<li>Added exact rational math</li>
+<li>Rational operation</li>
+<li>Rational reduction</li>
+</ul>
+<h2>Bug fix</h2>
+<ul>
+<li>fix bug with acos,asin,atan functions while vectorize</li>
+</ul>
+]]></content:encoded></item><item><title>Version 2.10.0 : Add function vectorization</title><link>http://127.0.0.1:7979/changelog/2.10.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.10.0</guid><content:encoded><![CDATA[<h2>Function</h2>
 <p>Add vectorization to</p>
 <ul>
 <li>cos</li>

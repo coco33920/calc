@@ -21,6 +21,7 @@ mod interpreting;
 mod lexing;
 mod parsing;
 mod utils;
+mod exact_math;
 
 fn show_config(config: Config) -> (String, Option<Config>) {
     let loaded = load_config(config.clone());

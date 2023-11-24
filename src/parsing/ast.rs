@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-use std::fmt::{Display, Formatter};
+use std::fmt::{format, Display, Formatter};
 
 use crate::exact_math::rationals::Rationals;
 use crate::lexing::token::{Operator, Token};
@@ -126,6 +126,7 @@ impl Parameters {
             }
             InterpreterVector(lst) => {
                 let mut vec = Vec::new();
+
                 lst.iter()
                     .map(|x| {
                         x.pretty_print(
@@ -134,7 +135,25 @@ impl Parameters {
                         )
                     })
                     .for_each(|x| vec.push(x));
-                format!("[{}]", vec.join(","))
+                /*-------------
+                 * |1 2 3 4 5 6 |
+                 * -------------
+                 */
+                let mut matrix = false;
+                if vec.len() == 0 {
+                    return format!("");
+                }
+                match lst.first().unwrap() {
+                    Parameters::InterpreterVector(_) => matrix = true,
+                    _ => (),
+                }
+                if !matrix {
+                    format!("|{}|", vec.join(" "))
+                } else {
+                    let f = format!("{}", vec.first().unwrap()).len();
+                    let vs = vec!["𝁇"; f];
+                    format!("{}\n{}\n{}", vs.join(""), vec.join("\n"), vs.join(""))
+                }
             }
             _ => format!("{self}"),
         }

@@ -1,3 +1,5 @@
+use std::ops;
+
 use crate::utils::integer_utils::gcd;
 
 #[derive(Debug, Clone)]
@@ -102,11 +104,25 @@ impl PartialOrd for Rationals {
             None
         }
     }
+
     fn le(&self, other: &Self) -> bool {
         return self < other || self == other;
     }
     fn ge(&self, other: &Self) -> bool {
         return self > other || self == other;
+    }
+}
+
+impl ops::Add for Rationals {
+    type Output = Rationals;
+    fn add(self, rhs: Self) -> Self::Output {
+        if self.under == rhs.under {
+            Rationals::new(self.under, self.over + rhs.over).reduce()
+        } else {
+            let f1 = self.put_to_denominator(rhs.under);
+            let f2 = rhs.put_to_denominator(self.under);
+            Rationals::new(f1.under, f1.over + f2.over).reduce()
+        }
     }
 }
 
@@ -145,5 +161,19 @@ mod test {
     pub fn test_reduce_two() {
         let f1 = Rationals::new(15, 9);
         assert_eq!(Rationals::new(5, 3), f1.reduce());
+    }
+
+    #[test]
+    pub fn add_easy() {
+        let expected = Rationals::new(3, 5);
+        let value = Rationals::new(3, 1) + Rationals::new(3, 4);
+        assert_eq!(value, expected)
+    }
+
+    #[test]
+    pub fn add() {
+        let expected = Rationals::new(26, 71);
+        let value = Rationals::new(13, 3) + Rationals::new(2, 5);
+        assert_eq!(value, expected);
     }
 }

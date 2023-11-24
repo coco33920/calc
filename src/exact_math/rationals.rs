@@ -1,3 +1,5 @@
+use crate::utils::integer_utils::gcd;
+
 #[derive(Debug, Clone)]
 pub struct Rationals {
     pub under: i64,
@@ -13,6 +15,47 @@ impl Rationals {
     }
     pub fn new(under: i64, over: i64) -> Self {
         Rationals { under, over }
+    }
+    pub fn reduce(self) -> Self {
+        let mut minus = false;
+        let i1;
+        let i2;
+        if self.over < 0 && self.under > 0 {
+            minus = true;
+            i1 = -self.over;
+            i2 = self.under;
+        } else if self.over > 0 && self.under < 0 {
+            minus = true;
+            i1 = self.over;
+            i2 = -self.under;
+        } else {
+            minus = false;
+            i1 = self.over;
+            i2 = self.under;
+        }
+
+        if i1 == 0 && i2 == 0 {
+            return Rationals { under: 0, over: 0 };
+        } else if i1 == 0 {
+            return Rationals { under: 1, over: 0 };
+        } else if i2 == 0 {
+            return Rationals {
+                under: 1,
+                over: i64::MAX,
+            };
+        } else {
+            let gcd = gcd(i1, i2);
+            let new_under = self.under / gcd;
+            let new_over = if minus {
+                -(self.over / gcd)
+            } else {
+                self.over / gcd
+            };
+            return Rationals {
+                under: new_under,
+                over: new_over,
+            };
+        }
     }
 }
 
@@ -90,5 +133,17 @@ mod test {
         let f1 = Rationals::new(2, 3);
         let f2 = Rationals::new(3, 1);
         assert_eq!(f2 < f1, true);
+    }
+
+    #[test]
+    pub fn test_reduce_one() {
+        let f1 = Rationals::new(10, 30);
+        assert_eq!(Rationals::new(1, 3), f1.reduce());
+    }
+
+    #[test]
+    pub fn test_reduce_two() {
+        let f1 = Rationals::new(15, 9);
+        assert_eq!(Rationals::new(5, 3), f1.reduce());
     }
 }

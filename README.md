@@ -206,7 +206,7 @@ As of 2.11.0 the support for rational exact math has been implemented
 
 As of 2.11.1 it works in matrices!
 
-![](docs/assets/exact_invert.png)
+![](docs/assets/exact_inverse.png)
 
 ### CAS
 

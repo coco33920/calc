@@ -82,6 +82,7 @@ pub fn lup_decompose(
                     max_a = (abs_a).clone();
                     i_max = k;
                 }
+
                 _ => (),
             }
         }
@@ -165,41 +166,41 @@ pub fn lup_invert(
         for i in 0..n {
             ia[i][j] = match &p[i] {
                 Parameters::Int(s) => {
-                    if *s == (j as i64) {
-                        Parameters::Float(1.0)
+                    if *s == j as i64 {
+                        Parameters::Int(1)
                     } else {
-                        Parameters::Float(0.0)
+                        Parameters::Int(0)
                     }
                 }
                 Parameters::Float(f) => {
                     if (*f - (j as f64)).abs() <= 1e10 {
-                        Parameters::Float(1.0)
+                        Parameters::Int(1)
                     } else {
-                        Parameters::Float(0.0)
+                        Parameters::Int(0)
                     }
                 }
                 Parameters::Identifier(s) => match ram {
-                    None => Parameters::Float(0.0),
+                    None => Parameters::Int(0),
                     Some(hs) => match hs.get(s.as_str()) {
-                        None => Parameters::Float(0.0),
+                        None => Parameters::Int(0),
                         Some(Parameters::Int(s)) => {
                             if (*s - (j as i64)) == 0 {
-                                Parameters::Float(1.0)
+                                Parameters::Int(1)
                             } else {
-                                Parameters::Float(0.0)
+                                Parameters::Int(0)
                             }
                         }
                         Some(Parameters::Float(f)) => {
                             if (*f - (j as f64)).abs() <= 1e-10 {
-                                Parameters::Float(1.0)
+                                Parameters::Int(1)
                             } else {
-                                Parameters::Float(0.0)
+                                Parameters::Int(0)
                             }
                         }
-                        _ => Parameters::Float(0.0),
+                        _ => Parameters::Int(0),
                     },
                 },
-                _ => Parameters::Float(0.0),
+                _ => Parameters::Int(0),
             };
             for k in 0..i {
                 ia[i][j] = minus(

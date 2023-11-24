@@ -497,6 +497,7 @@ pub fn divide(
             Parameters::Rational(Rationals::new(1, 1) / s)
         }
         (Parameters::Rational(s), Parameters::Rational(s2)) => Parameters::Rational(s / s2),
+
         (Parameters::Rational(s), Parameters::Int(i)) => {
             Parameters::Rational(s / Rationals::new(1, i))
         }

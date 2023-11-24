@@ -204,6 +204,10 @@ As of 2.11.0 the support for rational exact math has been implemented
 
 ![](docs/assets/exact_rationals.png)
 
+As of 2.11.1 it works in matrices!
+
+![](docs/assets/exact_invert.png)
+
 ### CAS
 
 If we ever go to this step, yes, I will remove the "minimalistic" from the description

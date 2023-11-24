@@ -64,6 +64,9 @@ impl Rationals {
             };
         }
     }
+    pub fn abs(self) -> Self {
+        Rationals::new(self.under.abs(), self.over.abs())
+    }
 }
 
 impl Display for Rationals {

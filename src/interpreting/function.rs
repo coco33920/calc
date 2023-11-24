@@ -1,5 +1,4 @@
 use std::collections::HashMap;
-use std::ptr::eq;
 
 use crate::exact_math::rationals::Rationals;
 use crate::parsing::ast::Parameters;

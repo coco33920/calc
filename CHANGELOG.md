@@ -1,3 +1,13 @@
+# Version 2.11.0 : Exact rational math
+
+## Exact math
+- Added exact rational math
+- Rational operation
+- Rational reduction
+
+## Bug fix
+- fix bug with acos,asin,atan functions while vectorize
+
 # Version 2.10.0 : Add function vectorization
 
 ## Function

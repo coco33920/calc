@@ -111,6 +111,14 @@ pub fn cos(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) 
             let fs: f64 = if degrees { (*f) * (PI / 180.0) } else { *f };
             Parameters::Float(fs.cos())
         }
+        Parameters::Rational(s) => {
+            let fs = if degrees {
+                s.clone().approx() * PI / 180.0
+            } else {
+                s.clone().approx()
+            };
+            Parameters::Float(fs.cos())
+        }
         Parameters::InterpreterVector(vec) => {
             let mut res = Vec::new();
             vec.clone().into_iter().for_each(|x| match x {
@@ -123,6 +131,11 @@ pub fn cos(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) 
                     (f * PI / 180.0).cos()
                 } else {
                     f.cos()
+                })),
+                Parameters::Rational(s) => res.push(Parameters::Float(if degrees {
+                    (s.approx() * PI / 180.0).cos()
+                } else {
+                    s.approx().cos()
                 })),
                 Parameters::Identifier(s) => match ram {
                     None => (),
@@ -188,6 +201,14 @@ pub fn sin(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) 
             let fs: f64 = if degrees { (*f) * (PI / 180.0) } else { *f };
             Parameters::Float(fs.sin())
         }
+        Parameters::Rational(s) => {
+            let fs = if degrees {
+                s.clone().approx() * PI / 180.0
+            } else {
+                s.clone().approx()
+            };
+            Parameters::Float(fs.sin())
+        }
         Parameters::InterpreterVector(vec) => {
             let mut res = Vec::new();
             vec.clone().into_iter().for_each(|x| match x {
@@ -200,6 +221,11 @@ pub fn sin(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) 
                     (f * PI / 180.0).sin()
                 } else {
                     f.sin()
+                })),
+                Parameters::Rational(s) => res.push(Parameters::Float(if degrees {
+                    (s.approx() * PI / 180.0).sin()
+                } else {
+                    s.approx().sin()
                 })),
                 Parameters::Identifier(s) => match ram {
                     None => (),
@@ -265,6 +291,14 @@ pub fn tan(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) 
             let fs: f64 = if degrees { (*f) * (PI / 180.0) } else { *f };
             Parameters::Float(fs.tan())
         }
+        Parameters::Rational(s) => {
+            let fs = if degrees {
+                s.clone().approx() * PI / 180.0
+            } else {
+                s.clone().approx()
+            };
+            Parameters::Float(fs.tan())
+        }
 
         Parameters::InterpreterVector(vec) => {
             let mut res = Vec::new();
@@ -278,6 +312,11 @@ pub fn tan(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) 
                     (f * PI / 180.0).tan()
                 } else {
                     f.tan()
+                })),
+                Parameters::Rational(s) => res.push(Parameters::Float(if degrees {
+                    (s.approx() * PI / 180.0).tan()
+                } else {
+                    s.approx().tan()
                 })),
                 Parameters::Identifier(s) => match ram {
                     None => (),
@@ -343,6 +382,14 @@ pub fn cosh(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>)
             let fs: f64 = if degrees { (*f) * (PI / 180.0) } else { *f };
             Parameters::Float(fs.cosh())
         }
+        Parameters::Rational(s) => {
+            let fs = if degrees {
+                s.clone().approx() * PI / 180.0
+            } else {
+                s.clone().approx()
+            };
+            Parameters::Float(fs.cosh())
+        }
 
         Parameters::InterpreterVector(vec) => {
             let mut res = Vec::new();
@@ -356,6 +403,11 @@ pub fn cosh(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>)
                     (f * PI / 180.0).cosh()
                 } else {
                     f.cosh()
+                })),
+                Parameters::Rational(s) => res.push(Parameters::Float(if degrees {
+                    (s.approx() * PI / 180.0).cosh()
+                } else {
+                    s.approx().cosh()
                 })),
                 Parameters::Identifier(s) => match ram {
                     None => (),
@@ -421,6 +473,14 @@ pub fn sinh(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>)
             let fs: f64 = if degrees { (*f) * (PI / 180.0) } else { *f };
             Parameters::Float(fs.sinh())
         }
+        Parameters::Rational(s) => {
+            let fs = if degrees {
+                s.clone().approx() * PI / 180.0
+            } else {
+                s.clone().approx()
+            };
+            Parameters::Float(fs.sinh())
+        }
 
         Parameters::InterpreterVector(vec) => {
             let mut res = Vec::new();
@@ -434,6 +494,11 @@ pub fn sinh(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>)
                     (f * PI / 180.0).sinh()
                 } else {
                     f.sinh()
+                })),
+                Parameters::Rational(s) => res.push(Parameters::Float(if degrees {
+                    (s.approx() * PI / 180.0).sinh()
+                } else {
+                    s.approx().sinh()
                 })),
                 Parameters::Identifier(s) => match ram {
                     None => (),
@@ -499,6 +564,14 @@ pub fn tanh(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>)
             let fs: f64 = if degrees { (*f) * (PI / 180.0) } else { *f };
             Parameters::Float(fs.tanh())
         }
+        Parameters::Rational(s) => {
+            let fs = if degrees {
+                s.clone().approx() * PI / 180.0
+            } else {
+                s.clone().approx()
+            };
+            Parameters::Float(fs.tanh())
+        }
 
         Parameters::InterpreterVector(vec) => {
             let mut res = Vec::new();
@@ -512,6 +585,11 @@ pub fn tanh(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>)
                     (f * PI / 180.0).tanh()
                 } else {
                     f.tanh()
+                })),
+                Parameters::Rational(s) => res.push(Parameters::Float(if degrees {
+                    (s.approx() * PI / 180.0).tanh()
+                } else {
+                    s.approx().tanh()
                 })),
                 Parameters::Identifier(s) => match ram {
                     None => (),
@@ -578,19 +656,29 @@ pub fn acos(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>)
         } else {
             f.acos()
         }),
+        Parameters::Rational(s) => Parameters::Float(if degrees {
+            s.clone().approx().acos() * 180.0 / PI
+        } else {
+            s.clone().approx().acos()
+        }),
 
         Parameters::InterpreterVector(vec) => {
             let mut res = Vec::new();
             vec.clone().into_iter().for_each(|x| match x {
                 Parameters::Int(i) => res.push(Parameters::Float(if degrees {
-                    ((i as f64) * PI / 180.0).acos()
+                    (i as f64).acos() * 180.0 / PI
                 } else {
                     (i as f64).acos()
                 })),
                 Parameters::Float(f) => res.push(Parameters::Float(if degrees {
-                    (f * PI / 180.0).acos()
+                    f.acos() * 180.0 / PI
                 } else {
                     f.acos()
+                })),
+                Parameters::Rational(s) => res.push(Parameters::Float(if degrees {
+                    s.approx().acos() * 180.0 / PI
+                } else {
+                    s.approx().acos()
                 })),
                 Parameters::Identifier(s) => match ram {
                     None => (),
@@ -658,18 +746,29 @@ pub fn asin(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>)
             f.asin()
         }),
 
+        Parameters::Rational(s) => Parameters::Float(if degrees {
+            s.clone().approx().asin() * (180.0 / PI)
+        } else {
+            s.clone().approx().asin()
+        }),
+
         Parameters::InterpreterVector(vec) => {
             let mut res = Vec::new();
             vec.clone().into_iter().for_each(|x| match x {
                 Parameters::Int(i) => res.push(Parameters::Float(if degrees {
-                    ((i as f64) * PI / 180.0).asin()
+                    (i as f64).asin() * 180.0 / PI
                 } else {
                     (i as f64).asin()
                 })),
                 Parameters::Float(f) => res.push(Parameters::Float(if degrees {
-                    (f * PI / 180.0).asin()
+                    f.asin() * 180.0 / PI
                 } else {
                     f.asin()
+                })),
+                Parameters::Rational(s) => res.push(Parameters::Float(if degrees {
+                    s.approx().asin() * 180.0 / PI
+                } else {
+                    s.approx().asin()
                 })),
                 Parameters::Identifier(s) => match ram {
                     None => (),
@@ -737,18 +836,29 @@ pub fn atan(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>)
             f.atan()
         }),
 
+        Parameters::Rational(s) => Parameters::Float(if degrees {
+            s.clone().approx().atan() * (180.0 / PI)
+        } else {
+            s.clone().approx().atan()
+        }),
+
         Parameters::InterpreterVector(vec) => {
             let mut res = Vec::new();
             vec.clone().into_iter().for_each(|x| match x {
                 Parameters::Int(i) => res.push(Parameters::Float(if degrees {
-                    ((i as f64) * PI / 180.0).atan()
+                    (i as f64).atan() * 180.0 / PI
                 } else {
                     (i as f64).atan()
                 })),
                 Parameters::Float(f) => res.push(Parameters::Float(if degrees {
-                    (f * PI / 180.0).atan()
+                    f.atan() * 180.0 / PI
                 } else {
                     f.atan()
+                })),
+                Parameters::Rational(s) => res.push(Parameters::Float(if degrees {
+                    s.approx().atan() * 180.0 / PI
+                } else {
+                    s.approx().atan()
                 })),
                 Parameters::Identifier(s) => match ram {
                     None => (),
@@ -825,6 +935,13 @@ pub fn exp(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) 
                 Parameters::Float((*f).exp())
             }
         }
+        Parameters::Rational(s) => {
+            if plus {
+                Parameters::Float(ln.powf(s.clone().approx()))
+            } else {
+                Parameters::Float(s.clone().approx().exp())
+            }
+        }
 
         Parameters::InterpreterVector(vec) => {
             let mut res = Vec::new();
@@ -837,6 +954,11 @@ pub fn exp(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) 
                 Parameters::Float(f) => {
                     res.push(Parameters::Float(if plus { ln.powf(f) } else { f.exp() }))
                 }
+                Parameters::Rational(s) => res.push(Parameters::Float(if plus {
+                    ln.powf(s.approx())
+                } else {
+                    s.approx().exp()
+                })),
                 Parameters::Identifier(s) => match ram {
                     None => (),
                     Some(ref t) => match t.get(s.as_str()) {
@@ -904,6 +1026,14 @@ pub fn ln(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) -
             }
         }
 
+        Parameters::Rational(s) => {
+            if plus {
+                Parameters::Float(s.clone().approx().log(sln))
+            } else {
+                Parameters::Float(s.clone().approx().ln())
+            }
+        }
+
         Parameters::InterpreterVector(vec) => {
             let mut res = Vec::new();
             vec.clone().into_iter().for_each(|x| match x {
@@ -915,6 +1045,11 @@ pub fn ln(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) -
                 Parameters::Float(f) => {
                     res.push(Parameters::Float(if plus { f.log(sln) } else { f.ln() }))
                 }
+                Parameters::Rational(s) => res.push(Parameters::Float(if plus {
+                    s.approx().log(sln)
+                } else {
+                    s.approx().ln()
+                })),
                 Parameters::Identifier(s) => match ram {
                     None => (),
                     Some(ref t) => match t.get(s.as_str()) {
@@ -981,6 +1116,13 @@ pub fn sqrt(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>)
                 Parameters::Float((*f).sqrt())
             }
         }
+        Parameters::Rational(s) => {
+            if plus {
+                Parameters::Float(s.clone().approx().powf(1.0 / sln))
+            } else {
+                Parameters::Float(s.clone().approx().sqrt())
+            }
+        }
 
         Parameters::InterpreterVector(vec) => {
             let mut res = Vec::new();
@@ -994,6 +1136,11 @@ pub fn sqrt(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>)
                     f.powf(1.0 / sln)
                 } else {
                     f.sqrt()
+                })),
+                Parameters::Rational(s) => res.push(Parameters::Float(if plus {
+                    s.clone().approx().powf(1.0 / sln)
+                } else {
+                    s.clone().approx().sqrt()
                 })),
                 Parameters::Identifier(s) => match ram {
                     None => (),
@@ -1063,6 +1210,7 @@ pub fn abs(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>) 
     match p.get(0).unwrap() {
         Parameters::Int(i) => Parameters::Int(i.abs()),
         Parameters::Float(f) => Parameters::Float(f.abs()),
+        Parameters::Rational(s) => Parameters::Rational(s.clone().abs()),
         Parameters::Identifier(s) => match ram {
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(ref t) => match t.get(s.as_str()) {
@@ -1150,6 +1298,15 @@ pub fn round(p: &Vec<Parameters>, ram: &Option<&mut HashMap<String, Parameters>>
                 Parameters::Float((*f).round())
             }
         }
+        Parameters::Rational(s) => {
+            if plus {
+                Parameters::Float(
+                    (s.clone().approx() * 10.0_f64.powf(sln).round()) / (10.0_f64.powf(sln)),
+                )
+            } else {
+                Parameters::Float(s.clone().approx().round())
+            }
+        }
         Parameters::Identifier(s) => match ram {
             None => Parameters::Identifier("This variable is not initialized yet".to_string()),
             Some(ref t) => match t.get(s.as_str()) {
@@ -1184,6 +1341,7 @@ pub fn norm(
             match sum {
                 Parameters::Int(i) => Parameters::Float((i as f64).sqrt()),
                 Parameters::Float(f) => Parameters::Float(f.sqrt()),
+                Parameters::Rational(s) => Parameters::Float(s.approx().sqrt()),
                 _ => Parameters::Float(0.0),
             }
         }
@@ -1209,6 +1367,7 @@ pub fn transpose_vectors(
     match p.get(0).unwrap() {
         Parameters::Int(i) => Parameters::Int((*i).abs()),
         Parameters::Float(f) => Parameters::Float((*f).abs()),
+        Parameters::Rational(s) => Parameters::Rational(s.clone().abs()),
         Parameters::InterpreterVector(lst) => {
             let r = vec![*(lst.clone())];
             let transposed = transpose(r);
@@ -1244,6 +1403,7 @@ pub fn transpose_matrices(
     match p.get(0).unwrap() {
         Parameters::Int(i) => Parameters::Int((*i).abs()),
         Parameters::Float(f) => Parameters::Float((*f).abs()),
+        Parameters::Rational(s) => Parameters::Rational(s.clone().abs()),
         Parameters::InterpreterVector(lst) => {
             let mut res1 = Vec::new();
             let mut is_matrix = true;
@@ -1291,6 +1451,7 @@ pub fn det_matrix(
     match p.get(0).unwrap() {
         Parameters::Int(i) => Parameters::Int((*i).abs()),
         Parameters::Float(f) => Parameters::Float((*f).abs()),
+        Parameters::Rational(s) => Parameters::Rational(s.clone().abs()),
         Parameters::InterpreterVector(lst) => {
             let mut res1 = Vec::new();
             let mut is_matrix = true;
@@ -1345,6 +1506,7 @@ pub fn inverse_matrix(
     match p.get(0).unwrap() {
         Parameters::Int(i) => Parameters::Int((*i).abs()),
         Parameters::Float(f) => Parameters::Float((*f).abs()),
+        Parameters::Rational(s) => Parameters::Rational(s.clone().abs()),
         Parameters::InterpreterVector(lst) => {
             let mut res1 = Vec::new();
             let mut is_matrix = true;
@@ -1506,6 +1668,7 @@ pub fn plot_fn(
         Some(p) => match p {
             Parameters::Float(f) => start = *f,
             Parameters::Int(i) => start = *i as f64,
+            Parameters::Rational(s) => start = s.clone().approx(),
             Parameters::InterpreterVector(vec) => second_vector = Some(&**vec),
 
             Parameters::Identifier(s) if ram.as_ref().unwrap().contains_key(s) => {
@@ -1532,6 +1695,7 @@ pub fn plot_fn(
         Some(p) => match p {
             Parameters::Float(f) => end = *f,
             Parameters::Int(i) => end = *i as f64,
+            Parameters::Rational(s) => end = s.clone().approx(),
 
             Parameters::Identifier(s) if ram.as_ref().unwrap().contains_key(s) => {
                 match ram.as_ref().unwrap().get(s) {
@@ -1563,6 +1727,7 @@ pub fn plot_fn(
         Some(p) => match p {
             Parameters::Float(f) => steps = *f,
             Parameters::Int(i) => steps = *i as f64,
+            Parameters::Rational(s) => steps = s.clone().approx(),
 
             Parameters::Identifier(s) if ram.as_ref().unwrap().contains_key(s) => {
                 match ram.as_ref().unwrap().get(s) {
@@ -1697,6 +1862,7 @@ pub fn plot_fn(
                 y.push(match p {
                     Parameters::Float(f) => f,
                     Parameters::Int(i) => i as f64,
+                    Parameters::Rational(s) => s.approx(),
                     _ => f64::NAN,
                 });
             } else {
@@ -1724,6 +1890,7 @@ pub fn plot_fn(
                 y.push(match interpret(&ast, &mut sram, &mut HashMap::new()) {
                     Parameters::Float(p) => p,
                     Parameters::Int(i) => i as f64,
+                    Parameters::Rational(s) => s.approx(),
                     _ => f64::NAN,
                 });
             }
@@ -1735,9 +1902,11 @@ pub fn plot_fn(
                 t.into_iter().for_each(|j| match j {
                     Parameters::Int(i) => x.push(*i as f64),
                     Parameters::Float(f) => x.push(*f),
+                    Parameters::Rational(s) => x.push(s.clone().approx()),
                     Parameters::Identifier(s) => match ram.as_ref().unwrap().get(s) {
                         Some(Parameters::Int(i)) => x.push(*i as f64),
                         Some(Parameters::Float(f)) => x.push(*f),
+                        Some(Parameters::Rational(r)) => x.push(r.clone().approx()),
                         _ => (),
                     },
                     _ => (),
@@ -1751,9 +1920,11 @@ pub fn plot_fn(
                 t.into_iter().for_each(|j| match j {
                     Parameters::Int(i) => y.push(*i as f64),
                     Parameters::Float(f) => y.push(*f),
+                    Parameters::Rational(r) => y.push(r.clone().approx()),
                     Parameters::Identifier(s) => match ram.as_ref().unwrap().get(s) {
                         Some(Parameters::Int(i)) => y.push(*i as f64),
                         Some(Parameters::Float(f)) => y.push(*f),
+                        Some(Parameters::Rational(r)) => y.push(r.clone().approx()),
                         _ => (),
                     },
                     _ => (),

@@ -35,6 +35,7 @@ pub fn interpret(
                 Parameters::LesserOrEqualOperation => lesser_or_equal(param1, param2, Some(&ram)),
                 Parameters::AndOperation => and(param1, param2, Some(&ram)),
                 Parameters::OrOperation => or(param1, param2, Some(&ram)),
+                Parameters::Rational(s) => Parameters::Rational(s.clone()),
                 Parameters::Str(s) => Parameters::Str(s.to_string()),
                 Parameters::Assign => match *(l.clone()) {
                     Ast::Call { name: n, lst: list } => {
@@ -173,7 +174,8 @@ mod test {
     fn test_interpreter_divide_operation() {
         let mut ram: HashMap<String, Parameters> = HashMap::new();
         let mut function: HashMap<String, (Vec<Ast>, Ast)> = HashMap::new();
-        let expected = Parameters::Float(1.0);
+        let expected =
+            Parameters::Rational(crate::exact_math::rationals::Rationals { under: 1, over: 1 });
         let ast = Ast::Node {
             value: Parameters::DivideOperation,
             left: Box::from(Ast::new(Parameters::Int(1))),

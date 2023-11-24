@@ -133,6 +133,7 @@ The TODO list is completed so I collapsed it
       - [X] Set greeting color 
     - [X] Reload config
 </details>
+
 ## Evolution
 
 ### Ploting

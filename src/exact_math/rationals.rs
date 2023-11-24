@@ -35,6 +35,10 @@ impl Rationals {
             minus = true;
             i1 = self.over;
             i2 = -self.under;
+        } else if self.over < 0 && self.under < 0 {
+            minus = false;
+            i1 = -self.over;
+            i2 = -self.under;
         } else {
             minus = false;
             i1 = self.over;
@@ -162,7 +166,10 @@ impl ops::Mul for Rationals {
 impl ops::Div for Rationals {
     type Output = Rationals;
     fn div(self, rhs: Self) -> Self::Output {
-        return Rationals::new(self.under * rhs.over, rhs.under * self.over).reduce();
+        let l = self.under * rhs.over;
+        let rs = self.over * rhs.under;
+        let r = Rationals::new(l, rs);
+        return r.reduce();
     }
 }
 

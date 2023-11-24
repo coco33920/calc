@@ -1,3 +1,11 @@
+# Version 2.11.1 : Exact rational math
+
+## Bug fix
+- Fix bug when reducing rational with two minus or two whole numbers
+
+## Modification
+- Int and not floats to the matrix inversion algorithm, so it can invert with exact values
+
 # Version 2.11.0 : Exact rational math
 
 ## Exact math

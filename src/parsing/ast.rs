@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-use std::fmt::{Display, Formatter};
+use std::fmt::{format, Display, Formatter};
 
 use crate::exact_math::rationals::Rationals;
 use crate::lexing::token::{Operator, Token};
@@ -126,6 +126,7 @@ impl Parameters {
             }
             InterpreterVector(lst) => {
                 let mut vec = Vec::new();
+
                 lst.iter()
                     .map(|x| {
                         x.pretty_print(
@@ -134,7 +135,43 @@ impl Parameters {
                         )
                     })
                     .for_each(|x| vec.push(x));
-                format!("[{}]", vec.join(","))
+                /*-------------
+                 * |1 2 3 4 5 6 |
+                 * -------------
+                 */
+                let mut matrix = false;
+                if vec.len() == 0 {
+                    return format!("");
+                }
+                match lst.first().unwrap() {
+                    Parameters::InterpreterVector(_) => matrix = true,
+                    _ => (),
+                }
+                if !matrix {
+                    format!("|{}|", vec.join(" "))
+                } else {
+                    let mut vss = Vec::new();
+                    let mut vfinal = Vec::new();
+                    let mut max_size = 0;
+                    vec.clone()
+                        .into_iter()
+                        .for_each(|x| vss.push(x[1..(x.len() - 1)].to_string()));
+                    vec.into_iter().for_each(|x| {
+                        if x.len() > max_size {
+                            max_size = x.len()
+                        }
+                    });
+                    for ele in vss {
+                        if ele.len() < max_size - 2 {
+                            let v = vec![" "; max_size - 2 - ele.len()];
+                            vfinal.push(format!("{}{}", ele, v.join("")));
+                        } else {
+                            vfinal.push(format!("{ele}"));
+                        }
+                    }
+                    let s = format!("|{}|", vfinal.join("|\n|"));
+                    s
+                }
             }
             _ => format!("{self}"),
         }

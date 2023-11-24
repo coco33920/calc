@@ -1,3 +1,8 @@
+# Version 2.11.2 : Pretty print 
+
+## Matrices
+- matrices and vectors pretty print
+
 # Version 2.11.1 : Exact rational math
 
 ## Bug fix

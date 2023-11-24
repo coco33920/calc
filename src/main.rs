@@ -17,11 +17,11 @@ use crate::parsing::ast::{Ast, Parameters};
 use crate::parsing::parser::CalcParser;
 
 mod configuration;
+mod exact_math;
 mod interpreting;
 mod lexing;
 mod parsing;
 mod utils;
-mod exact_math;
 
 fn show_config(config: Config) -> (String, Option<Config>) {
     let loaded = load_config(config.clone());

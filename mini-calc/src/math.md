@@ -13,3 +13,7 @@ It was also added to the stdlibs for the functions.
 ### Example
 
 [![](../assets/exact_rationals.png)](../assets/exact_rationals.png)
+
+Or even with inverse of matrices!
+
+[![](../assets/exact_inverse.png)](../assets/exact_inverse.png)

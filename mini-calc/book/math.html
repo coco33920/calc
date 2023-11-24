@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Plot - Mini Calc</title>
+        <title>Exact Math - Mini Calc</title>
 
 
         <!-- Custom HTML head -->
@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Deep dive</li><li class="chapter-item expanded "><a href="usage.html"><strong aria-hidden="true">2.</strong> Usage</a></li><li class="chapter-item expanded "><a href="function.html"><strong aria-hidden="true">3.</strong> Function</a></li><li class="chapter-item expanded "><a href="config.html"><strong aria-hidden="true">4.</strong> Config</a></li><li class="chapter-item expanded "><a href="logic.html"><strong aria-hidden="true">5.</strong> Logic</a></li><li class="chapter-item expanded "><a href="plot.html" class="active"><strong aria-hidden="true">6.</strong> Plot</a></li><li class="chapter-item expanded "><a href="math.html"><strong aria-hidden="true">7.</strong> Exact Math</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Deep dive</li><li class="chapter-item expanded "><a href="usage.html"><strong aria-hidden="true">2.</strong> Usage</a></li><li class="chapter-item expanded "><a href="function.html"><strong aria-hidden="true">3.</strong> Function</a></li><li class="chapter-item expanded "><a href="config.html"><strong aria-hidden="true">4.</strong> Config</a></li><li class="chapter-item expanded "><a href="logic.html"><strong aria-hidden="true">5.</strong> Logic</a></li><li class="chapter-item expanded "><a href="plot.html"><strong aria-hidden="true">6.</strong> Plot</a></li><li class="chapter-item expanded "><a href="math.html" class="active"><strong aria-hidden="true">7.</strong> Exact Math</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -146,44 +146,26 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="plot"><a class="header" href="#plot">Plot</a></h1>
-<p>You can plot, backend is provided by GNUPlot, so it should work great on linux and macos but behiaviour on windows is not known.</p>
-<h2 id="help"><a class="header" href="#help">Help</a></h2>
-<p>To display the help just type <code>help</code></p>
-<p><a href="../assets/plot_help.png"><img src="../assets/plot_help.png" alt="" /></a></p>
-<h2 id="plot-1"><a class="header" href="#plot-1">Plot</a></h2>
-<h3 id="default"><a class="header" href="#default">Default</a></h3>
-<p>It's easy to plot a function by default, just type <code>plot(fn)</code></p>
-<p><a href="../assets/plot_cos_default.png"><img src="../assets/plot_cos_default.png" alt="" /></a></p>
-<h3 id="options"><a class="header" href="#options">Options</a></h3>
-<p>A more difficult plot can be ploted by adding parameters</p>
-<p><a href="../assets/plot_sin_custom.png"><img src="../assets/plot_sin_custom.png" alt="" /></a></p>
-<h3 id="plot-your-own-function"><a class="header" href="#plot-your-own-function">Plot your own function</a></h3>
-<p>You can plot your function!</p>
-<p><a href="../assets/plot_f.png"><img src="../assets/plot_f.png" alt="" /></a></p>
-<h2 id="terminal-plotting"><a class="header" href="#terminal-plotting">Terminal plotting</a></h2>
-<p>You can plot <em>right into</em> the terminal! </p>
-<h3 id="default-1"><a class="header" href="#default-1">Default</a></h3>
-<p>The best example to show it is the square function between -5 and 5 with a 0.1 step. The x axis is automatically scaled but not the y axis for now.</p>
-<p><a href="../assets/plot_term_x_squared.png"><img src="../assets/plot_term_x_squared.png" alt="" /></a></p>
-<h3 id="with-option"><a class="header" href="#with-option">With option</a></h3>
-<p>The terminal supports options!</p>
-<p><a href="../assets/plot_term_x_squared_labels.png"><img src="../assets/plot_term_x_squared_labels.png" alt="" /></a></p>
-<h3 id="auto-y-scaling"><a class="header" href="#auto-y-scaling">Auto y scaling</a></h3>
-<p>Now the y axis auto scales, and labels were added in 2.9.2 !</p>
-<p><a href="../assets/termplot_cos.png"><img src="../assets/termplot_cos.png" alt="" /></a></p>
+                        <h1 id="exact-math"><a class="header" href="#exact-math">Exact Math</a></h1>
+<h2 id="rational-exact-math"><a class="header" href="#rational-exact-math">Rational exact math</a></h2>
+<p>As of 2.11.0 rational exact math was added, support for</p>
+<ul>
+<li>Rational operation</li>
+<li>Rational reduction</li>
+</ul>
+<p>Was added.</p>
+<p>It was also added to the stdlibs for the functions.</p>
+<h3 id="example"><a class="header" href="#example">Example</a></h3>
+<p><a href="../assets/exact_rationals.png"><img src="../assets/exact_rationals.png" alt="" /></a></p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="logic.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="plot.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next" href="math.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -191,13 +173,10 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="logic.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="plot.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next" href="math.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
             </nav>
 
         </div>

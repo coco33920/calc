@@ -8,3 +8,4 @@
 - [Config](config.md)
 - [Logic](logic.md)
 - [Plot](plot.md)
+- [Exact Math](math.md)

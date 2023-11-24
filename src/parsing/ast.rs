@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use std::fmt::{Display, Formatter};
 
+use crate::exact_math::rationals::Rationals;
 use crate::lexing::token::{Operator, Token};
 use crate::parsing::ast::Ast::{Nil, Node};
 use crate::parsing::ast::Parameters::*;
@@ -12,6 +13,7 @@ pub enum Parameters {
     Bool(bool),
     Str(String),
     Identifier(String),
+    Rational(Rationals),
     PlusOperation,
     MinusOperation,
     MultiplicationOperation,
@@ -70,6 +72,7 @@ impl Display for Parameters {
             Vector(a) => write!(f, "{:?}", a),
             InterpreterVector(a) => write!(f, "{:?}", a),
             Str(s) => write!(f, "{s}"),
+            Rational(s) => write!(f, "{s}"),
         }
     }
 }

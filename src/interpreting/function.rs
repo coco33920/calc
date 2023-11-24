@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+use crate::exact_math::rationals::Rationals;
 use crate::parsing::ast::Parameters;
 use crate::parsing::ast::Parameters::Bool;
 use crate::utils::matrix_utils::mult_matrix;
@@ -66,6 +67,17 @@ pub fn add(i: Parameters, i2: Parameters, ram: Option<&HashMap<String, Parameter
         }
         (Parameters::Int(v), Parameters::Null) => Parameters::Int(v),
         (Parameters::Float(f), Parameters::Null) => Parameters::Float(f),
+        (Parameters::Rational(s), Parameters::Null) => Parameters::Rational(s.clone()),
+        (Parameters::Null, Parameters::Rational(s)) => Parameters::Rational(s.clone()),
+        (Parameters::Rational(s), Parameters::Rational(s2)) => Parameters::Rational(s + s2),
+        (Parameters::Rational(s), Parameters::Int(i)) => {
+            Parameters::Rational(s + Rationals::new(1, i))
+        }
+        (Parameters::Int(i), Parameters::Rational(s)) => {
+            Parameters::Rational(s + Rationals::new(1, i))
+        }
+        (Parameters::Rational(s), Parameters::Float(f)) => Parameters::Float(s.approx() + f),
+        (Parameters::Float(f), Parameters::Rational(s)) => Parameters::Float(f + s.approx()),
         (Parameters::Int(v), Parameters::Int(v2)) => Parameters::Int(v + v2),
         (Parameters::Int(v), Parameters::Float(f)) => Parameters::Float((v as f64) + f),
         (Parameters::Float(v), Parameters::Float(f)) => Parameters::Float(v + f),
@@ -97,6 +109,18 @@ pub fn add(i: Parameters, i2: Parameters, ram: Option<&HashMap<String, Parameter
         (Parameters::Null, Parameters::Identifier(s)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Null, ram, add)
         }
+        (Parameters::Rational(s), Parameters::Identifier(ss)) => apply_operator_reverse(
+            Parameters::Rational(s.clone()),
+            Parameters::Identifier(ss.clone()),
+            ram,
+            add,
+        ),
+        (Parameters::Identifier(ss), Parameters::Rational(s)) => apply_operator(
+            Parameters::Identifier(ss),
+            Parameters::Rational(s),
+            ram,
+            add,
+        ),
         (Parameters::Identifier(s), Parameters::Null) => {
             apply_operator(Parameters::Identifier(s), Parameters::Null, ram, add)
         }
@@ -145,6 +169,22 @@ pub fn minus(
         (Parameters::Float(f), Parameters::Null) => Parameters::Float(-f),
         (Parameters::Int(v), Parameters::Int(v2)) => Parameters::Int(v - v2),
 
+        (Parameters::Rational(s), Parameters::Null) => {
+            Parameters::Rational(Rationals::new(1, 0) - s)
+        }
+
+        (Parameters::Null, Parameters::Rational(s)) => {
+            Parameters::Rational(Rationals::new(1, 0) - s)
+        }
+        (Parameters::Rational(s), Parameters::Rational(s2)) => Parameters::Rational(s - s2),
+        (Parameters::Rational(s), Parameters::Int(i)) => {
+            Parameters::Rational(s - Rationals::new(1, i))
+        }
+        (Parameters::Int(i), Parameters::Rational(s)) => {
+            Parameters::Rational(Rationals::new(1, i) - s)
+        }
+        (Parameters::Rational(s), Parameters::Float(f)) => Parameters::Float(s.approx() - f),
+        (Parameters::Float(f), Parameters::Rational(s)) => Parameters::Float(f - s.approx()),
         (Parameters::InterpreterVector(vec), Parameters::Null) => {
             let mut res = Vec::new();
             vec.into_iter()
@@ -192,6 +232,19 @@ pub fn minus(
         (Parameters::Null, Parameters::Identifier(s)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Null, ram, minus)
         }
+
+        (Parameters::Rational(s), Parameters::Identifier(ss)) => apply_operator_reverse(
+            Parameters::Rational(s.clone()),
+            Parameters::Identifier(ss.clone()),
+            ram,
+            minus,
+        ),
+        (Parameters::Identifier(ss), Parameters::Rational(s)) => apply_operator(
+            Parameters::Identifier(ss),
+            Parameters::Rational(s),
+            ram,
+            minus,
+        ),
         (Parameters::Identifier(s), Parameters::Null) => {
             apply_operator(Parameters::Identifier(s), Parameters::Null, ram, minus)
         }
@@ -252,6 +305,17 @@ pub fn mult(
         (Parameters::Float(v), Parameters::Float(f)) => Parameters::Float(v * f),
         (Parameters::Float(v), Parameters::Int(i1)) => Parameters::Float(v * (i1 as f64)),
 
+        (Parameters::Rational(s), Parameters::Null) => Parameters::Rational(s.clone()),
+        (Parameters::Null, Parameters::Rational(s)) => Parameters::Rational(s.clone()),
+        (Parameters::Rational(s), Parameters::Rational(s2)) => Parameters::Rational(s * s2),
+        (Parameters::Rational(s), Parameters::Int(i)) => {
+            Parameters::Rational(s * Rationals::new(1, i))
+        }
+        (Parameters::Int(i), Parameters::Rational(s)) => {
+            Parameters::Rational(s * Rationals::new(1, i))
+        }
+        (Parameters::Rational(s), Parameters::Float(f)) => Parameters::Float(s.approx() * f),
+        (Parameters::Float(f), Parameters::Rational(s)) => Parameters::Float(f * s.approx()),
         (Parameters::Null, Parameters::InterpreterVector(vec)) => {
             Parameters::InterpreterVector(vec.clone())
         }
@@ -353,6 +417,19 @@ pub fn mult(
         (Parameters::Identifier(s), Parameters::Int(i)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Int(i), ram, mult)
         }
+
+        (Parameters::Rational(s), Parameters::Identifier(ss)) => apply_operator_reverse(
+            Parameters::Rational(s.clone()),
+            Parameters::Identifier(ss.clone()),
+            ram,
+            mult,
+        ),
+        (Parameters::Identifier(ss), Parameters::Rational(s)) => apply_operator(
+            Parameters::Identifier(ss),
+            Parameters::Rational(s),
+            ram,
+            mult,
+        ),
         (Parameters::Int(i), Parameters::Identifier(s)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Int(i), ram, mult)
         }
@@ -402,7 +479,7 @@ pub fn divide(
         (Parameters::Null, Parameters::Float(f)) => Parameters::Float(f),
         (Parameters::Int(v), Parameters::Null) => Parameters::Int(v),
         (Parameters::Float(f), Parameters::Null) => Parameters::Float(f),
-        (Parameters::Int(v), Parameters::Int(v2)) => Parameters::Float((v as f64) / (v2 as f64)),
+        (Parameters::Int(v), Parameters::Int(v2)) => Parameters::Rational(Rationals::new(v2, v)),
         (Parameters::Int(v), Parameters::Float(f)) => Parameters::Float((v as f64) / f),
         (Parameters::Float(v), Parameters::Float(f)) => Parameters::Float(v / f),
         (Parameters::Float(v), Parameters::Int(i1)) => Parameters::Float(v / (i1 as f64)),
@@ -412,6 +489,22 @@ pub fn divide(
         (Parameters::InterpreterVector(vec), Parameters::Null) => {
             Parameters::InterpreterVector(vec.clone())
         }
+
+        (Parameters::Rational(s), Parameters::Null) => {
+            Parameters::Rational(Rationals::new(1, 1) / s)
+        }
+        (Parameters::Null, Parameters::Rational(s)) => {
+            Parameters::Rational(Rationals::new(1, 1) / s)
+        }
+        (Parameters::Rational(s), Parameters::Rational(s2)) => Parameters::Rational(s / s2),
+        (Parameters::Rational(s), Parameters::Int(i)) => {
+            Parameters::Rational(s / Rationals::new(1, i))
+        }
+        (Parameters::Int(i), Parameters::Rational(s)) => {
+            Parameters::Rational(Rationals::new(1, i) / s)
+        }
+        (Parameters::Rational(s), Parameters::Float(f)) => Parameters::Float(s.approx() / f),
+        (Parameters::Float(f), Parameters::Rational(s)) => Parameters::Float(f / s.approx()),
         (Bool(_), Parameters::Int(i)) => Parameters::Int(i),
         (Bool(_), Parameters::Float(i)) => Parameters::Float(i),
         (Parameters::Int(i), Bool(_)) => Parameters::Int(i),
@@ -425,6 +518,20 @@ pub fn divide(
             ram,
             divide,
         ),
+
+        (Parameters::Rational(s), Parameters::Identifier(ss)) => apply_operator_reverse(
+            Parameters::Rational(s.clone()),
+            Parameters::Identifier(ss.clone()),
+            ram,
+            divide,
+        ),
+        (Parameters::Identifier(ss), Parameters::Rational(s)) => apply_operator(
+            Parameters::Identifier(ss),
+            Parameters::Rational(s),
+            ram,
+            divide,
+        ),
+
         (Parameters::Identifier(s), Parameters::Int(i)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Int(i), ram, divide)
         }
@@ -477,6 +584,20 @@ pub fn expo(
         (Parameters::Int(v), Parameters::Float(f)) => Parameters::Float((v as f64).powf(f)),
         (Parameters::Float(v), Parameters::Float(f)) => Parameters::Float(v.powf(f)),
         (Parameters::Float(v), Parameters::Int(i1)) => Parameters::Float(v.powf(i1 as f64)),
+
+        (Parameters::Rational(s), Parameters::Null) => Parameters::Rational(s.clone()),
+        (Parameters::Null, Parameters::Rational(s)) => Parameters::Rational(s.clone()),
+        (Parameters::Rational(s), Parameters::Rational(s2)) => {
+            Parameters::Float(s.approx().powf(s2.approx()))
+        }
+        (Parameters::Rational(s), Parameters::Int(i)) => {
+            Parameters::Float(s.approx().powf(i as f64))
+        }
+        (Parameters::Int(i), Parameters::Rational(s)) => {
+            Parameters::Float((i as f64).powf(s.approx()))
+        }
+        (Parameters::Rational(s), Parameters::Float(f)) => Parameters::Float(s.approx().powf(f)),
+        (Parameters::Float(f), Parameters::Rational(s)) => Parameters::Float(f.powf(s.approx())),
         (Bool(_), Parameters::Int(i)) => Parameters::Int(i),
         (Bool(_), Parameters::Float(i)) => Parameters::Float(i),
         (Parameters::Int(i), Bool(_)) => Parameters::Int(i),
@@ -499,6 +620,19 @@ pub fn expo(
         (Parameters::Identifier(s), Parameters::Float(i)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Float(i), ram, expo)
         }
+
+        (Parameters::Rational(s), Parameters::Identifier(ss)) => apply_operator_reverse(
+            Parameters::Rational(s.clone()),
+            Parameters::Identifier(ss.clone()),
+            ram,
+            expo,
+        ),
+        (Parameters::Identifier(ss), Parameters::Rational(s)) => apply_operator(
+            Parameters::Identifier(ss),
+            Parameters::Rational(s),
+            ram,
+            expo,
+        ),
         (Parameters::Identifier(s), Parameters::Null) => {
             apply_operator(Parameters::Identifier(s), Parameters::Null, ram, expo)
         }
@@ -542,6 +676,13 @@ pub fn greater(
         (Parameters::Int(v), Parameters::Float(f)) => Bool((v as f64) > f),
         (Parameters::Float(v), Parameters::Float(f)) => Bool(v > f),
         (Parameters::Float(v), Parameters::Int(i1)) => Bool(v > (i1 as f64)),
+        (Parameters::Rational(_), Parameters::Null) => Bool(true),
+        (Parameters::Null, Parameters::Rational(_)) => Bool(true),
+        (Parameters::Rational(s), Parameters::Rational(s2)) => Bool(s > s2),
+        (Parameters::Rational(s), Parameters::Int(i)) => Bool(s > Rationals::new(1, i)),
+        (Parameters::Int(i), Parameters::Rational(s)) => Bool(Rationals::new(1, i) > s),
+        (Parameters::Rational(s), Parameters::Float(f)) => Bool(s.approx() > f),
+        (Parameters::Float(f), Parameters::Rational(s)) => Bool(f > s.approx()),
         (Bool(b), Parameters::Int(_)) => Bool(b),
         (Bool(b), Parameters::Float(_)) => Bool(b),
         (Parameters::Int(_), Bool(b)) => Bool(b),
@@ -552,6 +693,19 @@ pub fn greater(
         (Parameters::Identifier(s), Parameters::Identifier(s2)) => apply_operator(
             Parameters::Identifier(s),
             Parameters::Identifier(s2),
+            ram,
+            greater,
+        ),
+
+        (Parameters::Rational(s), Parameters::Identifier(ss)) => apply_operator_reverse(
+            Parameters::Rational(s.clone()),
+            Parameters::Identifier(ss.clone()),
+            ram,
+            greater,
+        ),
+        (Parameters::Identifier(ss), Parameters::Rational(s)) => apply_operator(
+            Parameters::Identifier(ss),
+            Parameters::Rational(s),
             ram,
             greater,
         ),
@@ -606,6 +760,13 @@ pub fn lesser(
         (Parameters::Int(v), Parameters::Float(f)) => Bool((v as f64) < f),
         (Parameters::Float(v), Parameters::Float(f)) => Bool(v < f),
         (Parameters::Float(v), Parameters::Int(i1)) => Bool(v < (i1 as f64)),
+        (Parameters::Rational(_), Parameters::Null) => Bool(true),
+        (Parameters::Null, Parameters::Rational(_)) => Bool(true),
+        (Parameters::Rational(s), Parameters::Rational(s2)) => Bool(s < s2),
+        (Parameters::Rational(s), Parameters::Int(i)) => Bool(s < Rationals::new(1, i)),
+        (Parameters::Int(i), Parameters::Rational(s)) => Bool(Rationals::new(1, i) < s),
+        (Parameters::Rational(s), Parameters::Float(f)) => Bool(s.approx() < f),
+        (Parameters::Float(f), Parameters::Rational(s)) => Bool(f < s.approx()),
         (Bool(b), Parameters::Int(_)) => Bool(b),
         (Bool(b), Parameters::Float(_)) => Bool(b),
         (Parameters::Int(_), Bool(b)) => Bool(b),
@@ -625,6 +786,18 @@ pub fn lesser(
         (Parameters::Null, Parameters::Identifier(s)) => {
             apply_operator(Parameters::Identifier(s), Parameters::Null, ram, lesser)
         }
+        (Parameters::Rational(s), Parameters::Identifier(ss)) => apply_operator_reverse(
+            Parameters::Rational(s.clone()),
+            Parameters::Identifier(ss.clone()),
+            ram,
+            lesser,
+        ),
+        (Parameters::Identifier(ss), Parameters::Rational(s)) => apply_operator(
+            Parameters::Identifier(ss),
+            Parameters::Rational(s),
+            ram,
+            lesser,
+        ),
         (Parameters::Identifier(s), Parameters::Null) => {
             apply_operator(Parameters::Identifier(s), Parameters::Null, ram, lesser)
         }
@@ -671,6 +844,14 @@ pub fn greater_or_equal(
         (Bool(b), Parameters::Null) => Bool(b),
         (Parameters::Null, Bool(b)) => Bool(b),
         (Bool(b), Bool(b2)) => Bool(b == b2),
+
+        (Parameters::Rational(_), Parameters::Null) => Bool(true),
+        (Parameters::Null, Parameters::Rational(_)) => Bool(true),
+        (Parameters::Rational(s), Parameters::Rational(s2)) => Bool(s >= s2),
+        (Parameters::Rational(s), Parameters::Int(i)) => Bool(s >= Rationals::new(1, i)),
+        (Parameters::Int(i), Parameters::Rational(s)) => Bool(Rationals::new(1, i) >= s),
+        (Parameters::Rational(s), Parameters::Float(f)) => Bool(s.approx() >= f),
+        (Parameters::Float(f), Parameters::Rational(s)) => Bool(f >= s.approx()),
         (Parameters::Identifier(s), Parameters::Identifier(s2)) => apply_operator(
             Parameters::Identifier(s),
             Parameters::Identifier(s2),
@@ -692,6 +873,19 @@ pub fn greater_or_equal(
         (Parameters::Identifier(s), Parameters::Null) => apply_operator(
             Parameters::Identifier(s),
             Parameters::Null,
+            ram,
+            greater_or_equal,
+        ),
+
+        (Parameters::Rational(s), Parameters::Identifier(ss)) => apply_operator_reverse(
+            Parameters::Rational(s.clone()),
+            Parameters::Identifier(ss.clone()),
+            ram,
+            greater_or_equal,
+        ),
+        (Parameters::Identifier(ss), Parameters::Rational(s)) => apply_operator(
+            Parameters::Identifier(ss),
+            Parameters::Rational(s),
             ram,
             greater_or_equal,
         ),
@@ -748,6 +942,13 @@ pub fn lesser_or_equal(
         (Parameters::Null, Bool(b)) => Bool(b),
         (Bool(b), Bool(b2)) => Bool(b == b2),
 
+        (Parameters::Rational(_), Parameters::Null) => Bool(true),
+        (Parameters::Null, Parameters::Rational(_)) => Bool(true),
+        (Parameters::Rational(s), Parameters::Rational(s2)) => Bool(s <= s2),
+        (Parameters::Rational(s), Parameters::Int(i)) => Bool(s <= Rationals::new(1, i)),
+        (Parameters::Int(i), Parameters::Rational(s)) => Bool(Rationals::new(1, i) <= s),
+        (Parameters::Rational(s), Parameters::Float(f)) => Bool(s.approx() <= f),
+        (Parameters::Float(f), Parameters::Rational(s)) => Bool(f <= s.approx()),
         (Parameters::Identifier(s), Parameters::Identifier(s2)) => apply_operator(
             Parameters::Identifier(s),
             Parameters::Identifier(s2),
@@ -757,6 +958,19 @@ pub fn lesser_or_equal(
         (Parameters::Identifier(s), Parameters::Int(i)) => apply_operator(
             Parameters::Identifier(s),
             Parameters::Int(i),
+            ram,
+            lesser_or_equal,
+        ),
+
+        (Parameters::Rational(s), Parameters::Identifier(ss)) => apply_operator_reverse(
+            Parameters::Rational(s.clone()),
+            Parameters::Identifier(ss.clone()),
+            ram,
+            lesser_or_equal,
+        ),
+        (Parameters::Identifier(ss), Parameters::Rational(s)) => apply_operator(
+            Parameters::Identifier(ss),
+            Parameters::Rational(s),
             ram,
             lesser_or_equal,
         ),
@@ -824,6 +1038,14 @@ pub fn equal(
         (Bool(_), Parameters::Null) => Bool(false),
         (Parameters::Null, Bool(_)) => Bool(false),
         (Bool(b), Bool(b2)) => Bool(b == b2),
+
+        (Parameters::Rational(_), Parameters::Null) => Bool(true),
+        (Parameters::Null, Parameters::Rational(_)) => Bool(true),
+        (Parameters::Rational(s), Parameters::Rational(s2)) => Bool(s == s2),
+        (Parameters::Rational(s), Parameters::Int(i)) => Bool(s == Rationals::new(1, i)),
+        (Parameters::Int(i), Parameters::Rational(s)) => Bool(Rationals::new(1, i) == s),
+        (Parameters::Rational(s), Parameters::Float(f)) => Bool(s.approx() == f),
+        (Parameters::Float(f), Parameters::Rational(s)) => Bool(f == s.approx()),
         (Parameters::Identifier(s), Parameters::Identifier(s2)) => apply_operator(
             Parameters::Identifier(s),
             Parameters::Identifier(s2),
@@ -854,6 +1076,19 @@ pub fn equal(
         (Parameters::Identifier(s), Bool(b)) => {
             apply_operator(Parameters::Identifier(s), Bool(b), ram, equal)
         }
+
+        (Parameters::Rational(s), Parameters::Identifier(ss)) => apply_operator_reverse(
+            Parameters::Rational(s.clone()),
+            Parameters::Identifier(ss.clone()),
+            ram,
+            equal,
+        ),
+        (Parameters::Identifier(ss), Parameters::Rational(s)) => apply_operator(
+            Parameters::Identifier(ss),
+            Parameters::Rational(s),
+            ram,
+            equal,
+        ),
 
         _ => Parameters::Identifier(
             "@Those two values are incompatible with the == operator".to_string(),
@@ -1043,7 +1278,8 @@ mod test {
 
     #[test]
     pub fn test_divide_simple() {
-        let expected = Parameters::Float(1.0);
+        let expected =
+            Parameters::Rational(crate::exact_math::rationals::Rationals { under: 1, over: 1 });
         let result = divide(Parameters::Int(1), Parameters::Int(1), None);
         assert_eq!(result, expected);
     }

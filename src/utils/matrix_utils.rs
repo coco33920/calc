@@ -237,9 +237,21 @@ mod test {
     #[test]
     pub fn test() {
         let mut a = vec![
-            vec![Parameters::Int(1), Parameters::Int(2), Parameters::Int(3)],
-            vec![Parameters::Int(4), Parameters::Int(0), Parameters::Int(6)],
-            vec![Parameters::Int(7), Parameters::Int(8), Parameters::Int(9)],
+            vec![
+                Parameters::Float(1.0),
+                Parameters::Float(2.0),
+                Parameters::Float(3.0),
+            ],
+            vec![
+                Parameters::Float(4.0),
+                Parameters::Float(0.0),
+                Parameters::Float(6.0),
+            ],
+            vec![
+                Parameters::Float(7.0),
+                Parameters::Float(8.0),
+                Parameters::Float(9.0),
+            ],
         ];
 
         let mut b = vec![Parameters::Int(0); 4];
@@ -251,7 +263,6 @@ mod test {
         let det = lup_determinant(&mut a, &mut b, 3 as usize, None);
 
         println!("{:?}", det);
-
         assert_eq!(
             greater(
                 Parameters::Float(1e-10),

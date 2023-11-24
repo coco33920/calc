@@ -126,6 +126,13 @@ impl ops::Add for Rationals {
     }
 }
 
+impl ops::Sub for Rationals {
+    type Output = Rationals;
+    fn sub(self, rhs: Self) -> Self::Output {
+        return self + Rationals::new(rhs.under, -rhs.over);
+    }
+}
+
 #[cfg(test)]
 mod test {
     use super::Rationals;
@@ -175,5 +182,19 @@ mod test {
         let expected = Rationals::new(26, 71);
         let value = Rationals::new(13, 3) + Rationals::new(2, 5);
         assert_eq!(value, expected);
+    }
+
+    #[test]
+    pub fn add_negative() {
+        let expected = Rationals::new(3, 1);
+        let value = Rationals::new(3, 2) + Rationals::new(3, -1);
+        assert_eq!(value, expected)
+    }
+
+    #[test]
+    pub fn test_sub() {
+        let expected = Rationals::new(3, 1);
+        let value = Rationals::new(3, 2) - Rationals::new(3, 1);
+        assert_eq!(value, expected)
     }
 }

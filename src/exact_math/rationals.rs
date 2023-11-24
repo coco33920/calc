@@ -52,11 +52,11 @@ impl Rationals {
             };
         } else {
             let gcd = gcd(i1, i2);
-            let new_under = self.under / gcd;
+            let new_under = self.under.abs() / gcd;
             let new_over = if minus {
-                -(self.over / gcd)
+                -self.over.abs() / gcd
             } else {
-                self.over / gcd
+                self.over.abs() / gcd
             };
             return Rationals {
                 under: new_under,
@@ -228,6 +228,13 @@ mod test {
     pub fn test_sub() {
         let expected = Rationals::new(3, 1);
         let value = Rationals::new(3, 2) - Rationals::new(3, 1);
+        assert_eq!(value, expected)
+    }
+
+    #[test]
+    pub fn test_minus() {
+        let expected = Rationals::new(3, -1);
+        let value = Rationals::new(1, 0) - Rationals::new(3, 1);
         assert_eq!(value, expected)
     }
 

@@ -169,7 +169,10 @@ pub fn minus(
         (Parameters::Float(f), Parameters::Null) => Parameters::Float(-f),
         (Parameters::Int(v), Parameters::Int(v2)) => Parameters::Int(v - v2),
 
-        (Parameters::Rational(s), Parameters::Null) => Parameters::Rational(s.clone()),
+        (Parameters::Rational(s), Parameters::Null) => {
+            Parameters::Rational(Rationals::new(1, 0) - s)
+        }
+
         (Parameters::Null, Parameters::Rational(s)) => {
             Parameters::Rational(Rationals::new(1, 0) - s)
         }
@@ -487,7 +490,9 @@ pub fn divide(
             Parameters::InterpreterVector(vec.clone())
         }
 
-        (Parameters::Rational(s), Parameters::Null) => Parameters::Rational(s.clone()),
+        (Parameters::Rational(s), Parameters::Null) => {
+            Parameters::Rational(Rationals::new(1, 1) / s)
+        }
         (Parameters::Null, Parameters::Rational(s)) => {
             Parameters::Rational(Rationals::new(1, 1) / s)
         }

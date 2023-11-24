@@ -133,6 +133,20 @@ impl ops::Sub for Rationals {
     }
 }
 
+impl ops::Mul for Rationals {
+    type Output = Rationals;
+    fn mul(self, rhs: Self) -> Self::Output {
+        return Rationals::new(self.under * rhs.under, self.over * rhs.over).reduce();
+    }
+}
+
+impl ops::Div for Rationals {
+    type Output = Rationals;
+    fn div(self, rhs: Self) -> Self::Output {
+        return Rationals::new(self.under * rhs.over, rhs.under * self.over).reduce();
+    }
+}
+
 #[cfg(test)]
 mod test {
     use super::Rationals;
@@ -196,5 +210,33 @@ mod test {
         let expected = Rationals::new(3, 1);
         let value = Rationals::new(3, 2) - Rationals::new(3, 1);
         assert_eq!(value, expected)
+    }
+
+    #[test]
+    pub fn test_mult_simple() {
+        let expected = Rationals::new(15, 4);
+        let value = Rationals::new(3, 2) * Rationals::new(5, 2);
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    pub fn test_mult_hard() {
+        let expected = Rationals::new(475, 336);
+        let value = Rationals::new(25, 32) * Rationals::new(76, 42);
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    pub fn test_div_simpl() {
+        let expected = Rationals::new(9, 2);
+        let value = Rationals::new(3, 2) / Rationals::new(1, 3);
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    pub fn test_div_hard() {
+        let expected = Rationals::new(525, 1216);
+        let value = Rationals::new(25, 32) / Rationals::new(76, 42);
+        assert_eq!(value, expected);
     }
 }

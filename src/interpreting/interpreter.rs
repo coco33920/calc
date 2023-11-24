@@ -174,7 +174,8 @@ mod test {
     fn test_interpreter_divide_operation() {
         let mut ram: HashMap<String, Parameters> = HashMap::new();
         let mut function: HashMap<String, (Vec<Ast>, Ast)> = HashMap::new();
-        let expected = Parameters::Float(1.0);
+        let expected =
+            Parameters::Rational(crate::exact_math::rationals::Rationals { under: 1, over: 1 });
         let ast = Ast::Node {
             value: Parameters::DivideOperation,
             left: Box::from(Ast::new(Parameters::Int(1))),

@@ -1273,7 +1273,8 @@ mod test {
 
     #[test]
     pub fn test_divide_simple() {
-        let expected = Parameters::Float(1.0);
+        let expected =
+            Parameters::Rational(crate::exact_math::rationals::Rationals { under: 1, over: 1 });
         let result = divide(Parameters::Int(1), Parameters::Int(1), None);
         assert_eq!(result, expected);
     }

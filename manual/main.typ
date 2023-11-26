@@ -12,7 +12,7 @@ Last updated, November, The 26th, 2023
 
 #set list(indent: 1cm,body-indent: 0.25cm)
 
-#outline(title: [Table of Contents],indent: auto)
+#outline(title: [Table of Contents],indent: auto, depth: 2)
 #pagebreak(weak:true)
 
 #let icon(codepoint) = {
@@ -323,4 +323,99 @@ The following operators have been implemented:
 #figure(
   image("assets/logic.png"),
   caption: [Example of logic]
+)
+
+#pagebreak(weak: true)
+
+= Plot
+You can plot, the backend is provided by GNUPlot, so it should work great on
+linux and macos, the behaviour on windows is unknown.
+
+== Help
+To display the help just type `plot()`
+
+#figure(
+  image("assets/plot_help.png"),
+  caption: [Help of plot]
+)
+
+== Plot
+
+=== Default 
+It's easy to plot a function just type `plot(fn)`
+
+#figure(
+  image("assets/plot_cos_default.png"),
+  caption: [Plot of the cos function with default values]
+)
+
+#pagebreak(weak: true)
+=== Options
+
+A more difficult operation is with values, `plot(sin,-pi,pi,0.01,"sin","x(rad)","y","line")`.
+
+#figure(
+  image("assets/plot_sin_custom.png"),
+  caption: [Plot with overloading of default values]
+)
+
+=== Plot your own function
+
+You can plot your own defined functions!
+
+#figure(
+  image("assets/plot_f.png"),
+  caption: [Plot of an user-defined function]
+)
+
+#pagebreak(weak:true)
+== Terminal plotting
+You can plot _right_ into your terminal
+
+=== Default
+
+The best example to show it is the square function between -5 and 5 with a 0.1 step. The x axis is automatically scaled but not the y axis for now.
+
+#figure(
+  image("assets/plot_term_x_squared.png"),
+  caption: [Terminal plotting of an user defined function]
+)
+
+#pagebreak(weak: true)
+=== Options
+The terminal supports labels as options
+
+#figure(
+  image("assets/plot_term_x_squared_labels.png"),
+  caption: [Terminal plotting with options]
+)
+#pagebreak(weak: true)
+=== Auto y scaling 
+It scales automatically in y too!
+
+#figure(
+  image("assets/termplot_cos.png"),
+  caption: [Example of a plot with y auto-scaling]
+)
+#pagebreak(weak: true)
+= Exact math 
+
+== Rational exact math 
+
+As of 2.11.0 rational exact math was added, supports for 
+
+- rational operations
+- rational reduction
+- rationalization of floats (precision: 10 digits)
+
+=== Examples
+
+#figure(
+  image("assets/exact_rationals.png"),
+  caption: [Example of rational computations]
+)
+
+#figure(
+  image("assets/exact_inverse.png"),
+  caption: [Example of rational in matrices]
 )

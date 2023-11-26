@@ -32,6 +32,10 @@ cargo install mini-calc
 ## Website
 The website (powered by oranda) is available for more informations [the website](https://calc.nwa2coco.fr) for more informations.
 
+## Manual
+
+If you prefer a PDF, there is a [manual](https://github.com/coco33920/calc/blob/mistress/manual.pdf)
+
 ## Contributors
 
 |                                                                                                                                               | Name    | Role                     | Website                                     |

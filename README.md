@@ -386,3 +386,7 @@ functions added
 - det 
 
 ![](docs/assets/matrix.png)
+
+As of 2.11.3 matrices are pretty printed !
+
+![](docs/assets/matrix_pretty_printed.png)

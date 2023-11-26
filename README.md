@@ -30,6 +30,10 @@ cargo install mini-calc
 ```
 
 
+## Manual
+
+If you prefer a PDF, there is a [manual](https://github.com/coco33920/calc/blob/mistress/manual.pdf)
+
 ## Contributors
 
 |                                                                                                                                               | Name    | Role                     | Website                                     |

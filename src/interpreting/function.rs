@@ -657,7 +657,6 @@ pub fn expo(
 }
 
 pub fn assign(s: Parameters, s2: Parameters) -> (String, Parameters) {
-    println!("{:?}/{:?}", s, s2);
     match s {
         Parameters::Identifier(s) => (s, s2),
         _ => ("".to_string(), s2),

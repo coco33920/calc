@@ -23,6 +23,11 @@ impl Rationals {
         return self.over as f64 / self.under as f64;
     }
 
+    pub fn rationalize(f: f64) -> Self {
+        let r = (f * (10.0_f64.powf(10.0))).round() as i64;
+        Rationals::new(10_i64.pow(10), r).reduce()
+    }
+
     pub fn reduce(self) -> Self {
         let minus;
         let i1;

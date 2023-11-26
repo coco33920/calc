@@ -1,3 +1,14 @@
+# Version 2.11.4 : Exact rational math
+
+## Exact math
+- add automatic rationalization of floats (with 10 decimal point of precision)
+
+## Preparation
+- preparation for litteral calculations
+
+## Bug fix
+- remove prior forgotten debug message while allocating variable
+
 # Version 2.11.3 
 
 ## Matrices

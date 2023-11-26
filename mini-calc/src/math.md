@@ -17,3 +17,7 @@ It was also added to the stdlibs for the functions.
 Or even with inverse of matrices!
 
 [![](../assets/exact_inverse.png)](../assets/exact_inverse.png)
+
+And it rationalize floats with 10 decimal points of precision (but printed as 5) 
+
+[![](../assets/rationalized.png)](../assets/rationalized.png)

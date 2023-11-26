@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+use crate::exact_math::rationals::Rationals;
 use crate::interpreting::function::{
     add, and, assign, divide, equal, expo, greater, greater_or_equal, lesser, lesser_or_equal,
     minus, mult, not, or,
@@ -68,7 +69,7 @@ pub fn interpret(
                         Parameters::Null
                     }
                 },
-                Parameters::Float(f) => Parameters::Float(*f),
+                Parameters::Float(f) => Parameters::Rational(Rationals::rationalize(*f)),
                 Parameters::Int(i) => Parameters::Int(*i),
                 Parameters::Identifier(s) => {
                     if ram.contains_key(s) {

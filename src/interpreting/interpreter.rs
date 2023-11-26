@@ -103,6 +103,7 @@ pub fn interpret(
 mod test {
     use std::collections::HashMap;
 
+    use crate::exact_math::rationals::Rationals;
     use crate::interpreting::interpreter::interpret;
     use crate::parsing::ast::{Ast, Parameters};
 
@@ -124,7 +125,7 @@ mod test {
     fn test_interpreter_float() {
         let mut ram: HashMap<String, Parameters> = HashMap::new();
         let mut function: HashMap<String, (Vec<Ast>, Ast)> = HashMap::new();
-        let expected = Parameters::Float(2.0);
+        let expected = Parameters::Rational(Rationals::new(1, 2));
         let ast = Ast::Node {
             value: Parameters::Float(2.0),
             left: Box::from(Ast::Nil),

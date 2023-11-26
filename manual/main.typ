@@ -230,4 +230,76 @@ Functions have been vectorized.
 )
 #set align(left)
 
+= Configuration
 
+You can configure the general color, greeting message, greeting color, prompt
+and prompt color in a toml file found for example on linux in 
+
+```sh 
+~/.config/mini-calc/mini-calc.toml
+```
+
+#set align(center)
+#figure(
+  image("assets/img.png"),
+  caption: [Example of the default configuration]
+)
+#set align(left)
+
+== Colors
+Available colors are
+
+- blue
+- black
+- purple
+- green
+- cyan
+- red
+- yellow
+- white
+- an hexadecimal color (ex: \#f7d8a8)
+
+The default color (or if your colour can't be parsed) is cyan
+
+#pagebreak(weak:true)
+
+== Example of a modified configuration
+
+#set align(center)
+#figure(
+  image("assets/config_modified.png"),
+  caption: [Example of a modified config]
+)
+#set align(left)
+
+it looks like 
+
+#set align(center)
+#figure(
+  image("assets/config_looks.png"),
+  caption: [Modified configuration in action]
+)
+#set align(left)
+
+== Interact in the command line 
+
+You can interact in the command line with the config, the commands are 
+
+- config: show the config help
+- config reload: reload the config from the file
+- config reset: reset the config 
+- config show: show the current config
+- config set `<category>` `<value>`
+
+categories are:
+
+- greeting_message
+- greeting_color
+- prompt_color
+- prompt
+- general_color
+
+#figure(
+  image("assets/config.png"),
+  caption: [Example of interaction in the command line of config]
+)

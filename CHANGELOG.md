@@ -1,3 +1,11 @@
+# Version 2.11.3 
+
+## Matrices
+-- change the matrix pretty print
+
+## Bug fix
+-- fix bug when re-allocating the variable (i.e you can't)
+
 # Version 2.11.2 : Pretty print 
 
 ## Matrices

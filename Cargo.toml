@@ -8,7 +8,9 @@ repository = "https://github.com/coco33920/calc"
 readme = "README.md"
 edition = "2021"
 exclude = [
-    "docs/*"
+    "docs/*",
+    "manual/*",
+    "manual.pdf"
 ]
 
 

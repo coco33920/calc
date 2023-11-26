@@ -214,6 +214,10 @@ As of 2.11.1 it works in matrices!
 
 ![](docs/assets/exact_inverse.png)
 
+As of 2.11.4 floats are automatically rationalized (with 10 decimal points of precision)
+
+![](docs/assets/rationalize.png)
+
 ### CAS
 
 If we ever go to this step, yes, I will remove the "minimalistic" from the description
@@ -382,3 +386,7 @@ functions added
 - det 
 
 ![](docs/assets/matrix.png)
+
+As of 2.11.3 matrices are pretty printed !
+
+![](docs/assets/matrix_pretty_printed.png)

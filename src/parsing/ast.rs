@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-use std::fmt::{format, Display, Formatter};
+use std::fmt::{Display, Formatter};
 
 use crate::exact_math::rationals::Rationals;
 use crate::lexing::token::{Operator, Token};
@@ -161,6 +161,7 @@ impl Parameters {
                             max_size = x.len()
                         }
                     });
+                    let first_line = vec!["-"; max_size - 2];
                     for ele in vss {
                         if ele.len() < max_size - 2 {
                             let v = vec![" "; max_size - 2 - ele.len()];
@@ -169,7 +170,12 @@ impl Parameters {
                             vfinal.push(format!("{ele}"));
                         }
                     }
-                    let s = format!("|{}|", vfinal.join("|\n|"));
+                    let s = format!(
+                        "+{}+\n|{}|\n+{}+",
+                        first_line.join(""),
+                        vfinal.join("|\n|"),
+                        first_line.join("")
+                    );
                     s
                 }
             }

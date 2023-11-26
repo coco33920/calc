@@ -303,3 +303,24 @@ categories are:
   image("assets/config.png"),
   caption: [Example of interaction in the command line of config]
 )
+
+#pagebreak(weak:true)
+= Logic
+
+== Implemented operators
+
+The following operators have been implemented:
+
+- or (alias: `||`)
+- and (alias: `&&`)
+- geq (alias: `>=`)
+- leq (alias: `<=`)
+- gt (alias : `>`)
+- lt (alias: `<`)
+
+== Example
+
+#figure(
+  image("assets/logic.png"),
+  caption: [Example of logic]
+)

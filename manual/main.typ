@@ -12,7 +12,7 @@ Last updated, November, The 26th, 2023
 
 #set list(indent: 1cm,body-indent: 0.25cm)
 
-#outline(title: [Table of Contents])
+#outline(title: [Table of Contents],indent: auto)
 #pagebreak(weak:true)
 
 #let icon(codepoint) = {
@@ -111,17 +111,123 @@ var = (2+2)
 
 #set align(center)
 #figure(
-  image("assets/image.png",height: 30%),
+  image("assets/image.png",height: 30%, width: auto),
   caption: [Example of setting a variable]
 )
 #set align(left)
 
 == Built-in variables
 
-The following variables are built-in
+The following variables are built-in:
 
 - `pi` is pi as a double precision float
 - `e` is e as a double precision float
 
 #pagebreak(weak: true)
+
+= Functions
+
+== Implemented
+
+The following functions are currently implemented:
+
+*Trigonometry* 
+
+- `sin` (vectorized)
+- `cos` (vectorized)
+- `tan` (vectorized)
+
+*Hyperbolic trigonometry*
+- `sinh` (vectorized)
+- `cosh` (vectorized)
+- `tanh` (vectorized)
+
+*Reverse trigonometry*
+- `acos` (vectorized)
+- `asin` (vectorized)
+- `atan` (vectorized)
+
+*Exponentiation*
+- `exp` (vectorized)
+- `ln` (alias: log) (vectorized)
+
+*Vectors*
+- `norm`
+
+*Matrices*
+- `det`
+- `invert`
+
+*Plot*
+- `plot`
+- `termplot`
+
+*Other*
+- `sqrt` (vectorized)
+- `factorial` (alias: fact)
+- `abs`
+- `ceil`
+- `floor`
+- `round`
+
+== Trigonometry 
+
+For trigonometry, the input is assumed to be in radians, if it is in degrees you
+need to add `false` or `true` as a second argument, example shown bellow.
+
+#set align(center)
+#figure(
+  image("assets/trigo.png"),
+  caption: [Usage of trigonometry]
+)
+#set align(left)
+
+#pagebreak(weak: true)
+== Exp/ln 
+
+If you use the exp function you can pass as a second argument the base you want
+to use if no second arguments are passed it will used the natural base.
+
+#set align(center)
+#figure(
+  image("assets/expln.png"),
+  caption: [Usage of exp/ln]
+)
+#set align(left)
+
+#pagebreak(weak: true)
+== Root 
+
+You can specify in second argument an integer to take the nth root, if not it
+take the square root.
+
+#set align(center)
+#figure(
+  image("assets/nth_root.png"),
+  caption: [Usage of sqrt]
+)
+#set align(left)
+
+== Partial function
+
+The calculator's language supports partial function.
+
+#set align(center)
+#figure(
+  image("assets/function.png"),
+  caption: [Example of a partial function]
+)
+#set align(left)
+
+#pagebreak(weak: true)
+== Vectorization
+Functions have been vectorized.
+
+#set align(center)
+#figure(
+  image("assets/sqrt_vectorized.png"),
+  caption: [Example of a vectorized function]
+)
+#set align(left)
+
 

@@ -13,6 +13,21 @@ November 26th 2023
 #outline(title: [Table of Contents])
 #pagebreak(weak:true)
 
+#let icon(codepoint) = {
+  box(
+    height: 0.8em,
+    baseline: 0.05em,
+    image(codepoint)
+  )
+  h(0.1em)
+}
+
+#show: codly-init.with()
+#codly(languages: (
+  rust: (name: "Rust", icon: icon("brand-rust.svg"), color: rgb("#CE412B")),
+  sh: (name: "Bash", icon: icon("brand-bash.svg"), color: rgb("3c3c3c")),
+))
+
 #let calc = link("https://calc.nwa2coco.fr",[#set text(red); *Calc*])
 
 = Introduction
@@ -26,4 +41,5 @@ matrix and vectors algebra, bindings to gnuplot and terminal plotting, with
 dozens of updates and currently (as of writing this manual) in version *2.11.4*.
 
 If you prefer a website you may want to read
-#link("https://calc.nwa2coco.fr/book",[*The Online Book*])
+#link("https://calc.nwa2coco.fr/book",[*The Online Book*]) which is always up to
+date 

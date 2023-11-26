@@ -10,6 +10,8 @@ Last updated, November, The 26th, 2023
 #show heading.where(level:1): set align(right)
 #set heading(numbering: "I.1.")
 
+#set list(indent: 1cm,body-indent: 0.25cm)
+
 #outline(title: [Table of Contents])
 #pagebreak(weak:true)
 
@@ -78,3 +80,48 @@ Visit #calc to see all the install page
   "Help, cleanup",
   link("https://earth2077.fr",[#set text(red); Website/Blog])
 )
+
+#pagebreak(weak: true)
+
+= Usage
+
+== Basic operators
+
+#calc have the basic operators which are
+
+- `+` for the addition
+- `-` for the substraction
+- `*` for the multiplication
+- `/` for the division (or for a rational)
+- `^` for the exponentation
+
+== Variables
+
+It also supports variable the syntax is 
+
+```
+myvar = value
+```
+
+for example
+
+```
+var = (2+2)
+``` 
+
+#set align(center)
+#figure(
+  image("assets/image.png",height: 30%),
+  caption: [Example of setting a variable]
+)
+#set align(left)
+
+== Built-in variables
+
+The following variables are built-in
+
+- `pi` is pi as a double precision float
+- `e` is e as a double precision float
+
+#pagebreak(weak: true)
+

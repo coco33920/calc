@@ -54,13 +54,18 @@ pub fn interpret(
                     _ => {
                         let (a, b) = assign(param1.clone(), param2.clone());
                         if a != "".to_string() {
+                            if ram.contains_key(&a) {
+                                ram.remove(&a);
+                            }
                             (ram).insert(a.clone(), b.clone());
+
+                            return Parameters::Identifier(format!(
+                                "@ {} = {}",
+                                a.clone(),
+                                b.clone().pretty_print(Some(ram), Some(function))
+                            ));
                         }
-                        Parameters::Identifier(format!(
-                            "@ {} = {}",
-                            a.clone(),
-                            b.clone().pretty_print(Some(ram), Some(function))
-                        ))
+                        Parameters::Null
                     }
                 },
                 Parameters::Float(f) => Parameters::Float(*f),

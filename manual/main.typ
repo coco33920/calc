@@ -439,6 +439,13 @@ functions added
   caption: [Example of matrix computation]
 )
 
+And as of 2.11.5 they are pretty printed with each column being aligned.
+
+#figure(
+  image("assets/aligned_matrices.png"),
+  caption: [Pretty printed matrix]
+)
+
 #pagebreak(weak:true)
 = Exact math 
 

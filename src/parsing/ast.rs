@@ -5,6 +5,7 @@ use crate::exact_math::rationals::Rationals;
 use crate::lexing::token::{Operator, Token};
 use crate::parsing::ast::Ast::{Nil, Node};
 use crate::parsing::ast::Parameters::*;
+use crate::utils::matrix_utils::transpose;
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Parameters {
@@ -151,7 +152,6 @@ impl Parameters {
                     format!("|{}|", vec.join(" "))
                 } else {
                     let mut vss = Vec::new();
-                    let mut vfinal = Vec::new();
                     let mut max_size = 0;
                     vec.clone()
                         .into_iter()
@@ -161,39 +161,57 @@ impl Parameters {
                             max_size = x.len()
                         }
                     });
-                    let first_line = vec!["-"; max_size - 2];
-                    println!("{max_size}");
-                    for ele in vss {
-                        if ele.len() < max_size - 2 {
-                            let mut fors = vec![];
-                            let mut fs = vec![];
-                            let f = ele.split_whitespace();
-                            f.for_each(|x| fors.push(x));
 
-                            for i in 1..(fors.len() - 1) {
-                                fs.push(fors[i]);
-                            }
-
-                            let v = vec![" "; max_size - 2 - ele.len()];
-                            println!("{}/{:?}/{:?}/{:?}", ele.len(), &fors, &fs, &v);
-
-                            vfinal.push(format!(
-                                "{}{}{}{}{}{}",
-                                fors[0],
-                                " ",
-                                fs.join(" "),
-                                if fs.len() > 0 { " " } else { "" },
-                                v.join(""),
-                                fors[fors.len() - 1]
-                            ))
-                        } else {
-                            vfinal.push(format!("{ele}"));
+                    let mut matrix = Vec::new();
+                    for el in vss.into_iter() {
+                        let mut col = Vec::new();
+                        let v = el.split_whitespace();
+                        for i in v {
+                            col.push(i.to_string());
                         }
+                        matrix.push(col);
                     }
+
+                    let mut final_v = Vec::new();
+                    let cols = transpose(matrix.clone());
+
+                    for x in cols {
+                        let mut max_size = 0;
+                        x.clone().into_iter().for_each(|y| {
+                            if y.len() > max_size {
+                                max_size = y.len()
+                            }
+                        });
+
+                        let mut new_line = Vec::new();
+
+                        for y in x.clone() {
+                            let vs = vec![" "; (max_size - y.len()) / 2];
+                            let vs2 = vec![" "; (max_size - y.len()) - vs.len()];
+                            new_line.push(format!("{}{}{}", vs.join(""), y, vs2.join("")));
+                        }
+
+                        final_v.push(new_line);
+                    }
+
+                    let vfinal = transpose(final_v);
+
+                    let mut max_length = 0;
+
+                    let mut v_final = Vec::new();
+                    vfinal.into_iter().for_each(|x| v_final.push(x.join(" ")));
+
+                    v_final.clone().into_iter().for_each(|x| {
+                        if x.len() > max_length {
+                            max_length = x.len()
+                        }
+                    });
+
+                    let first_line = vec!["-"; max_length];
                     let s = format!(
                         "+{}+\n|{}|\n+{}+",
                         first_line.join(""),
-                        vfinal.join("|\n|"),
+                        v_final.join("|\n|"),
                         first_line.join("")
                     );
                     s

@@ -1,3 +1,13 @@
+# Version 2.11.5 : Pretty print
+
+## Bug fix
+- improve display of floats precision to 10 decimal points (with rationalization
+  it's possible)
+
+## Pretty print matrices
+- change the way of matrices pretty printed, last numbers are aligned to the
+  right.
+
 # Version 2.11.4 : Exact rational math
 
 ## Exact math

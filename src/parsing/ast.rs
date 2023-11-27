@@ -51,7 +51,7 @@ impl Display for Parameters {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
             Int(i) => write!(f, "{}", i),
-            Float(fl) => write!(f, "{:.5}", fl),
+            Float(fl) => write!(f, "{:.10}", fl),
             Identifier(s) => write!(f, "{}", s),
             PlusOperation => write!(f, "+"),
             MinusOperation => write!(f, "-"),

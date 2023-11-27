@@ -5,7 +5,7 @@
 #set text(size: 18pt,weight: "bold")
 Calc Manual\
 #set text(size: 13pt,weight: "regular")
-Last updated, November, The 26th, 2023
+Last updated, November, The 27th, 2023
 #set align(left)
 #show heading.where(level:1): set align(right)
 #set heading(numbering: "I.1.")

@@ -5,8 +5,10 @@
   it's possible)
 
 ## Pretty print matrices
-- change the way of matrices pretty printed, last numbers are aligned to the
-  right.
+- change the way of matrices pretty printed, matrices are aligned 
+
+![](docs/assets/align_matrices.png)
+![](assets/align_matrices.png)
 
 # Version 2.11.4 : Exact rational math
 

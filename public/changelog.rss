@@ -1,4 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>mini-calc Changelog</title><link>http://127.0.0.1:7979/changelog</link><description>Changelog information for mini-calc</description><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><atom:link href="http://127.0.0.1:7979/changelog.rss" rel="self"/><item><title>Version 2.11.4 : Exact rational math</title><link>http://127.0.0.1:7979/changelog/2.11.4</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.11.4</guid><content:encoded><![CDATA[<h2>Exact math</h2>
+<?xml version="1.0" encoding="utf-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>mini-calc Changelog</title><link>http://127.0.0.1:7979/changelog</link><description>Changelog information for mini-calc</description><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><atom:link href="http://127.0.0.1:7979/changelog.rss" rel="self"/><item><title>Version 2.11.5 : Pretty print</title><link>http://127.0.0.1:7979/changelog/2.11.5</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.11.5</guid><content:encoded><![CDATA[<h2>Bug fix</h2>
+<ul>
+<li>improve display of floats precision to 10 decimal points (with rationalization
+it's possible)</li>
+</ul>
+<h2>Pretty print matrices</h2>
+<ul>
+<li>change the way of matrices pretty printed, matrices are aligned</li>
+</ul>
+<p><img src="docs/assets/align_matrices.png" alt="">
+<img src="assets/align_matrices.png" alt=""></p>
+]]></content:encoded></item><item><title>Version 2.11.4 : Exact rational math</title><link>http://127.0.0.1:7979/changelog/2.11.4</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.11.4</guid><content:encoded><![CDATA[<h2>Exact math</h2>
 <ul>
 <li>add automatic rationalization of floats (with 10 decimal point of precision)</li>
 </ul>
@@ -243,4 +254,4 @@ Plotting is powered by gnuplot, it will works on Unix-like (MacOS, Linux) but I 
 ]]></content:encoded></item><item><title>v2.0.0 New Parser!</title><link>http://127.0.0.1:7979/changelog/2.0.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.0.0</guid><content:encoded><![CDATA[<p>New parser!
 No edge case</p>
 ]]></content:encoded></item><item><title>v1.0.0 : Functionning interpreter</title><link>http://127.0.0.1:7979/changelog/1.0.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/1.0.0</guid><content:encoded><![CDATA[<p>Functionning interpreter</p>
-]]></content:encoded></item><item><title>v.0.3.0-alpha Parsing of advanced operation</title><link>http://127.0.0.1:7979/changelog/alpha-0.3.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/alpha-0.3.0</guid><content:encoded><![CDATA[]]></content:encoded></item></channel></rss>
+]]></content:encoded></item></channel></rss>

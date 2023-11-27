@@ -4,7 +4,6 @@ use std::f64::consts::{E, PI};
 use gnuplot::{AxesCommon, Figure};
 
 use crate::configuration::loader::{load, load_config, Config};
-use crate::exact_math::rationals::Rationals;
 use crate::interpreting::interpreter::interpret;
 use crate::parsing::ast::{Ast, Parameters};
 use crate::utils::matrix_utils::{lup_decompose, lup_determinant, lup_invert, transpose};

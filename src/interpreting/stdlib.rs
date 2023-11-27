@@ -1541,6 +1541,25 @@ pub fn inverse_matrix(
                         }
                         vec_ia.push(vec);
                     }
+                    let det = lup_determinant(&mut res, &mut p, n, ram.as_deref());
+                    match det {
+                        Parameters::Int(0) => {
+                            return Parameters::Str(
+                                "Determinant is zero, matrix is not invertible".to_string(),
+                            )
+                        }
+                        Parameters::Float(s) if s.abs() < 1e-10 => {
+                            return Parameters::Str(
+                                "Determinant is zero, matrix is not invertible".to_string(),
+                            )
+                        }
+                        Parameters::Rational(s) if s.clone().is_null() => {
+                            return Parameters::Str(
+                                "Determinant is zero, matrix is not invertible".to_string(),
+                            )
+                        }
+                        _ => (),
+                    }
                     lup_invert(&mut res, &mut p, n, &mut vec_ia, ram.as_deref());
                     let mut resd = Vec::new();
                     for i in 0..n {

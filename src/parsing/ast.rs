@@ -5,6 +5,7 @@ use crate::exact_math::rationals::Rationals;
 use crate::lexing::token::{Operator, Token};
 use crate::parsing::ast::Ast::{Nil, Node};
 use crate::parsing::ast::Parameters::*;
+use crate::utils::matrix_utils::transpose;
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Parameters {
@@ -51,7 +52,7 @@ impl Display for Parameters {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
             Int(i) => write!(f, "{}", i),
-            Float(fl) => write!(f, "{:.5}", fl),
+            Float(fl) => write!(f, "{:.10}", fl),
             Identifier(s) => write!(f, "{}", s),
             PlusOperation => write!(f, "+"),
             MinusOperation => write!(f, "-"),
@@ -151,7 +152,6 @@ impl Parameters {
                     format!("|{}|", vec.join(" "))
                 } else {
                     let mut vss = Vec::new();
-                    let mut vfinal = Vec::new();
                     let mut max_size = 0;
                     vec.clone()
                         .into_iter()
@@ -161,19 +161,57 @@ impl Parameters {
                             max_size = x.len()
                         }
                     });
-                    let first_line = vec!["-"; max_size - 2];
-                    for ele in vss {
-                        if ele.len() < max_size - 2 {
-                            let v = vec![" "; max_size - 2 - ele.len()];
-                            vfinal.push(format!("{}{}", ele, v.join("")));
-                        } else {
-                            vfinal.push(format!("{ele}"));
+
+                    let mut matrix = Vec::new();
+                    for el in vss.into_iter() {
+                        let mut col = Vec::new();
+                        let v = el.split_whitespace();
+                        for i in v {
+                            col.push(i.to_string());
                         }
+                        matrix.push(col);
                     }
+
+                    let mut final_v = Vec::new();
+                    let cols = transpose(matrix.clone());
+
+                    for x in cols {
+                        let mut max_size = 0;
+                        x.clone().into_iter().for_each(|y| {
+                            if y.len() > max_size {
+                                max_size = y.len()
+                            }
+                        });
+
+                        let mut new_line = Vec::new();
+
+                        for y in x.clone() {
+                            let vs = vec![" "; (max_size - y.len()) / 2];
+                            let vs2 = vec![" "; (max_size - y.len()) - vs.len()];
+                            new_line.push(format!("{}{}{}", vs.join(""), y, vs2.join("")));
+                        }
+
+                        final_v.push(new_line);
+                    }
+
+                    let vfinal = transpose(final_v);
+
+                    let mut max_length = 0;
+
+                    let mut v_final = Vec::new();
+                    vfinal.into_iter().for_each(|x| v_final.push(x.join(" ")));
+
+                    v_final.clone().into_iter().for_each(|x| {
+                        if x.len() > max_length {
+                            max_length = x.len()
+                        }
+                    });
+
+                    let first_line = vec!["-"; max_length];
                     let s = format!(
                         "+{}+\n|{}|\n+{}+",
                         first_line.join(""),
-                        vfinal.join("|\n|"),
+                        v_final.join("|\n|"),
                         first_line.join("")
                     );
                     s

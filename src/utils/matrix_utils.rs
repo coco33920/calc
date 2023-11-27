@@ -5,7 +5,7 @@ use crate::{
     parsing::ast::Parameters,
 };
 
-pub fn transpose(matrix: Vec<Vec<Parameters>>) -> Vec<Vec<Parameters>> {
+pub fn transpose<T>(matrix: Vec<Vec<T>>) -> Vec<Vec<T>> {
     let num_cols = matrix.first().unwrap().len();
     let mut row_iters: Vec<_> = matrix.into_iter().map(Vec::into_iter).collect();
     let mut out: Vec<Vec<_>> = (0..num_cols).map(|_| Vec::new()).collect();

@@ -28,6 +28,10 @@ impl Rationals {
         Rationals::new(10_i64.pow(10), r).reduce()
     }
 
+    pub fn is_null(self) -> bool {
+        return self.over == 0;
+    }
+
     pub fn reduce(self) -> Self {
         let minus;
         let i1;

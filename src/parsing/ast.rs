@@ -165,7 +165,22 @@ impl Parameters {
                     for ele in vss {
                         if ele.len() < max_size - 2 {
                             let v = vec![" "; max_size - 2 - ele.len()];
-                            vfinal.push(format!("{}{}", ele, v.join("")));
+                            let mut fors = vec![];
+                            let mut fs = vec![];
+                            let f = ele.split_whitespace();
+                            f.for_each(|x| fors.push(x));
+
+                            for i in 1..(fors.len() - 1) {
+                                fs.push(fors[i]);
+                            }
+
+                            vfinal.push(format!(
+                                "{} {}{}{}",
+                                fors[0],
+                                fs.join(" "),
+                                v.join(""),
+                                fors[fors.len() - 1]
+                            ))
                         } else {
                             vfinal.push(format!("{ele}"));
                         }

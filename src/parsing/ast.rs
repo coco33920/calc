@@ -162,9 +162,9 @@ impl Parameters {
                         }
                     });
                     let first_line = vec!["-"; max_size - 2];
+                    println!("{max_size}");
                     for ele in vss {
                         if ele.len() < max_size - 2 {
-                            let v = vec![" "; max_size - 2 - ele.len()];
                             let mut fors = vec![];
                             let mut fs = vec![];
                             let f = ele.split_whitespace();
@@ -174,10 +174,15 @@ impl Parameters {
                                 fs.push(fors[i]);
                             }
 
+                            let v = vec![" "; max_size - 2 - ele.len()];
+                            println!("{}/{:?}/{:?}/{:?}", ele.len(), &fors, &fs, &v);
+
                             vfinal.push(format!(
-                                "{} {}{}{}",
+                                "{}{}{}{}{}{}",
                                 fors[0],
+                                " ",
                                 fs.join(" "),
+                                if fs.len() > 0 { " " } else { "" },
                                 v.join(""),
                                 fors[fors.len() - 1]
                             ))

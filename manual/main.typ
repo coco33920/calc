@@ -230,6 +230,15 @@ Functions have been vectorized.
 )
 #set align(left)
 
+== User defined function
+You can defined your own function
+
+#figure(
+  image("assets/user_defined.png"),
+  caption: [Definition of function]
+)
+#pagebreak(weak: true)
+
 = Configuration
 
 You can configure the general color, greeting message, greeting color, prompt
@@ -398,6 +407,39 @@ It scales automatically in y too!
   caption: [Example of a plot with y auto-scaling]
 )
 #pagebreak(weak: true)
+
+= Vectors computation
+
+You can compute vectors using these functions,
+
+- add vectors 
+- dot product (\* operator)
+- norm function
+
+#figure(
+  image("assets/vector.png"),
+  caption: [Example of vector computation]
+)
+
+= Matrices computation
+
+As of 2.7.0 matrix algebra was added to the calculator you can
+
+- add matrices
+- multiply compatible matrices
+
+functions added
+
+- transpose
+- invert
+- 2023-11-26 14:49
+
+#figure(
+  image("assets/matrix.png"),
+  caption: [Example of matrix computation]
+)
+
+#pagebreak(weak:true)
 = Exact math 
 
 == Rational exact math 

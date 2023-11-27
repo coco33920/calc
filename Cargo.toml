@@ -9,7 +9,8 @@ readme = "README.md"
 edition = "2021"
 exclude = [
     "docs/*",
-    "manual/*"
+    "manual/*",
+    "manual.pdf"
 ]
 
 

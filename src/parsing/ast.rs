@@ -292,6 +292,7 @@ impl Parameters {
         match self {
             Parameters::Int(i) => Parameters::Int(i.abs()),
             Parameters::Float(f) => Parameters::Float(f.abs()),
+            Parameters::Rational(r) => Parameters::Rational(r.abs()),
             Parameters::Identifier(s) => match ram {
                 None => Parameters::Null,
                 Some(t) => {

@@ -73,7 +73,7 @@ pub fn lup_decompose(
 
     for i in 0..n {
         max_a = Parameters::Float(0.0);
-        i_max = 0;
+        i_max = i;
 
         for k in i..n {
             abs_a = ((a[k])[i]).clone().abs(ram.as_deref());
@@ -82,7 +82,6 @@ pub fn lup_decompose(
                     max_a = (abs_a).clone();
                     i_max = k;
                 }
-
                 _ => (),
             }
         }
@@ -109,10 +108,9 @@ pub fn lup_decompose(
             (p)[n] = add((p)[n].clone(), Parameters::Int(1), ram.as_deref());
         }
 
-        for j in i + 1..n {
+        for j in (i + 1)..n {
             (a)[j][i] = divide((a)[j][i].clone(), (a)[i][i].clone(), ram.as_deref());
-
-            for k in i + 1..n {
+            for k in (i + 1)..n {
                 (a)[j][k] = minus(
                     (a)[j][k].clone(),
                     mult((a)[j][i].clone(), (a)[i][k].clone(), ram.as_deref()),
@@ -131,7 +129,6 @@ pub fn lup_determinant(
     ram: Option<&HashMap<String, Parameters>>,
 ) -> Parameters {
     let mut det: Parameters = (&a[0][0]).clone();
-
     for i in 1..n {
         det = mult(det.clone(), (&a[i][i]).clone(), ram.as_deref())
     }

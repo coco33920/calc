@@ -1,3 +1,8 @@
+# Version 2.11.6 : Fix bug
+
+## Bug fix
+- fix bug with lup-decomposition of rationals (an abs missing)
+
 # Version 2.11.5 : Pretty print
 
 ## Bug fix

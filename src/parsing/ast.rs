@@ -188,7 +188,7 @@ impl Parameters {
                         for y in x.clone() {
                             let vs = vec![" "; (max_size - y.len()) / 2];
                             let vs2 = vec![" "; (max_size - y.len()) - vs.len()];
-                            new_line.push(format!("{}{}{}", vs.join(""), y, vs2.join("")));
+                            new_line.push(format!("{}{}{}", vs2.join(""), y, vs.join("")));
                         }
 
                         final_v.push(new_line);

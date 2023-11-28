@@ -168,6 +168,7 @@ impl ops::Sub for Rationals {
 impl ops::Mul for Rationals {
     type Output = Rationals;
     fn mul(self, rhs: Self) -> Self::Output {
+        println!("{:?}*{:?}", self, rhs);
         return Rationals::new(self.under * rhs.under, self.over * rhs.over).reduce();
     }
 }
@@ -178,6 +179,7 @@ impl ops::Div for Rationals {
         let l = self.under * rhs.over;
         let rs = self.over * rhs.under;
         let r = Rationals::new(l, rs);
+        println!("{:?}/{:?}={:?}", self, rhs, &r);
         return r.reduce();
     }
 }

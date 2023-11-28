@@ -1,4 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>mini-calc Changelog</title><link>http://127.0.0.1:7979/changelog</link><description>Changelog information for mini-calc</description><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><atom:link href="http://127.0.0.1:7979/changelog.rss" rel="self"/><item><title>Version 2.11.5 : Pretty print</title><link>http://127.0.0.1:7979/changelog/2.11.5</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.11.5</guid><content:encoded><![CDATA[<h2>Bug fix</h2>
+<?xml version="1.0" encoding="utf-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>mini-calc Changelog</title><link>http://127.0.0.1:7979/changelog</link><description>Changelog information for mini-calc</description><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><atom:link href="http://127.0.0.1:7979/changelog.rss" rel="self"/><item><title>Version 2.11.6 : Fix bug</title><link>http://127.0.0.1:7979/changelog/2.11.6</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.11.6</guid><content:encoded><![CDATA[<h2>Bug fix</h2>
+<ul>
+<li>fix bug with lup-decomposition of rationals (an abs missing)</li>
+</ul>
+]]></content:encoded></item><item><title>Version 2.11.5 : Pretty print</title><link>http://127.0.0.1:7979/changelog/2.11.5</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.11.5</guid><content:encoded><![CDATA[<h2>Bug fix</h2>
 <ul>
 <li>improve display of floats precision to 10 decimal points (with rationalization
 it's possible)</li>
@@ -253,5 +257,4 @@ Plotting is powered by gnuplot, it will works on Unix-like (MacOS, Linux) but I 
 </ul>
 ]]></content:encoded></item><item><title>v2.0.0 New Parser!</title><link>http://127.0.0.1:7979/changelog/2.0.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/2.0.0</guid><content:encoded><![CDATA[<p>New parser!
 No edge case</p>
-]]></content:encoded></item><item><title>v1.0.0 : Functionning interpreter</title><link>http://127.0.0.1:7979/changelog/1.0.0</link><category domain="https://github.com/coco33920/calc">mini-calc Changelog</category><guid>http://127.0.0.1:7979/changelog/1.0.0</guid><content:encoded><![CDATA[<p>Functionning interpreter</p>
 ]]></content:encoded></item></channel></rss>

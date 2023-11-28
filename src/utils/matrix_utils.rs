@@ -110,9 +110,14 @@ pub fn lup_decompose(
         }
 
         println!("Ok right there");
-        println!("{:?}", &a);
+        for si in 0..n {
+            for sj in 0..n {
+                println!("a[{}][{}]={}", si, sj, &a[si][sj]);
+            }
+        }
 
         for j in i + 1..n {
+            println!("i: {i}; j: {j}");
             (a)[j][i] = divide((a)[j][i].clone(), (a)[i][i].clone(), ram.as_deref());
             println!("a[j][i] : {}", &a[j][i]);
             for k in i + 1..n {

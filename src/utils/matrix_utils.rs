@@ -116,11 +116,11 @@ pub fn lup_decompose(
             }
         }
 
-        for j in i + 1..n {
-            println!("i: {i}; j: {j}");
+        for j in (i + 1)..n {
+            println!("i: {i}; j: {j}; n: {n}");
             (a)[j][i] = divide((a)[j][i].clone(), (a)[i][i].clone(), ram.as_deref());
-            println!("a[j][i] : {}", &a[j][i]);
-            for k in i + 1..n {
+            println!("a[{j}][{i}] : {}", &a[j][i]);
+            for k in (i + 1)..n {
                 (a)[j][k] = minus(
                     (a)[j][k].clone(),
                     mult((a)[j][i].clone(), (a)[i][k].clone(), ram.as_deref()),
@@ -128,6 +128,7 @@ pub fn lup_decompose(
                 )
             }
         }
+        println!("\n\n")
     }
     return 1;
 }

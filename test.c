@@ -50,14 +50,16 @@ int LUPDecompose(double **A, int N, double Tol, int *P) {
 		printf("a[%d][%d] = %f\n",si,sj,A[si][sj]);
 		}
 	}
-	printf("\n\n");
 
         for (j = i + 1; j < N; j++) {
+            printf("i: %d, j: %d\n",i,j);
             A[j][i] /= A[i][i];
-
+            printf("a[%d][%d]=%f\n",j,i,A[j][i]);
             for (k = i + 1; k < N; k++)
                 A[j][k] -= A[j][i] * A[i][k];
         }
+
+        printf("\n\n");
     }
 
     return 1;  //decomposition done 

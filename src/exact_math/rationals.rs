@@ -110,7 +110,7 @@ impl PartialEq for Rationals {
 
 impl PartialOrd for Rationals {
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
-        if !(self.under == other.under) {
+        if self.under == other.under {
             if self.over == other.over {
                 return Some(std::cmp::Ordering::Equal);
             }
@@ -280,5 +280,75 @@ mod test {
         let expected = Rationals::new(525, 1216);
         let value = Rationals::new(25, 32) / Rationals::new(76, 42);
         assert_eq!(value, expected);
+    }
+
+    #[test]
+    pub fn test_ope_lesser_easy() {
+        let expected = true;
+        let value = Rationals::new(12, 4) < Rationals::new(12, 5);
+        assert_eq!(value, expected)
+    }
+
+    #[test]
+    pub fn test_ope_lesser_hard() {
+        let expected = true;
+        let value = Rationals::new(12, 3) < Rationals::new(15, 6);
+        assert_eq!(value, expected)
+    }
+
+    #[test]
+    pub fn test_ope_greater_easy() {
+        let expected = true;
+        let value = Rationals::new(12, 3) > Rationals::new(12, 2);
+        assert_eq!(value, expected)
+    }
+
+    #[test]
+    pub fn test_ope_greater_hard() {
+        let expected = true;
+        let value = Rationals::new(12, 3) > Rationals::new(15, 3);
+        assert_eq!(value, expected)
+    }
+
+    #[test]
+    pub fn test_ope_greater_or_equal_easy() {
+        let expected = true;
+        let value = Rationals::new(12, 3) >= Rationals::new(12, 2);
+        assert_eq!(value, expected)
+    }
+
+    #[test]
+    pub fn test_ope_greater_or_equal_hard() {
+        let expected = true;
+        let value = Rationals::new(12, 3) >= Rationals::new(15, 3);
+        assert_eq!(value, expected)
+    }
+
+    #[test]
+    pub fn test_ope_lesser_or_equal_easy() {
+        let expected = true;
+        let value = Rationals::new(12, 3) <= Rationals::new(12, 5);
+        assert_eq!(value, expected)
+    }
+
+    #[test]
+    pub fn test_ope_lesser_or_equal_hard() {
+        let expected = true;
+        let value = Rationals::new(12, 3) <= Rationals::new(15, 6);
+        assert_eq!(value, expected)
+    }
+
+    #[test]
+    pub fn test_ope_equal_easy() {
+        let expected = true;
+        let value = Rationals::new(12, 3) == Rationals::new(12, 3);
+        assert_eq!(value, expected)
+    }
+
+    #[test]
+    pub fn test_ope_equal_hard() {
+        let expected = true;
+        let value = Rationals::new(12, 3) == Rationals::new(24, 6);
+        assert_eq!(value, expected)
     }
 }

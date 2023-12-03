@@ -158,3 +158,189 @@ impl Token {
         }
     }
 }
+#[cfg(test)]
+mod test {
+    use super::{Token, TokenType};
+
+    #[test]
+    fn test_token_type_operators_plus() {
+        let expected = TokenType::PLUS;
+        let value = Token::OPE(super::Operator::PLUS).to_token_type();
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    fn test_token_type_operators_minus() {
+        let expected = TokenType::MINUS;
+        let value = Token::OPE(super::Operator::MINUS).to_token_type();
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    fn test_token_type_operators_mult() {
+        let expected = TokenType::MULTIPLICATION;
+        let value = Token::OPE(super::Operator::MULTIPLICATION).to_token_type();
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    fn test_token_type_operators_divide() {
+        let expected = TokenType::DIVIDE;
+        let value = Token::OPE(super::Operator::DIVIDE).to_token_type();
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    fn test_token_type_operators_expo() {
+        let expected = TokenType::EXPO;
+        let value = Token::OPE(super::Operator::EXPO).to_token_type();
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    fn test_token_type_operators_equality() {
+        let expected = TokenType::EQUALITY;
+        let value = Token::OPE(super::Operator::EQUALITY).to_token_type();
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    fn test_token_type_operators_greater() {
+        let expected = TokenType::GREATER;
+        let value = Token::OPE(super::Operator::GreaterThan).to_token_type();
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    fn test_token_type_operators_lesser() {
+        let expected = TokenType::LESSER;
+        let value = Token::OPE(super::Operator::LesserThan).to_token_type();
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    fn test_token_type_operators_greaterq() {
+        let expected = TokenType::GREATEREQ;
+        let value = Token::OPE(super::Operator::GreaterOrEqual).to_token_type();
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    fn test_token_type_operators_lesserq() {
+        let expected = TokenType::LESSEREQ;
+        let value = Token::OPE(super::Operator::LesserOrEqual).to_token_type();
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    fn test_token_type_operators_and() {
+        let expected = TokenType::AND;
+        let value = Token::OPE(super::Operator::And).to_token_type();
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    fn test_token_type_operators_or() {
+        let expected = TokenType::OR;
+        let value = Token::OPE(super::Operator::Or).to_token_type();
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    fn test_token_type_operators_not() {
+        let expected = TokenType::NOT;
+        let value = Token::OPE(super::Operator::NOT).to_token_type();
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    fn test_token_type_identifier() {
+        let expected = TokenType::IDENTIFIER;
+        let value = Token::IDENTIFIER("s".to_string()).to_token_type();
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    fn test_token_type_int() {
+        let expected = TokenType::INT;
+        let value = Token::INT(0).to_token_type();
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    fn test_token_type_float() {
+        let expected = TokenType::FLOAT;
+        let value = Token::FLOAT(0.0).to_token_type();
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    fn test_token_type_equal() {
+        let expected = TokenType::EQUAL;
+        let value = Token::EQUAL.to_token_type();
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    fn test_token_type_lpar() {
+        let expected = TokenType::LPAR;
+        let value = Token::LPAR.to_token_type();
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    fn test_token_type_rpar() {
+        let expected = TokenType::RPAR;
+        let value = Token::RPAR.to_token_type();
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    fn test_token_type_bool() {
+        let expected = TokenType::BOOL;
+        let value = Token::BOOL(false).to_token_type();
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    fn test_token_type_null() {
+        let expected = TokenType::Null;
+        let value = Token::Null.to_token_type();
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    fn test_token_type_comma() {
+        let expected = TokenType::COMMA;
+        let value = Token::COMMA.to_token_type();
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    fn test_token_type_rbracket() {
+        let expected = TokenType::RBRACKET;
+        let value = Token::RBRACKET.to_token_type();
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    fn test_token_type_lbracket() {
+        let expected = TokenType::LBRACKET;
+        let value = Token::LBRACKET.to_token_type();
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    fn test_token_type_whitespace() {
+        let expected = TokenType::WHITESPACE;
+        let value = Token::WHITESPACE.to_token_type();
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    fn test_token_type_quote() {
+        let expected = TokenType::QUOTE;
+        let value = Token::QUOTE.to_token_type();
+        assert_eq!(value, expected);
+    }
+}

@@ -351,4 +351,25 @@ mod test {
         let value = Rationals::new(12, 3) == Rationals::new(24, 6);
         assert_eq!(value, expected)
     }
+
+    #[test]
+    pub fn test_display() {
+        let expected = "3";
+        let value = format!("{}", Rationals::new(1, 3));
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    pub fn test_display_hard() {
+        let expected = "3/2";
+        let value = format!("{}", Rationals::new(2, 3));
+        assert_eq!(value, expected);
+    }
+
+    #[test]
+    pub fn test_approximation() {
+        let expected = 3.5_f64;
+        let value = Rationals::new(2, 7).approx();
+        assert_eq!(value, expected)
+    }
 }

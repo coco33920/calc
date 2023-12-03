@@ -255,36 +255,6 @@ impl Ast {
             right: Box::from(Nil),
         }
     }
-    pub fn insert_left(self, node: Ast) -> Self {
-        match &self {
-            Nil => node,
-            Node {
-                value,
-                left: _left,
-                right,
-            } => Node {
-                value: value.clone(),
-                left: Box::from(node),
-                right: right.clone(),
-            },
-            _ => node,
-        }
-    }
-    pub fn insert_right(self, node: Ast) -> Self {
-        match &self {
-            Nil => node,
-            Node {
-                value,
-                left,
-                right: _right,
-            } => Node {
-                value: value.clone(),
-                left: left.clone(),
-                right: Box::from(node),
-            },
-            _ => node,
-        }
-    }
 }
 
 impl Parameters {
@@ -321,40 +291,5 @@ mod test {
         };
         let result = Ast::new(Parameters::Int(2));
         assert_eq!(result, expected)
-    }
-
-    #[test]
-    pub fn test_insert_left() {
-        let expected = Ast::Node {
-            value: Parameters::Int(2),
-            left: Box::from(Ast::new(Parameters::Int(2))),
-            right: Box::from(Ast::Nil),
-        };
-        let result = Ast::new(Parameters::Int(2)).insert_left(Ast::new(Parameters::Int(2)));
-        assert_eq!(result, expected)
-    }
-
-    #[test]
-    pub fn test_insert_right() {
-        let expected = Ast::Node {
-            value: Parameters::Int(2),
-            left: Box::from(Ast::Nil),
-            right: Box::from(Ast::new(Parameters::Int(2))),
-        };
-        let result = Ast::new(Parameters::Int(2)).insert_right(Ast::new(Parameters::Int(2)));
-        assert_eq!(result, expected)
-    }
-
-    #[test]
-    pub fn test_insert_both() {
-        let expected = Ast::Node {
-            value: Parameters::Int(2),
-            left: Box::from(Ast::new(Parameters::Int(2))),
-            right: Box::from(Ast::new(Parameters::Int(2))),
-        };
-        let result = Ast::new(Parameters::Int(2))
-            .insert_right(Ast::new(Parameters::Int(2)))
-            .insert_left(Ast::new(Parameters::Int(2)));
-        assert_eq!(result, expected);
     }
 }

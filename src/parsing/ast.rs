@@ -113,10 +113,10 @@ impl Parameters {
                     }
                 } else {
                     if ram == None {
-                        return self.to_string();
+                        return s.to_string();
                     } else {
                         match ram.as_mut().unwrap().get(s) {
-                            None => "This variable is not initialized yet".to_string(),
+                            None => s.to_string(),
                             Some(t) => t.clone().pretty_print(
                                 Some(ram.as_mut().unwrap()),
                                 Some(function.as_mut().unwrap()),

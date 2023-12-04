@@ -350,10 +350,11 @@ fn main() {
                         println!("{:#?}", p);
                         println!()
                     }
+                    println!("Result of {p}");
                     let result = interpret(&p, &mut ram, &mut functions);
                     if result != Parameters::Null {
                         println!(
-                            "{}",
+                            "> {}",
                             result.pretty_print(Some(&mut ram), Some(&mut functions))
                         )
                     }

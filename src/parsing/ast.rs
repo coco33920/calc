@@ -83,6 +83,11 @@ impl Display for Ast {
         match self {
             Nil => write!(f, ""),
             Node {
+                value: p,
+                left: l,
+                right: r,
+            } if **l == Ast::Nil && **r == Ast::Nil => write!(f, "{p}"),
+            Node {
                 value: v,
                 left: l,
                 right: r,

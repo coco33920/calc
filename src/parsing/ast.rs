@@ -103,6 +103,23 @@ impl Display for Ast {
     }
 }
 
+impl Ast {
+
+    pub fn pretty_print(&self,mut ram: Option<&mut HashMap<String, Parameters>>,mut function: Option<&mut HashMap<String, (Vec<Ast>,Ast)>>) -> String {
+        
+        match self {
+        
+            Nil => format!(""),
+            Node { value: p, left: l, right: r } if **l == Ast::Nil && **r == Ast::Nil => format!("{}",p.pretty_print(ram,function)),
+            Node { value: v, left: l, right: r } => format!("({} {} {})",l.pretty_print(ram, function),v.pretty_print(ram, function),r.pretty_print(ram, function)),
+            Ast::Call { name: v, lst: l } => format!("{}",Ast::Call { name: *v, lst: *l} )
+
+        }
+
+    }
+
+}
+
 impl Parameters {
     pub fn pretty_print(
         &self,

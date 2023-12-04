@@ -12,9 +12,9 @@ pub fn interpret(
     ast: &Ast,
     mut ram: &mut HashMap<String, Parameters>,
     mut function: &mut HashMap<String, (Vec<Ast>, Ast)>,
-) -> Parameters {
+) -> Ast {
     match ast {
-        Ast::Nil => Parameters::Null,
+        Ast::Nil => Ast::Nil,
         Ast::Node {
             value: v,
             left: l,
@@ -36,20 +36,20 @@ pub fn interpret(
                 Parameters::LesserOrEqualOperation => lesser_or_equal(param1, param2, Some(&ram)),
                 Parameters::AndOperation => and(param1, param2, Some(&ram)),
                 Parameters::OrOperation => or(param1, param2, Some(&ram)),
-                Parameters::Rational(s) => Parameters::Rational(s.clone()),
-                Parameters::Str(s) => Parameters::Str(s.to_string()),
+                Parameters::Rational(s) => Ast::new(Parameters::Rational(s.clone())),
+                Parameters::Str(s) => Ast::new(Parameters::Str(s.to_string())),
                 Parameters::Assign => match *(l.clone()) {
                     Ast::Call { name: n, lst: list } => {
                         if function.contains_key(&n) {
-                            Parameters::Str("This function has already been set".to_string())
+                            Ast::new(Parameters::Str("This function has already been set".to_string()))
                         } else {
                             if n.as_str() != "" {
                                 (function).insert(n.to_string(), (list, *r.clone()));
                             }
-                            Parameters::Identifier(format!(
+                            Ast::new(Parameters::Identifier(format!(
                                 "@The function {} has been set",
                                 n.clone()
-                            ))
+                            )))
                         }
                     }
                     _ => {
@@ -60,42 +60,43 @@ pub fn interpret(
                             }
                             (ram).insert(a.clone(), b.clone());
 
-                            return Parameters::Identifier(format!(
+                            return Ast::new(Parameters::Identifier(format!(
                                 "@ {} = {}",
                                 a.clone(),
                                 b.clone().pretty_print(Some(ram), Some(function))
-                            ));
+                            )));
                         }
-                        Parameters::Null
+                        Ast::Nil
                     }
                 },
-                Parameters::Float(f) => Parameters::Rational(Rationals::rationalize(*f)),
-                Parameters::Int(i) => Parameters::Int(*i),
+                Parameters::Float(f) => Ast::new(Parameters::Rational(Rationals::rationalize(*f))),
+                Parameters::Int(i) => Ast::new(Parameters::Int(*i)),
                 Parameters::Identifier(s) => {
                     if ram.contains_key(s) {
-                        ram.get(s).unwrap().clone()
+                        Ast::new(ram.get(s).unwrap().clone())
                     } else {
-                        Parameters::Identifier(s.clone())
+                        Ast::new(Parameters::Identifier(s.clone()))
                     }
                 }
-                Parameters::Bool(b) => Parameters::Bool(*b),
-                Parameters::Null => Parameters::Null,
+                Parameters::Bool(b) => Ast::new(Parameters::Bool(*b)),
+                Parameters::Null => Ast::new(Parameters::Null),
                 Parameters::Vector(a) => {
                     let mut vec = Vec::new();
                     (*a).clone()
                         .into_iter()
                         .map(|a| interpret(&a, ram, function))
                         .for_each(|s| vec.push(s));
-                    Parameters::InterpreterVector(Box::from(vec))
+                    Ast::new(Parameters::InterpreterVector(Box::from(vec)))
                 }
-                Parameters::InterpreterVector(a) => Parameters::InterpreterVector(a.clone()),
+                Parameters::InterpreterVector(a) => Ast::new(Parameters::InterpreterVector(a.clone())),
             };
             last.clone()
         }
-        Ast::Call { name: n, lst: list } => {
+        _ => Ast::Nil
+        /*Ast::Call { name: n, lst: list } => {
             let v: Vec<Parameters> = list.iter().map(|x| interpret(x, ram, function)).collect();
             exec(n.to_string(), v, Some(&mut ram), Some(&mut function))
-        }
+        }*/
     }
 }
 

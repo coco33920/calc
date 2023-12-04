@@ -348,13 +348,13 @@ fn main() {
                         println!("{:?}", &a);
                         println!("Parsing of line: {str}");
                         println!("{:#?}", p);
-                        println!()
+                        println!();
+                        println!("Result of line {p}");
                     }
-                    println!("Result of {p}");
                     let result = interpret(&p, &mut ram, &mut functions);
-                    if result != Parameters::Null {
+                    if result != Ast::Nil {
                         println!(
-                            "> {}",
+                            "{}",
                             result.pretty_print(Some(&mut ram), Some(&mut functions))
                         )
                     }

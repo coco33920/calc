@@ -15,6 +15,7 @@ pub enum Parameters {
     Str(String),
     Identifier(String),
     Rational(Rationals),
+    Variable(Box<Parameters>,String,i64),
     PlusOperation,
     MinusOperation,
     MultiplicationOperation,
@@ -57,6 +58,7 @@ impl Display for Parameters {
             PlusOperation => write!(f, "+"),
             MinusOperation => write!(f, "-"),
             MultiplicationOperation => write!(f, "*"),
+            Variable(v,s,l) => write!(f,"{} {}^{}",v,s,l),
             DivideOperation => write!(f, "/"),
             Assign => write!(f, "="),
             Null => write!(f, ""),
@@ -239,6 +241,7 @@ impl Parameters {
                     s
                 }
             }
+            Parameters::Variable(e,s,l) => format!("{}{}^{}",e.pretty_print(ram, function),s,l),
             _ => format!("{self}"),
         }
     }

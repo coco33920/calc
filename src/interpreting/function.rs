@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use crate::exact_math::rationals::Rationals;
-use crate::parsing::ast::Parameters;
+use crate::parsing::ast::{Parameters, Ast};
 use crate::parsing::ast::Parameters::Bool;
 use crate::utils::matrix_utils::mult_matrix;
 
@@ -55,7 +55,7 @@ pub fn apply_operator_reverse(
     }
 }
 
-pub fn add(i: Parameters, i2: Parameters, ram: Option<&HashMap<String, Parameters>>) -> Parameters {
+pub fn add(i: Ast, i2: Ast, ram: Option<&HashMap<String, Parameters>>) -> Ast {
     match (i, i2) {
         (Parameters::Null, Parameters::Int(v)) => Parameters::Int(v),
         (Parameters::Null, Parameters::Float(f)) => Parameters::Float(f),

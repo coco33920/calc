@@ -32,7 +32,6 @@ pub enum Parameters {
     Null,
     ExpoOperation,
     Vector(Box<Vec<Ast>>),
-    InterpreterVector(Box<Vec<Parameters>>),
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -73,7 +72,6 @@ impl Display for Parameters {
             AndOperation => write!(f, "&&"),
             OrOperation => write!(f, "||"),
             Vector(a) => write!(f, "{:?}", a),
-            InterpreterVector(a) => write!(f, "{:?}", a),
             Str(s) => write!(f, "{s}"),
             Rational(s) => write!(f, "{s}"),
         }
@@ -149,7 +147,7 @@ impl Parameters {
                     }
                 }
             }
-            InterpreterVector(lst) => {
+            Vector(lst) => {
                 let mut vec = Vec::new();
 
                 lst.iter()
@@ -169,7 +167,10 @@ impl Parameters {
                     return format!("");
                 }
                 match lst.first().unwrap() {
-                    Parameters::InterpreterVector(_) => matrix = true,
+                    a if a.is_leaf() => match a.get_value().clone() {
+                        Parameters::Vector(_) => matrix = true,
+                        _ => (),
+                    }
                     _ => (),
                 }
                 if !matrix {
@@ -241,7 +242,10 @@ impl Parameters {
                     s
                 }
             }
-            Parameters::Variable(e,s,l) => format!("{}{}^{}",e.pretty_print(ram, function),s,l),
+            Parameters::Variable(e,s,l) => {
+                if *l == 0 {format!("1")} 
+                else if *l == 1 {format!("{}{}",e.pretty_print(ram, function),s)} 
+                else {format!("{}{}^{}",e.pretty_print(ram, function),s,l)}},
             _ => format!("{self}"),
         }
     }
@@ -279,6 +283,27 @@ impl Ast {
             left: Box::from(Nil),
             right: Box::from(Nil),
         }
+    }
+    pub fn is_leaf(self) -> bool {
+
+        match self {
+            Ast::Nil => false,
+            Ast::Call { name, lst } => false,
+            Ast::Node { value, left, right } => *left == Ast::Nil && *right == Ast::Nil,
+        }
+
+    }
+
+    pub fn get_value(self) -> Parameters {
+    
+        if !self.is_leaf() {
+            return Parameters::Null;
+        }
+        match self {
+            Ast::Node { value, left, right } => value,
+            _ => Parameters::Null
+        }
+
     }
 }
 

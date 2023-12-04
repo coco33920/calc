@@ -24,7 +24,7 @@ pub fn interpret(
             let param2 = interpret(r, &mut ram, &mut function);
             let last = match v {
                 Parameters::PlusOperation => add(param1, param2, Some(&ram)),
-                Parameters::MinusOperation => minus(param1, param2, Some(&ram)),
+                /*Parameters::MinusOperation => minus(param1, param2, Some(&ram)),
                 Parameters::MultiplicationOperation => mult(param1, param2, Some(&ram)),
                 Parameters::DivideOperation => divide(param1, param2, Some(&ram)),
                 Parameters::ExpoOperation => expo(param1, param2, Some(&ram)),
@@ -35,10 +35,10 @@ pub fn interpret(
                 Parameters::LesserOperation => lesser(param1, param2, Some(&ram)),
                 Parameters::LesserOrEqualOperation => lesser_or_equal(param1, param2, Some(&ram)),
                 Parameters::AndOperation => and(param1, param2, Some(&ram)),
-                Parameters::OrOperation => or(param1, param2, Some(&ram)),
+                Parameters::OrOperation => or(param1, param2, Some(&ram)),*/
                 Parameters::Rational(s) => Ast::new(Parameters::Rational(s.clone())),
                 Parameters::Str(s) => Ast::new(Parameters::Str(s.to_string())),
-                Parameters::Assign => match *(l.clone()) {
+                /*Parameters::Assign => match *(l.clone()) {
                     Ast::Call { name: n, lst: list } => {
                         if function.contains_key(&n) {
                             Ast::new(Parameters::Str("This function has already been set".to_string()))
@@ -68,14 +68,14 @@ pub fn interpret(
                         }
                         Ast::Nil
                     }
-                },
+                },*/
                 Parameters::Float(f) => Ast::new(Parameters::Rational(Rationals::rationalize(*f))),
                 Parameters::Int(i) => Ast::new(Parameters::Int(*i)),
                 Parameters::Identifier(s) => {
                     if ram.contains_key(s) {
                         Ast::new(ram.get(s).unwrap().clone())
                     } else {
-                        Ast::new(Parameters::Identifier(s.clone()))
+                        Ast::new(Parameters::Variable(Box::from(Parameters::Int(1)),s.clone(),1))
                     }
                 }
                 Parameters::Bool(b) => Ast::new(Parameters::Bool(*b)),
@@ -86,9 +86,10 @@ pub fn interpret(
                         .into_iter()
                         .map(|a| interpret(&a, ram, function))
                         .for_each(|s| vec.push(s));
-                    Ast::new(Parameters::InterpreterVector(Box::from(vec)))
+                    Ast::new(Parameters::Vector(Box::new(vec)))
                 }
-                Parameters::InterpreterVector(a) => Ast::new(Parameters::InterpreterVector(a.clone())),
+                Parameters::Variable(a,s,l) => Ast::new(Parameters::Variable(a.clone(), s.clone(), l.clone())),
+                _ => Ast::Nil
             };
             last.clone()
         }

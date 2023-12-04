@@ -11,7 +11,7 @@ use crate::utils::plot_utils::computes_lines;
 
 use super::function::{add as other_add, mult};
 
-pub fn exec(
+/*pub fn exec(
     s: String,
     lst: Vec<Parameters>,
     ram: Option<&mut HashMap<String, Parameters>>,
@@ -1981,4 +1981,4 @@ pub fn plot_fn(
         computes_lines(&x, &y, st, end, steps, title, xlabel, ylabel);
     }
     Parameters::Null
-}
+}*/

@@ -18,7 +18,7 @@ pub fn transpose<T>(matrix: Vec<Vec<T>>) -> Vec<Vec<T>> {
     out
 }
 
-pub fn mult_matrix(
+/*pub fn mult_matrix(
     a: Vec<Vec<Parameters>>,
     b: Vec<Vec<Parameters>>,
     ram: Option<&HashMap<String, Parameters>>,
@@ -270,4 +270,4 @@ mod test {
             Parameters::Bool(true)
         );
     }
-}
+}*/

@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use crate::exact_math::rationals::Rationals;
 use crate::parsing::ast::{Parameters, Ast};
 use crate::parsing::ast::Parameters::Bool;
-use crate::utils::matrix_utils::mult_matrix;
+//use crate::utils::matrix_utils::mult_matrix;
 
 pub fn apply_operator(
     value: Parameters,
@@ -157,7 +157,7 @@ pub fn add(i: Ast, i2: Ast, ram: Option<&HashMap<String, Parameters>>) -> Ast {
     }
 }
 
-pub fn minus(
+/*pub fn minus(
     i: Parameters,
     i2: Parameters,
     ram: Option<&HashMap<String, Parameters>>,
@@ -1305,4 +1305,4 @@ mod test {
         let result = divide(Parameters::Float(0.1), Parameters::Int(2), None);
         assert_eq!(result, expected);
     }
-}
+}*/

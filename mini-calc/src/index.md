@@ -82,3 +82,9 @@ functions added
 As of 2.11.2 the matrices are pretty-printed!
 
 [![](../assets/matrix_pretty_printed.png)](../assets/matrix_pretty_printed.png)
+
+## Non interactive use !
+
+As of 2.12.2 you can use the calculator without the REPL!
+
+[![](../assets/non_interactive_use)](../assets/non_interactive_use.png)

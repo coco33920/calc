@@ -1,3 +1,6 @@
+# Version 2.12.1 : Non interactive use
+Added non interactive use
+
 # Version 2.11.6 : Fix bug
 
 ## Bug fix

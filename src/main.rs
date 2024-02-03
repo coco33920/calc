@@ -317,7 +317,7 @@ fn main() {
     let style = &loaded.clone().prompt_style;
     let mut text = &loaded.clone().prompt;
     let mut verbose = false;
-    let version: String = "v2.11.6".to_string();
+    let version: String = "v2.12.2".to_string();
     interface.set_completer(Arc::new(CalcCompleter));
     interface
         .set_prompt(&format!(

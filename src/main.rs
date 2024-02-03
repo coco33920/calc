@@ -263,6 +263,21 @@ fn main() {
         let mut a = vec![];
         args.for_each(|f| a.push(f));
         let arg_final = a.join("");
+
+
+        if arg_final == "-h" || arg_final == "--help" {
+
+            println!("-----Help Calc-----");
+            println!("");
+            println!("mini-calc > launch the mini-calc REPL");
+            println!("mini-calc [arg] > compute non interactively");
+            println!("mini-calc -h || --help > open this help");
+            println!("");
+            println!("------Help Calc-----");
+            exit(0);
+
+        }
+
         let lexed = lex(arg_final);
         let mut parser = init_calc_parser(&lexed);
         let parsed = parser.parse();

@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::env::{Args, self};
 use std::f64::consts::{E, PI};
 use std::process::exit;
 use std::str::SplitWhitespace;
@@ -256,6 +257,16 @@ fn handle_config(line: &str, config: Config) -> (String, Option<Config>) {
 }
 
 fn main() {
+
+    let args: Args = env::args();
+    if args.len() > 0 {
+
+        for arg in args {
+            println!("{arg}");
+        }
+        exit(0);
+    }
+
     let mut config = match load() {
         Ok(config) => config,
         Err(_) => {

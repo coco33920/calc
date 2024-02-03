@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::env::{self, Args};
 use std::f64::consts::{E, PI};
 use std::process::exit;
 use std::str::SplitWhitespace;
@@ -14,7 +15,7 @@ use crate::configuration::loader::{
 use crate::interpreting::interpreter::interpret;
 use crate::lexing::lexer::lex;
 use crate::parsing::ast::{Ast, Parameters};
-use crate::parsing::parser::CalcParser;
+use crate::parsing::parser::{init_calc_parser, CalcParser};
 
 mod configuration;
 mod exact_math;
@@ -256,6 +257,44 @@ fn handle_config(line: &str, config: Config) -> (String, Option<Config>) {
 }
 
 fn main() {
+    let mut args: Args = env::args();
+    if args.len() > 1 {
+        args.nth(0);
+        let mut a = vec![];
+        args.for_each(|f| a.push(f));
+        let arg_final = a.join("");
+
+
+        if arg_final == "-h" || arg_final == "--help" {
+
+            println!("-----Help Calc-----");
+            println!("");
+            println!("mini-calc > launch the mini-calc REPL");
+            println!("mini-calc [arg] > compute non interactively");
+            println!("mini-calc -h || --help > open this help");
+            println!("");
+            println!("------Help Calc-----");
+            exit(0);
+
+        }
+
+        let lexed = lex(arg_final);
+        let mut parser = init_calc_parser(&lexed);
+        let parsed = parser.parse();
+        let mut ram: HashMap<String, Parameters> = HashMap::new();
+        let mut functions: HashMap<String, (Vec<Ast>, Ast)> = HashMap::new();
+        ram.insert("pi".to_string(), Parameters::Float(PI));
+        ram.insert("e".to_string(), Parameters::Float(E));
+        let result = interpret(&parsed, &mut ram, &mut functions);
+        if result != Parameters::Null {
+            println!(
+                "{}",
+                result.pretty_print(Some(&mut ram), Some(&mut functions))
+            )
+        }
+        exit(0);
+    }
+
     let mut config = match load() {
         Ok(config) => config,
         Err(_) => {
@@ -271,7 +310,6 @@ fn main() {
     };
 
     let mut loaded: Loaded = load_config(config.clone());
-
     let message = &loaded.greeting_message;
     println!("{}", message.to_string());
 
@@ -289,6 +327,7 @@ fn main() {
             suffix = style.suffix()
         ))
         .unwrap();
+
     let mut ram: HashMap<String, Parameters> = HashMap::new();
     let mut functions: HashMap<String, (Vec<Ast>, Ast)> = HashMap::new();
     ram.insert("pi".to_string(), Parameters::Float(PI));
@@ -350,6 +389,7 @@ fn main() {
                         println!("{:#?}", p);
                         println!()
                     }
+
                     let result = interpret(&p, &mut ram, &mut functions);
                     if result != Parameters::Null {
                         println!(

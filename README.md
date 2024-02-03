@@ -394,3 +394,8 @@ functions added
 As of 2.11.3 matrices are pretty printed !
 
 ![](docs/assets/matrix_pretty_printed.png)
+
+## Non interactive use
+As of 2.12.0 non interactive use was added
+
+![](docs/assets/non_interactive_use.png)

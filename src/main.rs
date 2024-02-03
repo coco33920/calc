@@ -310,7 +310,6 @@ fn main() {
     };
 
     let mut loaded: Loaded = load_config(config.clone());
-
     let message = &loaded.greeting_message;
     println!("{}", message.to_string());
 

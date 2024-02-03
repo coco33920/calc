@@ -17,8 +17,8 @@ fi
 set -u
 
 APP_NAME="mini-calc"
-APP_VERSION="2.11.6"
-ARTIFACT_DOWNLOAD_URL="${INSTALLER_DOWNLOAD_URL:-https://github.com/coco33920/calc/releases/download/2.11.6}"
+APP_VERSION="2.12.2"
+ARTIFACT_DOWNLOAD_URL="${INSTALLER_DOWNLOAD_URL:-https://github.com/coco33920/calc/releases/download/2.12.2}"
 PRINT_VERBOSE=${INSTALLER_PRINT_VERBOSE:-0}
 PRINT_QUIET=${INSTALLER_PRINT_QUIET:-0}
 NO_MODIFY_PATH=${INSTALLER_NO_MODIFY_PATH:-0}
@@ -34,10 +34,10 @@ usage() {
     cat <<EOF
 mini-calc-installer.sh
 
-The installer for mini-calc 2.11.6
+The installer for mini-calc 2.12.2
 
 This script detects what platform you're on and fetches an appropriate archive from
-https://github.com/coco33920/calc/releases/download/2.11.6
+https://github.com/coco33920/calc/releases/download/2.12.2
 then unpacks the binaries and installs them to \$CARGO_HOME/bin (\$HOME/.cargo/bin)
 
 It will then add that dir to PATH by adding the appropriate line to \$HOME/.profile

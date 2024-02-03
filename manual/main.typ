@@ -468,3 +468,13 @@ As of 2.11.0 rational exact math was added, supports for
   image("assets/exact_inverse.png"),
   caption: [Example of rational in matrices]
 )
+#pagebreak()
+= Non interactive use
+
+With version 2.12.0 non interactive use was added to the calculator if you have
+a quick computation to run and don't want to start the REPL.
+
+#figure(
+ image("assets/non_interactive_use.png"),
+ caption: [Example of non interactive use]
+)

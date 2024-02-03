@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-use std::env::{Args, self};
+use std::env::{self, Args};
 use std::f64::consts::{E, PI};
 use std::process::exit;
 use std::str::SplitWhitespace;
@@ -15,7 +15,7 @@ use crate::configuration::loader::{
 use crate::interpreting::interpreter::interpret;
 use crate::lexing::lexer::lex;
 use crate::parsing::ast::{Ast, Parameters};
-use crate::parsing::parser::CalcParser;
+use crate::parsing::parser::{init_calc_parser, CalcParser};
 
 mod configuration;
 mod exact_math;
@@ -257,12 +257,25 @@ fn handle_config(line: &str, config: Config) -> (String, Option<Config>) {
 }
 
 fn main() {
-
-    let args: Args = env::args();
-    if args.len() > 0 {
-
-        for arg in args {
-            println!("{arg}");
+    let mut args: Args = env::args();
+    if args.len() > 1 {
+        args.nth(0);
+        let mut a = vec![];
+        args.for_each(|f| a.push(f));
+        let arg_final = a.join("");
+        let lexed = lex(arg_final);
+        let mut parser = init_calc_parser(&lexed);
+        let parsed = parser.parse();
+        let mut ram: HashMap<String, Parameters> = HashMap::new();
+        let mut functions: HashMap<String, (Vec<Ast>, Ast)> = HashMap::new();
+        ram.insert("pi".to_string(), Parameters::Float(PI));
+        ram.insert("e".to_string(), Parameters::Float(E));
+        let result = interpret(&parsed, &mut ram, &mut functions);
+        if result != Parameters::Null {
+            println!(
+                "{}",
+                result.pretty_print(Some(&mut ram), Some(&mut functions))
+            )
         }
         exit(0);
     }
@@ -300,6 +313,7 @@ fn main() {
             suffix = style.suffix()
         ))
         .unwrap();
+
     let mut ram: HashMap<String, Parameters> = HashMap::new();
     let mut functions: HashMap<String, (Vec<Ast>, Ast)> = HashMap::new();
     ram.insert("pi".to_string(), Parameters::Float(PI));
@@ -361,6 +375,7 @@ fn main() {
                         println!("{:#?}", p);
                         println!()
                     }
+
                     let result = interpret(&p, &mut ram, &mut functions);
                     if result != Parameters::Null {
                         println!(

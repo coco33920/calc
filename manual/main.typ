@@ -63,6 +63,12 @@ cargo build --release
 ./target/release/mini-calc
 ```
 
+or alternatively, build/run using nix
+
+```sh
+nix run github.com:coco33920/calc
+```
+
 Visit #calc to see all the install page
 
 == Contributors 
